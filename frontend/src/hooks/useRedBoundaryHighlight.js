@@ -394,7 +394,9 @@ export function useRedBoundaryHighlight({
       'MH', 'GJ', 'KA', 'DL', 'TN', 'UP', 'MP', 'RJ',
       'HR', 'PB', 'BR', 'WB', 'KL', 'TG', 'AP', 'OD',
       'JH', 'CT', 'AS', 'HP', 'UK', 'GA', 'AR', 'MN',
-      'ML', 'MZ', 'NL', 'SK', 'TR'
+      'ML', 'MZ', 'NL', 'SK', 'TR',
+      // Union territories; any without district boundaries in the DB are skipped below.
+      'JK', 'LA', 'AN', 'CH', 'DN', 'DD', 'LD', 'PY'
     ];
 
     NATIONAL_STATE_CODES.forEach(stCode => {
