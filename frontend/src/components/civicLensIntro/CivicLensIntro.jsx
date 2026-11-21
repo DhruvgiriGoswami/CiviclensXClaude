@@ -33,9 +33,9 @@ export default function CivicLensIntro({ onComplete }) {
         const len = path.getTotalLength();
         gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
         gsap.timeline({ defaults: { ease: "power2.out" }, onComplete: finish })
-          .to(path, { strokeDashoffset: 0, duration: 0.35 })
-          .from(".civiclens-intro-word", { autoAlpha: 0, y: 12, duration: 0.2 }, "-=0.1")
-          .to(rootRef.current, { autoAlpha: 0, duration: 0.2 }, "+=0.1");
+          .to(path, { strokeDashoffset: 0, duration: 2.2, ease: "power1.inOut" })
+          .from(".civiclens-intro-word", { autoAlpha: 0, y: 16, duration: 0.9 }, "-=0.6")
+          .to(rootRef.current, { autoAlpha: 0, duration: 0.5 }, "+=0.5");
       },
       rootRef
     );

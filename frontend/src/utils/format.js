@@ -32,3 +32,18 @@ export function shortUnitLabel(name) {
     .replace(/\s+/g, ' ')
     .trim();
 }
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+// "2025-06-12T14:01" gives "12 Jun 2025". Read from the string so the viewer's timezone can't move the day.
+export function formatPostDate(iso) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(iso || ''));
+  const month = m && MONTHS[Number(m[2]) - 1];
+  return month ? `${Number(m[3])} ${month} ${m[1]}` : '';
+}
+
+// Social-style counts: 867, 1.2K, 15K.
+export function formatCount(n) {
+  const v = Number(n) || 0;
+  return v >= 1000 ? `${(v / 1000).toFixed(1).replace(/\.0$/, '')}K` : String(v);
+}

@@ -2,6 +2,7 @@
 import data from './mockData.json';
 import { rankSearch } from '../../utils/search';
 import { formatINR } from '../../utils/format';
+import { pageSocialPosts } from '../../utils/socialPosts';
 
 const SEARCH = [
   ...data.search,
@@ -39,6 +40,7 @@ export async function handleMock(path, body) {
   if (route === '/wards.geojson') return data.geojson;
   if (route === '/ask') return ask(body || {});
   if (route === '/complaints') return data.points;
+  if (route === '/social-posts') return pageSocialPosts(data.social_posts, Number(params.get('limit') || 10), Number(params.get('offset') || 0));
   if (route === '/search') return { results: rankSearch(SEARCH, params.get('q') || '') };
   let m = route.match(/^\/wards\/(.+)\/summary$/);
   if (m) {

@@ -96,6 +96,11 @@ def complaint_points(request: Request):
     return views.complaint_points(store(request))
 
 
+@router.get("/social-posts")
+def social_posts(request: Request, limit: int = Query(10, ge=1, le=50), offset: int = Query(0, ge=0)):
+    return views.social_posts(store(request), limit, offset)
+
+
 @router.get("/complaints/{complaint_id}")
 def complaint(complaint_id: str, request: Request):
     return _found(views.complaint_trail(store(request), complaint_id), f"Complaint {complaint_id}")

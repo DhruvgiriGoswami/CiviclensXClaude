@@ -121,6 +121,16 @@ The citizen trail:
 }
 ```
 
+### `GET /audit/social-posts?limit=&offset=`
+The citizen social feed from `social_posts.csv`, newest first. Posts with the same text (forwards) are collapsed into one item: the earliest post supplies the author, time and engagement, and `shared_count` says how often the text was posted. `has_media` is not served. `limit` is 1 to 50 (default 10), `offset` defaults to 0; `next_offset` is null on the last page.
+```jsonc
+{ "total": 509, "next_offset": 10,
+  "items": [{ "post_id": "SOC00223", "posted_at": "2025-06-01T14:01", "source": "X (Twitter)", "platform": "x|instagram|whatsapp",
+              "author_handle": "@user_bcbe33",   // null when the row has none
+              "text": "string", "engagement": 800, "engagement_label": "likes|forwards",
+              "shared_count": 1, "unverified": false }] }   // unverified: the text says "(unverified)"
+```
+
 ### `GET /audit/search?q=`
 Look up by complaint id, WO id, road name or locality (Devanagari aliases count). Returns `{ "results": [{ "type": "complaint|work_order|road|ward", "id", "label", "ward_code" }] }`, at most 10.
 
