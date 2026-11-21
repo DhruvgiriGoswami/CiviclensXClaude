@@ -242,9 +242,9 @@ export function Header({
   return (
     <div className="w-full flex-shrink-0 z-30 pt-[env(safe-area-inset-top)] bg-[#0E1118] light:bg-[#F8FAFC]">
       {/* ─── ReBIT / RBI Style Top Accessibility & Utility Toolbar ─── */}
-      <div className="hidden sm:flex min-h-7 py-0.5 bg-[#06080E] light:bg-[#F1F5F9] text-slate-300 light:text-slate-800 border-b border-slate-800/80 light:border-slate-300 px-3 sm:px-4 items-center justify-between text-[10px] sm:text-[11px] font-mono select-none flex-wrap gap-1">
+      <div className="hidden sm:flex min-h-7 py-0.5 bg-[#06080E] light:bg-[#F1F5F9] text-slate-300 light:text-slate-800 border-b border-slate-800/80 light:border-slate-300 px-3 sm:px-4 items-center justify-between text-xs sm:text-xs select-none flex-wrap gap-1">
         <div className="flex items-center space-x-2 min-w-0">
-          <span className="flex items-center gap-1.5 font-semibold text-[10px] uppercase text-amber-400 light:text-amber-700 truncate">
+          <span className="flex items-center gap-1.5 font-semibold text-xs uppercase text-amber-400 light:text-amber-700 truncate">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-400 light:bg-amber-600 flex-shrink-0"></span>
             <span className="truncate">CivicLens - National Civic Transparency & Auditing Framework</span>
           </span>
@@ -253,7 +253,7 @@ export function Header({
         {/* Accessibility & Font Controls Toolbar */}
         <div className="flex items-center space-x-2 flex-shrink-0">
           {/* Font Controls (A- / A / A+) */}
-          <div className="flex items-center space-x-1 bg-slate-900/90 light:bg-white px-1.5 py-0.5 rounded border border-slate-700/60 light:border-slate-300 text-[11px]">
+          <div className="flex items-center space-x-1 bg-slate-900/90 light:bg-white px-1.5 py-0.5 rounded border border-slate-700/60 light:border-slate-300 text-xs">
             <span className="text-slate-400 light:text-slate-600 mr-0.5 hidden md:inline-flex items-center gap-0.5">
               <Type className="w-3 h-3 text-slate-400 light:text-slate-600" />
               Font:
@@ -279,14 +279,14 @@ export function Header({
             >
               A+
             </button>
-            <span className="text-[9px] text-amber-400 light:text-amber-700 font-bold ml-0.5">({fontScale}%)</span>
+            <span className="text-xs text-amber-400 light:text-amber-700 font-bold ml-0.5">({fontScale}%)</span>
           </div>
 
           {/* Light / Dark Mode Toggle */}
           <button
             onClick={toggleTheme}
             title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            className="px-1.5 py-0.5 rounded bg-slate-900 light:bg-white text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300 hover:border-amber-400 transition-colors flex items-center gap-1 text-[10px]"
+            className="px-1.5 py-0.5 rounded bg-slate-900 light:bg-white text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300 hover:border-amber-400 transition-colors flex items-center gap-1 text-xs"
           >
             {theme === 'dark' ? (
               <>
@@ -304,10 +304,10 @@ export function Header({
       </div>
 
       {/* ─── Main Header Navigation ─── */}
-      <header className="min-h-14 md:h-16 bg-[#0E1118]/95 light:bg-white/95 border-b border-slate-800/80 light:border-slate-200 backdrop-blur-md px-3 sm:px-4 py-2 md:py-0 flex flex-col md:flex-row md:items-center justify-between relative shadow-lg gap-2 md:gap-0">
+      <header className="min-h-14 md:h-16 bg-[#0E1118]/95 light:bg-white/95 border-b border-slate-800/80 light:border-slate-200 px-3 sm:px-4 py-2 md:py-0 flex flex-col md:flex-row md:items-center justify-between relative shadow-lg gap-2 md:gap-0">
         <div className="flex items-center justify-between w-full md:w-auto relative">
           {/* Logo on Left */}
-          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-lg shadow-crimson-600/25 border border-crimson-400/40 flex-shrink-0 bg-white flex items-center justify-center p-0.5">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-lg border border-crimson-400/40 flex-shrink-0 bg-white flex items-center justify-center p-0.5">
             <img
               src="/hand_Fav.jpg"
               alt="CivicLens Logo"
@@ -319,10 +319,10 @@ export function Header({
           <div className="flex-1 sm:flex-initial text-center sm:text-left sm:ml-4 min-w-0 px-2 sm:px-0">
             <div className="flex items-center justify-center sm:justify-start space-x-1.5 sm:space-x-2">
               <span className="font-extrabold text-base sm:text-lg tracking-wider bg-gradient-to-r from-white via-slate-200 to-crimson-400 light:from-slate-900 light:via-slate-800 light:to-crimson-600 bg-clip-text text-transparent font-sans truncate">
-                CivicLens <span className="text-crimson-500 font-mono text-xs sm:text-sm uppercase px-1 sm:px-1.5 py-0.5 rounded bg-crimson-500/10 border border-crimson-500/30 ml-1 inline-block">India</span>
+                CivicLens <span className="text-crimson-500 text-xs sm:text-sm uppercase px-1 sm:px-1.5 py-0.5 rounded bg-crimson-500/10 border border-crimson-500/30 ml-1 inline-block">India</span>
               </span>
             </div>
-            <p className="text-[10px] sm:text-[11px] text-slate-400 light:text-slate-600 font-mono truncate hidden xs:block">National Civic Transparency Framework</p>
+            <p className="text-xs sm:text-xs text-slate-400 light:text-slate-600 truncate hidden xs:block">National Civic Transparency Framework</p>
           </div>
 
           {/* Quick Mobile Theme Toggle Button on Far Right */}
@@ -357,7 +357,7 @@ export function Header({
               {/* CATEGORY: Search Results */}
               {apiSearchResults.length > 0 && (
                 <div className="border-b border-slate-700/60 light:border-slate-200 pb-2 mb-2">
-                  <div className="text-[10px] uppercase font-mono font-bold text-sky-400 light:text-sky-700 px-2 py-1 flex items-center justify-between">
+                  <div className="text-xs uppercase font-bold text-sky-400 light:text-sky-700 px-2 py-1 flex items-center justify-between">
                     <span className="flex items-center gap-1">
                       <Building className="w-3 h-3 text-sky-400 light:text-sky-700" />
                       Search Results
@@ -484,12 +484,12 @@ export function Header({
                         <div className="text-xs font-bold text-slate-100 light:text-slate-900 group-hover:text-sky-400 light:group-hover:text-sky-700 font-sans flex items-center gap-1.5">
                           <span>{res.name}</span>
                           {res.entity_type === 'PERSON' && (
-                            <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-crimson-500/20 light:bg-crimson-100 text-crimson-300 light:text-crimson-800 border border-crimson-500/30 light:border-crimson-300">
+                            <span className="text-xs font-bold px-1.5 py-0.5 rounded bg-crimson-500/20 light:bg-crimson-100 text-crimson-300 light:text-crimson-800 border border-crimson-500/30 light:border-crimson-300">
                               {res.person_type || 'LEADER'}
                             </span>
                           )}
                         </div>
-                        <div className="text-[10px] text-slate-400 light:text-slate-600 font-medium">
+                        <div className="text-xs text-slate-400 light:text-slate-600 font-medium">
                           {res.entity_type === 'MUNICIPAL_CORPORATION' || res.entity_type === 'MUNICIPALITY'
                             ? 'Municipal Corporation'
                             : res.entity_type === 'PERSON'
@@ -506,7 +506,7 @@ export function Header({
               {/* CATEGORY 0: States & Union Territories */}
               {matchedStates.length > 0 && (
                 <div>
-                  <div className="text-[10px] uppercase font-mono font-bold text-emerald-400 light:text-emerald-700 px-2 py-1 flex items-center gap-1">
+                  <div className="text-xs uppercase font-bold text-emerald-400 light:text-emerald-700 px-2 py-1 flex items-center gap-1">
                     <Landmark className="w-3 h-3 text-emerald-400 light:text-emerald-700" />
                     <span>States & Union Territories</span>
                   </div>
@@ -524,12 +524,12 @@ export function Header({
                     >
                       <div>
                         <div className="text-xs font-bold text-slate-100 light:text-slate-900 group-hover:text-emerald-400 light:group-hover:text-emerald-700">{st.stateName}</div>
-                        <div className="text-[10px] text-slate-400 light:text-slate-600 font-medium">
+                        <div className="text-xs text-slate-400 light:text-slate-600 font-medium">
                           {st.type === 'UNION_TERRITORY' ? 'Union Territory' : 'State'} &bull; Capital: {st.capital} &bull; {st.cmName}
                         </div>
                       </div>
                       <div className="flex items-center gap-1">
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 light:bg-emerald-100 text-emerald-400 light:text-emerald-800 border border-emerald-500/40 light:border-emerald-300 font-bold">
+                        <span className="text-xs px-2 py-0.5 rounded bg-emerald-500/20 light:bg-emerald-100 text-emerald-400 light:text-emerald-800 border border-emerald-500/40 light:border-emerald-300 font-bold">
                           {st.stateId}
                         </span>
                         <ChevronRight className="w-3.5 h-3.5 text-slate-400 light:text-slate-500 group-hover:text-emerald-400 light:group-hover:text-emerald-600 transition-transform group-hover:translate-x-0.5" />
@@ -542,7 +542,7 @@ export function Header({
               {/* CATEGORY 1: Municipal Corporations */}
               {matchedCorps.length > 0 && (
                 <div>
-                  <div className="text-[10px] uppercase font-mono font-bold text-amber-400 light:text-amber-700 px-2 py-1 flex items-center gap-1">
+                  <div className="text-xs uppercase font-bold text-amber-400 light:text-amber-700 px-2 py-1 flex items-center gap-1">
                     <Building className="w-3 h-3 text-amber-400 light:text-amber-700" />
                     <span>Municipal Corporations — Highlight All Wards</span>
                   </div>
@@ -574,9 +574,9 @@ export function Header({
                     >
                       <div>
                         <div className="text-xs font-bold text-slate-100 light:text-slate-900 group-hover:text-amber-400 light:group-hover:text-amber-700">{corp.name}</div>
-                        <div className="text-[10px] text-slate-400 light:text-slate-600 font-medium">Highlight all wards under {corp.code} ({corp.city})</div>
+                        <div className="text-xs text-slate-400 light:text-slate-600 font-medium">Highlight all wards under {corp.code} ({corp.city})</div>
                       </div>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 light:bg-amber-100 text-amber-400 light:text-amber-800 border border-amber-500/40 light:border-amber-300 font-bold">
+                      <span className="text-xs px-2 py-0.5 rounded bg-amber-500/20 light:bg-amber-100 text-amber-400 light:text-amber-800 border border-amber-500/40 light:border-amber-300 font-bold">
                         {corp.code} Corporation
                       </span>
                     </button>
@@ -587,7 +587,7 @@ export function Header({
               {/* CATEGORY 2: Politicians & Bureaucrats */}
               {matchedLeaders.length > 0 && (
                 <div>
-                  <div className="text-[10px] uppercase font-mono font-bold text-crimson-400 light:text-crimson-700 px-2 py-1 flex items-center gap-1">
+                  <div className="text-xs uppercase font-bold text-crimson-400 light:text-crimson-700 px-2 py-1 flex items-center gap-1">
                     <UserCheck className="w-3 h-3 text-crimson-400 light:text-crimson-700" />
                     <span>Politicians & Civic Bureaucrats</span>
                   </div>
@@ -613,9 +613,9 @@ export function Header({
                       >
                         <div>
                           <div className="text-xs font-bold text-slate-100 light:text-slate-900 group-hover:text-crimson-400 light:group-hover:text-crimson-700">{leaderName}</div>
-                          <div className="text-[10px] text-slate-400 light:text-slate-600 font-medium">{leaderTitle} &bull; {unit.unitName}</div>
+                          <div className="text-xs text-slate-400 light:text-slate-600 font-medium">{leaderTitle} &bull; {unit.unitName}</div>
                         </div>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-crimson-500/20 light:bg-crimson-100 text-crimson-400 light:text-crimson-800 border border-crimson-500/40 light:border-crimson-300 font-bold">
+                        <span className="text-xs px-2 py-0.5 rounded bg-crimson-500/20 light:bg-crimson-100 text-crimson-400 light:text-crimson-800 border border-crimson-500/40 light:border-crimson-300 font-bold">
                           {matchPol ? 'Politician' : 'Bureaucrat'}
                         </span>
                       </button>
@@ -627,7 +627,7 @@ export function Header({
               {/* CATEGORY 3: Wards & Gram Panchayats */}
               {matchedWards.length > 0 && (
                 <div>
-                  <div className="text-[10px] uppercase font-mono font-bold text-slate-400 light:text-slate-700 px-2 py-1">Matching Wards & Panchayats</div>
+                  <div className="text-xs uppercase font-bold text-slate-400 light:text-slate-700 px-2 py-1">Matching Wards & Panchayats</div>
                   {matchedWards.map((unit) => (
                     <button
                       key={unit.unitId}
@@ -640,9 +640,9 @@ export function Header({
                     >
                       <div>
                         <div className="text-xs font-semibold text-slate-100 light:text-slate-900 group-hover:text-crimson-400 light:group-hover:text-crimson-700">{unit.unitName}</div>
-                        <div className="text-[10px] text-slate-400 light:text-slate-600 font-medium">{unit.parentCityDistrict}</div>
+                        <div className="text-xs text-slate-400 light:text-slate-600 font-medium">{unit.parentCityDistrict}</div>
                       </div>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 light:bg-slate-200 text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300 font-bold">
+                      <span className="text-xs px-2 py-0.5 rounded bg-slate-900 light:bg-slate-200 text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300 font-bold">
                         {unit.unitType === 'MUNICIPAL_CORPORATION' || unit.unitType === 'MUNICIPALITY' || unit.unitType === 'CITY'
                           ? 'Municipal Corporation'
                           : unit.unitType === 'URBAN_WARD' || unit.unitType === 'WARD'
@@ -664,7 +664,7 @@ export function Header({
           {onOpenTour && (
             <button
               onClick={onOpenTour}
-              className="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-crimson-500/15 light:bg-crimson-50 hover:bg-crimson-500/25 border border-crimson-500/40 text-xs font-mono font-bold text-crimson-400 light:text-crimson-700 transition-all shadow-md group flex-shrink-0"
+              className="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-crimson-500/15 light:bg-crimson-50 hover:bg-crimson-500/25 border border-crimson-500/40 text-xs font-bold text-crimson-400 light:text-crimson-700 transition-all shadow-md group flex-shrink-0"
               title="How it Works (3-Step Tour)"
             >
               <HelpCircle className="w-3.5 h-3.5 text-crimson-400 light:text-crimson-600 group-hover:rotate-12 transition-transform flex-shrink-0" />
@@ -685,7 +685,7 @@ export function Header({
           <div className="hidden lg:flex items-center space-x-4 pl-3 border-l border-slate-800 light:border-slate-200 text-xs">
             <div className="flex flex-col">
               <div className="flex items-center gap-1">
-                <span className="text-[9px] uppercase font-mono text-slate-500 light:text-slate-400">CapEx Tracked</span>
+                <span className="text-xs uppercase text-slate-500 light:text-slate-400">CapEx Tracked</span>
                 <button
                   onClick={() => setIsCapexModalOpen(true)}
                   title="View Municipal Outlay Breakdown"
@@ -694,7 +694,7 @@ export function Header({
                   <Info className="w-3 h-3" />
                 </button>
               </div>
-              <span className="font-mono font-bold text-slate-200 light:text-slate-800 text-xs">₹2,02,782 Crore</span>
+              <span className=" font-bold text-slate-200 light:text-slate-800 text-xs">₹2,02,782 Crore</span>
             </div>
           </div>
         </div>

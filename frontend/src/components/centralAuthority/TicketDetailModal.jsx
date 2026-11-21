@@ -27,12 +27,12 @@ export function TicketDetailModal({ ticket, onClose }) {
   };
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="Complaint details" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-fadeIn">
+    <div role="dialog" aria-modal="true" aria-label="Complaint details" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 animate-fadeIn">
       <div className="bg-[#12161F] light:bg-white border border-slate-700/80 light:border-slate-300 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden font-sans transition-colors">
         {/* Modal Header */}
         <div className="px-6 py-4 border-b border-slate-800 light:border-slate-200 flex items-center justify-between bg-[#0B0D12] light:bg-slate-50">
           <div className="flex items-center gap-3">
-            <span className="font-mono text-xs font-bold px-2.5 py-1 rounded bg-blue-500/20 light:bg-blue-100 text-blue-400 light:text-blue-800 border border-blue-500/30 light:border-blue-300">
+            <span className=" text-xs font-bold px-2.5 py-1 rounded bg-blue-500/20 light:bg-blue-100 text-blue-400 light:text-blue-800 border border-blue-500/30 light:border-blue-300">
               CL-{ticket.complaint_id}
             </span>
             <h3 className="font-bold text-slate-100 light:text-slate-900 text-base truncate max-w-md">
@@ -53,19 +53,19 @@ export function TicketDetailModal({ ticket, onClose }) {
           {/* Operational Status & Priority Badges */}
           <div className="p-4 rounded-xl bg-[#0B0D12] light:bg-slate-50 border border-slate-800 light:border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 light:text-slate-600 mb-1.5">
+              <label className="block text-xs uppercase tracking-wider text-slate-400 light:text-slate-600 mb-1.5">
                 Operational Status
               </label>
-              <div className="inline-flex items-center px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 font-bold font-mono text-xs">
+              <div className="inline-flex items-center px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 font-bold text-xs">
                 {ticket.status || 'OPEN'}
               </div>
             </div>
 
             <div>
-              <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 light:text-slate-600 mb-1.5">
+              <label className="block text-xs uppercase tracking-wider text-slate-400 light:text-slate-600 mb-1.5">
                 Priority Severity Level
               </label>
-              <div className="inline-flex items-center px-3 py-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold font-mono text-xs">
+              <div className="inline-flex items-center px-3 py-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold text-xs">
                 {ticket.priority || 'MEDIUM'}
               </div>
             </div>
@@ -73,11 +73,11 @@ export function TicketDetailModal({ ticket, onClose }) {
 
           {/* Title & Description */}
           <div>
-            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 light:text-slate-600 block mb-1">
+            <span className="text-xs uppercase tracking-wider text-slate-400 light:text-slate-600 block mb-1">
               Title & Category
             </span>
             <h4 className="text-sm font-bold text-slate-100 light:text-slate-900 mb-2">{ticket.title}</h4>
-            <div className="inline-block px-2.5 py-0.5 rounded bg-blue-500/10 light:bg-blue-50 text-blue-300 light:text-blue-800 border border-blue-500/20 light:border-blue-300 font-mono text-[11px] mb-3">
+            <div className="inline-block px-2.5 py-0.5 rounded bg-blue-500/10 light:bg-blue-50 text-blue-300 light:text-blue-800 border border-blue-500/20 light:border-blue-300 text-xs mb-3">
               Category: {ticket.category}
             </div>
 
@@ -90,7 +90,7 @@ export function TicketDetailModal({ ticket, onClose }) {
 
           {/* Location & Geographic Hierarchy */}
           <div className="space-y-2">
-            <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 light:text-slate-600 block">
+            <span className="text-xs uppercase tracking-wider text-slate-400 light:text-slate-600 block">
               Geographic Location & Boundary Assignment
             </span>
             <div className="p-3.5 rounded-xl bg-[#0B0D12] light:bg-slate-50 border border-slate-800 light:border-slate-200 space-y-2">
@@ -100,14 +100,14 @@ export function TicketDetailModal({ ticket, onClose }) {
                   <div className="font-medium text-slate-200 light:text-slate-800">
                     {ticket.address_text || 'Exact Address Not Provided'}
                   </div>
-                  <div className="font-mono text-[11px] text-slate-400 light:text-slate-600 mt-0.5">
+                  <div className=" text-xs text-slate-400 light:text-slate-600 mt-0.5">
                     Coordinates: {ticket.latitude}, {ticket.longitude}
                   </div>
                 </div>
               </div>
 
               {ticket.resolved_geo_unit_id && (
-                <div className="pt-2 border-t border-slate-800/80 light:border-slate-200 flex items-center justify-between text-[11px] font-mono text-slate-300 light:text-slate-700">
+                <div className="pt-2 border-t border-slate-800/80 light:border-slate-200 flex items-center justify-between text-xs text-slate-300 light:text-slate-700">
                   <span>Assigned Jurisdiction Unit:</span>
                   <span className="text-blue-400 light:text-blue-700 font-bold">{ticket.resolved_geo_unit_id}</span>
                 </div>
@@ -116,7 +116,7 @@ export function TicketDetailModal({ ticket, onClose }) {
           </div>
 
           {/* Timestamps & Reporter Meta */}
-          <div className="grid grid-cols-2 gap-3 text-[11px] font-mono">
+          <div className="grid grid-cols-2 gap-3 text-xs">
             <div className="p-3 rounded-lg bg-slate-900/40 light:bg-slate-100 border border-slate-800 light:border-slate-200">
               <span className="text-slate-400 light:text-slate-600 block mb-1">Created Date:</span>
               <span className="text-slate-200 light:text-slate-800 font-bold">{formatDate(ticket.created_at)}</span>
@@ -131,7 +131,7 @@ export function TicketDetailModal({ ticket, onClose }) {
           {/* Attached Media Assets */}
           {ticket.media && ticket.media.length > 0 && (
             <div>
-              <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 light:text-slate-600 block mb-2">
+              <span className="text-xs uppercase tracking-wider text-slate-400 light:text-slate-600 block mb-2">
                 Attached Media Assets ({ticket.media.length})
               </span>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -153,7 +153,7 @@ export function TicketDetailModal({ ticket, onClose }) {
                           e.target.style.display = 'none';
                         }}
                       />
-                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs gap-1 font-mono">
+                      <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-xs gap-1">
                         <ArrowUpRight className="w-4 h-4" />
                         <span>View</span>
                       </div>

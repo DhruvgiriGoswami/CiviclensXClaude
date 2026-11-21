@@ -466,8 +466,8 @@ export function AppContent({ navigateTo }) {
         {/* Floating Pin Mode Banner */}
         {isPinningMode && (
           <div className="absolute top-3 sm:top-4 inset-x-0 z-50 flex justify-center pointer-events-none px-3 lg:pr-[420px]">
-            <div className="pointer-events-auto bg-crimson-600/95 text-white px-3 sm:px-4 py-2 rounded-full shadow-2xl backdrop-blur-md font-mono text-xs flex items-center justify-between sm:justify-center gap-2 sm:gap-3 border border-crimson-400 max-w-[94vw] sm:max-w-md animate-pulse">
-              <span className="truncate font-bold text-[11px] sm:text-xs">
+            <div className="pointer-events-auto bg-crimson-600/95 text-white px-3 sm:px-4 py-2 rounded-full shadow-2xl text-xs flex items-center justify-between sm:justify-center gap-2 sm:gap-3 border border-crimson-400 max-w-[94vw] sm:max-w-md">
+              <span className="truncate font-bold text-xs sm:text-xs">
                 <span className="sm:hidden">📍 Tap map to pinpoint issue</span>
                 <span className="hidden sm:inline">📍 CLICK MAP TO PINPOINT CIVIC ISSUE</span>
               </span>
@@ -477,7 +477,7 @@ export function AppContent({ navigateTo }) {
                     setIsPinningMode(false);
                     setIsGrievanceModalOpen(true);
                   }}
-                  className="px-2.5 sm:px-3 py-1 bg-white text-slate-900 rounded-full font-bold text-[11px] hover:bg-slate-200 transition-colors shadow flex-shrink-0 cursor-pointer active:scale-95"
+                  className="px-2.5 sm:px-3 py-1 bg-white text-slate-900 rounded-full font-bold text-xs hover:bg-slate-200 transition-colors shadow flex-shrink-0 cursor-pointer active:scale-95"
                 >
                   Done
                 </button>
@@ -486,7 +486,7 @@ export function AppContent({ navigateTo }) {
                     setIsPinningMode(false);
                     setPinnedLocation(null);
                   }}
-                  className="px-2.5 sm:px-3 py-1 bg-slate-900/90 text-slate-200 border border-white/20 rounded-full font-bold text-[11px] hover:bg-slate-800 transition-colors shadow flex-shrink-0 cursor-pointer active:scale-95"
+                  className="px-2.5 sm:px-3 py-1 bg-slate-900/90 text-slate-200 border border-white/20 rounded-full font-bold text-xs hover:bg-slate-800 transition-colors shadow flex-shrink-0 cursor-pointer active:scale-95"
                 >
                   Cancel
                 </button>
@@ -532,11 +532,11 @@ export function AppContent({ navigateTo }) {
           }`}>
             <button
               onClick={() => setIsGrievanceModalOpen(true)}
-              className="flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-gradient-to-r from-crimson-600 via-rose-600 to-crimson-700 hover:from-crimson-500 hover:to-rose-500 text-white font-mono text-xs font-bold shadow-2xl hover:shadow-crimson-500/40 border border-white/25 transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer backdrop-blur-md group"
+              className="flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-gradient-to-r from-crimson-600 via-rose-600 to-crimson-700 hover:from-crimson-500 hover:to-rose-500 text-white text-xs font-bold shadow-2xl border border-white/25 transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer group"
               title="Report a civic problem or infrastructure damage"
             >
               <div className="relative flex items-center justify-center">
-                <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-rose-400 opacity-75"></span>
+                <span className=" absolute inline-flex h-3 w-3 rounded-full bg-rose-400 opacity-75"></span>
                 <Camera className="w-4 h-4 text-white relative z-10 group-hover:rotate-12 transition-transform" />
               </div>
               <span className="tracking-wide">Report Issue</span>

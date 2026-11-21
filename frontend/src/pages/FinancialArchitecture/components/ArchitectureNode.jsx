@@ -15,7 +15,7 @@ const NODE_ICONS = {
 
 const NODE_THEMES = {
   treasury: "border-slate-700 light:border-slate-300 bg-slate-900/95 light:bg-white text-slate-100 light:text-slate-900",
-  settlement: "border-cyan-500/60 light:border-cyan-400 bg-slate-900/95 light:bg-white text-cyan-300 light:text-cyan-900 shadow-cyan-950/40",
+  settlement: "border-cyan-500/60 light:border-cyan-400 bg-slate-900/95 light:bg-white text-cyan-300 light:text-cyan-900",
   municipal: "border-blue-500/50 light:border-blue-400 bg-slate-900/95 light:bg-white text-blue-200 light:text-blue-900",
   control: "border-indigo-500/60 light:border-indigo-400 bg-slate-900/95 light:bg-white text-indigo-200 light:text-indigo-900",
   procurement: "border-amber-500/50 light:border-amber-400 bg-slate-900/95 light:bg-white text-amber-200 light:text-amber-900",
@@ -32,14 +32,14 @@ export function ArchitectureNode({ node, isSelected, onSelect }) {
   return (
     <div
       onClick={() => onSelect(node)}
-      className={`w-60 sm:w-64 rounded-xl border p-3.5 cursor-pointer transition-all duration-200 select-none shadow-xl relative group backdrop-blur-md ${themeClasses} ${
+      className={`w-60 sm:w-64 rounded-xl border p-3.5 cursor-pointer transition-all duration-200 select-none shadow-xl relative group ${themeClasses} ${
         isSelected
-          ? "ring-2 ring-cyan-400 border-cyan-400 scale-[1.03] shadow-cyan-500/20 z-20"
+          ? "ring-2 ring-cyan-400 border-cyan-400 scale-[1.03] z-20"
           : "hover:border-cyan-500/60 light:hover:border-cyan-400 hover:scale-[1.01]"
       }`}
     >
       {/* Group label */}
-      <div className="text-[9px] font-mono uppercase font-bold text-slate-400 light:text-slate-600 tracking-wider mb-1 flex items-center justify-between">
+      <div className="text-xs uppercase font-bold text-slate-400 light:text-slate-600 tracking-wider mb-1 flex items-center justify-between">
         <span>{node.groupLabel}</span>
         <span className="text-slate-500 light:text-slate-600 font-bold">{node.code}</span>
       </div>
@@ -53,16 +53,16 @@ export function ArchitectureNode({ node, isSelected, onSelect }) {
           <h4 className="text-xs font-bold font-sans text-slate-100 light:text-slate-900 truncate leading-tight">
             {node.title}
           </h4>
-          <p className="text-[10px] text-slate-400 light:text-slate-600 truncate font-mono">{node.subtitle}</p>
+          <p className="text-xs text-slate-400 light:text-slate-600 truncate">{node.subtitle}</p>
         </div>
       </div>
 
       {/* Amount & Status badge */}
       <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 light:border-slate-200 mt-1">
-        <div className="font-mono text-xs font-extrabold text-cyan-300 light:text-cyan-800">
+        <div className=" text-xs font-extrabold text-cyan-300 light:text-cyan-800">
           {node.amount}
         </div>
-        <div className={`text-[9px] font-mono px-1.5 py-0.5 rounded font-bold border ${
+        <div className={`text-xs px-1.5 py-0.5 rounded font-bold border ${
           node.status === 'DISCREPANCY'
             ? 'bg-rose-500/20 light:bg-rose-100 text-rose-300 light:text-rose-800 border-rose-500/40 light:border-rose-300'
             : node.status === 'LOCKED'

@@ -180,7 +180,7 @@ export function TicketTable({
             {hasActiveFilters && (
               <button
                 onClick={onClearFilters}
-                className="px-2.5 py-1.5 rounded-lg bg-slate-800 ca-panel-bg hover:bg-slate-700 text-rose-300 text-xs font-mono border border-slate-700 flex items-center gap-1 transition-colors cursor-pointer"
+                className="px-2.5 py-1.5 rounded-lg bg-slate-800 ca-panel-bg hover:bg-slate-700 text-rose-300 text-xs border border-slate-700 flex items-center gap-1 transition-colors cursor-pointer"
                 title="Reset search and filters"
               >
                 <X className="w-3.5 h-3.5" />
@@ -251,7 +251,7 @@ export function TicketTable({
         ) : (
           /* Data Table */
           <table className="w-full text-left border-collapse font-sans text-xs">
-            <thead className="bg-[#12161F] ca-table-header uppercase font-mono text-[10px] tracking-wider sticky top-0 z-10 border-b border-slate-800">
+            <thead className="bg-[#12161F] ca-table-header uppercase text-xs tracking-wider sticky top-0 z-10 border-b border-slate-800">
               <tr>
                 <th className="py-2.5 px-4 w-28">Ticket ID</th>
                 <th className="py-2.5 px-4 min-w-[200px]">Complaint Details</th>
@@ -271,7 +271,7 @@ export function TicketTable({
                   className="hover:bg-slate-800/40 ca-table-row transition-colors cursor-pointer group"
                 >
                   {/* Ticket ID */}
-                  <td className="py-2.5 px-4 font-mono font-bold text-blue-400 whitespace-nowrap">
+                  <td className="py-2.5 px-4 font-bold text-blue-400 whitespace-nowrap">
                     CL-{ticket.complaint_id}
                   </td>
 
@@ -281,7 +281,7 @@ export function TicketTable({
                       {ticket.title}
                     </div>
                     {ticket.description && (
-                      <div className="text-[11px] text-slate-400 line-clamp-1 mt-0.5">
+                      <div className="text-xs text-slate-400 line-clamp-1 mt-0.5">
                         {ticket.description}
                       </div>
                     )}
@@ -289,7 +289,7 @@ export function TicketTable({
 
                   {/* Category */}
                   <td className="py-2.5 px-4 whitespace-nowrap">
-                    <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono font-medium bg-slate-800 ca-panel-bg text-slate-300 border border-slate-700 max-w-[150px] truncate">
+                    <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-800 ca-panel-bg text-slate-300 border border-slate-700 max-w-[150px] truncate">
                       {ticket.category}
                     </span>
                   </td>
@@ -303,27 +303,27 @@ export function TicketTable({
                       </span>
                     </div>
                     {ticket.resolved_geo_unit_id && (
-                      <div className="text-[10px] font-mono text-slate-400 truncate mt-0.5">
+                      <div className="text-xs text-slate-400 truncate mt-0.5">
                         Unit: {ticket.resolved_geo_unit_id}
                       </div>
                     )}
                   </td>
 
                   {/* Created Date */}
-                  <td className="py-2.5 px-4 font-mono text-[11px] text-slate-400 whitespace-nowrap">
+                  <td className="py-2.5 px-4 text-xs text-slate-400 whitespace-nowrap">
                     {formatDate(ticket.created_at)}
                   </td>
 
                   {/* Priority */}
                   <td className="py-2.5 px-4 whitespace-nowrap">
-                    <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-mono uppercase border ${formatPriorityBadge(ticket.priority)}`}>
+                    <span className={`inline-block px-2 py-0.5 rounded text-xs uppercase border ${formatPriorityBadge(ticket.priority)}`}>
                       {ticket.priority || 'MEDIUM'}
                     </span>
                   </td>
 
                   {/* Status */}
                   <td className="py-2.5 px-4 whitespace-nowrap">
-                    <span className={`inline-block px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase border ${formatStatusBadge(ticket.status)}`}>
+                    <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold uppercase border ${formatStatusBadge(ticket.status)}`}>
                       {ticket.status || 'OPEN'}
                     </span>
                   </td>
@@ -335,7 +335,7 @@ export function TicketTable({
                         e.stopPropagation();
                         onSelectTicket(ticket);
                       }}
-                      className="p-1.5 rounded-md bg-slate-800 ca-panel-bg hover:bg-blue-600/30 text-slate-300 hover:text-blue-300 transition-colors border border-slate-700/80 inline-flex items-center gap-1 text-[11px] cursor-pointer"
+                      className="p-1.5 rounded-md bg-slate-800 ca-panel-bg hover:bg-blue-600/30 text-slate-300 hover:text-blue-300 transition-colors border border-slate-700/80 inline-flex items-center gap-1 text-xs cursor-pointer"
                       title="Inspect full operational detail"
                     >
                       <Eye className="w-3.5 h-3.5" />
@@ -352,7 +352,7 @@ export function TicketTable({
       {/* Pagination Footer */}
       {!error && totalTickets > 0 && (
         <div className="bg-[#12161F] ca-panel-bg border-t border-slate-800 px-4 py-2.5 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs transition-colors">
-          <div className="flex items-center gap-4 text-slate-400 font-mono text-[11px]">
+          <div className="flex items-center gap-4 text-slate-400 text-xs">
             <span>
               Showing <strong className="text-slate-200">{startItem}</strong> to <strong className="text-slate-200">{endItem}</strong> of <strong className="text-slate-200">{totalTickets}</strong> complaints
             </span>
@@ -362,7 +362,7 @@ export function TicketTable({
               <select
                 value={pageSize}
                 onChange={(e) => onPageSizeChange(Number(e.target.value))}
-                className="bg-[#0B0D12] ca-input-select text-slate-200 border border-slate-700 rounded px-2 py-0.5 text-xs font-mono focus:outline-none cursor-pointer"
+                className="bg-[#0B0D12] ca-input-select text-slate-200 border border-slate-700 rounded px-2 py-0.5 text-xs focus:outline-none cursor-pointer"
               >
                 <option value={10}>10</option>
                 <option value={20}>20</option>
@@ -382,7 +382,7 @@ export function TicketTable({
               <ChevronLeft className="w-4 h-4" />
             </button>
 
-            <span className="px-3 py-1 bg-[#0B0D12] ca-input-select text-slate-200 border border-slate-700 rounded-md font-mono text-xs">
+            <span className="px-3 py-1 bg-[#0B0D12] ca-input-select text-slate-200 border border-slate-700 rounded-md text-xs">
               Page {currentPage} of {totalPages}
             </span>
 

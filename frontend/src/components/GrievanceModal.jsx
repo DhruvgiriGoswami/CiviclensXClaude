@@ -356,7 +356,7 @@ export function GrievanceModal({
   ];
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="Report a civic issue" className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
+    <div role="dialog" aria-modal="true" aria-label="Report a civic issue" className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
       <div className="glass-panel-crimson light:bg-white light:border-slate-300 w-full max-w-lg rounded-3xl border border-slate-700/80 shadow-2xl p-4 sm:p-6 relative max-h-[92dvh] overflow-y-auto no-scrollbar my-auto text-slate-100 light:text-slate-900">
         
         {/* Close Button */}
@@ -370,11 +370,11 @@ export function GrievanceModal({
 
         {isSuccess ? (
           <div className="py-8 text-center space-y-3">
-            <div className="w-14 h-14 rounded-full bg-crimson-500/20 light:bg-crimson-100 text-crimson-400 light:text-crimson-700 border border-crimson-500/40 light:border-crimson-300 flex items-center justify-center mx-auto animate-bounce">
+            <div className="w-14 h-14 rounded-full bg-crimson-500/20 light:bg-crimson-100 text-crimson-400 light:text-crimson-700 border border-crimson-500/40 light:border-crimson-300 flex items-center justify-center mx-auto">
               <ShieldAlert className="w-8 h-8" />
             </div>
             <h3 className="text-xl font-bold text-white light:text-slate-900 font-sans">Geo-Tagged Civic Ticket Raised!</h3>
-            <p className="text-xs text-slate-300 light:text-slate-700 font-mono">
+            <p className="text-xs text-slate-300 light:text-slate-700">
               Ticket has been pinned to {effectiveUnit.unitName}.
             </p>
             {photoWarning && (
@@ -397,15 +397,15 @@ export function GrievanceModal({
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className={`py-1.5 px-2 rounded-xl text-xs font-mono font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                className={`py-1.5 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                   step === 1
-                    ? 'bg-crimson-600 text-white shadow-md shadow-crimson-600/30'
+                    ? 'bg-crimson-600 text-white shadow-md'
                     : step > 1
                       ? 'bg-emerald-500/15 text-emerald-400 light:text-emerald-700 border border-emerald-500/30'
                       : 'bg-slate-800/80 text-slate-400 light:bg-slate-200 light:text-slate-600'
                 }`}
               >
-                {step > 1 ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <span className="w-4 h-4 rounded-full bg-white/20 text-[10px] flex items-center justify-center">1</span>}
+                {step > 1 ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <span className="w-4 h-4 rounded-full bg-white/20 text-xs flex items-center justify-center">1</span>}
                 <span className="truncate">Location</span>
               </button>
 
@@ -415,15 +415,15 @@ export function GrievanceModal({
                   if (pinnedLocation) setStep(2);
                   else setPinError('Location required before proceeding');
                 }}
-                className={`py-1.5 px-2 rounded-xl text-xs font-mono font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                className={`py-1.5 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                   step === 2
-                    ? 'bg-crimson-600 text-white shadow-md shadow-crimson-600/30'
+                    ? 'bg-crimson-600 text-white shadow-md'
                     : step > 2
                       ? 'bg-emerald-500/15 text-emerald-400 light:text-emerald-700 border border-emerald-500/30'
                       : 'bg-slate-800/80 text-slate-400 light:bg-slate-200 light:text-slate-600'
                 }`}
               >
-                {step > 2 ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <span className="w-4 h-4 rounded-full bg-white/20 text-[10px] flex items-center justify-center">2</span>}
+                {step > 2 ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <span className="w-4 h-4 rounded-full bg-white/20 text-xs flex items-center justify-center">2</span>}
                 <span className="truncate">Category</span>
               </button>
 
@@ -433,13 +433,13 @@ export function GrievanceModal({
                   if (pinnedLocation) setStep(3);
                   else setPinError('Location required before proceeding');
                 }}
-                className={`py-1.5 px-2 rounded-xl text-xs font-mono font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                className={`py-1.5 px-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                   step === 3
-                    ? 'bg-crimson-600 text-white shadow-md shadow-crimson-600/30'
+                    ? 'bg-crimson-600 text-white shadow-md'
                     : 'bg-slate-800/80 text-slate-400 light:bg-slate-200 light:text-slate-600'
                 }`}
               >
-                <span className="w-4 h-4 rounded-full bg-white/20 text-[10px] flex items-center justify-center">3</span>
+                <span className="w-4 h-4 rounded-full bg-white/20 text-xs flex items-center justify-center">3</span>
                 <span className="truncate">Details</span>
               </button>
             </div>
@@ -449,7 +449,7 @@ export function GrievanceModal({
               <div className="space-y-4 animate-in fade-in duration-150">
                 {/* Pin Warning Banner */}
                 {pinError && (
-                  <div className="p-3 rounded-2xl bg-rose-500/15 light:bg-rose-50 border border-rose-500/40 light:border-rose-300 text-rose-400 light:text-rose-700 text-xs font-mono font-bold flex items-center gap-2 animate-bounce">
+                  <div className="p-3 rounded-2xl bg-rose-500/15 light:bg-rose-50 border border-rose-500/40 light:border-rose-300 text-rose-400 light:text-rose-700 text-xs font-bold flex items-center gap-2">
                     <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-500" />
                     <span>{pinError}</span>
                   </div>
@@ -462,7 +462,7 @@ export function GrievanceModal({
                     : 'bg-emerald-950/20 light:bg-emerald-50/50 border border-emerald-500/40 light:border-emerald-300'
                 }`}>
                   <div className="flex items-center justify-between gap-2 mb-2">
-                    <div className="flex items-center space-x-1.5 text-xs font-mono font-bold">
+                    <div className="flex items-center space-x-1.5 text-xs font-bold">
                       <MapPin className={`w-4 h-4 flex-shrink-0 ${pinnedLocation ? 'text-emerald-400 light:text-emerald-600' : 'text-crimson-500'}`} />
                       <span className={pinnedLocation ? 'text-emerald-300 light:text-emerald-800' : 'text-slate-200 light:text-slate-800'}>
                         {pinnedLocation ? '📍 Spot Geo-Tagged & Pinned' : '⚠️ Location Required to Report'}
@@ -470,7 +470,7 @@ export function GrievanceModal({
                     </div>
 
                     {pinnedLocation && (
-                      <span className="text-[10px] font-mono text-emerald-400 light:text-emerald-700 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full truncate max-w-[150px]">
+                      <span className="text-xs text-emerald-400 light:text-emerald-700 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full truncate max-w-[150px]">
                         {pinnedLocation.lat.toFixed(4)}, {pinnedLocation.lng.toFixed(4)}
                         {pinnedLocation.accuracy ? ` (±${pinnedLocation.accuracy}m)` : ''}
                       </span>
@@ -483,11 +483,11 @@ export function GrievanceModal({
                       type="button"
                       onClick={handleGetLiveLocation}
                       disabled={isLocating}
-                      className={`text-xs font-mono font-bold px-3 py-2.5 rounded-xl border transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                      className={`text-xs font-bold px-3 py-2.5 rounded-xl border transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                         isLocating
                           ? 'bg-slate-800 text-slate-400 border-slate-700 cursor-wait'
                           : !pinnedLocation
-                            ? 'bg-crimson-600 hover:bg-crimson-500 text-white border-crimson-400 shadow-md shadow-crimson-600/30 animate-pulse'
+                            ? 'bg-crimson-600 hover:bg-crimson-500 text-white border-crimson-400 shadow-md'
                             : 'bg-slate-800 light:bg-slate-200 text-slate-200 light:text-slate-800 border-slate-700 light:border-slate-300 hover:bg-slate-700'
                       }`}
                       title="Detect GPS coordinates directly from your device"
@@ -504,7 +504,7 @@ export function GrievanceModal({
                           onClose();
                           onStartPinning();
                         }}
-                        className="text-xs font-mono font-bold px-3 py-2.5 rounded-xl border border-slate-700 light:border-slate-300 bg-slate-900/90 light:bg-slate-100 hover:bg-slate-800 light:hover:bg-slate-200 text-slate-200 light:text-slate-800 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                        className="text-xs font-bold px-3 py-2.5 rounded-xl border border-slate-700 light:border-slate-300 bg-slate-900/90 light:bg-slate-100 hover:bg-slate-800 light:hover:bg-slate-200 text-slate-200 light:text-slate-800 transition-all flex items-center justify-center gap-1.5 cursor-pointer"
                         title="Pick custom location on the interactive map"
                       >
                         <Crosshair className="w-3.5 h-3.5 text-crimson-400" />
@@ -514,7 +514,7 @@ export function GrievanceModal({
                   </div>
 
                   {locationError && (
-                    <div className="mt-2 text-[11px] font-mono text-rose-400 light:text-rose-700 bg-rose-500/10 p-2 rounded-xl border border-rose-500/20">
+                    <div className="mt-2 text-xs text-rose-400 light:text-rose-700 bg-rose-500/10 p-2 rounded-xl border border-rose-500/20">
                       {locationError}
                     </div>
                   )}
@@ -522,7 +522,7 @@ export function GrievanceModal({
 
                 {/* Location / Address Textbox */}
                 <div>
-                  <label className="text-xs font-mono text-slate-300 light:text-slate-700 font-bold block mb-1">
+                  <label className="text-xs text-slate-300 light:text-slate-700 font-bold block mb-1">
                     Location / Address Details (Auto-detected or custom):
                   </label>
                   <input
@@ -545,7 +545,7 @@ export function GrievanceModal({
                     setPinError('');
                     setStep(2);
                   }}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-crimson-600/30 flex items-center justify-center space-x-2 active:scale-98 cursor-pointer"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center justify-center space-x-2 active:scale-98 cursor-pointer"
                 >
                   <span>Next: Choose Category</span>
                   <ChevronRight className="w-4 h-4" />
@@ -558,16 +558,16 @@ export function GrievanceModal({
               <div className="space-y-4 animate-in fade-in duration-150">
                 {/* Priority Safety Actions: Report Bribe & Women Safety */}
                 <div>
-                  <label className="text-xs font-mono text-slate-300 light:text-slate-700 font-bold block mb-1.5">
+                  <label className="text-xs text-slate-300 light:text-slate-700 font-bold block mb-1.5">
                     Priority Safety & Integrity Actions:
                   </label>
                   <div className="grid grid-cols-2 gap-2.5">
                     <button
                       type="button"
                       onClick={() => setActiveDisclaimer('REPORT_BRIBE')}
-                      className={`px-3 py-2 rounded-xl border text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                      className={`px-3 py-2 rounded-xl border text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
                         category === 'Report Bribe'
-                          ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-md shadow-amber-500/30 font-black'
+                          ? 'bg-amber-500 text-slate-950 border-amber-400 shadow-md font-black'
                           : 'bg-slate-900/90 light:bg-slate-100 text-amber-400 light:text-amber-800 border-amber-500/40 light:border-amber-300 hover:bg-amber-500/20'
                       }`}
                     >
@@ -578,9 +578,9 @@ export function GrievanceModal({
                     <button
                       type="button"
                       onClick={() => setActiveDisclaimer('WOMEN_SAFETY')}
-                      className={`px-3 py-2 rounded-xl border text-xs font-mono font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
+                      className={`px-3 py-2 rounded-xl border text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer ${
                         category === 'Women Safety'
-                          ? 'bg-rose-600 text-white border-rose-400 shadow-md shadow-rose-600/30 font-black'
+                          ? 'bg-rose-600 text-white border-rose-400 shadow-md font-black'
                           : 'bg-slate-900/90 light:bg-slate-100 text-rose-400 light:text-rose-800 border-rose-500/40 light:border-rose-300 hover:bg-rose-500/20'
                       }`}
                     >
@@ -592,11 +592,11 @@ export function GrievanceModal({
 
                 {/* Category Dropdown */}
                 <div>
-                  <label className="text-xs font-mono text-slate-300 light:text-slate-700 font-bold block mb-1">Issue Category:</label>
+                  <label className="text-xs text-slate-300 light:text-slate-700 font-bold block mb-1">Issue Category:</label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl p-2.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-crimson-500 font-mono"
+                    className="w-full bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl p-2.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-crimson-500"
                   >
                     {CATEGORIES.map((cat) => (
                       <option key={cat} value={cat} className="bg-slate-900 light:bg-white text-slate-100 light:text-slate-900">
@@ -607,7 +607,7 @@ export function GrievanceModal({
                 </div>
 
                 {/* Pinned Location Summary */}
-                <div className="p-2.5 rounded-xl bg-slate-900/70 light:bg-slate-100 border border-slate-800 light:border-slate-300 flex items-center justify-between text-xs font-mono">
+                <div className="p-2.5 rounded-xl bg-slate-900/70 light:bg-slate-100 border border-slate-800 light:border-slate-300 flex items-center justify-between text-xs">
                   <div className="flex items-center gap-1.5 text-slate-300 light:text-slate-700 truncate">
                     <MapPin className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
                     <span className="truncate">{addressText || (pinnedLocation ? `${pinnedLocation.lat.toFixed(4)}, ${pinnedLocation.lng.toFixed(4)}` : effectiveUnit.unitName)}</span>
@@ -615,7 +615,7 @@ export function GrievanceModal({
                   <button
                     type="button"
                     onClick={() => setStep(1)}
-                    className="text-[10px] text-crimson-400 hover:underline flex-shrink-0 ml-2 cursor-pointer"
+                    className="text-xs text-crimson-400 hover:underline flex-shrink-0 ml-2 cursor-pointer"
                   >
                     Change
                   </button>
@@ -635,7 +635,7 @@ export function GrievanceModal({
                   <button
                     type="button"
                     onClick={() => setStep(3)}
-                    className="py-2.5 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-crimson-600/30 flex items-center justify-center gap-1.5 cursor-pointer"
+                    className="py-2.5 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <span>Next: Details</span>
                     <ChevronRight className="w-4 h-4" />
@@ -650,7 +650,7 @@ export function GrievanceModal({
                 {/* Photo Evidence Section - Live Camera vs Gallery */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <label className="text-xs font-mono text-slate-300 light:text-slate-700 font-bold flex items-center gap-1.5">
+                    <label className="text-xs text-slate-300 light:text-slate-700 font-bold flex items-center gap-1.5">
                       <Camera className="w-3.5 h-3.5 text-crimson-400" />
                       <span>Photo Evidence / Visual Proof:</span>
                     </label>
@@ -658,12 +658,12 @@ export function GrievanceModal({
 
                   {/* Contextual Guidance */}
                   {category === 'Garbage & Waste Management' || category === 'Roads & Footpaths' || category === 'Drainage & Sewage' || category === 'Street Lighting' ? (
-                    <div className="text-[11px] font-mono text-emerald-400 light:text-emerald-700 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+                    <div className="text-xs text-emerald-400 light:text-emerald-700 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
                       <span>Recommended: Snap a live picture on the spot for instant verification.</span>
                     </div>
                   ) : (category === 'Report Bribe' || category === 'Women Safety') ? (
-                    <div className="text-[11px] font-mono text-amber-400 light:text-amber-800 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+                    <div className="text-xs text-amber-400 light:text-amber-800 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
                       <ShieldAlert className="w-3.5 h-3.5 flex-shrink-0" />
                       <span>Confidential: Attach screenshots, records, or files safely from Gallery.</span>
                     </div>
@@ -698,13 +698,13 @@ export function GrievanceModal({
                             : 'bg-slate-900/90 light:bg-slate-100 border-slate-800 light:border-slate-300 hover:border-crimson-500/40 hover:bg-slate-800/80'
                         }`}
                       >
-                        <div className="w-9 h-9 rounded-full bg-crimson-600 text-white flex items-center justify-center shadow-md shadow-crimson-600/40 group-hover:scale-110 transition-transform">
+                        <div className="w-9 h-9 rounded-full bg-crimson-600 text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
                           <Camera className="w-5 h-5" />
                         </div>
-                        <span className="text-xs font-mono font-bold text-white light:text-slate-900">
+                        <span className="text-xs font-bold text-white light:text-slate-900">
                           Take Live Photo
                         </span>
-                        <span className="text-[10px] text-slate-400 light:text-slate-600">
+                        <span className="text-xs text-slate-400 light:text-slate-600">
                           Snap on the spot
                         </span>
                       </button>
@@ -722,10 +722,10 @@ export function GrievanceModal({
                         <div className="w-9 h-9 rounded-full bg-slate-800 light:bg-slate-300 text-slate-200 light:text-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform">
                           <Upload className="w-5 h-5 text-crimson-400 light:text-crimson-600" />
                         </div>
-                        <span className="text-xs font-mono font-bold text-white light:text-slate-900">
+                        <span className="text-xs font-bold text-white light:text-slate-900">
                           From Gallery
                         </span>
-                        <span className="text-[10px] text-slate-400 light:text-slate-600">
+                        <span className="text-xs text-slate-400 light:text-slate-600">
                           Select photo or file
                         </span>
                       </button>
@@ -743,18 +743,18 @@ export function GrievanceModal({
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-1.5">
                           {photoSource === 'CAMERA' ? (
-                            <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-emerald-400 light:text-emerald-700">
-                              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-400 light:text-emerald-700">
+                              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
                               Live Photo Attached
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-blue-400 light:text-blue-700">
+                            <span className="inline-flex items-center gap-1 text-xs font-bold text-blue-400 light:text-blue-700">
                               <Image className="w-3.5 h-3.5" />
                               Gallery Photo Attached
                             </span>
                           )}
                         </div>
-                        <p className="text-xs text-slate-200 light:text-slate-900 truncate font-mono mt-0.5">
+                        <p className="text-xs text-slate-200 light:text-slate-900 truncate mt-0.5">
                           {file.name}
                         </p>
                       </div>
@@ -768,7 +768,7 @@ export function GrievanceModal({
                               galleryInputRef.current?.click();
                             }
                           }}
-                          className="px-2.5 py-1 text-[10px] font-mono font-bold rounded-lg bg-slate-800 light:bg-slate-200 hover:bg-slate-700 text-slate-200 light:text-slate-800 transition-colors cursor-pointer"
+                          className="px-2.5 py-1 text-xs font-bold rounded-lg bg-slate-800 light:bg-slate-200 hover:bg-slate-700 text-slate-200 light:text-slate-800 transition-colors cursor-pointer"
                         >
                           Change
                         </button>
@@ -787,7 +787,7 @@ export function GrievanceModal({
 
                 {/* Issue Description */}
                 <div>
-                  <label className="text-xs font-mono text-slate-300 light:text-slate-700 font-bold block mb-1">
+                  <label className="text-xs text-slate-300 light:text-slate-700 font-bold block mb-1">
                     Detailed Description: <span className="text-crimson-400">*</span>
                   </label>
                   <textarea
@@ -818,7 +818,7 @@ export function GrievanceModal({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="col-span-2 py-3 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-crimson-600/30 flex items-center justify-center space-x-2 active:scale-98 disabled:opacity-60 cursor-pointer"
+                    className="col-span-2 py-3 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center justify-center space-x-2 active:scale-98 disabled:opacity-60 cursor-pointer"
                   >
                     {isSubmitting ? (
                       <span>Pinning Ticket...</span>
@@ -839,7 +839,7 @@ export function GrievanceModal({
 
       {/* Outside India Boundary Alert Modal */}
       {isOutsideIndia && (
-        <div className="fixed inset-0 z-[70] bg-black/85 backdrop-blur-lg flex items-center justify-center p-4 animate-in fade-in">
+        <div className="fixed inset-0 z-[70] bg-black/85 flex items-center justify-center p-4 animate-in fade-in">
           <div className="glass-panel light:bg-white light:border-slate-300 w-full max-w-sm rounded-3xl border border-slate-700/80 shadow-2xl p-6 text-center space-y-4">
             <div className="w-12 h-12 rounded-full bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center mx-auto">
               <Globe className="w-6 h-6" />
@@ -853,7 +853,7 @@ export function GrievanceModal({
             <button
               type="button"
               onClick={() => setIsOutsideIndia(false)}
-              className="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-mono font-bold text-xs"
+              className="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-bold text-xs"
             >
               Got it
             </button>
@@ -863,7 +863,7 @@ export function GrievanceModal({
 
       {/* Disclaimer Modals for Priority Actions */}
       {activeDisclaimer && (
-        <div className="fixed inset-0 z-[60] bg-black/85 backdrop-blur-lg flex items-center justify-center p-4 animate-in fade-in">
+        <div className="fixed inset-0 z-[60] bg-black/85 flex items-center justify-center p-4 animate-in fade-in">
           <div className="glass-panel light:bg-white light:border-slate-300 w-full max-w-md rounded-3xl border border-slate-700/80 shadow-2xl p-5 sm:p-6 relative text-slate-100 light:text-slate-900 space-y-4">
             
             <button
@@ -876,7 +876,7 @@ export function GrievanceModal({
 
             {activeDisclaimer === 'WOMEN_SAFETY' && (
               <div className="space-y-4 text-center">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/20 text-rose-400 light:text-rose-700 border border-rose-500/30 text-xs font-mono font-bold">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/20 text-rose-400 light:text-rose-700 border border-rose-500/30 text-xs font-bold">
                   <ShieldAlert className="w-4 h-4 text-rose-500 flex-shrink-0" />
                   <span>⚠️ Emergency Notice</span>
                 </div>
@@ -892,7 +892,7 @@ export function GrievanceModal({
                 <div className="pt-2 space-y-3 flex flex-col items-center">
                   <a
                     href="tel:112"
-                    className="w-full py-3.5 px-5 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-mono font-bold text-sm flex items-center justify-center gap-2 shadow-lg shadow-rose-600/40 transition-all border border-rose-400 active:scale-95"
+                    className="w-full py-3.5 px-5 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg transition-all border border-rose-400 active:scale-95"
                   >
                     📞 Call Emergency (112)
                   </a>
@@ -903,7 +903,7 @@ export function GrievanceModal({
                       setCategory('Women Safety');
                       setActiveDisclaimer(null);
                     }}
-                    className="text-xs font-mono font-semibold text-slate-400 hover:text-white light:text-slate-600 light:hover:text-slate-900 underline transition-colors pt-1"
+                    className="text-xs font-semibold text-slate-400 hover:text-white light:text-slate-600 light:hover:text-slate-900 underline transition-colors pt-1"
                   >
                     Continue to Report
                   </button>
@@ -913,7 +913,7 @@ export function GrievanceModal({
 
             {activeDisclaimer === 'REPORT_BRIBE' && (
               <div className="space-y-4 text-center">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 light:text-amber-700 border border-amber-500/30 text-xs font-mono font-bold">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 light:text-amber-700 border border-amber-500/30 text-xs font-bold">
                   <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" />
                   <span>⚠️ Important Disclaimer</span>
                 </div>
@@ -929,7 +929,7 @@ export function GrievanceModal({
                 <div className="pt-2 space-y-2.5 flex flex-col items-center w-full">
                   <a
                     href="tel:1064"
-                    className="w-full py-3.5 px-5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-mono font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/30 transition-all border border-amber-300 active:scale-95"
+                    className="w-full py-3.5 px-5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg transition-all border border-amber-300 active:scale-95"
                   >
                     📞 Call Authority Helpline (1064)
                   </a>
@@ -940,7 +940,7 @@ export function GrievanceModal({
                       setCategory('Report Bribe');
                       setActiveDisclaimer(null);
                     }}
-                    className="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 light:bg-slate-200 light:hover:bg-slate-300 text-slate-200 light:text-slate-900 font-mono font-bold text-xs transition-all border border-slate-700 light:border-slate-300"
+                    className="w-full py-2.5 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 light:bg-slate-200 light:hover:bg-slate-300 text-slate-200 light:text-slate-900 font-bold text-xs transition-all border border-slate-700 light:border-slate-300"
                   >
                     Proceed to Record File
                   </button>

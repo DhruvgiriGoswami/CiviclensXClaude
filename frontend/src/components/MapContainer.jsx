@@ -401,7 +401,7 @@ export function MapContainer({
 
       {/* 11. International Visitor Greeting Banner */}
       {isInternationalUser && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 bg-slate-900/95 text-white px-5 py-3 rounded-2xl shadow-2xl border border-red-500/40 backdrop-blur-xl flex items-center gap-3.5 max-w-lg text-center animate-fade-in">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 bg-slate-900/95 text-white px-5 py-3 rounded-2xl shadow-2xl border border-red-500/40 flex items-center gap-3.5 max-w-lg text-center animate-fade-in">
           <span className="text-2xl">🇮🇳</span>
           <div className="flex flex-col text-left">
             <span className="text-xs font-bold text-red-400 uppercase tracking-wider">CivicLens is Made for India</span>

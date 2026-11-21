@@ -28,9 +28,9 @@ export function FlowModeSelector({ activeMode, onSelectMode }) {
   ];
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-900/90 border border-slate-800 rounded-xl p-2 sm:px-4 sm:py-2.5 backdrop-blur-md shadow-xl">
-      <div className="flex items-center gap-2 text-xs font-mono font-bold text-slate-400 uppercase tracking-wider">
-        <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-900/90 border border-slate-800 rounded-xl p-2 sm:px-4 sm:py-2.5 shadow-xl">
+      <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider">
+        <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
         <span>Canvas View Mode:</span>
       </div>
 
@@ -43,9 +43,9 @@ export function FlowModeSelector({ activeMode, onSelectMode }) {
             <button
               key={mode.id}
               onClick={() => onSelectMode(mode.id)}
-              className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-mono font-bold transition-all ${
+              className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg border text-xs font-bold transition-all ${
                 isActive
-                  ? `${mode.color} shadow-lg shadow-cyan-900/20 scale-[1.02]`
+                  ? `${mode.color} shadow-lg scale-[1.02]`
                   : "bg-slate-950/60 border-slate-800 text-slate-400 hover:text-slate-200 hover:border-slate-700"
               }`}
               title={mode.description}

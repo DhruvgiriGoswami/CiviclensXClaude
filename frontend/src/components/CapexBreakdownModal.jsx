@@ -103,7 +103,7 @@ export function CapexBreakdownModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return createPortal(
-    <div role="dialog" aria-modal="true" aria-label="CapEx breakdown" className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
+    <div role="dialog" aria-modal="true" aria-label="CapEx breakdown" className="fixed inset-0 z-[9999] bg-black/80 flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
       <div 
         className="w-full max-w-3xl max-h-[90vh] bg-[#0E1118] light:bg-white rounded-2xl border border-slate-700/80 light:border-slate-300 shadow-2xl flex flex-col overflow-hidden my-auto animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
@@ -119,11 +119,11 @@ export function CapexBreakdownModal({ isOpen, onClose }) {
                 <h3 className="text-base sm:text-lg font-bold text-white light:text-slate-900 font-sans">
                   CapEx Tracked Breakdown
                 </h3>
-                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 light:bg-emerald-100 light:text-emerald-800 border border-emerald-500/40 light:border-emerald-300">
+                <span className="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 light:bg-emerald-100 light:text-emerald-800 border border-emerald-500/40 light:border-emerald-300">
                   ₹2,02,782 Crore
                 </span>
               </div>
-              <p className="text-xs text-slate-400 light:text-slate-600 font-mono">
+              <p className="text-xs text-slate-400 light:text-slate-600">
                 Top Municipal Corporations by Annual Budget Outlay (India)
               </p>
             </div>
@@ -142,7 +142,7 @@ export function CapexBreakdownModal({ isOpen, onClose }) {
         <div className="p-4 sm:p-6 overflow-y-auto space-y-4">
           <div className="rounded-xl border border-slate-800 light:border-slate-200 overflow-hidden bg-slate-900/40 light:bg-slate-50/50">
             <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-slate-800/80 light:bg-slate-200/80 text-slate-300 light:text-slate-700 font-mono uppercase text-[11px] border-b border-slate-700/60 light:border-slate-300">
+              <thead className="bg-slate-800/80 light:bg-slate-200/80 text-slate-300 light:text-slate-700 uppercase text-xs border-b border-slate-700/60 light:border-slate-300">
                 <tr>
                   <th className="py-2.5 px-3 sm:px-4 w-12 text-center">Rank</th>
                   <th className="py-2.5 px-3 sm:px-4">Municipal Corporation</th>
@@ -156,7 +156,7 @@ export function CapexBreakdownModal({ isOpen, onClose }) {
                     key={item.rank}
                     className="hover:bg-slate-800/50 light:hover:bg-slate-100/70 transition-colors group"
                   >
-                    <td className="py-2.5 px-3 sm:px-4 text-center font-mono font-bold text-slate-400 light:text-slate-600">
+                    <td className="py-2.5 px-3 sm:px-4 text-center font-bold text-slate-400 light:text-slate-600">
                       <span className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs ${
                         item.rank === 1
                           ? 'bg-amber-500/20 text-amber-300 light:bg-amber-100 light:text-amber-800 border border-amber-500/40'
@@ -179,14 +179,14 @@ export function CapexBreakdownModal({ isOpen, onClose }) {
                         <span>{item.name}</span>
                         <ExternalLink className="w-3 h-3 text-slate-500 light:text-slate-400 group-hover:text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
                       </a>
-                      <div className="text-[11px] text-slate-400 light:text-slate-600 md:hidden font-mono mt-0.5">
+                      <div className="text-xs text-slate-400 light:text-slate-600 md:hidden mt-0.5">
                         {item.cityRegion}
                       </div>
                     </td>
-                    <td className="py-2.5 px-3 sm:px-4 text-slate-400 light:text-slate-600 font-mono text-xs hidden md:table-cell">
+                    <td className="py-2.5 px-3 sm:px-4 text-slate-400 light:text-slate-600 text-xs hidden md:table-cell">
                       {item.cityRegion}
                     </td>
-                    <td className="py-2.5 px-3 sm:px-4 text-right font-mono font-bold text-amber-400 light:text-amber-700 whitespace-nowrap">
+                    <td className="py-2.5 px-3 sm:px-4 text-right font-bold text-amber-400 light:text-amber-700 whitespace-nowrap">
                       {item.outlay}
                     </td>
                   </tr>
@@ -205,7 +205,7 @@ export function CapexBreakdownModal({ isOpen, onClose }) {
 
         {/* Footer */}
         <div className="px-4 sm:px-6 py-3 border-t border-slate-800 light:border-slate-200 bg-slate-900/50 light:bg-slate-50 flex items-center justify-between">
-          <span className="text-[11px] font-mono text-slate-500 light:text-slate-400">
+          <span className="text-xs text-slate-500 light:text-slate-400">
             Total Monitored CapEx: <strong className="text-slate-200 light:text-slate-800">₹2,02,782 Crore</strong>
           </span>
           <button

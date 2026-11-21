@@ -161,17 +161,17 @@ export function FollowRupee({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+    <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-[#0B0E17] light:bg-white border border-cyan-500/50 light:border-slate-300 rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden font-sans text-slate-100 light:text-slate-900 transition-colors">
         
         {/* Header */}
         <div className="p-4 bg-slate-950/90 light:bg-slate-50 border-b border-slate-800 light:border-slate-200 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 text-slate-950 font-extrabold flex items-center justify-center text-lg shadow-lg shadow-cyan-500/20">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 text-slate-950 font-extrabold flex items-center justify-center text-lg shadow-lg">
               ₹1
             </div>
             <div>
-              <div className="text-[10px] font-mono uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
+              <div className="text-xs uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
                 INTERACTIVE DEMONSTRATION
               </div>
               <h2 className="text-base font-bold text-slate-100 light:text-slate-900">
@@ -197,9 +197,9 @@ export function FollowRupee({ isOpen, onClose }) {
                   setCurrentStepIndex(idx);
                   setIsPlaying(false);
                 }}
-                className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold transition-all ${
+                className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all ${
                   idx === currentStepIndex
-                    ? "bg-cyan-500 text-slate-950 ring-2 ring-cyan-300 shadow-md shadow-cyan-500/30 scale-105"
+                    ? "bg-cyan-500 text-slate-950 ring-2 ring-cyan-300 shadow-md scale-105"
                     : idx < currentStepIndex
                     ? "bg-emerald-500/20 light:bg-emerald-100 text-emerald-300 light:text-emerald-800 border border-emerald-500/40 light:border-emerald-300"
                     : "bg-slate-900 light:bg-white border border-slate-800 light:border-slate-300 text-slate-500 light:text-slate-600 hover:text-slate-300"
@@ -223,15 +223,15 @@ export function FollowRupee({ isOpen, onClose }) {
 
             <div className="flex flex-col md:flex-row items-start justify-between gap-4 mb-4 pb-4 border-b border-slate-800 light:border-slate-200">
               <div>
-                <span className="text-xs font-mono font-bold uppercase text-cyan-400 light:text-cyan-700">
+                <span className="text-xs font-bold uppercase text-cyan-400 light:text-cyan-700">
                   STAGE {currentStage.step} OF 11
                 </span>
                 <h3 className="text-xl font-bold text-slate-100 light:text-slate-900">{currentStage.stage}</h3>
-                <p className="text-xs text-slate-400 light:text-slate-600 font-mono mt-0.5">{currentStage.entity}</p>
+                <p className="text-xs text-slate-400 light:text-slate-600 mt-0.5">{currentStage.entity}</p>
               </div>
 
-              <div className="bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 px-4 py-2 rounded-xl font-mono text-right shadow-sm">
-                <span className="text-[10px] text-slate-500 light:text-slate-600 uppercase block">Monetary Value</span>
+              <div className="bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 px-4 py-2 rounded-xl text-right shadow-sm">
+                <span className="text-xs text-slate-500 light:text-slate-600 uppercase block">Monetary Value</span>
                 <span className="text-lg font-extrabold text-emerald-400 light:text-emerald-700">{currentStage.amount}</span>
               </div>
             </div>
@@ -241,33 +241,33 @@ export function FollowRupee({ isOpen, onClose }) {
             </p>
 
             {/* Grid of metadata attributes */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               <div className="bg-slate-900/80 light:bg-white p-3 rounded-xl border border-slate-800 light:border-slate-200 shadow-sm">
-                <span className="text-[10px] text-slate-500 light:text-slate-600 uppercase block mb-0.5">Stage ID</span>
+                <span className="text-xs text-slate-500 light:text-slate-600 uppercase block mb-0.5">Stage ID</span>
                 <span className="text-cyan-300 light:text-cyan-700 font-bold">{currentStage.id}</span>
               </div>
 
               <div className="bg-slate-900/80 light:bg-white p-3 rounded-xl border border-slate-800 light:border-slate-200 shadow-sm">
-                <span className="text-[10px] text-slate-500 light:text-slate-600 uppercase block mb-0.5">Timestamp</span>
+                <span className="text-xs text-slate-500 light:text-slate-600 uppercase block mb-0.5">Timestamp</span>
                 <span className="text-slate-200 light:text-slate-800 font-bold">{currentStage.timestamp}</span>
               </div>
 
               <div className="bg-slate-900/80 light:bg-white p-3 rounded-xl border border-slate-800 light:border-slate-200 shadow-sm">
-                <span className="text-[10px] text-slate-500 light:text-slate-600 uppercase block mb-0.5">Purpose</span>
+                <span className="text-xs text-slate-500 light:text-slate-600 uppercase block mb-0.5">Purpose</span>
                 <span className="text-slate-200 light:text-slate-800">{currentStage.purpose}</span>
               </div>
 
               <div className="bg-slate-900/80 light:bg-white p-3 rounded-xl border border-slate-800 light:border-slate-200 shadow-sm">
-                <span className="text-[10px] text-slate-500 light:text-slate-600 uppercase block mb-0.5">Linked Document</span>
+                <span className="text-xs text-slate-500 light:text-slate-600 uppercase block mb-0.5">Linked Document</span>
                 <span className="text-indigo-300 light:text-indigo-700 font-bold">{currentStage.linkedRecord}</span>
               </div>
             </div>
 
             {/* CBDC Reference Bar */}
-            <div className="mt-4 p-3 rounded-xl bg-cyan-950/30 light:bg-cyan-50 border border-cyan-900/40 light:border-cyan-200 font-mono text-xs flex items-center justify-between">
+            <div className="mt-4 p-3 rounded-xl bg-cyan-950/30 light:bg-cyan-50 border border-cyan-900/40 light:border-cyan-200 text-xs flex items-center justify-between">
               <div className="flex items-center gap-2 text-cyan-400 light:text-cyan-700">
                 <Cpu className="w-4 h-4" />
-                <span className="font-bold uppercase text-[11px]">CBDC Settlement Proof</span>
+                <span className="font-bold uppercase text-xs">CBDC Settlement Proof</span>
               </div>
               <span className="text-slate-300 light:text-slate-800 truncate max-w-xs font-bold">{currentStage.cbdcRef}</span>
             </div>
@@ -279,10 +279,10 @@ export function FollowRupee({ isOpen, onClose }) {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                 isPlaying
                   ? "bg-amber-500 text-slate-950 hover:bg-amber-400"
-                  : "bg-cyan-500 text-slate-950 hover:bg-cyan-400 shadow-lg shadow-cyan-500/20"
+                  : "bg-cyan-500 text-slate-950 hover:bg-cyan-400 shadow-lg"
               }`}
             >
               {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
@@ -301,7 +301,7 @@ export function FollowRupee({ isOpen, onClose }) {
             </button>
           </div>
 
-          <div className="flex items-center gap-2 font-mono text-xs">
+          <div className="flex items-center gap-2 text-xs">
             <button
               disabled={currentStepIndex === 0}
               onClick={() => {

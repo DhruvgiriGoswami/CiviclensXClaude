@@ -126,12 +126,12 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
             {stateName} District Leadership Tree
           </h4>
         </div>
-        <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-slate-800 light:bg-slate-200 text-slate-300 light:text-slate-700">
+        <span className="text-xs font-bold px-2 py-0.5 rounded bg-slate-800 light:bg-slate-200 text-slate-300 light:text-slate-700">
           {districts.length} District{districts.length !== 1 ? 's' : ''}
         </span>
       </div>
 
-      <p className="text-[10px] font-mono text-slate-400 light:text-slate-600">
+      <p className="text-xs text-slate-400 light:text-slate-600">
         District Collector & District Magistrate (DC/DM - IAS) serves as the primary executive head of each district. Click any district to focus on map.
       </p>
 
@@ -140,7 +140,7 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
         {loading ? (
           <div className="p-6 text-center text-slate-400 flex flex-col items-center justify-center gap-2">
             <Loader2 className="w-5 h-5 text-crimson-500 animate-spin" />
-            <span className="text-[10px] font-mono">Loading API District Boundaries...</span>
+            <span className="text-xs">Loading API District Boundaries...</span>
           </div>
         ) : districts.length > 0 ? (
           districts.map((dist) => {
@@ -204,16 +204,16 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
 
                   <div className="flex items-center space-x-1.5 flex-shrink-0">
                     {isVerifiedSource ? (
-                      <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 light:text-emerald-700 border border-emerald-500/30 font-bold flex items-center gap-1">
+                      <span className="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 light:text-emerald-700 border border-emerald-500/30 font-bold flex items-center gap-1">
                         <CheckCircle2 className="w-2.5 h-2.5" />
                         Official DC/DM Verified
                       </span>
                     ) : hasRegisteredUnits ? (
-                      <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-crimson-500/20 text-crimson-400 light:text-crimson-700 border border-crimson-500/30 font-bold">
+                      <span className="text-xs px-2 py-0.5 rounded bg-crimson-500/20 text-crimson-400 light:text-crimson-700 border border-crimson-500/30 font-bold">
                         {registeredUnits.length} Registered Unit{registeredUnits.length > 1 ? 's' : ''}
                       </span>
                     ) : (
-                      <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-300 light:bg-slate-200 light:text-slate-700 border border-slate-700 font-bold flex items-center gap-1">
+                      <span className="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 light:bg-slate-200 light:text-slate-700 border border-slate-700 font-bold flex items-center gap-1">
                         <FileCode className="w-2.5 h-2.5" />
                         District
                       </span>
@@ -242,11 +242,11 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
                       <div className="flex items-center justify-between mb-1">
                         <div className="flex items-center space-x-2">
                           <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                          <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-400 light:text-emerald-700">
+                          <span className="text-xs font-bold uppercase tracking-wider text-emerald-400 light:text-emerald-700">
                             District Executive Head (DC / DM)
                           </span>
                         </div>
-                        <span className="text-[8px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold">
+                        <span className="text-xs px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold">
                           IAS Officer
                         </span>
                       </div>
@@ -263,17 +263,17 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
                           />
                           <div className="flex-1 min-w-0 space-y-0.5">
                             <h5 className="font-extrabold text-white light:text-slate-900 text-xs leading-snug">{dcName}</h5>
-                            <p className="text-[10px] text-slate-300 light:text-slate-700 font-mono font-medium leading-snug">
+                            <p className="text-xs text-slate-300 light:text-slate-700 font-medium leading-snug">
                               {dcTitle}
                             </p>
-                            <p className="text-[9px] text-slate-400 light:text-slate-600 italic leading-relaxed pt-0.5">
+                            <p className="text-xs text-slate-400 light:text-slate-600 italic leading-relaxed pt-0.5">
                               "{dcAuthority}"
                             </p>
                           </div>
                         </div>
 
                         {/* Contact info bar */}
-                        <div className="pt-2 border-t border-slate-800/80 light:border-slate-200 space-y-1 text-[10px] font-mono">
+                        <div className="pt-2 border-t border-slate-800/80 light:border-slate-200 space-y-1 text-xs">
                           <div className="flex items-center justify-between text-slate-300 light:text-slate-700 gap-2">
                             <span className="flex items-center gap-1 text-slate-400 light:text-slate-600 flex-shrink-0">
                               <Phone className="w-3 h-3 text-emerald-400" /> Phone:
@@ -304,7 +304,7 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
                     {/* Registered Municipal Wards (if present) */}
                     {hasRegisteredUnits && (
                       <div className="pt-1">
-                        <span className="text-[9px] uppercase font-mono text-slate-500 light:text-slate-600 block font-bold mb-1">
+                        <span className="text-xs uppercase text-slate-500 light:text-slate-600 block font-bold mb-1">
                           Registered Municipal Wards ({registeredUnits.length} Total):
                         </span>
                         <div className="space-y-1 max-h-48 overflow-y-auto pr-1">
@@ -312,7 +312,7 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
                             <button
                               key={u.unitId}
                               onClick={() => onSelectUnit && onSelectUnit(u)}
-                              className="w-full p-2 rounded-lg bg-slate-950 light:bg-white hover:bg-crimson-600/20 border border-slate-800 light:border-slate-200 hover:border-crimson-500/40 text-slate-200 light:text-slate-800 hover:text-white transition-all text-left flex items-center justify-between group text-[11px]"
+                              className="w-full p-2 rounded-lg bg-slate-950 light:bg-white hover:bg-crimson-600/20 border border-slate-800 light:border-slate-200 hover:border-crimson-500/40 text-slate-200 light:text-slate-800 hover:text-white transition-all text-left flex items-center justify-between group text-xs"
                             >
                               <span className="font-bold truncate group-hover:text-crimson-500">{u.unitName}</span>
                               <ChevronRight className="w-3.5 h-3.5 text-slate-600 group-hover:text-crimson-500" />
@@ -328,7 +328,7 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
             );
           })
         ) : (
-          <div className="text-[11px] text-slate-400 italic p-2 text-center">
+          <div className="text-xs text-slate-400 italic p-2 text-center">
             No district units found for {stateName}.
           </div>
         )}

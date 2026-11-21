@@ -25,7 +25,7 @@ export function AnalyticsPanel({ stats, defaultOpen = false }) {
           </h3>
         </div>
 
-        <div className="flex items-center gap-1 text-xs font-mono text-slate-400 light:text-slate-600">
+        <div className="flex items-center gap-1 text-xs text-slate-400 light:text-slate-600">
           <span>{isOpen ? 'Collapse' : 'Expand'}</span>
           {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </div>
@@ -37,7 +37,7 @@ export function AnalyticsPanel({ stats, defaultOpen = false }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Breakdown by Category */}
             <div className="bg-[#0B0D12] light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl p-3.5">
-              <div className="flex items-center justify-between mb-3 text-slate-400 light:text-slate-600 text-xs font-mono">
+              <div className="flex items-center justify-between mb-3 text-slate-400 light:text-slate-600 text-xs">
                 <span className="flex items-center gap-1.5 font-bold text-slate-200 light:text-slate-800">
                   <Tag className="w-3.5 h-3.5 text-amber-400 light:text-amber-600" />
                   Complaints by Category
@@ -53,9 +53,9 @@ export function AnalyticsPanel({ stats, defaultOpen = false }) {
                     const percent = Math.round((count / maxCategoryCount) * 100);
                     return (
                       <div key={cat} className="space-y-1">
-                        <div className="flex justify-between text-[11px] font-sans">
+                        <div className="flex justify-between text-xs font-sans">
                           <span className="text-slate-300 light:text-slate-700 truncate max-w-[200px]">{cat}</span>
-                          <span className="font-mono text-slate-400 light:text-slate-600">{count.toLocaleString()}</span>
+                          <span className=" text-slate-400 light:text-slate-600">{count.toLocaleString()}</span>
                         </div>
                         <div className="w-full h-1.5 bg-slate-800 light:bg-slate-200 rounded-full overflow-hidden">
                           <div
@@ -72,7 +72,7 @@ export function AnalyticsPanel({ stats, defaultOpen = false }) {
 
             {/* Breakdown by Status */}
             <div className="bg-[#0B0D12] light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl p-3.5">
-              <div className="flex items-center justify-between mb-3 text-slate-400 light:text-slate-600 text-xs font-mono">
+              <div className="flex items-center justify-between mb-3 text-slate-400 light:text-slate-600 text-xs">
                 <span className="flex items-center gap-1.5 font-bold text-slate-200 light:text-slate-800">
                   <Layers className="w-3.5 h-3.5 text-emerald-400 light:text-emerald-600" />
                   Distribution by Status
@@ -93,9 +93,9 @@ export function AnalyticsPanel({ stats, defaultOpen = false }) {
 
                     return (
                       <div key={st} className="space-y-1">
-                        <div className="flex justify-between text-[11px] font-sans">
-                          <span className="text-slate-300 light:text-slate-700 font-mono text-[10px] uppercase">{st}</span>
-                          <span className="font-mono text-slate-400 light:text-slate-600">{count.toLocaleString()}</span>
+                        <div className="flex justify-between text-xs font-sans">
+                          <span className="text-slate-300 light:text-slate-700 text-xs uppercase">{st}</span>
+                          <span className=" text-slate-400 light:text-slate-600">{count.toLocaleString()}</span>
                         </div>
                         <div className="w-full h-1.5 bg-slate-800 light:bg-slate-200 rounded-full overflow-hidden">
                           <div

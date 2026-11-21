@@ -94,7 +94,7 @@ export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
           <div className="w-px h-4 bg-slate-800 light:bg-slate-300 my-auto"></div>
           <button
             onClick={handleResetView}
-            className="p-1.5 rounded hover:bg-slate-800 light:hover:bg-slate-200 text-slate-300 light:text-slate-700 hover:text-cyan-400 transition-colors flex items-center gap-1 text-xs font-mono font-bold"
+            className="p-1.5 rounded hover:bg-slate-800 light:hover:bg-slate-200 text-slate-300 light:text-slate-700 hover:text-cyan-400 transition-colors flex items-center gap-1 text-xs font-bold"
             title="Reset Pan & Zoom"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -247,7 +247,7 @@ export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
                       fill="#F8FAFC"
                       fontSize="10"
                       fontWeight="bold"
-                      className="font-mono text-[10px] font-bold fill-slate-100"
+                      className=" text-xs font-bold fill-slate-100"
                     >
                       {labelText}
                     </text>
@@ -274,7 +274,7 @@ export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
         </div>
 
         {/* Bottom Helper Bar */}
-        <div className="absolute bottom-3 left-3 right-3 max-w-[calc(100%-1.5rem)] sm:max-w-max z-10 bg-slate-950/90 light:bg-white/90 border border-slate-800 light:border-slate-300 rounded-xl px-3 py-1.5 text-[11px] font-mono text-slate-300 light:text-slate-800 flex items-center gap-2 backdrop-blur-md shadow-lg">
+        <div className="absolute bottom-3 left-3 right-3 max-w-[calc(100%-1.5rem)] sm:max-w-max z-10 bg-slate-950/90 light:bg-white/90 border border-slate-800 light:border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-300 light:text-slate-800 flex items-center gap-2 shadow-lg">
           <Info className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
           <span>Click any node to inspect institutional specifications & linked records. Drag canvas to navigate.</span>
         </div>

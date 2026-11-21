@@ -215,7 +215,7 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
   const utCount = effectiveStateCMs.filter(s => s.type === 'UNION_TERRITORY').length;
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="National and state leaders" className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
+    <div role="dialog" aria-modal="true" aria-label="National and state leaders" className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
       <div className="glass-panel-crimson w-full max-w-5xl h-[90dvh] max-h-[90dvh] rounded-3xl border border-slate-700/80 shadow-2xl flex flex-col overflow-hidden my-auto">
 
         {/* Modal Top Header */}
@@ -233,7 +233,7 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
 
           <div className="flex items-center justify-between w-full sm:w-auto space-x-3">
             {/* View Switcher Tabs */}
-            <div className="flex items-center bg-slate-950 light:bg-slate-100 p-1 rounded-xl border border-slate-800 light:border-slate-300 text-[11px] sm:text-xs font-mono">
+            <div className="flex items-center bg-slate-950 light:bg-slate-100 p-1 rounded-xl border border-slate-800 light:border-slate-300 text-xs sm:text-xs">
               <button
                 onClick={() => setActiveTab('NATIONAL')}
                 className={`px-2.5 sm:px-3 py-1 rounded-lg transition-all ${activeTab === 'NATIONAL' ? 'bg-crimson-600 text-white font-bold' : 'text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900'
@@ -266,7 +266,7 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
 
               {/* National Leaders Selector List (5 Columns) */}
               <div className="lg:col-span-4 space-y-3">
-                <div className="text-xs font-mono uppercase text-slate-400 light:text-slate-700 font-bold px-1">Constitutional & Executive Heads</div>
+                <div className="text-xs uppercase text-slate-400 light:text-slate-700 font-bold px-1">Constitutional & Executive Heads</div>
                 {effectiveNationalLeaders.map((leader) => {
                   const isSelected = activeLeader.id === leader.id;
                   const leaderAvatar = getPersonAvatar(leader, 'POLITICIAN');
@@ -275,7 +275,7 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
                       key={leader.id}
                       onClick={() => setSelectedNationalLeader(leader)}
                       className={`w-full text-left p-3 rounded-2xl border transition-all flex items-center space-x-3 ${isSelected
-                          ? 'bg-crimson-500/15 light:bg-crimson-50 border-crimson-500/60 shadow-lg shadow-crimson-500/10'
+                          ? 'bg-crimson-500/15 light:bg-crimson-50 border-crimson-500/60 shadow-lg'
                           : 'glass-card border-slate-800/80 light:border-slate-200 light:bg-white hover:border-slate-700 light:hover:border-slate-300'
                         }`}
                     >
@@ -287,8 +287,8 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
                       />
                       <div className="flex-1 min-w-0">
                         <div className="text-xs font-bold text-white light:text-slate-900 truncate">{leader.name}</div>
-                        <div className="text-[11px] text-crimson-400 light:text-crimson-700 font-bold truncate">{leader.title}</div>
-                        <div className="text-[9px] text-slate-400 light:text-slate-600 font-mono mt-0.5 truncate">{leader.role}</div>
+                        <div className="text-xs text-crimson-400 light:text-crimson-700 font-bold truncate">{leader.title}</div>
+                        <div className="text-xs text-slate-400 light:text-slate-600 mt-0.5 truncate">{leader.role}</div>
                       </div>
                       <ChevronRight className={`w-4 h-4 ${isSelected ? 'text-crimson-400 light:text-crimson-600' : 'text-slate-600 light:text-slate-400'}`} />
                     </button>
@@ -309,7 +309,7 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
                     />
                     <div className="flex-1">
                       <div className="flex items-center space-x-2">
-                        <span className="px-2.5 py-0.5 rounded-full bg-crimson-500/20 text-crimson-400 light:text-crimson-800 border border-crimson-500/40 text-[10px] font-mono font-bold">
+                        <span className="px-2.5 py-0.5 rounded-full bg-crimson-500/20 text-crimson-400 light:text-crimson-800 border border-crimson-500/40 text-xs font-bold">
                           {activeLeader.title}
                         </span>
                       </div>
@@ -317,23 +317,23 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
                         {activeLeader.name}
                       </h3>
                       <p className="text-xs text-slate-300 light:text-slate-700 font-medium">{activeLeader.role}</p>
-                      <p className="text-xs text-slate-400 light:text-slate-600 font-mono mt-1">{activeLeader.jurisdiction}</p>
+                      <p className="text-xs text-slate-400 light:text-slate-600 mt-1">{activeLeader.jurisdiction}</p>
                     </div>
                   </div>
 
 
                   {/* Key Financial Statistics & Auditing Performance */}
-                  <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center font-mono">
+                  <div className="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
                     {Object.entries(activeLeader.stats || {}).map(([key, val]) => (
                       <div key={key} className="bg-slate-900/60 light:bg-slate-50 p-3 rounded-xl border border-slate-800 light:border-slate-200">
-                        <span className="text-[9px] uppercase text-slate-500 light:text-slate-600 block truncate font-bold">{key.replace(/([A-Z])/g, ' $1')}</span>
+                        <span className="text-xs uppercase text-slate-500 light:text-slate-600 block truncate font-bold">{key.replace(/([A-Z])/g, ' $1')}</span>
                         <span className="text-sm font-bold text-emerald-400 light:text-emerald-700">{val}</span>
                       </div>
                     ))}
                   </div>
 
                   {/* Office Contacts */}
-                  <div className="mt-4 p-3 rounded-xl bg-slate-900/50 light:bg-slate-50 border border-slate-800 light:border-slate-200 text-xs font-mono space-y-1 text-slate-300 light:text-slate-700">
+                  <div className="mt-4 p-3 rounded-xl bg-slate-900/50 light:bg-slate-50 border border-slate-800 light:border-slate-200 text-xs space-y-1 text-slate-300 light:text-slate-700">
                     <div>Official Office: <span className="text-slate-200 light:text-slate-900 font-medium">{activeLeader.office}</span></div>
                     <div>Official Email: <span className="text-crimson-400 light:text-crimson-700 font-medium">{activeLeader.email}</span> | Phone: <span className="text-slate-200 light:text-slate-900">{activeLeader.phone}</span></div>
                   </div>
@@ -345,7 +345,7 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
             /* All 28 States + 8 UTs Grid View */
             <div className="space-y-4">
               {/* Category Filter Pills */}
-              <div className="flex items-center space-x-2 text-xs font-mono pb-2 border-b border-slate-800 light:border-slate-200">
+              <div className="flex items-center space-x-2 text-xs pb-2 border-b border-slate-800 light:border-slate-200">
                 <button
                   onClick={() => setCmFilter('ALL')}
                   className={`px-3 py-1 rounded-lg transition-all ${cmFilter === 'ALL' ? 'bg-crimson-600 text-white font-bold' : 'bg-slate-900 light:bg-slate-100 text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900 border border-slate-800 light:border-slate-200'
@@ -378,8 +378,8 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
                   >
                     <div>
                       <div className="flex items-center justify-between mb-2">
-                        <span className="text-xs font-mono font-bold text-crimson-400 light:text-crimson-700 uppercase truncate pr-1">{cm.stateName}</span>
-                        <span className={`text-[9px] font-mono px-2 py-0.5 rounded flex-shrink-0 font-bold ${cm.type === 'UNION_TERRITORY'
+                        <span className="text-xs font-bold text-crimson-400 light:text-crimson-700 uppercase truncate pr-1">{cm.stateName}</span>
+                        <span className={`text-xs px-2 py-0.5 rounded flex-shrink-0 font-bold ${cm.type === 'UNION_TERRITORY'
                             ? 'bg-amber-500/20 text-amber-400 light:text-amber-800 border border-amber-500/30'
                             : 'bg-slate-800 light:bg-slate-100 text-slate-400 light:text-slate-700 border border-slate-700/50 light:border-slate-200'
                           }`}>
@@ -405,7 +405,7 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
                           >
                             {cm.cmName}
                           </h4>
-                          <p className="text-[10px] text-slate-400 light:text-slate-600 font-mono truncate">{cm.headTitle || 'Chief Minister'}</p>
+                          <p className="text-xs text-slate-400 light:text-slate-600 truncate">{cm.headTitle || 'Chief Minister'}</p>
                           <div className="flex items-center gap-1 mt-0.5">
                             <img
                               src={normalizeParty(cm.party).flagUrl}
@@ -413,7 +413,7 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
                               onError={(e) => { e.target.src = '/PartyImages/India.jpg'; }}
                               className="w-3.5 h-3.5 object-contain rounded flex-shrink-0"
                             />
-                            <p className="text-[9px] text-slate-400 light:text-slate-600 font-mono truncate font-medium">{cm.party}</p>
+                            <p className="text-xs text-slate-400 light:text-slate-600 truncate font-medium">{cm.party}</p>
                           </div>
                         </div>
                       </div>
@@ -421,7 +421,7 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
                       {(() => {
                         const cmSummary = effectiveRatings[cm.cmName];
                         return (
-                          <div className="mt-3 bg-slate-900/80 light:bg-slate-50 p-2.5 rounded-xl border border-slate-800 light:border-slate-200 text-[10px] font-mono space-y-1 text-slate-300 light:text-slate-700">
+                          <div className="mt-3 bg-slate-900/80 light:bg-slate-50 p-2.5 rounded-xl border border-slate-800 light:border-slate-200 text-xs space-y-1 text-slate-300 light:text-slate-700">
                             <div>State Budget: <span className="text-emerald-400 light:text-emerald-700 font-bold">{cm.budget || cm.stats?.stateBudgetCapEx || 'UT Central Allocation'}</span></div>
                             <div className="flex items-center justify-between">
                               <span className="text-slate-400">Citizen Reviews:</span>
@@ -460,7 +460,7 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
                         onSelectState(cm);
                         onClose();
                       }}
-                      className="mt-3 w-full py-2 rounded-xl bg-slate-800 light:bg-slate-900 hover:bg-crimson-600 light:hover:bg-crimson-600 text-white text-xs font-mono font-bold transition-colors flex items-center justify-center gap-1 shadow-sm"
+                      className="mt-3 w-full py-2 rounded-xl bg-slate-800 light:bg-slate-900 hover:bg-crimson-600 light:hover:bg-crimson-600 text-white text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-sm"
                     >
                       <MapPin className="w-3.5 h-3.5 text-crimson-400 light:text-crimson-400 group-hover:text-white" />
                       <span>Focus Map & Wards</span>
@@ -474,7 +474,7 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
         </div>
 
         {/* Footer Credit */}
-        <div className="mt-4 pt-3 border-t border-slate-800/80 light:border-slate-200 text-center font-mono text-xs text-slate-400 light:text-slate-600 flex-shrink-0">
+        <div className="mt-4 pt-3 border-t border-slate-800/80 light:border-slate-200 text-center text-xs text-slate-400 light:text-slate-600 flex-shrink-0">
           Made with ❤️ by{' '}
           <a
             href="https://www.linkedin.com/in/dhruvgiri-goswami-745b01159/"

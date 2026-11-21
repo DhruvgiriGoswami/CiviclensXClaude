@@ -32,7 +32,7 @@ export default function FinancialArchitecture({ onBackToMap }) {
     <div className="financial-arch-page-container custom-scrollbar min-h-screen w-full bg-[#0B0E17] light:bg-[#F8FAFC] text-slate-100 light:text-slate-900 font-sans flex flex-col selection:bg-cyan-500 selection:text-slate-950 transition-colors">
       
       {/* ─── A. INSTITUTIONAL HEADER ─── */}
-      <header className="sticky top-0 z-40 bg-[#090C14]/95 light:bg-white/95 backdrop-blur-md border-b border-slate-800/80 light:border-slate-200 px-3 sm:px-6 py-2.5 shadow-xl">
+      <header className="sticky top-0 z-40 bg-[#090C14]/95 light:bg-white/95 border-b border-slate-800/80 light:border-slate-200 px-3 sm:px-6 py-2.5 shadow-xl">
         <div className="max-w-7xl mx-auto w-full flex items-center justify-between gap-2 sm:gap-4">
           
           {/* Left: Main Map & Logo */}
@@ -40,7 +40,7 @@ export default function FinancialArchitecture({ onBackToMap }) {
             {onBackToMap && (
               <button
                 onClick={onBackToMap}
-                className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-900 light:bg-slate-100 hover:bg-slate-800 light:hover:bg-slate-200 border border-slate-800 light:border-slate-300 text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900 transition-colors flex items-center gap-1.5 text-xs font-mono font-bold shadow-sm"
+                className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-900 light:bg-slate-100 hover:bg-slate-800 light:hover:bg-slate-200 border border-slate-800 light:border-slate-300 text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900 transition-colors flex items-center gap-1.5 text-xs font-bold shadow-sm"
                 title="Return to CivicLens Main Map"
               >
                 <ArrowLeft className="w-4 h-4 text-cyan-400" />
@@ -49,7 +49,7 @@ export default function FinancialArchitecture({ onBackToMap }) {
             )}
 
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-slate-950 font-bold shadow-md shadow-cyan-500/20">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-slate-950 font-bold shadow-md">
                 <Landmark className="w-4.5 h-4.5 text-slate-950" />
               </div>
               <div className="hidden xs:block">
@@ -65,14 +65,14 @@ export default function FinancialArchitecture({ onBackToMap }) {
             <h1 className="text-xs sm:text-sm md:text-base font-extrabold tracking-wide text-slate-100 light:text-slate-900 truncate font-sans">
               Transparent Public Finance Architecture
             </h1>
-            <p className="text-[9px] sm:text-[10px] font-mono text-cyan-400 light:text-cyan-700 font-bold truncate hidden sm:block">
+            <p className="text-xs sm:text-xs text-cyan-400 light:text-cyan-700 font-bold truncate hidden sm:block">
               Proposed Sovereign Digital Settlement Rail Framework
             </p>
           </div>
 
           {/* Right: Section Buttons (xl:flex), Theme Toggle & Follow ₹1 Button */}
           <div className="flex items-center gap-2 flex-shrink-0">
-            <nav className="hidden xl:flex items-center space-x-2 text-xs font-mono font-bold text-slate-300 light:text-slate-700 border-r border-slate-800 light:border-slate-200 pr-2">
+            <nav className="hidden xl:flex items-center space-x-2 text-xs font-bold text-slate-300 light:text-slate-700 border-r border-slate-800 light:border-slate-200 pr-2">
               <button
                 onClick={() => scrollToSection('architecture-canvas')}
                 className="px-2 py-1 rounded hover:text-cyan-400 light:hover:text-cyan-700 hover:bg-slate-800/50 light:hover:bg-slate-100 transition-colors"
@@ -109,7 +109,7 @@ export default function FinancialArchitecture({ onBackToMap }) {
             <button
               onClick={toggleTheme}
               title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl bg-slate-900 light:bg-slate-100 text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300 hover:border-cyan-400 transition-colors flex items-center gap-1 text-xs font-mono shadow-sm"
+              className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl bg-slate-900 light:bg-slate-100 text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300 hover:border-cyan-400 transition-colors flex items-center gap-1 text-xs shadow-sm"
             >
               {theme === 'dark' ? (
                 <>
@@ -127,7 +127,7 @@ export default function FinancialArchitecture({ onBackToMap }) {
             {/* Follow 1 Rupee Button */}
             <button
               onClick={() => setIsFollowRupeeOpen(true)}
-              className="flex items-center gap-1 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 font-mono text-xs font-extrabold shadow-md shadow-cyan-500/20 hover:scale-105 transition-all whitespace-nowrap"
+              className="flex items-center gap-1 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 text-xs font-extrabold shadow-md hover:scale-105 transition-all whitespace-nowrap"
             >
               <Play className="w-3.5 h-3.5 fill-slate-950" />
               <span>Follow ₹1</span>
@@ -140,8 +140,8 @@ export default function FinancialArchitecture({ onBackToMap }) {
 
       {/* ─── B. HERO / PURPOSE ─── */}
       <section className="px-4 py-8 max-w-7xl mx-auto w-full flex flex-col items-center text-center relative overflow-hidden">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 light:bg-cyan-50 border border-cyan-500/30 text-cyan-300 light:text-cyan-800 font-mono text-[10px] font-bold uppercase tracking-widest mb-4">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 light:bg-cyan-50 border border-cyan-500/30 text-cyan-300 light:text-cyan-800 text-xs font-bold uppercase tracking-widest mb-4">
+          <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
           <span>CONCEPTUAL ARCHITECTURE — INSTITUTIONAL PROPOSAL</span>
         </div>
 
@@ -161,14 +161,14 @@ export default function FinancialArchitecture({ onBackToMap }) {
         <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
           <button
             onClick={() => scrollToSection('architecture-canvas')}
-            className="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-mono text-xs font-bold transition-all shadow-lg shadow-cyan-500/20"
+            className="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold transition-all shadow-lg"
           >
             Explore Architecture
           </button>
 
           <button
             onClick={() => setIsFollowRupeeOpen(true)}
-            className="px-5 py-2.5 rounded-xl bg-slate-900 light:bg-white hover:bg-slate-800 light:hover:bg-slate-100 border border-slate-800 light:border-slate-300 text-slate-200 light:text-slate-800 font-mono text-xs font-bold transition-all flex items-center gap-2 shadow-sm"
+            className="px-5 py-2.5 rounded-xl bg-slate-900 light:bg-white hover:bg-slate-800 light:hover:bg-slate-100 border border-slate-800 light:border-slate-300 text-slate-200 light:text-slate-800 text-xs font-bold transition-all flex items-center gap-2 shadow-sm"
           >
             <Play className="w-3.5 h-3.5 text-cyan-400 fill-cyan-400" />
             <span>Follow ₹1</span>
@@ -177,13 +177,13 @@ export default function FinancialArchitecture({ onBackToMap }) {
 
         <button
           onClick={() => scrollToSection('citizen-view')}
-          className="text-xs text-slate-500 light:text-slate-600 hover:text-cyan-400 transition-colors font-mono"
+          className="text-xs text-slate-500 light:text-slate-600 hover:text-cyan-400 transition-colors"
         >
           View citizen perspective ↓
         </button>
 
         {/* Subdued Institutional Context Notice */}
-        <div className="mt-6 p-2.5 rounded-xl bg-slate-950/60 light:bg-white border border-slate-800/80 light:border-slate-200 max-w-xl text-[10px] font-mono text-slate-500 light:text-slate-600 leading-normal shadow-sm">
+        <div className="mt-6 p-2.5 rounded-xl bg-slate-950/60 light:bg-white border border-slate-800/80 light:border-slate-200 max-w-xl text-xs text-slate-500 light:text-slate-600 leading-normal shadow-sm">
           DISCLAIMER: Conceptual proposal for institutional stakeholders. CivicLens does not issue currency, operate banking services, or access active RBI settlement infrastructure.
         </div>
       </section>
@@ -246,7 +246,7 @@ export default function FinancialArchitecture({ onBackToMap }) {
       {/* ─── M. CLOSING PRINCIPLE / SUMMARY ─── */}
       <footer className="w-full bg-slate-950 light:bg-white border-t border-slate-800/80 light:border-slate-200 py-12 px-4">
         <div className="max-w-4xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 p-2 rounded-xl bg-cyan-950/40 light:bg-cyan-50 border border-cyan-900/60 light:border-cyan-200 text-cyan-300 light:text-cyan-800 font-mono text-xs font-bold uppercase">
+          <div className="inline-flex items-center gap-2 p-2 rounded-xl bg-cyan-950/40 light:bg-cyan-50 border border-cyan-900/60 light:border-cyan-200 text-cyan-300 light:text-cyan-800 text-xs font-bold uppercase">
             <ShieldCheck className="w-4 h-4 text-cyan-400 light:text-cyan-600" />
             <span>THE CORE TRANSPARENCY PRINCIPLE</span>
           </div>
@@ -259,7 +259,7 @@ export default function FinancialArchitecture({ onBackToMap }) {
             Don't only audit the amount spent. Preserve the complete financial lineage of how, why, and where the money was spent across government allocation, procurement, project execution, independent verification, and sovereign digital payment settlement.
           </p>
 
-          <div className="pt-6 font-mono text-[11px] text-slate-500 light:text-slate-600 border-t border-slate-900 light:border-slate-200 space-y-2">
+          <div className="pt-6 text-xs text-slate-500 light:text-slate-600 border-t border-slate-900 light:border-slate-200 space-y-2">
             <div>CivicLens Proposed Public Finance Architecture &bull; Conceptual Stakeholder Demonstration Prototype</div>
             <div className="text-xs text-slate-400 light:text-slate-600">
               Made with ❤️ by{' '}
