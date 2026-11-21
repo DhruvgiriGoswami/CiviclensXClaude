@@ -125,6 +125,11 @@ export function GrievanceModal({
       setLocationError('Geolocation is not supported by your browser.');
       return;
     }
+    // Browsers (iOS Safari especially) refuse GPS on plain http and report it as "permission denied".
+    if (!window.isSecureContext) {
+      setLocationError('GPS needs a secure (https) page. Please pinpoint on map or type the address.');
+      return;
+    }
 
     setIsLocating(true);
     setLocationError('');
