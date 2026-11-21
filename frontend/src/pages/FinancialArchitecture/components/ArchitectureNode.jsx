@@ -32,10 +32,10 @@ export function ArchitectureNode({ node, isSelected, onSelect }) {
   return (
     <div
       onClick={() => onSelect(node)}
-      className={`w-60 sm:w-64 rounded-xl border p-3.5 cursor-pointer transition-all duration-200 select-none shadow-xl relative group ${themeClasses} ${
+      className={`w-64 min-h-[130px] rounded-xl border p-3.5 cursor-pointer transition-all duration-200 select-none shadow-xl relative group ${themeClasses} ${
         isSelected
-          ? "ring-2 ring-cyan-400 border-cyan-400 scale-[1.03] z-20"
-          : "hover:border-cyan-500/60 light:hover:border-cyan-400 hover:scale-[1.01]"
+          ? "ring-2 ring-cyan-400 border-cyan-400 z-20"
+          : "hover:border-cyan-500/60 light:hover:border-cyan-400"
       }`}
     >
       {/* Group label */}
@@ -46,14 +46,14 @@ export function ArchitectureNode({ node, isSelected, onSelect }) {
 
       {/* Header title & icon */}
       <div className="flex items-start gap-2.5 mb-2">
-        <div className="p-1.5 rounded-lg bg-slate-950/80 light:bg-slate-100 border border-slate-700/60 light:border-slate-300 text-cyan-400 light:text-cyan-700 flex-shrink-0 group-hover:scale-110 transition-transform shadow-sm">
+        <div className="p-1.5 rounded-lg bg-slate-950/80 light:bg-slate-100 border border-slate-700/60 light:border-slate-300 text-cyan-400 light:text-cyan-700 flex-shrink-0 shadow-sm">
           <Icon className="w-4 h-4" />
         </div>
         <div className="min-w-0 flex-1">
-          <h4 className="text-xs font-bold font-sans text-slate-100 light:text-slate-900 truncate leading-tight">
+          <h4 className="text-sm font-bold font-sans text-slate-100 light:text-slate-900 leading-tight">
             {node.title}
           </h4>
-          <p className="text-xs text-slate-400 light:text-slate-600 truncate">{node.subtitle}</p>
+          <p className="text-xs text-slate-400 light:text-slate-600">{node.subtitle}</p>
         </div>
       </div>
 

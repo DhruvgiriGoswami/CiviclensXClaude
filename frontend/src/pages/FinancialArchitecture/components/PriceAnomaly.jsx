@@ -23,7 +23,7 @@ export function PriceAnomaly() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Left Column: Bar Chart Visualization */}
-        <div className="lg:col-span-2 bg-slate-950/80 light:bg-slate-50 border border-slate-800 light:border-slate-300 rounded-2xl p-5 flex flex-col justify-between shadow-sm">
+        <div className="lg:col-span-2 bg-slate-950/80 light:bg-slate-50 border border-slate-800 light:border-slate-300 rounded-2xl p-5 flex flex-col gap-4 self-start shadow-sm">
           <div>
             <div className="flex items-center justify-between mb-4 text-xs">
               <div>
@@ -32,12 +32,12 @@ export function PriceAnomaly() {
               </div>
               <div className="text-right">
                 <span className="text-slate-400 light:text-slate-600 block text-xs uppercase font-bold">Regional Benchmark Range</span>
-                <span className="font-bold text-emerald-400 light:text-emerald-700">₹{regionalBenchmarkMin} – ₹{regionalBenchmarkMax} / kg</span>
+                <span className="font-bold text-emerald-400 light:text-emerald-700">₹{regionalBenchmarkMin} to ₹{regionalBenchmarkMax} per kg</span>
               </div>
             </div>
 
             {/* Price Bar Visualization Canvas */}
-            <div className="h-48 w-full bg-slate-900/90 light:bg-white border border-slate-800 light:border-slate-300 rounded-xl p-4 flex items-end justify-between gap-2 relative shadow-inner">
+            <div className="h-64 w-full bg-slate-900/90 light:bg-white border border-slate-800 light:border-slate-300 rounded-xl p-4 flex items-end justify-between gap-2 relative shadow-inner">
               {/* Benchmark band overlay */}
               <div
                 className="absolute left-0 right-0 bg-emerald-500/10 light:bg-emerald-100/60 border-y border-emerald-500/30 light:border-emerald-300 pointer-events-none"
@@ -46,9 +46,6 @@ export function PriceAnomaly() {
                   height: `${((regionalBenchmarkMax - regionalBenchmarkMin) / maxPrice) * 100}%`
                 }}
               >
-                <span className="absolute right-2 top-0 text-xs text-emerald-400 light:text-emerald-800 font-bold uppercase">
-                  Normal Range (₹52–₹56)
-                </span>
               </div>
 
               {/* Bars */}
@@ -56,7 +53,7 @@ export function PriceAnomaly() {
                 const heightPercent = (obs.price / maxPrice) * 100;
 
                 return (
-                  <div key={obs.id} className="flex-1 flex flex-col items-center gap-1 z-10 group relative">
+                  <div key={obs.id} className="flex-1 h-full flex flex-col items-center gap-1 z-10 group relative">
                     {/* Tooltip on hover */}
                     <div className="absolute bottom-full mb-2 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-950 light:bg-slate-900 border border-slate-700 px-2 py-1 rounded text-xs text-slate-200 whitespace-nowrap z-30 pointer-events-none shadow-xl">
                       {obs.label}: ₹{obs.price}/kg ({obs.date})
@@ -66,14 +63,16 @@ export function PriceAnomaly() {
                       ₹{obs.price}
                     </span>
 
+                    <div className="flex-1 w-full flex items-end">
                     <div
-                      className={`w-full rounded-t-md transition-all duration-300 ${
+                      className={`w-full rounded-t-md ${
                         obs.highlighted
                           ? 'bg-rose-500 light:bg-rose-600 shadow-lg ring-2 ring-rose-300'
                           : 'bg-slate-700 light:bg-slate-300 group-hover:bg-cyan-500 light:group-hover:bg-cyan-600'
                       }`}
                       style={{ height: `${heightPercent}%` }}
                     ></div>
+                    </div>
 
                     <span className="text-xs text-slate-500 light:text-slate-600 font-bold truncate w-full text-center">
                       #{obs.id}
@@ -85,7 +84,7 @@ export function PriceAnomaly() {
           </div>
 
           {/* Anomaly Callout Footer */}
-          <div className="mt-4 p-3 rounded-xl bg-rose-950/40 light:bg-rose-50 border border-rose-900/60 light:border-rose-200 flex items-center justify-between text-xs shadow-sm">
+          <div className="p-3 rounded-xl bg-rose-950/40 light:bg-rose-50 border border-rose-900/60 light:border-rose-200 flex items-center justify-between text-xs shadow-sm">
             <div className="flex items-center gap-2 text-rose-300 light:text-rose-900">
               <AlertCircle className="w-4 h-4 text-rose-400 light:text-rose-600 flex-shrink-0" />
               <span>Project PRJ-2026-0042 Purchase: <strong className="text-white light:text-slate-900">₹91 / kg</strong></span>

@@ -144,10 +144,6 @@ export default function FinancialArchitecture({ onBackToMap }) {
 
       {/* ─── B. HERO / PURPOSE ─── */}
       <section className="px-4 py-8 max-w-7xl mx-auto w-full flex flex-col items-center text-center relative overflow-hidden">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 light:bg-cyan-50 border border-cyan-500/30 text-cyan-300 light:text-cyan-800 text-xs font-bold uppercase tracking-widest mb-4">
-          <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
-          <span>CONCEPTUAL ARCHITECTURE — INSTITUTIONAL PROPOSAL</span>
-        </div>
 
         <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-slate-100 light:text-slate-900 max-w-4xl leading-tight tracking-tight mb-3">
           Transparent Public Finance Architecture
@@ -194,7 +190,7 @@ export default function FinancialArchitecture({ onBackToMap }) {
 
 
       {/* ─── C, D, E. MAIN INTERACTIVE ARCHITECTURE CANVAS & INSPECTOR ─── */}
-      <section id="architecture-canvas" className="w-full flex-1 flex flex-col lg:flex-row min-h-[620px] border-y border-slate-800 light:border-slate-300 relative bg-[#0B0E17] light:bg-slate-50 mb-4 sm:mb-8">
+      <section id="architecture-canvas" className="w-full flex-1 flex flex-col lg:flex-row min-h-[820px] border-y border-slate-800 light:border-slate-300 relative bg-[#0B0E17] light:bg-slate-50 mb-4 sm:mb-8">
         <div className="flex-1 flex flex-col">
           <ArchitectureCanvas
             selectedNode={selectedNode}

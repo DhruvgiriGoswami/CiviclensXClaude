@@ -4,6 +4,7 @@ import { VENDOR_HISTORY_DEMO } from '../data/vendorDemoData';
 
 export function VendorGraph() {
   const [selectedElement, setSelectedElement] = useState(null);
+  // Three columns so every node fits the canvas at 1440 without covering the hint.
   const [zoomLevel, setZoomLevel] = useState(0.9);
   const [panOffset, setPanOffset] = useState({ x: 40, y: 20 });
   const [isDragging, setIsDragging] = useState(false);
@@ -13,14 +14,14 @@ export function VendorGraph() {
 
   // Custom coordinate map ensuring generous spacing (no text clipping or overlapping)
   const NODE_COORDINATES = {
-    v_apex: { x: 550, y: 250, label: vendorName, type: "PRIMARY CONTRACTOR", subtitle: "VND-001 (Primary)" },
-    dir_rajesh: { x: 180, y: 60, label: "Rajesh V. Sharma", type: "DIRECTOR", subtitle: "Director (51% Stake)" },
-    dir_sunil: { x: 920, y: 60, label: "Sunil K. Mehta", type: "DIRECTOR", subtitle: "Director (49% Stake)" },
-    rel_metal: { x: 100, y: 250, label: "Apex Mining & Aggregates", type: "RELATED COMPANY", subtitle: "Common Director (98% match)" },
-    rel_bitumen: { x: 1000, y: 250, label: "Trident Logistics Pvt Ltd", type: "SUPPLIER", subtitle: "Sub-contractor / Transporter" },
-    past_prj1: { x: 140, y: 460, label: "SMC Road Rehab Phase I (2024)", type: "PAST CONTRACT", subtitle: "Awarded ₹14.2 Cr (+22% Var)" },
-    past_prj2: { x: 550, y: 460, label: "SMC-2 Flyover Approach (2025)", type: "PAST CONTRACT", subtitle: "Awarded ₹28.0 Cr (Delayed 6 mo)" },
-    tnd_current: { x: 960, y: 460, label: "TND-2026-0142 (Current Ward 150)", type: "TENDER", subtitle: "Lowest Bidder P1 (₹6.20 Cr)" }
+    v_apex: { x: 270, y: 240, label: vendorName, type: "PRIMARY CONTRACTOR", subtitle: "VND-001 (Primary)" },
+    dir_rajesh: { x: 20, y: 70, label: "Rajesh V. Sharma", type: "DIRECTOR", subtitle: "Director (51% Stake)" },
+    dir_sunil: { x: 520, y: 70, label: "Sunil K. Mehta", type: "DIRECTOR", subtitle: "Director (49% Stake)" },
+    rel_metal: { x: 20, y: 240, label: "Apex Mining & Aggregates", type: "RELATED COMPANY", subtitle: "Common Director (98% match)" },
+    rel_bitumen: { x: 520, y: 240, label: "Trident Logistics Pvt Ltd", type: "SUPPLIER", subtitle: "Sub-contractor / Transporter" },
+    past_prj1: { x: 20, y: 410, label: "SMC Road Rehab Phase I (2024)", type: "PAST CONTRACT", subtitle: "Awarded ₹14.2 Cr (+22% Var)" },
+    past_prj2: { x: 270, y: 410, label: "SMC-2 Flyover Approach (2025)", type: "PAST CONTRACT", subtitle: "Awarded ₹28.0 Cr (Delayed 6 mo)" },
+    tnd_current: { x: 520, y: 410, label: "TND-2026-0142 (Current Ward 150)", type: "TENDER", subtitle: "Lowest Bidder P1 (₹6.20 Cr)" }
   };
 
   const handleZoomIn = () => setZoomLevel((prev) => Math.min(prev + 0.15, 1.5));
@@ -74,7 +75,7 @@ export function VendorGraph() {
       <div className="mb-6 pb-4 border-b border-slate-800 light:border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-2">
         <div>
           <span className="text-xs uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
-            CORPORATE INTELLIGENCE & MOVABLE GRAPH
+            Sample data
           </span>
           <h2 className="text-xl font-bold text-slate-100 light:text-slate-900">
             Vendor Relationship & Lineage Graph
@@ -100,7 +101,7 @@ export function VendorGraph() {
           <div className="text-xs font-bold text-slate-400 light:text-slate-600 uppercase mb-2 flex items-center justify-between z-10">
             <span className="flex items-center gap-1.5 text-cyan-400 light:text-cyan-700">
               <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
-              PUBLIC-RECORD RELATIONSHIP MAP (MOVABLE & ZOOMABLE)
+              Sample relationship map. Drag to move, use the buttons to zoom.
             </span>
 
             <div className="flex items-center gap-1 bg-slate-900 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg p-1 shadow">

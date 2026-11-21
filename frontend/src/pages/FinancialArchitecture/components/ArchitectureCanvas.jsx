@@ -6,7 +6,7 @@ import { FlowModeSelector } from './FlowModeSelector';
 
 export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
   const [activeMode, setActiveMode] = useState(FLOW_MODES.MONEY);
-  const [zoomLevel, setZoomLevel] = useState(0.75);
+  const [zoomLevel, setZoomLevel] = useState(1);
   const [panOffset, setPanOffset] = useState({ x: 30, y: 20 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
@@ -14,7 +14,7 @@ export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
   const handleZoomIn = () => setZoomLevel((prev) => Math.min(prev + 0.15, 1.5));
   const handleZoomOut = () => setZoomLevel((prev) => Math.max(prev - 0.15, 0.35));
   const handleResetView = () => {
-    setZoomLevel(0.75);
+    setZoomLevel(1);
     setPanOffset({ x: 30, y: 20 });
   };
 
@@ -72,7 +72,7 @@ export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
   return (
     <div className="w-full flex flex-col h-full bg-[#0B0E17] light:bg-[#F8FAFC] text-slate-100 light:text-slate-900 relative overflow-hidden select-none border-b border-slate-800 light:border-slate-300">
       {/* Flow Mode Switcher Header */}
-      <div className="p-3 bg-slate-950/80 light:bg-white/90 border-b border-slate-800 light:border-slate-200 z-10 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
+      <div className="p-3 bg-slate-900 light:bg-white border-b border-slate-800 light:border-slate-200 z-10 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
         <FlowModeSelector activeMode={activeMode} onSelectMode={setActiveMode} />
 
         {/* Canvas Controls */}
@@ -165,7 +165,7 @@ export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
               if (!fromNode || !toNode) return null;
 
               const cardWidth = 256;
-              const cardHeight = 110;
+              const cardHeight = 130;
 
               let x1, y1, x2, y2;
 
@@ -235,7 +235,7 @@ export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
                       width={badgeWidth}
                       height="26"
                       rx="6"
-                      fill="#060911"
+                      fill="#FFFFFF"
                       stroke={getLineColor()}
                       strokeWidth="1.5"
                       strokeOpacity="0.9"
@@ -244,10 +244,9 @@ export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
                       x="0"
                       y="4"
                       textAnchor="middle"
-                      fill="#F8FAFC"
-                      fontSize="10"
-                      fontWeight="bold"
-                      className=" text-xs font-bold fill-slate-100"
+                      fill="#0F172A"
+                      fontSize="12"
+                      fontWeight="600"
                     >
                       {labelText}
                     </text>
