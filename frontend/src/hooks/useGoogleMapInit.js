@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { buildMapStyles, isInsideIndia } from '../utils/mapHelpers';
+import { buildMapStyles, isInsideIndia, fitIndia } from '../utils/mapHelpers';
 import { mapDebug } from '../utils/mapDebug';
 
 export function useGoogleMapInit({
@@ -27,10 +27,10 @@ export function useGoogleMapInit({
 
       try {
         const map = new window.google.maps.Map(mapRef.current, {
-          mapId: "fde30d2b915013d7d0bfa590",
+          // No mapId: a cloud map style would override the muted `styles` below, and no AdvancedMarker needs one.
           center: { lat: 22.5937, lng: 78.9629 },
           zoom: 5,
-          minZoom: 4,
+          minZoom: 3,
           maxZoom: 16,
           disableDefaultUI: true,
           clickableIcons: false,
@@ -46,6 +46,9 @@ export function useGoogleMapInit({
             strictBounds: false,
           },
         });
+
+        // The map div has its real size only after the first idle, so fit India then.
+        window.google.maps.event.addListenerOnce(map, 'idle', () => fitIndia(map));
 
         googleMapRef.current = map;
         infoWindowRef.current = new window.google.maps.InfoWindow();
@@ -118,6 +121,11 @@ export function useGoogleMapInit({
       if (clickTimerRef.current) clearTimeout(clickTimerRef.current);
     };
   }, [executeCameraCommand, isDark, mapRef, onSingleClick]);
+
+  // Theme changes restyle the existing map instead of waiting for a reload.
+  useEffect(() => {
+    googleMapRef.current?.setOptions({ styles: buildMapStyles(isDark) });
+  }, [googleMapRef, isDark]);
 
   return {
     isMapReady,

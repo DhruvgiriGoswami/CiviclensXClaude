@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDialog } from '../hooks/useDialog';
 import {
   Search, MapPin, Layers, ChevronRight, ChevronLeft, Check, Sparkles, X,
   HelpCircle, Mail, ShieldAlert, AlertTriangle, FileText, CheckCircle2,
@@ -113,6 +114,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
     };
   }, [isOpen, step]);
 
+  const dialogRef = useDialog(isOpen, onClose);
   if (!isOpen) return null;
 
   const handleNext = () => {
@@ -156,7 +158,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
   ];
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="App tour" className="fixed inset-0 z-50 pointer-events-auto flex items-center justify-center p-3 sm:p-4 animate-in fade-in select-none">
+    <div ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="tour-heading" className="fixed inset-0 z-50 pointer-events-auto flex items-center justify-center p-3 sm:p-4 animate-in fade-in select-none">
       {/* Fullscreen Spotlight Overlay with SVG Mask Cutout */}
       {targetRect && step > 0 ? (
         <svg
@@ -188,7 +190,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
         </svg>
       ) : (
         <div
-          className="absolute inset-0 bg-black/80 backdrop-blur-sm transition-all duration-300"
+          className="absolute inset-0 bg-black/80 transition-all duration-300"
           onClick={onClose}
         />
       )}
@@ -196,7 +198,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
       {/* Target Highlight Box Glow overlay for Steps 1-3 */}
       {targetRect && step > 0 && (
         <div
-          className="absolute rounded-2xl border-2 border-crimson-500 shadow-[0_0_30px_rgba(230,57,70,0.8)] transition-all duration-300 pointer-events-none animate-pulse z-10"
+          className="absolute rounded-2xl border-2 border-crimson-500 transition-all duration-300 pointer-events-none z-10"
           style={{
             top: targetRect.top - 8,
             left: targetRect.left - 8,
@@ -217,10 +219,10 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
                 <ShieldCheck className="w-4 h-4 sm:w-5 sm:h-5" />
               </span>
               <div className="min-w-0">
-                <span className="text-[9px] sm:text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-crimson-500/20 text-crimson-400 light:text-crimson-700 border border-crimson-500/40 inline-block leading-tight">
+                <span className="text-xs sm:text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-crimson-500/20 text-crimson-400 light:text-crimson-700 border border-crimson-500/40 inline-block leading-tight">
                   Civic-Tech Platform Overview & Disclaimer
                 </span>
-                <h2 className="text-lg sm:text-2xl font-black text-white light:text-slate-900 font-sans tracking-tight mt-0.5 truncate">
+                <h2 id="tour-heading" className="text-lg sm:text-2xl font-black text-white light:text-slate-900 font-sans tracking-tight mt-0.5 truncate">
                   Welcome to CivicLens
                 </h2>
               </div>
@@ -250,7 +252,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
 
             {/* What can you do */}
             <div className="space-y-2">
-              <h3 className="text-sm font-bold text-white light:text-slate-900 flex items-center gap-1.5 uppercase font-mono tracking-wider">
+              <h3 className="text-sm font-bold text-white light:text-slate-900 flex items-center gap-1.5 uppercase tracking-wider">
                 <CheckCircle2 className="w-4 h-4 text-emerald-400" />
                 What can you do on CivicLens?
               </h3>
@@ -276,21 +278,21 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
 
             {/* How does CivicLens help authorities */}
             <div className="p-3.5 rounded-2xl bg-slate-900/50 light:bg-slate-50 border border-slate-800 light:border-slate-200 space-y-1.5">
-              <h3 className="text-sm font-bold text-white light:text-slate-900 flex items-center gap-1.5 uppercase font-mono tracking-wider">
+              <h3 className="text-sm font-bold text-white light:text-slate-900 flex items-center gap-1.5 uppercase tracking-wider">
                 <HeartHandshake className="w-4 h-4 text-amber-400" />
                 How does CivicLens help authorities?
               </h3>
               <p className="text-slate-300 light:text-slate-700">
                 CivicLens aims to help authorities identify recurring civic concerns, understand issues reported by citizens, and gain better visibility into local problems. Publicly visible complaints can encourage constructive engagement, help highlight areas requiring attention, and support more informed decision-making.
               </p>
-              <p className="text-slate-400 light:text-slate-600 font-mono text-[11px] italic">
+              <p className="text-slate-400 light:text-slate-600 text-xs italic">
                 CivicLens is intended to complement existing government grievance-redressal systems, not replace them.
               </p>
             </div>
 
             {/* Important information and limitations */}
             <div className="space-y-2">
-              <h3 className="text-sm font-bold text-amber-400 light:text-amber-700 flex items-center gap-1.5 uppercase font-mono tracking-wider">
+              <h3 className="text-sm font-bold text-amber-400 light:text-amber-700 flex items-center gap-1.5 uppercase tracking-wider">
                 <AlertTriangle className="w-4 h-4" />
                 Important information and limitations
               </h3>
@@ -320,14 +322,14 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
 
             {/* Use CivicLens responsibly */}
             <div className="p-3.5 rounded-2xl bg-rose-500/10 light:bg-rose-50/70 border border-rose-500/30 space-y-2">
-              <h3 className="text-sm font-bold text-rose-400 light:text-rose-700 flex items-center gap-1.5 uppercase font-mono tracking-wider">
+              <h3 className="text-sm font-bold text-rose-400 light:text-rose-700 flex items-center gap-1.5 uppercase tracking-wider">
                 <ShieldAlert className="w-4 h-4" />
                 Use CivicLens responsibly
               </h3>
               <p className="text-slate-300 light:text-slate-700 font-medium">
                 Please help keep CivicLens useful, fair, and credible for everyone:
               </p>
-              <ul className="space-y-1.5 pl-1 text-slate-300 light:text-slate-700 text-[11px]">
+              <ul className="space-y-1.5 pl-1 text-slate-300 light:text-slate-700 text-xs">
                 <li className="flex items-start gap-2">
                   <span className="text-rose-400 font-bold">•</span>
                   <span>Submit genuine complaints concerning public or civic issues.</span>
@@ -357,13 +359,13 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
                   <span>Respect the privacy, dignity, and safety of other citizens and public servants.</span>
                 </li>
               </ul>
-              <p className="text-[10px] text-slate-400 light:text-slate-600 italic">
+              <p className="text-xs text-slate-400 light:text-slate-600 italic">
                 Content that is unlawful, abusive, misleading, or otherwise inappropriate may be restricted or removed where applicable.
               </p>
             </div>
 
             {/* Your voice matters */}
-            <div className="p-3.5 rounded-2xl bg-gradient-to-r from-crimson-900/30 via-slate-900 to-crimson-900/30 border border-crimson-500/30 space-y-1.5">
+            <div className="p-3.5 rounded-2xl bg-crimson-900/30 border border-crimson-500/30 space-y-1.5">
               <h4 className="text-xs font-bold text-white light:text-slate-900 font-sans">
                 Your voice matters
               </h4>
@@ -373,7 +375,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
               <p className="text-slate-300 light:text-slate-700">
                 If you notice a genuine civic issue, we encourage you to report it on CivicLens. Clear, factual complaints help make local problems more visible and support a culture of constructive civic participation. Every meaningful report can contribute to a better-informed community. Explore the map, understand the available information, and help make civic issues harder to overlook.
               </p>
-              <p className="text-crimson-400 light:text-crimson-600 font-mono font-bold text-xs pt-1">
+              <p className="text-crimson-400 light:text-crimson-600 font-bold text-xs pt-1">
                 CivicLens — Your city. Your voice. Your right to be informed.
               </p>
             </div>
@@ -388,14 +390,14 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
                   <h4 className="text-xs font-bold text-white light:text-slate-900 font-sans">
                     Need Help or Have Questions?
                   </h4>
-                  <p className="text-[11px] text-slate-400 light:text-slate-600">
+                  <p className="text-xs text-slate-400 light:text-slate-600">
                     For any issues, feedback, or inquiries regarding the website:
                   </p>
                 </div>
               </div>
               <a
                 href="mailto:support@myciviclens.in"
-                className="w-full sm:w-auto justify-center px-3 py-2 sm:py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-mono font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm flex-shrink-0"
+                className="w-full sm:w-auto justify-center px-3 py-2 sm:py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs flex items-center gap-1.5 transition-colors shadow-sm flex-shrink-0"
               >
                 <span className="truncate">support@myciviclens.in</span>
                 <ExternalLink className="w-3 h-3 flex-shrink-0" />
@@ -403,7 +405,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
             </div>
 
             {/* Disclaimer Acceptance Note */}
-            <p className="text-[10px] sm:text-[11px] text-slate-400 light:text-slate-600 text-center font-mono pt-1">
+            <p className="text-xs sm:text-xs text-slate-400 light:text-slate-600 text-center pt-1">
               By continuing, you acknowledge that you understand the purpose, limitations, and responsible-use guidelines of CivicLens.
             </p>
 
@@ -417,7 +419,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-2 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white text-xs font-mono font-bold transition-all shadow-md shadow-crimson-600/30 flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-2 rounded-xl bg-crimson-600 hover:bg-crimson-500 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Explore Interactive Guide (Step 1)</span>
                 <ArrowRight className="w-4 h-4" />
@@ -428,22 +430,14 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
                 <button
                   type="button"
                   onClick={() => handlePortalNavigation('/financial-architecture')}
-                  className="px-2.5 sm:px-3 py-2 sm:py-1.5 rounded-xl bg-cyan-500/10 light:bg-cyan-50 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 light:text-cyan-700 text-[11px] font-mono font-bold transition-colors flex items-center justify-center gap-1 shadow-sm cursor-pointer"
+                  className="px-2.5 sm:px-3 py-2 sm:py-1.5 rounded-xl bg-cyan-500/10 light:bg-cyan-50 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-400 light:text-cyan-700 text-xs font-bold transition-colors flex items-center justify-center gap-1 shadow-sm cursor-pointer"
                   title="Explore CivicLens Public Financial Architecture"
                 >
                   <span className="truncate">Financial Arch.</span>
                   <ArrowRight className="w-3 h-3 text-cyan-400 light:text-cyan-600 flex-shrink-0" />
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => handlePortalNavigation('/central-authority')}
-                  className="px-2.5 sm:px-3 py-2 sm:py-1.5 rounded-xl bg-purple-500/10 light:bg-purple-50 hover:bg-purple-500/20 border border-purple-500/30 text-purple-400 light:text-purple-700 text-[11px] font-mono font-bold transition-colors flex items-center justify-center gap-1 shadow-sm cursor-pointer"
-                  title="View Central Authorities Dashboard"
-                >
-                  <span className="truncate">Authorities</span>
-                  <ArrowRight className="w-3 h-3 text-purple-400 light:text-purple-600 flex-shrink-0" />
-                </button>
+
               </div>
             </div>
 
@@ -452,7 +446,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
               <button
                 type="button"
                 onClick={onClose}
-                className="w-full sm:w-auto px-4 py-2 sm:py-1.5 rounded-xl bg-slate-800 light:bg-slate-200 hover:bg-slate-700 text-slate-300 light:text-slate-800 text-[11px] font-mono font-bold transition-all cursor-pointer text-center"
+                className="w-full sm:w-auto px-4 py-2 sm:py-1.5 rounded-xl bg-slate-800 light:bg-slate-200 hover:bg-slate-700 text-slate-300 light:text-slate-800 text-xs font-bold transition-all cursor-pointer text-center"
               >
                 Close
               </button>
@@ -472,11 +466,11 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
               {/* Top Card Header */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
-                  <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-crimson-500/20 text-crimson-400 light:text-crimson-700 border border-crimson-500/40 flex items-center gap-1">
+                  <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-crimson-500/20 text-crimson-400 light:text-crimson-700 border border-crimson-500/40 flex items-center gap-1">
                     <Sparkles className="w-3 h-3" />
                     <span>Step {step} of 3</span>
                   </span>
-                  <span className="text-[10px] font-mono text-slate-400 light:text-slate-600 font-bold">
+                  <span className="text-xs text-slate-400 light:text-slate-600 font-bold">
                     {currentStepData.badge}
                   </span>
                 </div>
@@ -492,14 +486,14 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
 
               {/* Step Icon & Title */}
               <div className="flex items-start space-x-3.5">
-                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-crimson-600 to-crimson-700 text-white flex items-center justify-center flex-shrink-0 shadow-lg shadow-crimson-600/30 border border-crimson-400/40">
+                <div className="w-11 h-11 rounded-2xl bg-crimson-600 text-white flex items-center justify-center flex-shrink-0 shadow-lg border border-crimson-400/40">
                   <StepIcon className="w-5 h-5" />
                 </div>
                 <div>
                   <h3 className="text-base font-extrabold text-white light:text-slate-900 font-sans leading-snug">
                     {currentStepData.title}
                   </h3>
-                  <p className="text-xs text-slate-300 light:text-slate-700 font-mono mt-1.5 leading-relaxed">
+                  <p className="text-xs text-slate-300 light:text-slate-700 mt-1.5 leading-relaxed">
                     {currentStepData.description}
                   </p>
                 </div>
@@ -508,16 +502,10 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
               {/* Progress Step Indicator Dots */}
               <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 light:border-slate-200">
                 <div className="flex items-center space-x-1.5">
-                  {/* Step 0 (Disclaimer) indicator button */}
-                  <button
-                    type="button"
-                    onClick={() => setStep(0)}
-                    title="View CivicLens Disclaimer"
-                    className="w-2.5 h-2.5 rounded-full bg-slate-700 hover:bg-slate-500 transition-colors"
-                  />
                   {[1, 2, 3].map((s) => (
                     <div
                       key={s}
+                      aria-hidden="true"
                       onClick={() => setStep(s)}
                       className={`h-2 rounded-full cursor-pointer transition-all duration-300 ${
                         s === step
@@ -534,7 +522,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={handlePrev}
-                    className="px-3 py-1.5 rounded-xl bg-slate-800 light:bg-slate-200 hover:bg-slate-700 text-slate-300 light:text-slate-800 text-xs font-mono font-bold transition-all flex items-center gap-1"
+                    className="px-3 py-1.5 rounded-xl bg-slate-800 light:bg-slate-200 hover:bg-slate-700 text-slate-300 light:text-slate-800 text-xs font-bold transition-all flex items-center gap-1"
                   >
                     <ChevronLeft className="w-3.5 h-3.5" />
                     <span>{step === 1 ? 'Disclaimer' : 'Back'}</span>
@@ -542,7 +530,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
 
                   <button
                     onClick={handleNext}
-                    className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white text-xs font-mono font-bold transition-all shadow-md shadow-crimson-600/30 flex items-center gap-1.5"
+                    className="px-4 py-1.5 rounded-xl bg-crimson-600 hover:bg-crimson-500 text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5"
                   >
                     <span>{step === 3 ? 'Expand & Start' : 'Next Step'}</span>
                     {step === 3 ? <Check className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}

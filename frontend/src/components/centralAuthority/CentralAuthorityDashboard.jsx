@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 // Older builds saved the admin key in localStorage, where it stays forever. Wipe it.
 try { localStorage.removeItem('civiclens_admin_key'); } catch { /* storage blocked */ }
+import { useDialog } from '../../hooks/useDialog';
 import { AuthorityHeader } from './AuthorityHeader';
 import { GeographicScopeFilters } from './GeographicScopeFilters';
 import { AuthorityStatsBar } from './AuthorityStatsBar';
@@ -191,6 +192,25 @@ export function CentralAuthorityDashboard({ onBackToMap }) {
   };
 
 
+  const [keyPrompt, setKeyPrompt] = useState(null);
+  const keyDialogRef = useDialog(!!keyPrompt, () => setKeyPrompt(null));
+
+  const submitAdminKey = async (e) => {
+    e.preventDefault();
+    const key = new FormData(e.currentTarget).get('admin_key');
+    if (!key || !keyPrompt) return;
+    // sessionStorage: the key is forgotten when the tab closes, unlike localStorage.
+    sessionStorage.setItem('civiclens_admin_key', key);
+    try {
+      await complaintsApi.deleteComplaint(keyPrompt.ticketId, key);
+      setKeyPrompt(null);
+      await Promise.all([fetchTickets(), fetchStats()]);
+    } catch (retryErr) {
+      sessionStorage.removeItem('civiclens_admin_key');
+      setKeyPrompt({ ...keyPrompt, error: `That key did not work: ${retryErr.message}` });
+    }
+  };
+
   const handleDeleteTicket = async (ticket) => {
     const id = ticket.complaint_id || ticket.id;
     const confirmDelete = window.confirm(`Are you sure you want to delete Ticket #${id}? This action cannot be undone.`);
@@ -201,19 +221,7 @@ export function CentralAuthorityDashboard({ onBackToMap }) {
       await Promise.all([fetchTickets(), fetchStats()]);
     } catch (err) {
       if (err.status === 401) {
-        const key = window.prompt('Admin Authorization Required. Please enter your Admin API Key:');
-        if (key) {
-          // sessionStorage: the key is forgotten when the tab closes, unlike localStorage.
-          sessionStorage.setItem('civiclens_admin_key', key);
-          try {
-            await complaintsApi.deleteComplaint(id, key);
-            await Promise.all([fetchTickets(), fetchStats()]);
-            return;
-          } catch (retryErr) {
-            sessionStorage.removeItem('civiclens_admin_key');
-            alert(`Authorization failed: ${retryErr.message}`);
-          }
-        }
+        setKeyPrompt({ ticketId: id, error: null });
       } else {
         console.error(`Failed to delete ticket #${id}:`, err);
         alert(`Delete failed: ${err.message || 'Unknown error'}`);
@@ -223,6 +231,24 @@ export function CentralAuthorityDashboard({ onBackToMap }) {
 
   return (
     <div className="min-h-screen h-screen flex flex-col bg-[#0B0D12] light:bg-slate-50 text-slate-100 light:text-slate-900 font-sans overflow-hidden transition-colors">
+      {keyPrompt && (
+        <div className="fixed inset-0 z-[9999] bg-black/70 flex items-center justify-center p-4">
+          <form ref={keyDialogRef} onSubmit={submitAdminKey} role="dialog" aria-modal="true" aria-labelledby="admin-key-heading" tabIndex={-1}
+            className="w-full max-w-sm rounded-2xl bg-[#12151E] light:bg-white border border-slate-700 light:border-slate-200 p-5 space-y-3">
+            <h2 id="admin-key-heading" className="text-base font-semibold">Admin key needed</h2>
+            <p className="text-sm text-slate-400 light:text-slate-600">Deleting complaint #{keyPrompt.ticketId} needs the admin key. It is kept only until you close this tab.</p>
+            <label htmlFor="admin-key" className="block text-sm font-medium">Admin key</label>
+            <input id="admin-key" name="admin_key" type="password" autoComplete="off" data-autofocus required
+              className="w-full min-h-[44px] rounded-lg border border-slate-700 light:border-slate-300 bg-transparent px-3 text-sm" />
+            {keyPrompt.error && <p role="alert" className="text-sm text-rose-400 light:text-rose-700">{keyPrompt.error}</p>}
+            <div className="flex justify-end gap-2">
+              <button type="button" onClick={() => setKeyPrompt(null)} className="min-h-[44px] px-4 rounded-lg text-sm">Cancel</button>
+              <button type="submit" className="min-h-[44px] px-4 rounded-lg bg-crimson-700 hover:bg-crimson-800 text-white text-sm font-semibold">Delete complaint</button>
+            </div>
+          </form>
+        </div>
+      )}
+
       {/* 1. Centered Header Bar */}
       <AuthorityHeader
         onRefresh={handleRefreshAll}
@@ -298,8 +324,8 @@ export function CentralAuthorityDashboard({ onBackToMap }) {
       </div>
 
       {/* Footer Credit */}
-      <footer className="w-full py-2.5 px-4 bg-slate-950 light:bg-white border-t border-slate-800/80 light:border-slate-200 text-center font-mono text-xs text-slate-400 light:text-slate-600 flex-shrink-0">
-        Made with ❤️ by{' '}
+      <footer className="w-full py-2.5 px-4 bg-slate-950 light:bg-white border-t border-slate-800/80 light:border-slate-200 text-center text-xs text-slate-400 light:text-slate-600 flex-shrink-0">
+        Made by{' '}
         <a
           href="https://www.linkedin.com/in/dhruvgiri-goswami-745b01159/"
           target="_blank"

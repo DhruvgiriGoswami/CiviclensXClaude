@@ -4,6 +4,7 @@ import { VENDOR_HISTORY_DEMO } from '../data/vendorDemoData';
 
 export function VendorGraph() {
   const [selectedElement, setSelectedElement] = useState(null);
+  // Three columns so every node fits the canvas at 1440 without covering the hint.
   const [zoomLevel, setZoomLevel] = useState(0.9);
   const [panOffset, setPanOffset] = useState({ x: 40, y: 20 });
   const [isDragging, setIsDragging] = useState(false);
@@ -13,14 +14,14 @@ export function VendorGraph() {
 
   // Custom coordinate map ensuring generous spacing (no text clipping or overlapping)
   const NODE_COORDINATES = {
-    v_apex: { x: 550, y: 250, label: vendorName, type: "PRIMARY CONTRACTOR", subtitle: "VND-001 (Primary)" },
-    dir_rajesh: { x: 180, y: 60, label: "Rajesh V. Sharma", type: "DIRECTOR", subtitle: "Director (51% Stake)" },
-    dir_sunil: { x: 920, y: 60, label: "Sunil K. Mehta", type: "DIRECTOR", subtitle: "Director (49% Stake)" },
-    rel_metal: { x: 100, y: 250, label: "Apex Mining & Aggregates", type: "RELATED COMPANY", subtitle: "Common Director (98% match)" },
-    rel_bitumen: { x: 1000, y: 250, label: "Trident Logistics Pvt Ltd", type: "SUPPLIER", subtitle: "Sub-contractor / Transporter" },
-    past_prj1: { x: 140, y: 460, label: "TMC Road Rehab Phase I (2024)", type: "PAST CONTRACT", subtitle: "Awarded ₹14.2 Cr (+22% Var)" },
-    past_prj2: { x: 550, y: 460, label: "KDMC Flyover Approach (2025)", type: "PAST CONTRACT", subtitle: "Awarded ₹28.0 Cr (Delayed 6 mo)" },
-    tnd_current: { x: 960, y: 460, label: "TND-2026-0142 (Current Ward 150)", type: "TENDER", subtitle: "Lowest Bidder P1 (₹6.20 Cr)" }
+    v_apex: { x: 270, y: 240, label: vendorName, type: "PRIMARY CONTRACTOR", subtitle: "VND-001 (Primary)" },
+    dir_rajesh: { x: 20, y: 70, label: "Rajesh V. Sharma", type: "DIRECTOR", subtitle: "Director (51% Stake)" },
+    dir_sunil: { x: 520, y: 70, label: "Sunil K. Mehta", type: "DIRECTOR", subtitle: "Director (49% Stake)" },
+    rel_metal: { x: 20, y: 240, label: "Apex Mining & Aggregates", type: "RELATED COMPANY", subtitle: "Common Director (98% match)" },
+    rel_bitumen: { x: 520, y: 240, label: "Trident Logistics Pvt Ltd", type: "SUPPLIER", subtitle: "Sub-contractor / Transporter" },
+    past_prj1: { x: 20, y: 410, label: "SMC Road Rehab Phase I (2024)", type: "PAST CONTRACT", subtitle: "Awarded ₹14.2 Cr (+22% Var)" },
+    past_prj2: { x: 270, y: 410, label: "SMC-2 Flyover Approach (2025)", type: "PAST CONTRACT", subtitle: "Awarded ₹28.0 Cr (Delayed 6 mo)" },
+    tnd_current: { x: 520, y: 410, label: "TND-2026-0142 (Current Ward 150)", type: "TENDER", subtitle: "Lowest Bidder P1 (₹6.20 Cr)" }
   };
 
   const handleZoomIn = () => setZoomLevel((prev) => Math.min(prev + 0.15, 1.5));
@@ -73,18 +74,18 @@ export function VendorGraph() {
       {/* Section Header */}
       <div className="mb-6 pb-4 border-b border-slate-800 light:border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-2">
         <div>
-          <span className="text-[10px] font-mono uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
-            CORPORATE INTELLIGENCE & MOVABLE GRAPH
+          <span className="text-xs uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
+            Sample data
           </span>
           <h2 className="text-xl font-bold text-slate-100 light:text-slate-900">
             Vendor Relationship & Lineage Graph
           </h2>
           <p className="text-xs text-slate-400 light:text-slate-600 mt-0.5">
-            Public record directorships, related-party entities, and historical municipal performance profile.
+            Made-up directorships, related companies and past contracts, to show how the graph would work.
           </p>
         </div>
 
-        <div className="flex items-center gap-2 font-mono text-xs">
+        <div className="flex items-center gap-2 text-xs">
           <span className="px-3 py-1 rounded-full bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 text-slate-300 light:text-slate-800 font-bold">
             CIN: {registrationNo}
           </span>
@@ -97,10 +98,10 @@ export function VendorGraph() {
         <div className="lg:col-span-2 bg-slate-950/90 light:bg-slate-50 border border-slate-800 light:border-slate-300 rounded-2xl p-4 relative overflow-hidden financial-canvas-bg min-h-[480px] flex flex-col justify-between select-none">
           
           {/* Header Bar inside graph with Zoom & Drag Controls */}
-          <div className="text-[10px] font-mono font-bold text-slate-400 light:text-slate-600 uppercase mb-2 flex items-center justify-between z-10">
+          <div className="text-xs font-bold text-slate-400 light:text-slate-600 uppercase mb-2 flex items-center justify-between z-10">
             <span className="flex items-center gap-1.5 text-cyan-400 light:text-cyan-700">
-              <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-              PUBLIC-RECORD RELATIONSHIP MAP (MOVABLE & ZOOMABLE)
+              <span className="w-2 h-2 rounded-full bg-cyan-400"></span>
+              Sample relationship map. Drag to move, use the buttons to zoom.
             </span>
 
             <div className="flex items-center gap-1 bg-slate-900 light:bg-white border border-slate-800 light:border-slate-300 rounded-lg p-1 shadow">
@@ -120,7 +121,7 @@ export function VendorGraph() {
               </button>
               <button
                 onClick={handleResetView}
-                className="p-1 rounded hover:bg-slate-800 light:hover:bg-slate-100 text-slate-300 light:text-slate-700 hover:text-cyan-400 transition-colors text-[10px] font-mono font-bold"
+                className="p-1 rounded hover:bg-slate-800 light:hover:bg-slate-100 text-slate-300 light:text-slate-700 hover:text-cyan-400 transition-colors text-xs font-bold"
                 title="Reset View"
               >
                 <RotateCcw className="w-3 h-3" />
@@ -186,9 +187,9 @@ export function VendorGraph() {
                   <div
                     key={key}
                     onClick={() => setSelectedElement({ key, ...n })}
-                    className={`absolute vendor-node-card z-10 p-3 rounded-xl border text-xs font-mono cursor-pointer transition-all duration-200 shadow-xl select-none w-56 ${
+                    className={`absolute vendor-node-card z-10 p-3 rounded-xl border text-xs cursor-pointer transition-all duration-200 shadow-xl select-none w-56 ${
                       isCentral
-                        ? 'bg-cyan-950/90 light:bg-cyan-50 border-2 border-cyan-400 text-cyan-200 light:text-cyan-900 shadow-cyan-500/30 ring-2 ring-cyan-400 scale-105'
+                        ? 'bg-cyan-950/90 light:bg-cyan-50 border-2 border-cyan-400 text-cyan-200 light:text-cyan-900 ring-2 ring-cyan-400 scale-105'
                         : isSelected
                         ? 'bg-slate-900 light:bg-slate-200 border-2 border-amber-400 text-white light:text-slate-900 scale-105'
                         : n.type === 'DIRECTOR'
@@ -199,13 +200,13 @@ export function VendorGraph() {
                     }`}
                     style={{ left: `${n.x}px`, top: `${n.y}px` }}
                   >
-                    <div className="text-[9px] font-bold uppercase tracking-wider text-slate-400 light:text-slate-600 mb-0.5 truncate">
+                    <div className="text-xs font-bold uppercase tracking-wider text-slate-400 light:text-slate-600 mb-0.5 truncate">
                       {n.type}
                     </div>
                     <div className="font-bold truncate text-xs text-slate-100 light:text-slate-900">
                       {n.label}
                     </div>
-                    <div className="text-[10px] text-slate-400 light:text-slate-600 truncate mt-0.5">
+                    <div className="text-xs text-slate-400 light:text-slate-600 truncate mt-0.5">
                       {n.subtitle}
                     </div>
                   </div>
@@ -214,7 +215,7 @@ export function VendorGraph() {
             </div>
           </div>
 
-          <div className="text-[10px] font-mono text-slate-400 light:text-slate-600 flex items-center gap-1 z-10 pt-2 border-t border-slate-800 light:border-slate-200">
+          <div className="text-xs text-slate-400 light:text-slate-600 flex items-center gap-1 z-10 pt-2 border-t border-slate-800 light:border-slate-200">
             <Info className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
             <span>Click any entity card to inspect public-record filings. Drag or zoom to explore graph layout.</span>
           </div>
@@ -223,11 +224,11 @@ export function VendorGraph() {
         {/* Right Column: Performance Track Record & Node Inspector */}
         <div className="bg-slate-950/80 light:bg-slate-50 border border-slate-800 light:border-slate-300 rounded-2xl p-5 flex flex-col justify-between space-y-4">
           <div>
-            <h3 className="text-xs font-mono font-bold uppercase text-slate-400 light:text-slate-600 mb-3 tracking-wider">
+            <h3 className="text-xs font-bold uppercase text-slate-400 light:text-slate-600 mb-3 tracking-wider">
               Historical Track Record (37 Contracts)
             </h3>
 
-            <div className="space-y-2 font-mono text-xs">
+            <div className="space-y-2 text-xs">
               <div className="flex justify-between p-2.5 rounded-lg bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 shadow-sm">
                 <span className="text-slate-400 light:text-slate-600">Total Lifetime Value:</span>
                 <span className="font-bold text-cyan-300 light:text-cyan-700">{metrics.totalLifetimeContractValue}</span>
@@ -253,16 +254,16 @@ export function VendorGraph() {
 
           {/* Selected Node Detail Box */}
           {selectedElement ? (
-            <div className="p-3 rounded-xl bg-cyan-950/40 light:bg-cyan-50 border border-cyan-900/60 light:border-cyan-200 text-xs font-mono space-y-1">
+            <div className="p-3 rounded-xl bg-cyan-950/40 light:bg-cyan-50 border border-cyan-900/60 light:border-cyan-200 text-xs space-y-1">
               <div className="font-bold text-cyan-300 light:text-cyan-800 uppercase">{selectedElement.label}</div>
-              <div className="text-[10px] text-cyan-400 light:text-cyan-700 font-bold">{selectedElement.type}</div>
-              <p className="text-slate-300 light:text-slate-700 text-[11px] font-sans pt-1">
-                {selectedElement.subtitle} &bull; Cross-referenced with Ministry of Corporate Affairs (MCA21) public filings.
+              <div className="text-xs text-cyan-400 light:text-cyan-700 font-bold">{selectedElement.type}</div>
+              <p className="text-slate-300 light:text-slate-700 text-xs font-sans pt-1">
+                {selectedElement.subtitle} &bull; Sample relationship, not from any real filing.
               </p>
             </div>
           ) : (
-            <div className="p-3 rounded-xl bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 text-[10px] font-mono text-slate-500 light:text-slate-600 text-center shadow-sm">
-              Click any node in the graph workspace to inspect public-record relationship evidence.
+            <div className="p-3 rounded-xl bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 text-xs text-slate-500 light:text-slate-600 text-center shadow-sm">
+              Click any node in the graph workspace to see the sample relationship.
             </div>
           )}
         </div>

@@ -97,24 +97,24 @@ export function useMapMarkers({
 
       const infoContent = isInIndia
         ? `
-          <div style="padding: 10px 12px; font-family: Inter, sans-serif; color: #0F172A;">
+          <div style="padding: 10px 12px; color: #0F172A;">
             <div style="font-weight: 700; font-size: 13px; color: #0284C7; display: flex; align-items: center; gap: 6px;">
-              📍 Your Current Location
+              Your Current Location
             </div>
-            <div style="font-size: 11px; color: #64748B; margin-top: 4px;">
+            <div style="font-size:12px; color: #64748B; margin-top: 4px;">
               Lat: ${userLocation.lat.toFixed(5)}, Lng: ${userLocation.lng.toFixed(5)}
             </div>
           </div>
         `
         : `
-          <div style="padding: 12px 14px; font-family: Inter, sans-serif; color: #0F172A; text-align: center; max-width: 240px;">
+          <div style="padding: 12px 14px; color: #0F172A; text-align: center; max-width: 240px;">
             <div style="font-weight: 800; font-size: 13px; color: #E63946; display: flex; align-items: center; justify-content: center; gap: 6px;">
-              🇮🇳 CivicLens is Made for India
+              CivicLens is Made for India
             </div>
             <div style="font-size: 12px; color: #1E293B; margin-top: 6px; font-weight: 700; line-height: 1.3;">
-              ❤️ Thanks for your International support!
+              Thanks for visiting from outside India.
             </div>
-            <div style="font-size: 10px; color: #64748B; margin-top: 6px; border-top: 1px solid #E2E8F0; padding-top: 4px;">
+            <div style="font-size:12px; color: #64748B; margin-top: 6px; border-top: 1px solid #E2E8F0; padding-top: 4px;">
               Viewing from Lat: ${userLocation.lat.toFixed(4)}, Lng: ${userLocation.lng.toFixed(4)}
             </div>
           </div>
@@ -138,7 +138,7 @@ export function useMapMarkers({
       const pinMarker = new window.google.maps.Marker({
         position: { lat: pinnedLocation.lat, lng: pinnedLocation.lng },
         map: map,
-        title: "📍 Pinned Issue Location — Click pin to re-position location",
+        title: "Pinned Issue Location — Click pin to re-position location",
         animation: window.google.maps.Animation.DROP,
         cursor: "pointer",
         icon: {

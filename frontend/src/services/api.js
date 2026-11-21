@@ -3,7 +3,7 @@
  * Connects frontend React components to FastAPI backend v1 endpoints (http://localhost:8000/api/v1)
  */
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
 
 async function request(endpoint, options = {}) {
   const url = `${API_BASE_URL}${endpoint}`;
@@ -39,10 +39,14 @@ async function request(endpoint, options = {}) {
     if (err.name === 'AbortError') {
       throw err;
     }
+    // fetch throws TypeError("Failed to fetch") when the server is down; say that plainly.
+    const out = err instanceof TypeError
+      ? Object.assign(new Error('We could not reach the server.'), { status: 0, cause: err })
+      : err;
     if (!options.silent) {
-      console.warn(`[CivicLens API] Call failed for ${endpoint}:`, err.message);
+      console.warn(`[CivicLens API] Call failed for ${endpoint}:`, out.message);
     }
-    throw err;
+    throw out;
   }
 }
 
@@ -80,6 +84,9 @@ export const geographyApi = {
 // 2. Complaints API
 // ----------------------------------------------------
 export const complaintsApi = {
+  /** Complaint counts per child unit: { geo_unit_id: count }. 404 until the backend ships it. */
+  getCounts: (parentId, options = {}) => request(`/complaints/counts?parent_geo_unit_id=${encodeURIComponent(parentId)}`, { silent: true, ...options }),
+
   /** List complaints with optional filters (geo_unit_id, category, status, search, sort_by, page, page_size) */
   listComplaints: (params = {}) => {
     // Filter out undefined / null / empty string parameters
@@ -175,9 +182,12 @@ export const authorityApi = {
 // ----------------------------------------------------
 // 7. Governance API
 // ----------------------------------------------------
+let statesLeadershipPromise = null;
+
 export const governanceApi = {
   /** Get CM leadership for all States & UTs */
-  getStatesLeadership: () => request('/governance/states'),
+  // Shared by the spotlight and the directory, and StrictMode runs effects twice: one request, not four.
+  getStatesLeadership: () => (statesLeadershipPromise ||= request('/governance/states').catch((err) => { statesLeadershipPromise = null; throw err; })),
 
   /** Get CM leadership for a specific state (e.g. GJ, MH) */
   getStateLeadership: (stateId) => request(`/governance/states/${encodeURIComponent(stateId)}`),

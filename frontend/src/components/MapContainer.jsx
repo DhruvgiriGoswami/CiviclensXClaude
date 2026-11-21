@@ -2,8 +2,7 @@ import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
 import {
   findPinpointedLocation, pointInPolygon, isLocationInIndia,
-  STATE_NAMES, STATE_CENTERS, findClosestStateForCoordinates,
-} from '../utils/mapHelpers';
+  STATE_NAMES, STATE_CENTERS, findClosestStateForCoordinates, fitIndia } from '../utils/mapHelpers';
 import { geographyApi } from '../services/api';
 import {
   getStateInfoWindowContent,
@@ -115,12 +114,9 @@ export function MapContainer({
           }
         }
 
-        // Fallback: If no state boundary contained the point in PostGIS, resolve closest state from coordinates
-        if (!resolvedStateCode) {
-          const closest = findClosestStateForCoordinates(lat, lng);
-          resolvedStateCode = closest.stateId;
-          resolvedStateName = closest.stateName;
-        } else if (!resolvedStateName) {
+        // No state contains the point (open sea, a neighbour country): select nothing.
+        if (!resolvedStateCode) return;
+        if (!resolvedStateName) {
           resolvedStateName = STATE_NAMES[resolvedStateCode] || `State of ${resolvedStateCode}`;
         }
 
@@ -198,7 +194,7 @@ export function MapContainer({
   });
 
   // 5. PostGIS DB Ward Polygon Layer Rendering Hook
-  useWardPolygons({
+  const { legend: wardLegend } = useWardPolygons({
     googleMapRef,
     isMapReady,
     selectedUnit,
@@ -263,12 +259,7 @@ export function MapContainer({
 
   const handleResetMap = () => {
     if (!googleMapRef.current) return;
-    executeCameraCommand({
-      type: 'PAN_AND_ZOOM',
-      center: { lat: 22.5937, lng: 78.9629 },
-      zoom: 5,
-      reason: 'RESET_BUTTON',
-    });
+    fitIndia(googleMapRef.current);
     clearHighlightShapes();
     onResetToNational();
     infoWindowRef.current?.close();
@@ -386,10 +377,7 @@ export function MapContainer({
       )}
 
       {/* 9. GBA Corporation Ward Legend Overlay Component */}
-      <MapLegend
-        selectedUnit={selectedUnit}
-        selectedState={selectedState}
-      />
+      <MapLegend legend={wardLegend} isDark={isDark} />
 
       {/* 10. Sovereign Border Loader for Asynchronous Geographical Data Loading & Geolocation */}
       {(isBoundaryLoading || isLocating) && (
@@ -401,12 +389,11 @@ export function MapContainer({
 
       {/* 11. International Visitor Greeting Banner */}
       {isInternationalUser && (
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 bg-slate-900/95 text-white px-5 py-3 rounded-2xl shadow-2xl border border-red-500/40 backdrop-blur-xl flex items-center gap-3.5 max-w-lg text-center animate-fade-in">
-          <span className="text-2xl">🇮🇳</span>
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 bg-slate-900/95 text-white px-5 py-3 rounded-2xl shadow-2xl border border-red-500/40 flex items-center gap-3.5 max-w-lg text-center animate-fade-in">
           <div className="flex flex-col text-left">
             <span className="text-xs font-bold text-red-400 uppercase tracking-wider">CivicLens is Made for India</span>
             <span className="text-xs font-semibold text-slate-100 flex items-center gap-1 mt-0.5">
-              ❤️ Thanks for your International support!
+              Thanks for visiting from outside India.
             </span>
           </div>
           <button

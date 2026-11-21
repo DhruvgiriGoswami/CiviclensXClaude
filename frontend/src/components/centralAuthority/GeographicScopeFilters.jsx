@@ -283,7 +283,7 @@ export function GeographicScopeFilters({
             Geographic Scope Filter
           </h2>
           {hasAnyFilter && (
-            <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/20 light:bg-blue-100 text-blue-300 light:text-blue-800 border border-blue-500/30 light:border-blue-300 font-bold">
+            <span className="text-xs px-2 py-0.5 rounded bg-blue-500/20 light:bg-blue-100 text-blue-300 light:text-blue-800 border border-blue-500/30 light:border-blue-300 font-bold">
               Scoped Search Active
             </span>
           )}
@@ -293,7 +293,7 @@ export function GeographicScopeFilters({
           {hasAnyFilter && (
             <button
               onClick={handleClearGeo}
-              className="text-xs text-slate-400 light:text-slate-600 hover:text-rose-400 light:hover:text-rose-600 flex items-center gap-1 transition-colors font-mono cursor-pointer"
+              className="text-xs text-slate-400 light:text-slate-600 hover:text-rose-400 light:hover:text-rose-600 flex items-center gap-1 transition-colors cursor-pointer"
             >
               <X className="w-3.5 h-3.5" />
               <span>Clear Scope</span>
@@ -303,7 +303,7 @@ export function GeographicScopeFilters({
           <button
             type="button"
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="text-xs font-mono font-bold text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900 flex items-center gap-1 transition-colors"
+            className="text-xs font-bold text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900 flex items-center gap-1 transition-colors"
           >
             <span>{isCollapsed ? 'Expand Scope' : 'Collapse Scope'}</span>
             {isCollapsed ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
@@ -322,7 +322,7 @@ export function GeographicScopeFilters({
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5 mt-3 animate-fadeIn">
           {/* 1. State */}
           <div>
-            <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 light:text-slate-600 mb-1 font-bold">
+            <label className="block text-xs uppercase tracking-wider text-slate-400 light:text-slate-600 mb-1 font-bold">
               1. State / Union Territory
             </label>
             <div className="relative">
@@ -330,7 +330,7 @@ export function GeographicScopeFilters({
                 value={selectedState || ''}
                 onChange={handleStateSelect}
                 disabled={loadingStates}
-                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-50 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
+                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-50 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
               >
                 <option value="">All India (National View)</option>
                 {states.map(s => (
@@ -347,7 +347,7 @@ export function GeographicScopeFilters({
 
           {/* 2. Region / District */}
           <div>
-            <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 light:text-slate-600 mb-1 font-bold">
+            <label className="block text-xs uppercase tracking-wider text-slate-400 light:text-slate-600 mb-1 font-bold">
               2. Region / District
             </label>
             <div className="relative">
@@ -355,7 +355,7 @@ export function GeographicScopeFilters({
                 value={selectedDistrict || ''}
                 onChange={handleDistrictSelect}
                 disabled={!selectedState || loadingDistricts}
-                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-40 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
+                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-40 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
               >
                 <option value="">
                   {!selectedState ? 'Select State First' : 'All Districts'}
@@ -374,7 +374,7 @@ export function GeographicScopeFilters({
 
           {/* 3. Local Authority / Corporation */}
           <div>
-            <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 light:text-slate-600 mb-1 font-bold">
+            <label className="block text-xs uppercase tracking-wider text-slate-400 light:text-slate-600 mb-1 font-bold">
               3. Local Authority / Municipality
             </label>
             <div className="relative">
@@ -382,7 +382,7 @@ export function GeographicScopeFilters({
                 value={selectedCorp || ''}
                 onChange={handleCorpSelect}
                 disabled={!selectedState || loadingCorps}
-                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-40 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
+                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-40 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
               >
                 <option value="">
                   {!selectedState ? 'Select State First' : 'All Local Authorities'}
@@ -401,7 +401,7 @@ export function GeographicScopeFilters({
 
           {/* 4. Ward / Jurisdiction */}
           <div>
-            <label className="block text-[10px] font-mono uppercase tracking-wider text-slate-400 light:text-slate-600 mb-1 font-bold">
+            <label className="block text-xs uppercase tracking-wider text-slate-400 light:text-slate-600 mb-1 font-bold">
               4. Ward / Jurisdiction Unit
             </label>
             <div className="relative">
@@ -409,7 +409,7 @@ export function GeographicScopeFilters({
                 value={selectedWard || ''}
                 onChange={handleWardSelect}
                 disabled={(!selectedCorp && !selectedDistrict) || loadingWards}
-                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-40 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
+                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-40 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
               >
                 <option value="">
                   {!selectedCorp && !selectedDistrict ? 'Select Authority / District First' : 'All Wards'}

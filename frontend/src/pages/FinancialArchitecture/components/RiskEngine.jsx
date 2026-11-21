@@ -7,7 +7,7 @@ export function RiskEngine() {
     <div className="w-full bg-[#0B0E17] light:bg-white border border-slate-800 light:border-slate-300 rounded-2xl p-6 text-slate-100 light:text-slate-900 font-sans shadow-xl">
       {/* Section Header */}
       <div className="mb-6 pb-4 border-b border-slate-800 light:border-slate-200">
-        <span className="text-[10px] font-mono uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
+        <span className="text-xs uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
           STATISTICAL & RULE-BASED AUDIT
         </span>
         <h2 className="text-xl font-bold text-slate-100 light:text-slate-900">
@@ -19,13 +19,13 @@ export function RiskEngine() {
       </div>
 
       {/* Crucial Concept Card: Anomaly != Proof of Wrongdoing */}
-      <div className="p-4 rounded-xl bg-gradient-to-r from-amber-950/40 via-slate-900 to-slate-900 light:from-amber-50 light:via-slate-50 light:to-slate-100 border border-amber-500/40 light:border-amber-300 text-amber-200 light:text-amber-900 mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-lg">
+      <div className="p-4 rounded-xl bg-amber-950/40 light:bg-amber-50 border border-amber-500/40 light:border-amber-300 text-amber-200 light:text-amber-900 mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-lg">
         <div className="flex items-start gap-3">
           <div className="p-2 rounded-xl bg-amber-500/20 light:bg-amber-100 border border-amber-500/40 light:border-amber-300 text-amber-300 light:text-amber-800 flex-shrink-0 mt-0.5">
             <Scale className="w-5 h-5" />
           </div>
           <div>
-            <div className="font-mono text-xs font-bold text-amber-300 light:text-amber-800 uppercase tracking-wide">
+            <div className=" text-xs font-bold text-amber-300 light:text-amber-800 uppercase tracking-wide">
               CORE ARCHITECTURAL PRINCIPLE
             </div>
             <h3 className="text-sm font-bold text-slate-100 light:text-slate-900">
@@ -37,32 +37,32 @@ export function RiskEngine() {
           </div>
         </div>
 
-        <div className="px-3 py-1.5 rounded-lg bg-amber-500/10 light:bg-amber-100 border border-amber-500/30 light:border-amber-300 font-mono text-[10px] text-amber-300 light:text-amber-800 font-bold uppercase whitespace-nowrap">
+        <div className="px-3 py-1.5 rounded-lg bg-amber-500/10 light:bg-amber-100 border border-amber-500/30 light:border-amber-300 text-xs text-amber-300 light:text-amber-800 font-bold uppercase whitespace-nowrap">
           HUMAN-IN-THE-LOOP VERIFICATION
         </div>
       </div>
 
       {/* Pipeline Visualization */}
       <div className="mb-8">
-        <h3 className="text-xs font-mono font-bold uppercase text-slate-400 light:text-slate-600 mb-3 tracking-wider">
+        <h3 className="text-xs font-bold uppercase text-slate-400 light:text-slate-600 mb-3 tracking-wider">
           Intelligence Processing Pipeline
         </h3>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-3 font-mono">
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-3">
           {RISK_ENGINE_PIPELINE.map((p, idx) => (
             <div
               key={p.step}
               className="bg-slate-950/80 light:bg-slate-50 border border-slate-800 light:border-slate-300 rounded-xl p-3.5 relative flex flex-col justify-between hover:border-cyan-500/40 light:hover:border-cyan-400 transition-colors shadow-sm"
             >
               <div>
-                <div className="flex items-center justify-between text-[10px] font-bold text-cyan-400 light:text-cyan-700 mb-1">
+                <div className="flex items-center justify-between text-xs font-bold text-cyan-400 light:text-cyan-700 mb-1">
                   <span>STAGE {p.step}</span>
                   {idx < RISK_ENGINE_PIPELINE.length - 1 && (
                     <ArrowRight className="w-3 h-3 text-slate-600 light:text-slate-400 hidden sm:block" />
                   )}
                 </div>
                 <div className="text-xs font-bold text-slate-100 light:text-slate-900 mb-1 font-sans">{p.stage}</div>
-                <div className="text-[10px] text-slate-400 light:text-slate-600 font-sans leading-snug">{p.desc}</div>
+                <div className="text-xs text-slate-400 light:text-slate-600 font-sans leading-snug">{p.desc}</div>
               </div>
             </div>
           ))}
@@ -71,21 +71,21 @@ export function RiskEngine() {
 
       {/* Signal Categories Grid */}
       <div>
-        <h3 className="text-xs font-mono font-bold uppercase text-slate-400 light:text-slate-600 mb-3 tracking-wider">
+        <h3 className="text-xs font-bold uppercase text-slate-400 light:text-slate-600 mb-3 tracking-wider">
           Monitored Signal Types & Scrutiny Capping
         </h3>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 font-mono text-xs">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
           {RISK_SIGNAL_TYPES.map((sig, idx) => (
             <div
               key={idx}
               className="p-3 rounded-xl bg-slate-950/70 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 flex items-center justify-between hover:border-slate-700 light:hover:border-slate-300 transition-colors shadow-sm"
             >
               <div>
-                <span className="text-[10px] text-slate-500 light:text-slate-600 block uppercase font-bold">{sig.type}</span>
-                <span className="font-bold text-slate-200 light:text-slate-900 text-[11px]">{sig.label}</span>
+                <span className="text-xs text-slate-500 light:text-slate-600 block uppercase font-bold">{sig.type}</span>
+                <span className="font-bold text-slate-200 light:text-slate-900 text-xs">{sig.label}</span>
               </div>
-              <span className={`px-2 py-0.5 rounded text-[9px] font-bold border ${
+              <span className={`px-2 py-0.5 rounded text-xs font-bold border ${
                 sig.level === 'CRITICAL'
                   ? 'bg-rose-500/20 light:bg-rose-100 text-rose-300 light:text-rose-800 border-rose-500/40 light:border-rose-300'
                   : sig.level === 'HIGH'

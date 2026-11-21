@@ -26,8 +26,8 @@ export function AuthorityHeader({ onRefresh, isRefreshing, onBackToMap }) {
         </div>
         <h1 className="font-extrabold text-sm sm:text-base md:text-lg text-slate-100 light:text-slate-900 tracking-tight flex flex-wrap items-center justify-center gap-1.5 sm:gap-2">
           <span>CivicLens</span>
-          <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-amber-500/20 light:bg-amber-100 text-amber-300 light:text-amber-800 border border-amber-500/30 light:border-amber-300 uppercase tracking-wider font-semibold">
-            Central Authority Console
+          <span className="text-xs px-2 py-0.5 rounded-full bg-amber-500/20 light:bg-amber-100 text-amber-300 light:text-amber-800 border border-amber-500/30 light:border-amber-300 uppercase tracking-wider font-semibold">
+            Admin console
           </span>
         </h1>
       </div>
@@ -43,12 +43,12 @@ export function AuthorityHeader({ onRefresh, isRefreshing, onBackToMap }) {
           {theme === 'dark' ? (
             <>
               <Sun className="w-4 h-4 text-amber-400" />
-              <span className="hidden md:inline font-mono">Light</span>
+              <span className="hidden md:inline">Light</span>
             </>
           ) : (
             <>
               <Moon className="w-4 h-4 text-slate-700" />
-              <span className="hidden md:inline font-mono">Dark</span>
+              <span className="hidden md:inline">Dark</span>
             </>
           )}
         </button>

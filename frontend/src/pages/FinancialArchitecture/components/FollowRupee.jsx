@@ -5,13 +5,13 @@ const RUPEE_STAGES = [
   {
     step: 1,
     stage: "Government Allocation",
-    entity: "Ministry of Finance / Govt Treasury",
+    entity: "Sample Finance Department / Govt Treasury",
     amount: "₹1.00",
     id: "GOV-TRSY-2026-9042",
     timestamp: "12-Jan-2026 10:00 AM IST",
     purpose: "Urban Infrastructure Development Fund Sanction",
     linkedRecord: "Sanction Order SO/2026/URBAN-INFRA/9042",
-    cbdcRef: "0x71a98421_whs_cbdc_mint",
+    cbdcRef: "SAMPLE-HASH-71a98421_whs_cbdc_mint",
     description: "₹1 originates in the Sovereign Treasury as part of a ₹10.00 Cr capital allocation for public urban infrastructure."
   },
   {
@@ -23,19 +23,19 @@ const RUPEE_STAGES = [
     timestamp: "12-Jan-2026 10:01 AM IST",
     purpose: "Conversion to Programmable Sovereign Digital Tokens (INR-w)",
     linkedRecord: "RBI Settlement Ledger #984210",
-    cbdcRef: "0x8849102c_cbdc_mint_hash",
+    cbdcRef: "SAMPLE-HASH-8849102c_cbdc_mint_hash",
     description: "The allocation is tokenized into programmable wholesale CBDC units with embedded project-binding smart contracts."
   },
   {
     step: 3,
     stage: "Municipal Treasury Credit",
-    entity: "Thane Municipal Corporation (TMC)",
+    entity: "Sample Municipal Corporation (SMC)",
     amount: "₹1.00",
-    id: "TMC-TRSY-2026-004",
+    id: "SMC-TRSY-2026-004",
     timestamp: "15-Jan-2026 02:30 PM IST",
     purpose: "Grant Receipt & Ward Budget Assignment",
-    linkedRecord: "Council Resolution No. TMC/TC/2026/884",
-    cbdcRef: "0x3341092a_tmc_treasury_credit",
+    linkedRecord: "Council Resolution No. SMC/TC/2026/884",
+    cbdcRef: "SAMPLE-HASH-3341092a_tmc_treasury_credit",
     description: "₹1 enters the Municipal Treasury account earmarked specifically for Ward 150 road rehabilitation."
   },
   {
@@ -47,19 +47,19 @@ const RUPEE_STAGES = [
     timestamp: "18-Jan-2026 11:15 AM IST",
     purpose: "Project-Bound Lock & Multi-Sig Rule Capping",
     linkedRecord: "Escrow Rule ID #ESC-PRJ-0042",
-    cbdcRef: "0x98f4a102_escrow_contract_lock",
+    cbdcRef: "SAMPLE-HASH-98f4a102_escrow_contract_lock",
     description: "₹1 is locked into an automated escrow. It cannot be redirected to administrative expenses or unapproved projects."
   },
   {
     step: 5,
     stage: "Public E-Tender Notice",
-    entity: "TMC E-Procurement Portal",
+    entity: "SMC E-Procurement Portal",
     amount: "₹1.00",
     id: "TND-2026-0142",
     timestamp: "20-Jan-2026 09:00 AM IST",
     purpose: "Competitive Tender Issue (Est. ₹10.00 Cr)",
     linkedRecord: "Tender Spec Doc #TS-2026-0142",
-    cbdcRef: "0x1102941b_tender_notice_hash",
+    cbdcRef: "SAMPLE-HASH-1102941b_tender_notice_hash",
     description: "Tender is published. Bidders submit financial and technical packages electronically."
   },
   {
@@ -71,7 +71,7 @@ const RUPEE_STAGES = [
     timestamp: "25-Feb-2026 04:45 PM IST",
     purpose: "Lowest Bidder Award (P1 @ ₹6.20 Cr)",
     linkedRecord: "Work Order WO-2026-0042",
-    cbdcRef: "0x5509124a_contract_award_hash",
+    cbdcRef: "SAMPLE-HASH-5509124a_contract_award_hash",
     description: "Contract awarded to P1 bidder. Smart contract links ₹1 disbursement obligation to milestone fulfillment."
   },
   {
@@ -83,7 +83,7 @@ const RUPEE_STAGES = [
     timestamp: "15-Mar-2026 08:00 AM IST",
     purpose: "Physical Construction of 50mm Bituminous Layer",
     linkedRecord: "Site Log & DPR #SL-2026-042",
-    cbdcRef: "0x2294102c_site_execution_log",
+    cbdcRef: "SAMPLE-HASH-2294102c_site_execution_log",
     description: "Physical work proceeds. Raw materials, equipment, and labor are deployed on-site."
   },
   {
@@ -95,19 +95,19 @@ const RUPEE_STAGES = [
     timestamp: "10-Aug-2026 05:20 PM IST",
     purpose: "Measurement Book Entry & Core Density Audit",
     linkedRecord: "MB Page #142 / VJTI Audit Certificate",
-    cbdcRef: "0x770a8291_mb_audit_verification",
+    cbdcRef: "SAMPLE-HASH-770a8291_mb_audit_verification",
     description: "Work is measured. Independent core-drill testing verifies 52mm asphalt thickness."
   },
   {
     step: 9,
     stage: "Bill Clearance & Tax Deduction",
-    entity: "TMC Accounts & Finance Dept",
+    entity: "SMC Accounts & Finance Dept",
     amount: "₹1.00",
     id: "BILL-2026-0442",
     timestamp: "14-Aug-2026 01:10 PM IST",
     purpose: "Invoice Validation & Statutory Tax Withholding",
-    linkedRecord: "Invoice APEX/TMC/2026/INV-09",
-    cbdcRef: "0x88102941_bill_clearance_hash",
+    linkedRecord: "Invoice APEX/SMC/2026/INV-09",
+    cbdcRef: "SAMPLE-HASH-88102941_bill_clearance_hash",
     description: "Bill approved. Net disbursement authorized after TDS and GST compliance checks."
   },
   {
@@ -119,7 +119,7 @@ const RUPEE_STAGES = [
     timestamp: "15-Aug-2026 11:30 AM IST",
     purpose: "Instant Gross Digital Settlement",
     linkedRecord: "Bank Clearance Ref #CLR-2026-8801",
-    cbdcRef: "0x770a8291c944_cbdc_tx_90442",
+    cbdcRef: "SAMPLE-HASH-770a8291c944_cbdc_tx_90442",
     description: "Automated CBDC transfer clears instantaneously with immutable cryptographic settlement proof."
   },
   {
@@ -131,8 +131,8 @@ const RUPEE_STAGES = [
     timestamp: "15-Aug-2026 11:30 AM IST",
     purpose: "Split Credit: Vendor (₹0.54) | Material (₹0.25) | Wage (₹0.12) | Fleet (₹0.09)",
     linkedRecord: "Beneficiary CBDC Wallets",
-    cbdcRef: "0x99042811_final_recipient_credit",
-    description: "₹1 reaches final recipient. Complete financial lineage from Ministry of Finance to local worker account is preserved."
+    cbdcRef: "SAMPLE-HASH-99042811_final_recipient_credit",
+    description: "₹1 reaches final recipient. Complete financial lineage from Sample Finance Department to local worker account is preserved."
   }
 ];
 
@@ -161,17 +161,17 @@ export function FollowRupee({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-4">
+    <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4">
       <div className="bg-[#0B0E17] light:bg-white border border-cyan-500/50 light:border-slate-300 rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden font-sans text-slate-100 light:text-slate-900 transition-colors">
         
         {/* Header */}
         <div className="p-4 bg-slate-950/90 light:bg-slate-50 border-b border-slate-800 light:border-slate-200 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 text-slate-950 font-extrabold flex items-center justify-center text-lg shadow-lg shadow-cyan-500/20">
+            <div className="w-9 h-9 rounded-xl bg-cyan-500 text-slate-950 font-extrabold flex items-center justify-center text-lg shadow-lg">
               ₹1
             </div>
             <div>
-              <div className="text-[10px] font-mono uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
+              <div className="text-xs uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
                 INTERACTIVE DEMONSTRATION
               </div>
               <h2 className="text-base font-bold text-slate-100 light:text-slate-900">
@@ -197,9 +197,9 @@ export function FollowRupee({ isOpen, onClose }) {
                   setCurrentStepIndex(idx);
                   setIsPlaying(false);
                 }}
-                className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold transition-all ${
+                className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all ${
                   idx === currentStepIndex
-                    ? "bg-cyan-500 text-slate-950 ring-2 ring-cyan-300 shadow-md shadow-cyan-500/30 scale-105"
+                    ? "bg-cyan-500 text-slate-950 ring-2 ring-cyan-300 shadow-md scale-105"
                     : idx < currentStepIndex
                     ? "bg-emerald-500/20 light:bg-emerald-100 text-emerald-300 light:text-emerald-800 border border-emerald-500/40 light:border-emerald-300"
                     : "bg-slate-900 light:bg-white border border-slate-800 light:border-slate-300 text-slate-500 light:text-slate-600 hover:text-slate-300"
@@ -223,15 +223,15 @@ export function FollowRupee({ isOpen, onClose }) {
 
             <div className="flex flex-col md:flex-row items-start justify-between gap-4 mb-4 pb-4 border-b border-slate-800 light:border-slate-200">
               <div>
-                <span className="text-xs font-mono font-bold uppercase text-cyan-400 light:text-cyan-700">
+                <span className="text-xs font-bold uppercase text-cyan-400 light:text-cyan-700">
                   STAGE {currentStage.step} OF 11
                 </span>
                 <h3 className="text-xl font-bold text-slate-100 light:text-slate-900">{currentStage.stage}</h3>
-                <p className="text-xs text-slate-400 light:text-slate-600 font-mono mt-0.5">{currentStage.entity}</p>
+                <p className="text-xs text-slate-400 light:text-slate-600 mt-0.5">{currentStage.entity}</p>
               </div>
 
-              <div className="bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 px-4 py-2 rounded-xl font-mono text-right shadow-sm">
-                <span className="text-[10px] text-slate-500 light:text-slate-600 uppercase block">Monetary Value</span>
+              <div className="bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 px-4 py-2 rounded-xl text-right shadow-sm">
+                <span className="text-xs text-slate-500 light:text-slate-600 uppercase block">Monetary Value</span>
                 <span className="text-lg font-extrabold text-emerald-400 light:text-emerald-700">{currentStage.amount}</span>
               </div>
             </div>
@@ -241,33 +241,33 @@ export function FollowRupee({ isOpen, onClose }) {
             </p>
 
             {/* Grid of metadata attributes */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-mono">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               <div className="bg-slate-900/80 light:bg-white p-3 rounded-xl border border-slate-800 light:border-slate-200 shadow-sm">
-                <span className="text-[10px] text-slate-500 light:text-slate-600 uppercase block mb-0.5">Stage ID</span>
+                <span className="text-xs text-slate-500 light:text-slate-600 uppercase block mb-0.5">Stage ID</span>
                 <span className="text-cyan-300 light:text-cyan-700 font-bold">{currentStage.id}</span>
               </div>
 
               <div className="bg-slate-900/80 light:bg-white p-3 rounded-xl border border-slate-800 light:border-slate-200 shadow-sm">
-                <span className="text-[10px] text-slate-500 light:text-slate-600 uppercase block mb-0.5">Timestamp</span>
+                <span className="text-xs text-slate-500 light:text-slate-600 uppercase block mb-0.5">Timestamp</span>
                 <span className="text-slate-200 light:text-slate-800 font-bold">{currentStage.timestamp}</span>
               </div>
 
               <div className="bg-slate-900/80 light:bg-white p-3 rounded-xl border border-slate-800 light:border-slate-200 shadow-sm">
-                <span className="text-[10px] text-slate-500 light:text-slate-600 uppercase block mb-0.5">Purpose</span>
+                <span className="text-xs text-slate-500 light:text-slate-600 uppercase block mb-0.5">Purpose</span>
                 <span className="text-slate-200 light:text-slate-800">{currentStage.purpose}</span>
               </div>
 
               <div className="bg-slate-900/80 light:bg-white p-3 rounded-xl border border-slate-800 light:border-slate-200 shadow-sm">
-                <span className="text-[10px] text-slate-500 light:text-slate-600 uppercase block mb-0.5">Linked Document</span>
+                <span className="text-xs text-slate-500 light:text-slate-600 uppercase block mb-0.5">Linked Document</span>
                 <span className="text-indigo-300 light:text-indigo-700 font-bold">{currentStage.linkedRecord}</span>
               </div>
             </div>
 
             {/* CBDC Reference Bar */}
-            <div className="mt-4 p-3 rounded-xl bg-cyan-950/30 light:bg-cyan-50 border border-cyan-900/40 light:border-cyan-200 font-mono text-xs flex items-center justify-between">
+            <div className="mt-4 p-3 rounded-xl bg-cyan-950/30 light:bg-cyan-50 border border-cyan-900/40 light:border-cyan-200 text-xs flex items-center justify-between">
               <div className="flex items-center gap-2 text-cyan-400 light:text-cyan-700">
                 <Cpu className="w-4 h-4" />
-                <span className="font-bold uppercase text-[11px]">CBDC Settlement Proof</span>
+                <span className="font-bold uppercase text-xs">CBDC Settlement Proof</span>
               </div>
               <span className="text-slate-300 light:text-slate-800 truncate max-w-xs font-bold">{currentStage.cbdcRef}</span>
             </div>
@@ -279,10 +279,10 @@ export function FollowRupee({ isOpen, onClose }) {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsPlaying(!isPlaying)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono font-bold transition-all ${
+              className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                 isPlaying
                   ? "bg-amber-500 text-slate-950 hover:bg-amber-400"
-                  : "bg-cyan-500 text-slate-950 hover:bg-cyan-400 shadow-lg shadow-cyan-500/20"
+                  : "bg-cyan-500 text-slate-950 hover:bg-cyan-400 shadow-lg"
               }`}
             >
               {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
@@ -301,7 +301,7 @@ export function FollowRupee({ isOpen, onClose }) {
             </button>
           </div>
 
-          <div className="flex items-center gap-2 font-mono text-xs">
+          <div className="flex items-center gap-2 text-xs">
             <button
               disabled={currentStepIndex === 0}
               onClick={() => {

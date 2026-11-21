@@ -51,6 +51,12 @@ export function extractPathsFromGeoJson(geometry) {
   return wardGeometryCache.normalizeGeometry(geometry);
 }
 
+// Fit all of India at any width, leaving room for the side panel on desktop.
+export const fitIndia = (map) => {
+  const panel = window.innerWidth >= 1024 ? 420 : 0;
+  map.fitBounds({ north: 35.7, south: 6.5, west: 68.0, east: 97.5 }, { top: 16, bottom: 16, left: 16, right: 16 + panel });
+};
+
 export const buildMapStyles = (isDark) => {
   const bg = isDark ? '#0B0D12' : '#EEF2F7';
   const water = isDark ? '#07080C' : '#B8D4E8';
@@ -66,6 +72,8 @@ export const buildMapStyles = (isDark) => {
     { featureType: 'administrative.locality', elementType: 'labels.text.stroke', stylers: [{ color: labelStroke }, { visibility: 'simplified' }] },
     { featureType: 'administrative.country', elementType: 'geometry.stroke', stylers: [{ visibility: 'off' }] },
     { featureType: 'poi', stylers: [{ visibility: 'off' }] },
+    { featureType: 'poi.business', stylers: [{ visibility: 'off' }] },
+    { stylers: [{ saturation: -60 }] },
     { featureType: 'transit', stylers: [{ visibility: 'off' }] },
   ];
 };

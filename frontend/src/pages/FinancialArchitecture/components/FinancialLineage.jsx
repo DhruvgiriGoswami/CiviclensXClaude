@@ -22,7 +22,7 @@ export function FinancialLineage() {
     <div className="w-full bg-[#0B0E17] light:bg-white border border-slate-800 light:border-slate-300 rounded-2xl p-6 text-slate-100 light:text-slate-900 font-sans shadow-xl">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-6 pb-4 border-b border-slate-800 light:border-slate-200">
         <div>
-          <span className="text-[10px] font-mono uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
+          <span className="text-xs uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
             END-TO-END AUDIT TRAIL
           </span>
           <h2 className="text-xl font-bold text-slate-100 light:text-slate-900">Financial Lineage Tree</h2>
@@ -34,13 +34,13 @@ export function FinancialLineage() {
         <div className="flex items-center gap-2">
           <button
             onClick={() => setExpandedNodes({ fund: true, project: true, tender: true, contract: true, bills: true, bill3: true })}
-            className="px-3 py-1.5 rounded-lg bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 text-xs font-mono text-slate-300 light:text-slate-800 hover:text-white transition-colors"
+            className="px-3 py-1.5 rounded-lg bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 text-xs text-slate-300 light:text-slate-800 hover:text-white transition-colors"
           >
             Expand All
           </button>
           <button
             onClick={() => setExpandedNodes({})}
-            className="px-3 py-1.5 rounded-lg bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 text-xs font-mono text-slate-300 light:text-slate-800 hover:text-white transition-colors"
+            className="px-3 py-1.5 rounded-lg bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 text-xs text-slate-300 light:text-slate-800 hover:text-white transition-colors"
           >
             Collapse All
           </button>
@@ -48,7 +48,7 @@ export function FinancialLineage() {
       </div>
 
       {/* Lineage Tree Workspace */}
-      <div className="space-y-3 font-mono text-xs">
+      <div className="space-y-3 text-xs">
         
         {/* LEVEL 1: Fund Allocation */}
         <div className="bg-slate-950/80 light:bg-slate-50 border border-slate-800 light:border-slate-300 rounded-xl overflow-hidden shadow-sm">
@@ -66,7 +66,7 @@ export function FinancialLineage() {
           </div>
 
           {expandedNodes.fund && (
-            <div className="p-4 border-t border-slate-800/80 light:border-slate-200 space-y-3 pl-8 text-[11px] bg-slate-950/40 light:bg-white">
+            <div className="p-4 border-t border-slate-800/80 light:border-slate-200 space-y-3 pl-8 text-xs bg-slate-950/40 light:bg-white">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-slate-400 light:text-slate-600 font-semibold">
                 <div>Sanctioning: <span className="text-slate-200 light:text-slate-900 font-bold">{fund.sanctioningBody}</span></div>
                 <div>Date: <span className="text-slate-200 light:text-slate-900 font-bold">{fund.sanctionDate}</span></div>
@@ -112,7 +112,7 @@ export function FinancialLineage() {
                       </div>
 
                       {expandedNodes.tender && (
-                        <div className="p-3 border-t border-slate-800 light:border-slate-200 space-y-2 pl-4 text-[11px]">
+                        <div className="p-3 border-t border-slate-800 light:border-slate-200 space-y-2 pl-4 text-xs">
                           {tender.bids.map((b) => (
                             <div key={b.bidCode} className="flex flex-col sm:flex-row sm:items-center justify-between p-2 rounded-lg bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 gap-1 shadow-sm">
                               <div className="flex items-center gap-2">
@@ -147,7 +147,7 @@ export function FinancialLineage() {
                       </div>
 
                       {expandedNodes.contract && (
-                        <div className="p-3 border-t border-slate-800 light:border-slate-200 space-y-2 pl-4 text-[11px]">
+                        <div className="p-3 border-t border-slate-800 light:border-slate-200 space-y-2 pl-4 text-xs">
                           <div className="text-slate-400 light:text-slate-600">Original Award: <span className="text-slate-200 light:text-slate-900 font-bold">{contract.originalAwardAmount}</span></div>
                           {contract.variations.map((v) => (
                             <div key={v.variationId} className="p-2 rounded bg-indigo-950/30 light:bg-indigo-50 border border-indigo-900/40 light:border-indigo-200 text-indigo-200 light:text-indigo-900 flex justify-between shadow-sm">
@@ -175,7 +175,7 @@ export function FinancialLineage() {
                       </div>
 
                       {expandedNodes.bills && (
-                        <div className="p-3 border-t border-slate-800 light:border-slate-200 space-y-2 pl-4 text-[11px]">
+                        <div className="p-3 border-t border-slate-800 light:border-slate-200 space-y-2 pl-4 text-xs">
                           {bills.map((bill) => (
                             <div key={bill.billId} className="p-3 rounded-xl bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 space-y-1.5 shadow-sm">
                               <div className="flex items-center justify-between">
@@ -184,16 +184,16 @@ export function FinancialLineage() {
                               </div>
                               <p className="text-slate-300 light:text-slate-800 font-sans text-xs font-semibold">{bill.milestone}</p>
                               
-                              <div className="pt-2 border-t border-slate-800 light:border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[10px] text-slate-400 light:text-slate-600">
+                              <div className="pt-2 border-t border-slate-800 light:border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs text-slate-400 light:text-slate-600">
                                 <div>Date: <span className="text-slate-200 light:text-slate-900 font-bold">{bill.paymentDate}</span></div>
-                                <div className="flex items-center gap-1 font-mono text-cyan-400 light:text-cyan-700 truncate font-bold">
+                                <div className="flex items-center gap-1 text-cyan-400 light:text-cyan-700 truncate font-bold">
                                   <Cpu className="w-3 h-3 flex-shrink-0" />
                                   <span className="truncate">{bill.cbdcTxHash}</span>
                                 </div>
                               </div>
 
                               {bill.verificationStatus === 'DISCREPANCY_AUDITED' && (
-                                <div className="p-2 rounded bg-rose-950/40 light:bg-rose-50 border border-rose-900/60 light:border-rose-200 text-rose-300 light:text-rose-900 text-[10px] font-sans flex items-center gap-1.5 shadow-sm font-medium">
+                                <div className="p-2 rounded bg-rose-950/40 light:bg-rose-50 border border-rose-900/60 light:border-rose-200 text-rose-300 light:text-rose-900 text-xs font-sans flex items-center gap-1.5 shadow-sm font-medium">
                                   <ShieldAlert className="w-3.5 h-3.5 flex-shrink-0 text-rose-400 light:text-rose-600" />
                                   <span>{bill.auditNote}</span>
                                 </div>

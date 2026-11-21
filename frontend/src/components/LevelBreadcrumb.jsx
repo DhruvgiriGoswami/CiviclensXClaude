@@ -1,5 +1,7 @@
 import React from 'react';
 import { ChevronRight, Globe, Building, Home, LandPlot } from 'lucide-react';
+import { shortUnitLabel } from '../utils/format';
+import { STATE_NAMES } from '../utils/mapHelpers';
 
 export function LevelBreadcrumb({
   currentLevel,
@@ -14,7 +16,7 @@ export function LevelBreadcrumb({
   // Resolve State object and display name
   const derivedStateId = selectedState?.stateId || selectedUnit?.stateId || (selectedUnit?.unitId ? selectedUnit.unitId.split('-')[1] : null);
   const stateObj = selectedState;
-  const stateName = stateObj?.stateName || (derivedStateId ? `State (${derivedStateId})` : null);
+  const stateName = stateObj?.stateName || (derivedStateId ? (STATE_NAMES[derivedStateId] || derivedStateId) : null);
 
   // Resolve District Name (Level 3)
   let rawDistrictName = null;
@@ -30,7 +32,7 @@ export function LevelBreadcrumb({
   }
 
   const cleanDistrictName = rawDistrictName ? rawDistrictName.replace(/\s+District$/i, '').trim() : null;
-  const districtDisplay = cleanDistrictName ? `${cleanDistrictName} District` : null;
+  const districtDisplay = cleanDistrictName && cleanDistrictName !== 'District' ? shortUnitLabel(cleanDistrictName) : null;
 
   // Resolve Corporation / Municipality (Level 4)
   let corpName = null;
@@ -78,19 +80,19 @@ export function LevelBreadcrumb({
 
   return (
     <div className="bg-[#12151E]/95 light:bg-white/95 border-b border-slate-800 light:border-slate-200 px-3 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between z-20 shadow-md flex-shrink-0">
-      <div className="flex items-center space-x-1 sm:space-x-1.5 text-xs font-mono overflow-x-auto no-scrollbar py-0.5">
+      <div className="flex items-center space-x-1 sm:space-x-1.5 text-xs overflow-x-auto no-scrollbar py-0.5">
         
         {/* LEVEL 1: National Macro */}
         <button
           onClick={onResetToNational}
-          className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 py-1 rounded-lg transition-all flex-shrink-0 ${
+          className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 min-h-[44px] rounded-lg transition-colors min-w-0 ${
             isNationalActive
-              ? 'bg-crimson-500/20 text-crimson-400 border border-crimson-500/40 font-bold shadow-sm'
+              ? 'bg-slate-100 text-slate-900 light:bg-slate-900 light:text-white font-semibold'
               : 'text-slate-400 light:text-slate-600 hover:text-slate-200 light:hover:text-slate-900 hover:bg-slate-800/60'
           }`}
         >
           <Globe className="w-3.5 h-3.5 flex-shrink-0" />
-          <span>India <span className="hidden sm:inline">(Level 1 Macro)</span></span>
+          <span title="Country">India</span>
         </button>
 
         {/* LEVEL 2: State */}
@@ -99,14 +101,14 @@ export function LevelBreadcrumb({
             <ChevronRight className="w-3.5 h-3.5 text-slate-600 flex-shrink-0" />
             <button
               onClick={() => stateObj && onSelectState && onSelectState(stateObj)}
-              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 py-1 rounded-lg transition-all flex-shrink-0 ${
+              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 min-h-[44px] rounded-lg transition-colors min-w-0 ${
                 isStateActive
-                  ? 'bg-crimson-500/20 text-crimson-400 border border-crimson-500/40 font-bold shadow-sm'
+                  ? 'bg-slate-100 text-slate-900 light:bg-slate-900 light:text-white font-semibold'
                   : 'text-slate-400 light:text-slate-600 hover:text-slate-200 light:hover:text-slate-900 hover:bg-slate-800/60'
               }`}
             >
               <Building className="w-3.5 h-3.5 flex-shrink-0" />
-              <span>{stateName} <span className="hidden sm:inline">(Level 2 State)</span></span>
+              <span className={isStateActive ? "" : "truncate max-w-[9rem]"} title={`State: ${stateName}`}>{stateName}</span>
             </button>
           </>
         )}
@@ -117,14 +119,14 @@ export function LevelBreadcrumb({
             <ChevronRight className="w-3.5 h-3.5 text-slate-600 flex-shrink-0" />
             <button
               onClick={() => onSelectDistrict && onSelectDistrict(cleanDistrictName, derivedStateId)}
-              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 py-1 rounded-lg transition-all flex-shrink-0 ${
+              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 min-h-[44px] rounded-lg transition-colors min-w-0 ${
                 isDistrictActive
-                  ? 'bg-crimson-500/20 text-crimson-400 border border-crimson-500/40 font-bold shadow-sm'
+                  ? 'bg-slate-100 text-slate-900 light:bg-slate-900 light:text-white font-semibold'
                   : 'text-slate-400 light:text-slate-600 hover:text-slate-200 light:hover:text-slate-900 hover:bg-slate-800/60'
               }`}
             >
               <LandPlot className="w-3.5 h-3.5 flex-shrink-0" />
-              <span>{districtDisplay} <span className="hidden sm:inline">(Level 3 District)</span></span>
+              <span className={isDistrictActive ? "" : "truncate max-w-[8rem]"} title={`District: ${districtDisplay}`}>{districtDisplay}</span>
             </button>
           </>
         )}
@@ -135,14 +137,14 @@ export function LevelBreadcrumb({
             <ChevronRight className="w-3.5 h-3.5 text-slate-600 flex-shrink-0" />
             <button
               onClick={() => corpObj && onSelectCorporation && onSelectCorporation(corpObj)}
-              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 py-1 rounded-lg transition-all flex-shrink-0 ${
+              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 min-h-[44px] rounded-lg transition-colors min-w-0 ${
                 isCorpActive
-                  ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40 font-bold shadow-sm'
+                  ? 'bg-slate-100 text-slate-900 light:bg-slate-900 light:text-white font-semibold'
                   : 'text-slate-400 light:text-slate-600 hover:text-slate-200 light:hover:text-slate-900 hover:bg-slate-800/60'
               }`}
             >
-              <Building className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
-              <span>{corpName} <span className="hidden sm:inline">(Level 4 Corporation)</span></span>
+              <Building className="w-3.5 h-3.5 flex-shrink-0" />
+              <span className={isCorpActive ? "" : "truncate max-w-[8rem]"} title={`Municipal corporation: ${corpName}`}>{shortUnitLabel(corpName)}</span>
             </button>
           </>
         )}
@@ -153,14 +155,14 @@ export function LevelBreadcrumb({
             <ChevronRight className="w-3.5 h-3.5 text-slate-600 flex-shrink-0" />
             <button
               onClick={() => onSelectWard && onSelectWard(selectedUnit)}
-              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 py-1 rounded-lg transition-all flex-shrink-0 ${
+              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 min-h-[44px] rounded-lg transition-colors min-w-0 ${
                 isWardActive
-                  ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-bold shadow-sm'
+                  ? 'bg-slate-100 text-slate-900 light:bg-slate-900 light:text-white font-semibold'
                   : 'text-slate-400 light:text-slate-600 hover:text-slate-200 light:hover:text-slate-900 hover:bg-slate-800/60'
               }`}
             >
-              <Home className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-              <span>{selectedUnit.unitName} <span className="hidden sm:inline">(Level 5 Micro Ward)</span></span>
+              <Home className="w-3.5 h-3.5 flex-shrink-0" />
+              <span title={`Ward: ${selectedUnit.unitName}`}>{shortUnitLabel(selectedUnit.unitName)}</span>
             </button>
           </>
         )}

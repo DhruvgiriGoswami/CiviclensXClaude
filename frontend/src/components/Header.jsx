@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Search, ShieldAlert, Award, FileText, Layers, UserCheck, Activity, Zap, Sun, Moon, Type, Eye, Building, Landmark, ChevronRight, HelpCircle, Info } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { geographyApi, searchApi, systemApi } from '../services/api';
-import { CapexBreakdownModal } from './CapexBreakdownModal';
+import { CapexBreakdownModal, outlayTotalRange } from './CapexBreakdownModal';
+import { rankSearch } from '../utils/search';
 
 export function Header({
   onOpenNationalLeaders,
   onOpenTour,
+  onOpenFollowRupee,
   onSelectUnit,
   onSelectState,
   allUnits,
@@ -87,6 +89,7 @@ export function Header({
 
   const [apiSearchResults, setApiSearchResults] = useState([]);
   const [isSearchLoading, setIsSearchLoading] = useState(false);
+  const [searchOffline, setSearchOffline] = useState(false);
 
   // PostgreSQL GIN-indexed pg_trgm trigram search with 250ms debounce
   useEffect(() => {
@@ -101,11 +104,18 @@ export function Header({
     const timer = setTimeout(() => {
       searchApi.searchFuzzy(queryTerm, 20)
         .then(data => {
-          setApiSearchResults(data?.results || []);
+          // One row per unit, and names that start with the query first ("Pune" before "Punjab").
+          const results = data?.results || [];
+          const keyOf = (r) => r.geo_unit_id || `${r.entity_type}-${r.id}`;
+          const ranked = rankSearch(results, queryTerm, { key: keyOf, label: (r) => r.name || r.geo_unit_name || '', limit: 20 });
+          const seen = new Set(ranked.map(keyOf));
+          const rest = results.filter((r) => !seen.has(keyOf(r)) && seen.add(keyOf(r)));
+          setApiSearchResults([...ranked, ...rest]);
+          setSearchOffline(false);
         })
-        .catch(err => {
-          console.warn('[MIGRATION FALLBACK — REMOVE AFTER STAGING] Search API error:', err);
+        .catch(() => {
           setApiSearchResults([]);
+          setSearchOffline(true);
         })
         .finally(() => setIsSearchLoading(false));
     }, 250);
@@ -196,10 +206,7 @@ export function Header({
     return 'OTHER';
   };
 
-  const matchedStates = q === '' ? [] : INDIAN_STATES.filter(st =>
-    st.stateName.toLowerCase().includes(q) ||
-    st.stateId.toLowerCase().includes(q)
-  );
+  const matchedStates = rankSearch(INDIAN_STATES, q, { key: (st) => st.stateId, label: (st) => st.stateName, limit: 40 });
 
   const matchedCorps = q === '' ? [] : municipalCorps.filter(c => {
     const codeLower = (c.code || '').toLowerCase();
@@ -222,7 +229,7 @@ export function Header({
     (u.administrativeSpender?.name || '').toLowerCase().includes(q)
   );
 
-  const matchedWards = q === '' ? [] : (allUnits || []).filter(u => {
+  const matchedWards = q === '' ? [] : [...new Map((allUnits || []).map((u) => [u.unitId, u])).values()].filter(u => {
     const nameLower = (u.unitName || '').toLowerCase();
     const parentLower = (u.parentCityDistrict || '').toLowerCase();
     const idLower = (u.unitId || '').toLowerCase();
@@ -240,96 +247,37 @@ export function Header({
   const hasAnyResults = apiSearchResults.length > 0 || matchedStates.length > 0 || matchedCorps.length > 0 || matchedLeaders.length > 0 || matchedWards.length > 0;
 
   return (
-    <div className="w-full flex-shrink-0 z-30 pt-[env(safe-area-inset-top)] bg-[#0E1118] light:bg-[#F8FAFC]">
-      {/* ─── ReBIT / RBI Style Top Accessibility & Utility Toolbar ─── */}
-      <div className="hidden sm:flex min-h-7 py-0.5 bg-[#06080E] light:bg-[#F1F5F9] text-slate-300 light:text-slate-800 border-b border-slate-800/80 light:border-slate-300 px-3 sm:px-4 items-center justify-between text-[10px] sm:text-[11px] font-mono select-none flex-wrap gap-1">
-        <div className="flex items-center space-x-2 min-w-0">
-          <span className="flex items-center gap-1.5 font-semibold text-[10px] uppercase text-amber-400 light:text-amber-700 truncate">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 light:bg-amber-600 flex-shrink-0"></span>
-            <span className="truncate">CivicLens - National Civic Transparency & Auditing Framework</span>
-          </span>
-        </div>
-
-        {/* Accessibility & Font Controls Toolbar */}
-        <div className="flex items-center space-x-2 flex-shrink-0">
-          {/* Font Controls (A- / A / A+) */}
-          <div className="flex items-center space-x-1 bg-slate-900/90 light:bg-white px-1.5 py-0.5 rounded border border-slate-700/60 light:border-slate-300 text-[11px]">
-            <span className="text-slate-400 light:text-slate-600 mr-0.5 hidden md:inline-flex items-center gap-0.5">
-              <Type className="w-3 h-3 text-slate-400 light:text-slate-600" />
-              Font:
-            </span>
-            <button
-              onClick={decreaseFontSize}
-              title="Decrease Font Size"
-              className="px-1 py-0.2 rounded hover:bg-amber-500/20 text-slate-300 light:text-slate-700 hover:text-amber-400 font-bold transition-colors"
-            >
-              A-
-            </button>
-            <button
-              onClick={resetFontSize}
-              title="Reset Font Size (100%)"
-              className={`px-1 py-0.2 rounded hover:bg-amber-500/20 font-bold transition-colors ${fontScale === 100 ? 'text-amber-400 light:text-amber-700 bg-amber-500/10' : 'text-slate-300 light:text-slate-700'}`}
-            >
-              A
-            </button>
-            <button
-              onClick={increaseFontSize}
-              title="Increase Font Size"
-              className="px-1 py-0.2 rounded hover:bg-amber-500/20 text-slate-300 light:text-slate-700 hover:text-amber-400 font-bold transition-colors"
-            >
-              A+
-            </button>
-            <span className="text-[9px] text-amber-400 light:text-amber-700 font-bold ml-0.5">({fontScale}%)</span>
-          </div>
-
-          {/* Light / Dark Mode Toggle */}
-          <button
-            onClick={toggleTheme}
-            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            className="px-1.5 py-0.5 rounded bg-slate-900 light:bg-white text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300 hover:border-amber-400 transition-colors flex items-center gap-1 text-[10px]"
-          >
-            {theme === 'dark' ? (
-              <>
-                <Sun className="w-3 h-3 text-amber-400" />
-                <span className="hidden md:inline">Light</span>
-              </>
-            ) : (
-              <>
-                <Moon className="w-3 h-3 text-amber-500" />
-                <span className="hidden md:inline">Dark</span>
-              </>
-            )}
-          </button>
-        </div>
-      </div>
-
+    <div className="w-full flex-shrink-0 z-30 pt-[env(safe-area-inset-top)] bg-[#0E1118] light:bg-[#F8FAFC] flex flex-col">
       {/* ─── Main Header Navigation ─── */}
-      <header className="min-h-14 md:h-16 bg-[#0E1118]/95 light:bg-white/95 border-b border-slate-800/80 light:border-slate-200 backdrop-blur-md px-3 sm:px-4 py-2 md:py-0 flex flex-col md:flex-row md:items-center justify-between relative shadow-lg gap-2 md:gap-0">
-        <div className="flex items-center justify-between w-full md:w-auto relative">
+      <header className="min-h-14 lg:h-16 bg-[#0E1118] light:bg-white border-b border-slate-800/80 light:border-slate-200 px-3 sm:px-4 py-2 lg:py-0 flex flex-col lg:flex-row lg:items-center justify-between relative shadow-sm gap-2 lg:gap-0">
+        <div className="flex items-center justify-between w-full lg:w-auto relative">
           {/* Logo on Left */}
-          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-lg shadow-crimson-600/25 border border-crimson-400/40 flex-shrink-0 bg-white flex items-center justify-center p-0.5">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-lg border border-crimson-400/40 flex-shrink-0 bg-white flex items-center justify-center p-0.5">
             <img
               src="/hand_Fav.jpg"
               alt="CivicLens Logo"
-              className="w-full h-full object-contain rounded-lg animate-pulse"
+              className="w-full h-full object-contain rounded-lg"
             />
           </div>
 
           {/* Title "CivicLens India" in the Middle on Mobile, Left-aligned next to Logo on Desktop */}
           <div className="flex-1 sm:flex-initial text-center sm:text-left sm:ml-4 min-w-0 px-2 sm:px-0">
             <div className="flex items-center justify-center sm:justify-start space-x-1.5 sm:space-x-2">
-              <span className="font-extrabold text-base sm:text-lg tracking-wider bg-gradient-to-r from-white via-slate-200 to-crimson-400 light:from-slate-900 light:via-slate-800 light:to-crimson-600 bg-clip-text text-transparent font-sans truncate">
-                CivicLens <span className="text-crimson-500 font-mono text-xs sm:text-sm uppercase px-1 sm:px-1.5 py-0.5 rounded bg-crimson-500/10 border border-crimson-500/30 ml-1 inline-block">India</span>
+              <span className="font-extrabold text-base sm:text-lg tracking-wider text-slate-100 light:text-slate-900 font-sans truncate">
+                CivicLens <span className="text-crimson-300 light:text-crimson-700 text-xs sm:text-sm uppercase px-1 sm:px-1.5 py-0.5 rounded bg-crimson-500/10 border border-crimson-500/30 ml-1 inline-block">India</span>
               </span>
             </div>
-            <p className="text-[10px] sm:text-[11px] text-slate-400 light:text-slate-600 font-mono truncate hidden xs:block">National Civic Transparency Framework</p>
+            {!isBackendHealthy && (
+              <span role="status" className="inline-flex items-center mt-0.5 px-2 py-0.5 rounded-md text-xs font-semibold bg-slate-700 text-slate-100 light:bg-slate-200 light:text-slate-800">Offline</span>
+            )}
           </div>
 
           {/* Quick Mobile Theme Toggle Button on Far Right */}
           <div className="flex sm:hidden items-center justify-end flex-shrink-0">
             <button
               onClick={toggleTheme}
-              className="p-1.5 rounded-lg bg-slate-800 light:bg-slate-200 text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300"
+              aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+              className="w-11 h-11 inline-flex items-center justify-center rounded-lg bg-slate-800 light:bg-slate-200 text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300"
             >
               {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-amber-600" />}
             </button>
@@ -337,27 +285,29 @@ export function Header({
         </div>
 
         {/* Global Search Bar */}
-        <div id="search-bar-step" className="relative w-full md:flex-1 md:max-w-sm lg:max-w-md xl:max-w-lg xl:absolute xl:left-1/2 xl:-translate-x-1/2 z-30 mx-0 md:mx-4">
+        <div id="search-bar-step" className="relative w-full lg:flex-1 lg:max-w-md z-30 mx-0 lg:mx-4">
           <div className="relative">
             <Search className="w-4 h-4 text-slate-400 light:text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
-              type="text"
-              placeholder="Search Corporation (NMMC/BMC/PMC), Leader, Ward..."
+              type="search"
+              aria-label="Search for a place, corporation, ward or leader"
+              placeholder="Search a city, ward or leader"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setIsSearching(true)}
-              className="w-full bg-slate-800/90 light:bg-slate-100 border border-slate-600/60 light:border-slate-300 rounded-xl pl-9 pr-4 py-1.5 text-xs text-white light:text-slate-900 placeholder-slate-400 light:placeholder-slate-500 focus:outline-none focus:border-crimson-500/70 focus:ring-1 focus:ring-crimson-500/50 transition-all font-sans"
+              className="w-full bg-slate-800/90 light:bg-slate-100 border border-slate-600/60 light:border-slate-300 rounded-xl pl-9 pr-4 min-h-[44px] text-sm text-white light:text-slate-900 placeholder-slate-400 light:placeholder-slate-500 focus:border-slate-400 transition-colors font-sans"
             />
           </div>
 
           {/* Categorized Search Results Dropdown */}
           {isSearching && hasAnyResults && (
             <div className="absolute top-full mt-2 left-0 right-0 glass-panel light:bg-white light:border-slate-300 rounded-xl border border-slate-700/80 shadow-2xl max-h-[60vh] md:max-h-80 overflow-y-auto z-50 p-2 space-y-2">
+              {searchOffline && <p className="px-2 py-1 text-xs text-slate-400 light:text-slate-600">Showing offline results. We could not reach the server.</p>}
 
               {/* CATEGORY: Search Results */}
               {apiSearchResults.length > 0 && (
                 <div className="border-b border-slate-700/60 light:border-slate-200 pb-2 mb-2">
-                  <div className="text-[10px] uppercase font-mono font-bold text-sky-400 light:text-sky-700 px-2 py-1 flex items-center justify-between">
+                  <div className="text-xs uppercase font-bold text-sky-400 light:text-sky-700 px-2 py-1 flex items-center justify-between">
                     <span className="flex items-center gap-1">
                       <Building className="w-3 h-3 text-sky-400 light:text-sky-700" />
                       Search Results
@@ -484,12 +434,12 @@ export function Header({
                         <div className="text-xs font-bold text-slate-100 light:text-slate-900 group-hover:text-sky-400 light:group-hover:text-sky-700 font-sans flex items-center gap-1.5">
                           <span>{res.name}</span>
                           {res.entity_type === 'PERSON' && (
-                            <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-crimson-500/20 light:bg-crimson-100 text-crimson-300 light:text-crimson-800 border border-crimson-500/30 light:border-crimson-300">
+                            <span className="text-xs font-bold px-1.5 py-0.5 rounded bg-crimson-500/20 light:bg-crimson-100 text-crimson-300 light:text-crimson-800 border border-crimson-500/30 light:border-crimson-300">
                               {res.person_type || 'LEADER'}
                             </span>
                           )}
                         </div>
-                        <div className="text-[10px] text-slate-400 light:text-slate-600 font-medium">
+                        <div className="text-xs text-slate-400 light:text-slate-600 font-medium">
                           {res.entity_type === 'MUNICIPAL_CORPORATION' || res.entity_type === 'MUNICIPALITY'
                             ? 'Municipal Corporation'
                             : res.entity_type === 'PERSON'
@@ -506,7 +456,7 @@ export function Header({
               {/* CATEGORY 0: States & Union Territories */}
               {matchedStates.length > 0 && (
                 <div>
-                  <div className="text-[10px] uppercase font-mono font-bold text-emerald-400 light:text-emerald-700 px-2 py-1 flex items-center gap-1">
+                  <div className="text-xs uppercase font-bold text-emerald-400 light:text-emerald-700 px-2 py-1 flex items-center gap-1">
                     <Landmark className="w-3 h-3 text-emerald-400 light:text-emerald-700" />
                     <span>States & Union Territories</span>
                   </div>
@@ -524,12 +474,12 @@ export function Header({
                     >
                       <div>
                         <div className="text-xs font-bold text-slate-100 light:text-slate-900 group-hover:text-emerald-400 light:group-hover:text-emerald-700">{st.stateName}</div>
-                        <div className="text-[10px] text-slate-400 light:text-slate-600 font-medium">
+                        <div className="text-xs text-slate-400 light:text-slate-600 font-medium">
                           {st.type === 'UNION_TERRITORY' ? 'Union Territory' : 'State'} &bull; Capital: {st.capital} &bull; {st.cmName}
                         </div>
                       </div>
                       <div className="flex items-center gap-1">
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/20 light:bg-emerald-100 text-emerald-400 light:text-emerald-800 border border-emerald-500/40 light:border-emerald-300 font-bold">
+                        <span className="text-xs px-2 py-0.5 rounded bg-emerald-500/20 light:bg-emerald-100 text-emerald-400 light:text-emerald-800 border border-emerald-500/40 light:border-emerald-300 font-bold">
                           {st.stateId}
                         </span>
                         <ChevronRight className="w-3.5 h-3.5 text-slate-400 light:text-slate-500 group-hover:text-emerald-400 light:group-hover:text-emerald-600 transition-transform group-hover:translate-x-0.5" />
@@ -542,7 +492,7 @@ export function Header({
               {/* CATEGORY 1: Municipal Corporations */}
               {matchedCorps.length > 0 && (
                 <div>
-                  <div className="text-[10px] uppercase font-mono font-bold text-amber-400 light:text-amber-700 px-2 py-1 flex items-center gap-1">
+                  <div className="text-xs uppercase font-bold text-amber-400 light:text-amber-700 px-2 py-1 flex items-center gap-1">
                     <Building className="w-3 h-3 text-amber-400 light:text-amber-700" />
                     <span>Municipal Corporations — Highlight All Wards</span>
                   </div>
@@ -574,9 +524,9 @@ export function Header({
                     >
                       <div>
                         <div className="text-xs font-bold text-slate-100 light:text-slate-900 group-hover:text-amber-400 light:group-hover:text-amber-700">{corp.name}</div>
-                        <div className="text-[10px] text-slate-400 light:text-slate-600 font-medium">Highlight all wards under {corp.code} ({corp.city})</div>
+                        <div className="text-xs text-slate-400 light:text-slate-600 font-medium">Highlight all wards under {corp.code} ({corp.city})</div>
                       </div>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/20 light:bg-amber-100 text-amber-400 light:text-amber-800 border border-amber-500/40 light:border-amber-300 font-bold">
+                      <span className="text-xs px-2 py-0.5 rounded bg-amber-500/20 light:bg-amber-100 text-amber-400 light:text-amber-800 border border-amber-500/40 light:border-amber-300 font-bold">
                         {corp.code} Corporation
                       </span>
                     </button>
@@ -587,7 +537,7 @@ export function Header({
               {/* CATEGORY 2: Politicians & Bureaucrats */}
               {matchedLeaders.length > 0 && (
                 <div>
-                  <div className="text-[10px] uppercase font-mono font-bold text-crimson-400 light:text-crimson-700 px-2 py-1 flex items-center gap-1">
+                  <div className="text-xs uppercase font-bold text-crimson-400 light:text-crimson-700 px-2 py-1 flex items-center gap-1">
                     <UserCheck className="w-3 h-3 text-crimson-400 light:text-crimson-700" />
                     <span>Politicians & Civic Bureaucrats</span>
                   </div>
@@ -613,9 +563,9 @@ export function Header({
                       >
                         <div>
                           <div className="text-xs font-bold text-slate-100 light:text-slate-900 group-hover:text-crimson-400 light:group-hover:text-crimson-700">{leaderName}</div>
-                          <div className="text-[10px] text-slate-400 light:text-slate-600 font-medium">{leaderTitle} &bull; {unit.unitName}</div>
+                          <div className="text-xs text-slate-400 light:text-slate-600 font-medium">{leaderTitle} &bull; {unit.unitName}</div>
                         </div>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-crimson-500/20 light:bg-crimson-100 text-crimson-400 light:text-crimson-800 border border-crimson-500/40 light:border-crimson-300 font-bold">
+                        <span className="text-xs px-2 py-0.5 rounded bg-crimson-500/20 light:bg-crimson-100 text-crimson-400 light:text-crimson-800 border border-crimson-500/40 light:border-crimson-300 font-bold">
                           {matchPol ? 'Politician' : 'Bureaucrat'}
                         </span>
                       </button>
@@ -627,7 +577,7 @@ export function Header({
               {/* CATEGORY 3: Wards & Gram Panchayats */}
               {matchedWards.length > 0 && (
                 <div>
-                  <div className="text-[10px] uppercase font-mono font-bold text-slate-400 light:text-slate-700 px-2 py-1">Matching Wards & Panchayats</div>
+                  <div className="text-xs uppercase font-bold text-slate-400 light:text-slate-700 px-2 py-1">Matching Wards & Panchayats</div>
                   {matchedWards.map((unit) => (
                     <button
                       key={unit.unitId}
@@ -640,9 +590,9 @@ export function Header({
                     >
                       <div>
                         <div className="text-xs font-semibold text-slate-100 light:text-slate-900 group-hover:text-crimson-400 light:group-hover:text-crimson-700">{unit.unitName}</div>
-                        <div className="text-[10px] text-slate-400 light:text-slate-600 font-medium">{unit.parentCityDistrict}</div>
+                        <div className="text-xs text-slate-400 light:text-slate-600 font-medium">{unit.parentCityDistrict}</div>
                       </div>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 light:bg-slate-200 text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300 font-bold">
+                      <span className="text-xs px-2 py-0.5 rounded bg-slate-900 light:bg-slate-200 text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300 font-bold">
                         {unit.unitType === 'MUNICIPAL_CORPORATION' || unit.unitType === 'MUNICIPALITY' || unit.unitType === 'CITY'
                           ? 'Municipal Corporation'
                           : unit.unitType === 'URBAN_WARD' || unit.unitType === 'WARD'
@@ -659,12 +609,12 @@ export function Header({
         </div>
 
         {/* Action Controls & Top Stats */}
-        <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2">
+        <div className="flex flex-wrap items-center justify-start sm:justify-end w-full lg:w-auto gap-2">
           {/* How It Works / Guided Tour Button */}
           {onOpenTour && (
             <button
               onClick={onOpenTour}
-              className="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-crimson-500/15 light:bg-crimson-50 hover:bg-crimson-500/25 border border-crimson-500/40 text-xs font-mono font-bold text-crimson-400 light:text-crimson-700 transition-all shadow-md group flex-shrink-0"
+              className="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-crimson-500/15 light:bg-crimson-50 hover:bg-crimson-500/25 border border-crimson-500/40 text-xs font-bold text-crimson-400 light:text-crimson-700 transition-all shadow-md group flex-shrink-0"
               title="How it Works (3-Step Tour)"
             >
               <HelpCircle className="w-3.5 h-3.5 text-crimson-400 light:text-crimson-600 group-hover:rotate-12 transition-transform flex-shrink-0" />
@@ -672,10 +622,21 @@ export function Header({
             </button>
           )}
 
+          {onOpenFollowRupee && (
+            <a
+              href="/follow-the-rupee"
+              onClick={(e) => { e.preventDefault(); onOpenFollowRupee(); }}
+              className="inline-flex items-center gap-1.5 min-h-[44px] px-3 rounded-xl bg-crimson-700 hover:bg-crimson-800 text-white text-xs font-semibold flex-shrink-0"
+            >
+              <Landmark className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+              <span>Follow the Rupee: Mumbai audit</span>
+            </a>
+          )}
+
           {/* National Leadership Directory Trigger */}
           <button
             onClick={onOpenNationalLeaders}
-            className="flex items-center space-x-1.5 sm:space-x-2 px-2.5 sm:px-3 py-1.5 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 light:from-slate-100 light:to-slate-200 hover:from-slate-800 hover:to-slate-700 border border-slate-700/70 light:border-slate-300 text-xs font-medium text-slate-200 light:text-slate-800 transition-all shadow-md group flex-shrink-0 ml-auto sm:ml-0"
+            className="flex items-center space-x-1.5 sm:space-x-2 px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-900 light:bg-slate-100 hover:bg-slate-800 border border-slate-700/70 light:border-slate-300 text-xs font-medium text-slate-200 light:text-slate-800 transition-all shadow-md group flex-shrink-0 ml-auto sm:ml-0"
           >
             <UserCheck className="w-3.5 h-3.5 text-crimson-400 group-hover:scale-110 transition-transform flex-shrink-0" />
             <span>National Directory <span className="hidden xl:inline">(PM / CM / Prez)</span></span>
@@ -685,20 +646,84 @@ export function Header({
           <div className="hidden lg:flex items-center space-x-4 pl-3 border-l border-slate-800 light:border-slate-200 text-xs">
             <div className="flex flex-col">
               <div className="flex items-center gap-1">
-                <span className="text-[9px] uppercase font-mono text-slate-500 light:text-slate-400">CapEx Tracked</span>
+                <span className="text-xs text-slate-400 light:text-slate-600">Annual budget outlay</span>
                 <button
                   onClick={() => setIsCapexModalOpen(true)}
-                  title="View Municipal Outlay Breakdown"
-                  className="p-0.5 rounded-full text-slate-400 hover:text-amber-400 light:text-slate-500 light:hover:text-amber-600 hover:bg-slate-800 light:hover:bg-slate-200 transition-colors cursor-pointer"
+                  title="See the budget breakdown"
+                  aria-label="See the budget breakdown"
+                  className="w-11 h-11 -my-3 inline-flex items-center justify-center rounded-full text-slate-400 hover:text-amber-400 light:text-slate-500 light:hover:text-amber-600 hover:bg-slate-800 light:hover:bg-slate-200 transition-colors cursor-pointer"
                 >
                   <Info className="w-3 h-3" />
                 </button>
               </div>
-              <span className="font-mono font-bold text-slate-200 light:text-slate-800 text-xs">₹2,02,782 Crore</span>
+              <span className="font-bold text-slate-200 light:text-slate-800 text-xs">{outlayTotalRange()}</span>
             </div>
           </div>
         </div>
       </header>
+
+      {/* ─── ReBIT / RBI Style Top Accessibility & Utility Toolbar ─── */}
+      <div className="order-first hidden sm:flex min-h-7 py-0.5 bg-[#06080E] light:bg-[#F1F5F9] text-slate-300 light:text-slate-800 border-b border-slate-800/80 light:border-slate-300 px-3 sm:px-4 items-center justify-between text-xs sm:text-xs select-none flex-wrap gap-1">
+        <div className="flex items-center space-x-2 min-w-0">
+
+        </div>
+
+        {/* Accessibility & Font Controls Toolbar */}
+        <div className="flex items-center space-x-2 flex-shrink-0">
+          {/* Font Controls (A- / A / A+) */}
+          <div className="flex items-center space-x-1 bg-slate-900/90 light:bg-white px-1.5 py-0.5 rounded border border-slate-700/60 light:border-slate-300 text-xs">
+            <span className="text-slate-400 light:text-slate-600 mr-0.5 hidden md:inline-flex items-center gap-0.5">
+              <Type className="w-3 h-3 text-slate-400 light:text-slate-600" />
+              Font:
+            </span>
+            <button
+              onClick={decreaseFontSize}
+              title="Decrease Font Size"
+              aria-label="Smaller text"
+              className="min-w-[44px] min-h-[44px] rounded hover:bg-amber-500/20 text-slate-300 light:text-slate-700 hover:text-amber-400 font-bold transition-colors"
+            >
+              A-
+            </button>
+            <button
+              onClick={resetFontSize}
+              title="Reset Font Size (100%)"
+              aria-label="Default text size"
+              className={`min-w-[44px] min-h-[44px] rounded hover:bg-amber-500/20 font-bold transition-colors ${fontScale === 100 ? 'text-amber-400 light:text-amber-700 bg-amber-500/10' : 'text-slate-300 light:text-slate-700'}`}
+            >
+              A
+            </button>
+            <button
+              onClick={increaseFontSize}
+              title="Increase Font Size"
+              aria-label="Larger text"
+              className="min-w-[44px] min-h-[44px] rounded hover:bg-amber-500/20 text-slate-300 light:text-slate-700 hover:text-amber-400 font-bold transition-colors"
+            >
+              A+
+            </button>
+            <span className="text-xs text-amber-400 light:text-amber-700 font-bold ml-0.5">({fontScale}%)</span>
+          </div>
+
+          {/* Light / Dark Mode Toggle */}
+          <button
+            onClick={toggleTheme}
+            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+            aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
+            className="min-h-[44px] px-2.5 rounded bg-slate-900 light:bg-white text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300 hover:border-amber-400 transition-colors flex items-center gap-1 text-xs"
+          >
+            {theme === 'dark' ? (
+              <>
+                <Sun className="w-3 h-3 text-amber-400" />
+                <span className="hidden md:inline">Light</span>
+              </>
+            ) : (
+              <>
+                <Moon className="w-3 h-3 text-amber-500" />
+                <span className="hidden md:inline">Dark</span>
+              </>
+            )}
+          </button>
+        </div>
+      </div>
 
       {/* CapEx Outlay Breakdown Modal */}
       <CapexBreakdownModal

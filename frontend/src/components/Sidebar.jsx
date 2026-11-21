@@ -35,6 +35,26 @@ export function Sidebar({
   const [internalIsCollapsed, setInternalIsCollapsed] = useState(true);
   const isCollapsed = propIsCollapsed !== undefined ? propIsCollapsed : internalIsCollapsed;
   const setIsCollapsed = propSetIsCollapsed || setInternalIsCollapsed;
+
+  // Phone sheet detents: peek (collapsed), half and full. Tap cycles; a drag on the handle moves one step.
+  const [sheetFull, setSheetFull] = useState(false);
+  const detent = isCollapsed ? 'peek' : sheetFull ? 'full' : 'half';
+  const goDetent = (d) => {
+    setIsCollapsed(d === 'peek');
+    setSheetFull(d === 'full');
+  };
+  const dragStartRef = React.useRef(null);
+  const onHandlePointerDown = (e) => { dragStartRef.current = e.clientY; e.currentTarget.setPointerCapture?.(e.pointerId); };
+  const onHandlePointerUp = (e) => {
+    const start = dragStartRef.current;
+    dragStartRef.current = null;
+    const order = ['peek', 'half', 'full'];
+    const i = order.indexOf(detent);
+    const dy = start === null ? 0 : e.clientY - start;
+    if (dy < -40) goDetent(order[Math.min(i + 1, 2)]);
+    else if (dy > 40) goDetent(order[Math.max(i - 1, 0)]);
+    else goDetent(order[(i + 1) % 3]);
+  };
   const [activeTab, setActiveTab] = useState('GRIEVANCES'); // Default to 'GRIEVANCES' (Tickets) as primary tab
   const [wardReps, setWardReps] = useState([]);
 
@@ -154,12 +174,12 @@ export function Sidebar({
     );
 
     const badgeText = isCorp
-      ? '🏛️ Municipal Corporation'
+      ? 'Municipal Corporation'
       : isUrbanWard
-        ? '🏢 Urban Municipal Ward'
+        ? 'Urban Municipal Ward'
         : isDistrict
-          ? '🏛️ District Region'
-          : '🌳 Rural Gram Panchayat';
+          ? 'District Region'
+          : 'Rural Gram Panchayat';
 
     const badgeStyle = isCorp
       ? 'bg-amber-500/20 text-amber-400 light:text-amber-700 border-amber-500/40'
@@ -175,12 +195,12 @@ export function Sidebar({
         {/* Sidebar Top Header */}
         <div className="p-5 border-b border-slate-800/80 light:border-slate-200 bg-slate-900/90 light:bg-white relative">
           <div className="flex items-center justify-between gap-2 mb-2 min-w-0">
-            <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border flex-shrink-0 whitespace-nowrap ${badgeStyle}`}>
+            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border flex-shrink-0 whitespace-nowrap ${badgeStyle}`}>
               {badgeText}
             </span>
             <div className="flex-1 min-w-0 overflow-x-auto no-scrollbar text-right">
               <span
-                className="text-[10px] font-mono text-slate-400 light:text-slate-600 font-bold inline-block whitespace-nowrap"
+                className="text-xs text-slate-400 light:text-slate-600 font-bold inline-block whitespace-nowrap"
                 title={unit?.unitId}
               >
                 ID: {unit?.unitId}
@@ -189,7 +209,7 @@ export function Sidebar({
           </div>
 
           <h2 className="text-lg font-extrabold text-white light:text-slate-900 font-sans truncate">{unit?.unitName}</h2>
-          <p className="text-xs text-slate-400 light:text-slate-600 font-mono flex items-center gap-1 mt-0.5">
+          <p className="text-xs text-slate-400 light:text-slate-600 flex items-center gap-1 mt-0.5">
             <MapPin className="w-3.5 h-3.5 text-crimson-500 flex-shrink-0" />
             <span className="truncate">{unit?.parentCityDistrict}</span>
           </p>
@@ -242,7 +262,7 @@ export function Sidebar({
             const leaderTabLabel = actualLeaderCount > 0 ? `Leaders (${actualLeaderCount})` : 'Leaders';
 
             return (
-              <div className="flex items-center space-x-1 mt-4 bg-slate-950 light:bg-slate-100 p-1 rounded-xl border border-slate-800 light:border-slate-300 text-[11px] font-mono">
+              <div className="flex items-center space-x-1 mt-4 bg-slate-950 light:bg-slate-100 p-1 rounded-xl border border-slate-800 light:border-slate-300 text-xs">
                 <button
                   onClick={() => setActiveTab('GRIEVANCES')}
                   className={`flex-1 py-1.5 rounded-lg transition-all text-center ${activeTab === 'GRIEVANCES' ? 'bg-crimson-600 text-white font-bold' : 'text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900'
@@ -299,8 +319,8 @@ export function Sidebar({
               <div className="space-y-4">
                 {unit?.highlightedLeader && (
                   <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/40 space-y-2 shadow-md">
-                    <div className="flex items-center justify-between text-[10px] font-mono font-bold text-amber-400 uppercase tracking-wider">
-                      <span className="flex items-center gap-1">⭐ Selected Representative Profile</span>
+                    <div className="flex items-center justify-between text-xs font-bold text-amber-400 uppercase tracking-wider">
+                      <span className="flex items-center gap-1">The person you searched for</span>
                       <span className="px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-400/40">Search Target</span>
                     </div>
                     <LeaderCard
@@ -317,11 +337,11 @@ export function Sidebar({
                 {isBengaluru ? (
                   <div className="glass-card rounded-2xl p-4 border border-amber-500/40 bg-slate-900/95 light:bg-amber-50/70 text-slate-100 light:text-slate-900 shadow-md relative overflow-hidden space-y-2.5">
                     <div className="flex items-center justify-between">
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border bg-amber-500/20 text-amber-400 light:text-amber-700 border-amber-500/40 flex items-center gap-1.5">
+                      <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border bg-amber-500/20 text-amber-400 light:text-amber-700 border-amber-500/40 flex items-center gap-1.5">
                         <Vote className="w-3.5 h-3.5" />
-                        🏛 Elections Upcoming
+                        Elections Upcoming
                       </span>
-                      <span className="text-[10px] font-mono text-amber-400 light:text-amber-700 font-bold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">
+                      <span className="text-xs text-amber-400 light:text-amber-700 font-bold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">
                         In 2–3 Months
                       </span>
                     </div>
@@ -335,12 +355,12 @@ export function Sidebar({
                       </p>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-slate-950 light:bg-white border border-slate-800 light:amber-200 text-xs font-mono space-y-1.5">
-                      <div className="flex items-center justify-between text-[11px]">
+                    <div className="p-3 rounded-xl bg-slate-950 light:bg-white border border-slate-800 light:amber-200 text-xs space-y-1.5">
+                      <div className="flex items-center justify-between text-xs">
                         <span className="text-slate-400 light:text-slate-600">Current Governance:</span>
                         <span className="text-amber-400 light:text-amber-700 font-bold">Administrator / Ward Committee</span>
                       </div>
-                      <div className="flex items-center justify-between text-[11px]">
+                      <div className="flex items-center justify-between text-xs">
                         <span className="text-slate-400 light:text-slate-600">Corporator Data:</span>
                         <span className="text-slate-400 light:text-slate-500 italic">No Active Representatives</span>
                       </div>
@@ -396,7 +416,7 @@ export function Sidebar({
                       <UserCheck className="w-5 h-5" />
                     </div>
                     <h4 className="text-sm font-bold text-white light:text-slate-900 font-sans">No Assigned Representatives</h4>
-                    <p className="text-xs text-slate-400 light:text-slate-600 font-mono">Official ward representatives & administrative sign-off authorities will appear here once designated.</p>
+                    <p className="text-xs text-slate-400 light:text-slate-600">Official ward representatives & administrative sign-off authorities will appear here once designated.</p>
                   </div>
                 )}
               </div>
@@ -408,9 +428,9 @@ export function Sidebar({
             <div className="space-y-4">
               <button
                 onClick={onRaiseTicket}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white text-xs font-sans font-bold uppercase tracking-wider transition-all shadow-lg shadow-crimson-600/30 flex items-center justify-center space-x-2"
+                className="w-full py-2.5 rounded-xl bg-crimson-600 hover:bg-crimson-500 text-white text-xs font-sans font-bold uppercase tracking-wider transition-all shadow-lg flex items-center justify-center space-x-2"
               >
-                <span>Raise Civic Ticket in {unit?.unitName}</span>
+                <span>Report a problem in {unit?.unitName}</span>
               </button>
 
               {/* Ticket Filter Header */}
@@ -421,18 +441,16 @@ export function Sidebar({
 
                 return (
                   <>
-                    <div className="text-[10px] font-mono text-slate-400 light:text-slate-600 flex items-center justify-between px-1">
-                      <span>Displaying Live {levelLabel} Grievances:</span>
-                      <span className="font-bold text-crimson-400">{unitTickets.length} Tickets Found</span>
+                    <div className="text-xs text-slate-400 light:text-slate-600 flex items-center justify-between px-1">
+                      <span>Complaints in this {levelLabel.toLowerCase()}</span>
+                      <span className="font-bold text-slate-200 light:text-slate-800">{unitTickets.length} {unitTickets.length === 1 ? 'complaint' : 'complaints'}</span>
                     </div>
 
-                    <div className="space-y-3 font-mono text-xs">
+                    <div className="space-y-3 text-xs">
                       {unitTickets.length === 0 ? (
                         <div className="text-center p-6 glass-card rounded-2xl border border-slate-800 light:border-slate-200">
-                          <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto mb-2 opacity-80" />
-                          <h5 className="text-xs font-bold text-white light:text-slate-900">No Active {levelLabel} Tickets</h5>
-                          <p className="text-[10px] text-slate-400 light:text-slate-600 mt-1">
-                            No active civic grievances reported for {unit?.unitName || 'this region'}. All civic systems operational!
+                          <p className="text-sm text-slate-300 light:text-slate-700">
+                            No complaints filed for {unit?.unitName || 'this area'} yet.
                           </p>
                         </div>
                       ) : (
@@ -448,18 +466,18 @@ export function Sidebar({
                               className="glass-card p-3.5 rounded-2xl border border-slate-800 light:border-slate-200 light:bg-white space-y-2.5 shadow-sm hover:border-crimson-500/60 transition-all cursor-pointer group"
                             >
                               <div className="flex items-center justify-between">
-                                <span className="text-crimson-500 font-extrabold text-[11px] truncate max-w-[200px] group-hover:text-crimson-400 transition-colors">{t.category}</span>
+                                <span className="text-crimson-500 font-extrabold text-xs truncate max-w-[200px] group-hover:text-crimson-400 transition-colors">{t.category}</span>
                                 <div className="flex items-center gap-1.5">
                                   {t.upvotes >= 30 ? (
-                                    <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-crimson-500/20 text-crimson-400 border border-crimson-500/40 animate-pulse">
+                                    <span className="text-xs font-extrabold px-1.5 py-0.5 rounded bg-crimson-500/20 text-crimson-400 border border-crimson-500/40">
                                       CRITICAL
                                     </span>
                                   ) : t.upvotes >= 15 ? (
-                                    <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40">
+                                    <span className="text-xs font-extrabold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40">
                                       HIGH
                                     </span>
                                   ) : null}
-                                  <span className="text-[9px] px-2 py-0.5 rounded bg-slate-900 light:bg-slate-100 text-slate-400 light:text-slate-600 border border-slate-800 light:border-slate-200">
+                                  <span className="text-xs px-2 py-0.5 rounded bg-slate-900 light:bg-slate-100 text-slate-400 light:text-slate-600 border border-slate-800 light:border-slate-200">
                                     {t.createdAt}
                                   </span>
                                 </div>
@@ -467,7 +485,7 @@ export function Sidebar({
 
                               {/* Ward / Location Tag */}
                               {t.wardName && (
-                                <div className="text-[10px] text-slate-400 light:text-slate-600 flex items-center gap-1">
+                                <div className="text-xs text-slate-400 light:text-slate-600 flex items-center gap-1">
                                   <MapPin className="w-3 h-3 text-crimson-500 flex-shrink-0" />
                                   <span className="truncate">{t.wardName} ({t.districtName || t.stateId})</span>
                                 </div>
@@ -475,7 +493,7 @@ export function Sidebar({
 
                               <p className="text-xs font-sans text-slate-200 light:text-slate-800 font-medium leading-relaxed">{t.description}</p>
 
-                              <div className="flex items-center justify-between pt-2 border-t border-slate-800 light:border-slate-200 text-[10px]">
+                              <div className="flex items-center justify-between pt-2 border-t border-slate-800 light:border-slate-200 text-xs">
                                 <button
                                   onClick={(e) => {
                                     e.stopPropagation();
@@ -498,7 +516,7 @@ export function Sidebar({
                                     e.stopPropagation();
                                     handleInspectTicketWithCollapse(t);
                                   }}
-                                  className="px-2.5 py-1 rounded-lg bg-crimson-500/10 hover:bg-crimson-500/20 text-crimson-400 border border-crimson-500/30 flex items-center gap-1 font-bold text-[10px] transition-colors"
+                                  className="px-2.5 py-1 rounded-lg bg-crimson-500/10 hover:bg-crimson-500/20 text-crimson-400 border border-crimson-500/30 flex items-center gap-1 font-bold text-xs transition-colors"
                                 >
                                   <span>View Details</span>
                                   <ChevronRight className="w-3 h-3" />
@@ -526,37 +544,39 @@ export function Sidebar({
       <div className="lg:hidden fixed inset-x-0 bottom-0 z-30 transition-all duration-300 ease-in-out pointer-events-auto">
         <div
           className={`glass-panel border-t border-slate-800 light:border-slate-200 flex flex-col shadow-2xl transition-all duration-300 rounded-t-3xl ${
-            isCollapsed
-              ? 'h-12 bg-slate-900/95 light:bg-white overflow-hidden'
-              : 'h-[75dvh] max-h-[85dvh] bg-slate-950/98 light:bg-white pb-[env(safe-area-inset-bottom)]'
+            detent === 'peek'
+              ? 'h-12 bg-slate-900 light:bg-white overflow-hidden'
+              : `${detent === 'full' ? 'h-[85dvh]' : 'h-[50dvh]'} bg-slate-950 light:bg-white pb-[env(safe-area-inset-bottom)]`
           }`}
         >
           {/* Mobile Handle Bar */}
           <button
             id="governance-panel-step-mobile"
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            type="button"
+            onPointerDown={onHandlePointerDown}
+            onPointerUp={onHandlePointerUp}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onHandlePointerUp({ clientY: null }); } }}
+            aria-label={`Area panel, ${detent === 'peek' ? 'closed' : detent === 'half' ? 'half open' : 'fully open'}. Tap to change.`}
+            style={{ touchAction: 'none' }}
             className="w-full h-12 flex items-center justify-between px-4 py-2 bg-slate-900/90 light:bg-slate-100 border-b border-slate-800/60 light:border-slate-200 rounded-t-3xl cursor-pointer hover:bg-slate-800/80 light:hover:bg-slate-200 transition-colors flex-shrink-0"
           >
-            <div className="flex items-center space-x-2">
-              <span className="w-8 h-1 rounded-full bg-slate-600 light:bg-slate-400 inline-block"></span>
-              <span className="text-xs font-bold text-slate-200 light:text-slate-900 font-sans truncate">
-                {unit ? unit.unitName : 'Civic Spotlight & Governance Panel'}
+            <div className="flex items-center space-x-2 min-w-0">
+              <span className="w-8 h-1 rounded-full bg-slate-600 light:bg-slate-400 inline-block flex-shrink-0"></span>
+              <span className="text-sm font-semibold text-slate-200 light:text-slate-900 font-sans truncate">
+                {unit ? unit.unitName : 'Who is responsible here'}
               </span>
             </div>
-            <div className="flex items-center space-x-1.5 text-xs text-crimson-400 light:text-crimson-700 font-bold font-mono">
-              <span>{isCollapsed ? 'Expand Panel' : 'Collapse'}</span>
-              <ChevronRight className={`w-4 h-4 transition-transform duration-300 ${isCollapsed ? '-rotate-90' : 'rotate-90'}`} />
-            </div>
+            <ChevronRight aria-hidden="true" className={`w-4 h-4 flex-shrink-0 text-slate-400 transition-transform ${detent === 'full' ? 'rotate-90' : '-rotate-90'}`} />
           </button>
 
           {/* Drawer Body Content */}
-          {!isCollapsed && (
+          {detent !== 'peek' && (
             <div className="flex-1 overflow-y-auto flex flex-col">
               <div className="flex-1">
                 {renderContent()}
               </div>
-              <div className="py-2.5 px-4 border-t border-slate-800/80 light:border-slate-200 bg-slate-900/60 light:bg-slate-50 text-center font-mono text-xs text-slate-400 light:text-slate-600 flex-shrink-0">
-                Made with ❤️ by{' '}
+              <div className="py-2.5 px-4 border-t border-slate-800/80 light:border-slate-200 bg-slate-900/60 light:bg-slate-50 text-center text-xs text-slate-400 light:text-slate-600 flex-shrink-0">
+                Made by{' '}
                 <a
                   href="https://www.linkedin.com/in/dhruvgiri-goswami-745b01159/"
                   target="_blank"
@@ -577,7 +597,7 @@ export function Sidebar({
         <button
           id="governance-panel-step"
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className={`absolute top-4 ${isCollapsed ? 'right-4' : '-left-4'} z-30 w-8 h-10 bg-slate-900/90 light:bg-white hover:bg-slate-800 light:hover:bg-slate-100 text-slate-200 light:text-slate-700 border border-slate-700/80 light:border-slate-300 rounded-l-xl flex items-center justify-center shadow-2xl transition-all duration-300 backdrop-blur-md group hover:border-crimson-500`}
+          className={`absolute top-4 ${isCollapsed ? 'right-4' : '-left-4'} z-30 w-11 h-11 bg-slate-900 light:bg-white hover:bg-slate-800 light:hover:bg-slate-100 text-slate-200 light:text-slate-700 border border-slate-700/80 light:border-slate-300 rounded-l-xl flex items-center justify-center shadow-2xl transition-all duration-300 group hover:border-crimson-500`}
           title={isCollapsed ? "Expand Leadership Panel" : "Collapse Panel to Right"}
           aria-label={isCollapsed ? "Expand Panel" : "Collapse Panel"}
         >
@@ -600,8 +620,8 @@ export function Sidebar({
             <div className="flex-1 overflow-hidden">
               {renderContent()}
             </div>
-            <div className="py-2.5 px-4 border-t border-slate-800/80 light:border-slate-200 bg-slate-900/60 light:bg-slate-50 text-center font-mono text-xs text-slate-400 light:text-slate-600 flex-shrink-0">
-              Made with ❤️ by{' '}
+            <div className="py-2.5 px-4 border-t border-slate-800/80 light:border-slate-200 bg-slate-900/60 light:bg-slate-50 text-center text-xs text-slate-400 light:text-slate-600 flex-shrink-0">
+              Made by{' '}
               <a
                 href="https://www.linkedin.com/in/dhruvgiri-goswami-745b01159/"
                 target="_blank"

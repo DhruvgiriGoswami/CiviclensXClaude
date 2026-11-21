@@ -1,7 +1,7 @@
 import React from 'react';
 import { Star, Mail, Phone, MapPin, Award, CheckCircle2, AlertCircle, FileText, UserCheck, ShieldAlert, ArrowUpRight, MessageSquare } from 'lucide-react';
 import { getPersonAvatar, INDIA_FLAG_AVATAR } from '../utils/avatarResolver';
-import { normalizeParty } from '../utils/partyNormalizer';
+import { normalizeParty, partyDisplayName, partyShortCode } from '../utils/partyNormalizer';
 
 export function LeaderCard({ leader, type, onRateClick, onViewReviews, aisScore, ratingsSummary }) {
   if (!leader) return null;
@@ -34,14 +34,13 @@ export function LeaderCard({ leader, type, onRateClick, onViewReviews, aisScore,
 
   return (
     <div className="glass-card rounded-2xl p-4 border border-slate-800 light:border-slate-200 light:bg-white transition-all relative overflow-hidden group shadow-sm">
-      {/* Top Header Badge: Recommender vs Bureaucratic Sign-Off */}
       <div className="flex items-center justify-between mb-3">
-        <span className={`text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${
+        <span className={`text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${
           isPolitical 
             ? 'bg-crimson-500/10 text-crimson-400 light:text-crimson-600 border-crimson-500/30' 
             : 'bg-emerald-500/10 text-emerald-400 light:text-emerald-700 border-emerald-500/30'
         }`}>
-          {isPolitical ? 'Political Candidate' : '⚙ Bureaucratic Sign-Off (Spender)'}
+          {isPolitical ? 'Elected representative' : 'Administrative officer'}
         </span>
 
         {/* Public Trust Star Score */}
@@ -49,18 +48,18 @@ export function LeaderCard({ leader, type, onRateClick, onViewReviews, aisScore,
           <button
             type="button"
             onClick={() => onViewReviews && onViewReviews(leader, type)}
-            className="flex items-center space-x-1 bg-amber-500/10 hover:bg-amber-500/20 px-2 py-0.5 rounded-full border border-amber-500/30 text-amber-400 light:text-amber-600 text-xs font-mono font-bold transition-colors cursor-pointer"
+            className="flex items-center space-x-1 bg-amber-500/10 hover:bg-amber-500/20 px-2 py-0.5 rounded-full border border-amber-500/30 text-amber-400 light:text-amber-600 text-xs font-bold transition-colors cursor-pointer"
             title="Click to view all citizen reviews"
           >
             <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
             <span>{Number(effectiveRating).toFixed(1)}</span>
-            <span className="text-[9px] text-slate-400 light:text-slate-600">({effectiveVotes})</span>
+            <span className="text-xs text-slate-400 light:text-slate-600">({effectiveVotes})</span>
           </button>
         ) : (
           <button
             type="button"
             onClick={() => onViewReviews && onViewReviews(leader, type)}
-            className="text-[10px] text-slate-500 light:text-slate-500 hover:text-amber-400 font-mono transition-colors cursor-pointer"
+            className="text-xs text-slate-500 light:text-slate-500 hover:text-amber-400 transition-colors cursor-pointer"
             title="Click to view citizen reviews"
           >
             No reviews yet
@@ -81,7 +80,7 @@ export function LeaderCard({ leader, type, onRateClick, onViewReviews, aisScore,
             }}
             className="w-16 h-16 rounded-xl object-cover border-2 border-slate-700/80 light:border-slate-300 group-hover:border-crimson-500/60 transition-colors shadow-lg"
           />
-          <div className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
+          <div className={`absolute -bottom-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
             isPolitical ? 'bg-crimson-600 text-white' : 'bg-emerald-600 text-white'
           }`}>
             {isPolitical ? 'P' : 'A'}
@@ -107,37 +106,37 @@ export function LeaderCard({ leader, type, onRateClick, onViewReviews, aisScore,
                 className="w-3.5 h-3.5 object-contain rounded flex-shrink-0"
               />
             )}
-            <p className="text-[10px] text-slate-400 light:text-slate-500 font-mono truncate">{leader.party || leader.reportsTo || leader.officeAddress}</p>
+            <p className="text-xs text-slate-400 light:text-slate-500 truncate" title={isPolitical && leader.party ? partyShortCode(leader.party) : undefined}>{isPolitical && leader.party ? partyDisplayName(leader.party) : (leader.reportsTo || leader.officeAddress)}</p>
           </div>
         </div>
       </div>
 
       {/* Authority Matrix & Legal Power */}
-      <div className="mt-3 bg-slate-900/90 light:bg-slate-50 rounded-xl p-2.5 border border-slate-800/80 light:border-slate-200 text-[11px] text-slate-300 light:text-slate-800 font-sans space-y-1">
-        <div className="text-[9px] uppercase font-mono text-slate-500 light:text-slate-600 font-bold flex items-center gap-1">
+      <div className="mt-3 bg-slate-900/90 light:bg-slate-50 rounded-xl p-2.5 border border-slate-800/80 light:border-slate-200 text-xs text-slate-300 light:text-slate-800 font-sans space-y-1">
+        <div className="text-xs uppercase text-slate-500 light:text-slate-600 font-bold flex items-center gap-1">
           <CheckCircle2 className="w-3 h-3 text-crimson-500" />
-          Jurisdiction & Sign-Off Power:
+          Responsible for
         </div>
         <p className="line-clamp-2 leading-relaxed font-medium">{leader.authority}</p>
       </div>
 
       {/* Statistics Row (Assets, Attendance, Debates) */}
-      <div className="mt-3 grid grid-cols-3 gap-2 text-center text-[10px] font-mono">
+      <div className="mt-3 grid grid-cols-3 gap-2 text-center text-xs">
         {leader.declaredAssets && (
           <div className="bg-slate-900/60 light:bg-slate-100 p-1.5 rounded-lg border border-slate-800 light:border-slate-200">
-            <span className="text-[8px] uppercase text-slate-500 light:text-slate-600 block font-bold">Assets</span>
+            <span className="text-xs uppercase text-slate-500 light:text-slate-600 block font-bold">Assets</span>
             <span className="text-slate-200 light:text-slate-900 font-bold">{leader.declaredAssets}</span>
           </div>
         )}
         {leader.attendancePct && (
           <div className="bg-slate-900/60 light:bg-slate-100 p-1.5 rounded-lg border border-slate-800 light:border-slate-200">
-            <span className="text-[8px] uppercase text-slate-500 light:text-slate-600 block font-bold">Attendance</span>
+            <span className="text-xs uppercase text-slate-500 light:text-slate-600 block font-bold">Attendance</span>
             <span className="text-emerald-400 light:text-emerald-700 font-bold">{leader.attendancePct}</span>
           </div>
         )}
         {leader.debates && (
           <div className="bg-slate-900/60 light:bg-slate-100 p-1.5 rounded-lg border border-slate-800 light:border-slate-200">
-            <span className="text-[8px] uppercase text-slate-500 light:text-slate-600 block font-bold">Debates</span>
+            <span className="text-xs uppercase text-slate-500 light:text-slate-600 block font-bold">Debates</span>
             <span className="text-amber-400 light:text-amber-700 font-bold">{leader.debates}</span>
           </div>
         )}
@@ -145,7 +144,7 @@ export function LeaderCard({ leader, type, onRateClick, onViewReviews, aisScore,
 
       {/* Contacts & Interactive Rating Trigger */}
       <div className="mt-3 pt-3 border-t border-slate-800/80 light:border-slate-200 flex items-center justify-between text-xs">
-        <div className="flex items-center space-x-2 text-slate-400 light:text-slate-600 text-[10px] font-mono">
+        <div className="flex items-center space-x-2 text-slate-400 light:text-slate-600 text-xs">
           <a href={`mailto:${leader.email}`} title={leader.email} className="hover:text-crimson-500 flex items-center gap-1 font-medium">
             <Mail className="w-3 h-3 text-crimson-500" />
             <span className="truncate max-w-[110px]">{leader.email}</span>
@@ -156,7 +155,7 @@ export function LeaderCard({ leader, type, onRateClick, onViewReviews, aisScore,
           <button
             type="button"
             onClick={() => onViewReviews && onViewReviews(leader, type)}
-            className="px-2.5 py-1 rounded-lg bg-slate-800 light:bg-slate-100 hover:bg-slate-700 light:hover:bg-slate-200 text-slate-300 light:text-slate-700 text-[11px] font-mono font-medium flex items-center gap-1 transition-colors cursor-pointer"
+            className="px-2.5 py-1 rounded-lg bg-slate-800 light:bg-slate-100 hover:bg-slate-700 light:hover:bg-slate-200 text-slate-300 light:text-slate-700 text-xs font-medium flex items-center gap-1 transition-colors cursor-pointer"
             title="View citizen reviews"
           >
             <MessageSquare className="w-3 h-3 text-slate-400" />
@@ -165,7 +164,7 @@ export function LeaderCard({ leader, type, onRateClick, onViewReviews, aisScore,
 
           <button
             onClick={() => onRateClick(leader, type)}
-            className="px-3 py-1 rounded-lg bg-crimson-500/15 light:bg-crimson-50 hover:bg-crimson-500/30 text-crimson-400 light:text-crimson-600 border border-crimson-500/40 text-[11px] font-medium font-sans flex items-center gap-1 transition-all shadow-sm font-bold"
+            className="px-3 py-1 rounded-lg bg-crimson-500/15 light:bg-crimson-50 hover:bg-crimson-500/30 text-crimson-400 light:text-crimson-600 border border-crimson-500/40 text-xs font-medium font-sans flex items-center gap-1 transition-all shadow-sm font-bold"
           >
             <Star className="w-3 h-3 fill-crimson-500 text-crimson-500" />
             <span>Rate Leader</span>

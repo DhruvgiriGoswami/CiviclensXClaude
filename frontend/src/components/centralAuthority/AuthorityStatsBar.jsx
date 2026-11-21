@@ -98,7 +98,7 @@ export function AuthorityStatsBar({ stats, isLoading, error, onFilterByStatus, a
         <div className="flex items-center gap-3">
           {/* Collapsed Summary Badges Preview */}
           {isCollapsed && (
-            <div className="hidden sm:flex items-center gap-2 font-mono text-[11px]">
+            <div className="hidden sm:flex items-center gap-2 text-xs">
               <span className="text-slate-300 light:text-slate-800">
                 Total: <strong className="text-white light:text-slate-900">{total}</strong>
               </span>
@@ -116,7 +116,7 @@ export function AuthorityStatsBar({ stats, isLoading, error, onFilterByStatus, a
 
           <button
             type="button"
-            className="text-xs font-mono font-bold text-indigo-300 light:text-indigo-800 group-hover:text-white light:group-hover:text-indigo-900 flex items-center gap-1 transition-colors"
+            className="text-xs font-bold text-indigo-300 light:text-indigo-800 group-hover:text-white light:group-hover:text-indigo-900 flex items-center gap-1 transition-colors"
           >
             <span>{isCollapsed ? 'Expand Overview' : 'Collapse Overview'}</span>
             {isCollapsed ? <ChevronDown className="w-4 h-4" /> : <ChevronUp className="w-4 h-4" />}
@@ -126,7 +126,7 @@ export function AuthorityStatsBar({ stats, isLoading, error, onFilterByStatus, a
 
       {/* Expanded Stat Cards Grid */}
       {!isCollapsed && (
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-2.5 mt-3 animate-fadeIn">
+        <div className={`grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-3 ${statCards.length === 5 ? 'lg:grid-cols-5' : 'lg:grid-cols-4'}`}>
           {statCards.map((card) => {
             const Icon = card.icon;
             const isSelected = (activeStatus || '') === card.id;
@@ -135,24 +135,24 @@ export function AuthorityStatsBar({ stats, isLoading, error, onFilterByStatus, a
               <button
                 key={card.title}
                 onClick={() => onFilterByStatus && onFilterByStatus(card.id)}
-                className={`p-2.5 sm:p-3 rounded-xl border ${card.borderColor} ${card.bgColor} text-left transition-all hover:scale-[1.01] focus:outline-none cursor-pointer relative overflow-hidden shadow-sm ${
+                className={`p-2.5 sm:p-3 rounded-xl border ${card.borderColor} ${card.bgColor} text-left transition-all hover:scale-[1.01] cursor-pointer relative overflow-hidden shadow-sm ${
                   isSelected ? 'ring-2 ring-indigo-500 shadow-md scale-[1.02]' : ''
                 }`}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[11px] font-bold text-slate-400 light:text-slate-600 truncate">
+                  <span className="text-xs font-bold text-slate-400 light:text-slate-600 truncate">
                     {card.title}
                   </span>
                   <Icon className={`w-3.5 h-3.5 ${card.textColor}`} />
                 </div>
 
                 <div className="flex items-baseline justify-between">
-                  <span className={`text-lg sm:text-xl font-bold font-mono ${card.textColor}`}>
+                  <span className={`text-lg sm:text-xl font-bold ${card.textColor}`}>
                     {card.value.toLocaleString()}
                   </span>
 
                   {total > 0 && card.id !== '' && (
-                    <span className="text-[10px] font-mono text-slate-400 light:text-slate-600 font-bold">
+                    <span className="text-xs text-slate-400 light:text-slate-600 font-bold">
                       {Math.round((card.value / total) * 100)}%
                     </span>
                   )}

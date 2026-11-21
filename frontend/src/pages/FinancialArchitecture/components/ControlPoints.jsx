@@ -7,7 +7,7 @@ export function ControlPoints() {
     <div className="w-full bg-[#0B0E17] light:bg-white border border-slate-800 light:border-slate-300 rounded-2xl p-6 text-slate-100 light:text-slate-900 font-sans shadow-xl">
       {/* Section Header */}
       <div className="mb-6 pb-4 border-b border-slate-800 light:border-slate-200">
-        <span className="text-[10px] font-mono uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
+        <span className="text-xs uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
           INSTITUTIONAL GOVERNANCE
         </span>
         <h2 className="text-xl font-bold text-slate-100 light:text-slate-900">Financial Control Points</h2>
@@ -26,10 +26,10 @@ export function ControlPoints() {
             {/* Top Bar */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[10px] font-mono font-bold text-cyan-400 light:text-cyan-700 uppercase">
+                <span className="text-xs font-bold text-cyan-400 light:text-cyan-700 uppercase">
                   {cp.code}
                 </span>
-                <span className={`text-[9px] font-mono px-2 py-0.5 rounded font-bold border ${
+                <span className={`text-xs px-2 py-0.5 rounded font-bold border ${
                   cp.severity === 'HIGH_ATTENTION'
                     ? 'bg-rose-500/20 light:bg-rose-100 text-rose-300 light:text-rose-800 border-rose-500/40 light:border-rose-300'
                     : cp.severity === 'MEDIUM_ATTENTION'
@@ -43,10 +43,10 @@ export function ControlPoints() {
               <h3 className="text-base font-bold text-slate-100 light:text-slate-900 group-hover:text-cyan-300 light:group-hover:text-cyan-700 transition-colors">
                 {cp.title}
               </h3>
-              <p className="text-xs text-slate-400 light:text-slate-600 font-mono mb-4">{cp.subtitle}</p>
+              <p className="text-xs text-slate-400 light:text-slate-600 mb-4">{cp.subtitle}</p>
 
               {/* Card Metrics Breakdown */}
-              <div className="bg-slate-900/90 light:bg-white border border-slate-800 light:border-slate-200 rounded-xl p-3 mb-4 space-y-2 font-mono text-xs shadow-sm">
+              <div className="bg-slate-900/90 light:bg-white border border-slate-800 light:border-slate-200 rounded-xl p-3 mb-4 space-y-2 text-xs shadow-sm">
                 {cp.metrics.estimatedCost && (
                   <div className="flex justify-between border-b border-slate-800/80 light:border-slate-200 pb-1.5">
                     <span className="text-slate-400 light:text-slate-600">Estimate:</span>
@@ -57,7 +57,7 @@ export function ControlPoints() {
                 {cp.metrics.bids && (
                   <div className="space-y-1 pt-1">
                     {cp.metrics.bids.map((b) => (
-                      <div key={b.code} className="flex justify-between text-[11px]">
+                      <div key={b.code} className="flex justify-between text-xs">
                         <span className="text-slate-300 light:text-slate-700">{b.code} ({b.bidder}):</span>
                         <span className={`font-bold ${b.code === 'P1' ? 'text-amber-300 light:text-amber-700' : 'text-slate-400 light:text-slate-600'}`}>
                           {b.amount}
@@ -69,16 +69,16 @@ export function ControlPoints() {
 
                 {cp.metrics.workItem && (
                   <div className="space-y-1">
-                    <div className="text-[11px] text-slate-300 light:text-slate-800 font-sans font-semibold">{cp.metrics.workItem}</div>
-                    <div className="flex justify-between text-[11px]">
+                    <div className="text-xs text-slate-300 light:text-slate-800 font-sans font-semibold">{cp.metrics.workItem}</div>
+                    <div className="flex justify-between text-xs">
                       <span className="text-slate-400 light:text-slate-600">Contract Spec:</span>
                       <span className="text-slate-200 light:text-slate-900 font-bold">{cp.metrics.contractSpecification}</span>
                     </div>
-                    <div className="flex justify-between text-[11px]">
+                    <div className="flex justify-between text-xs">
                       <span className="text-slate-400 light:text-slate-600">Municipal MB:</span>
                       <span className="text-rose-400 light:text-rose-700 font-bold">{cp.metrics.recordedMunicipalMB}</span>
                     </div>
-                    <div className="flex justify-between text-[11px]">
+                    <div className="flex justify-between text-xs">
                       <span className="text-slate-400 light:text-slate-600">Independent Audit:</span>
                       <span className="text-emerald-400 light:text-emerald-700 font-bold">{cp.metrics.independentAuditMeasurement}</span>
                     </div>
@@ -87,15 +87,15 @@ export function ControlPoints() {
 
                 {cp.metrics.material && (
                   <div className="space-y-1">
-                    <div className="flex justify-between text-[11px]">
+                    <div className="flex justify-between text-xs">
                       <span className="text-slate-400 light:text-slate-600">Material:</span>
                       <span className="text-slate-200 light:text-slate-900 font-bold">{cp.metrics.material}</span>
                     </div>
-                    <div className="flex justify-between text-[11px]">
+                    <div className="flex justify-between text-xs">
                       <span className="text-slate-400 light:text-slate-600">Market Range:</span>
                       <span className="text-emerald-400 light:text-emerald-700 font-bold">{cp.metrics.comparableMarketRange}</span>
                     </div>
-                    <div className="flex justify-between text-[11px]">
+                    <div className="flex justify-between text-xs">
                       <span className="text-slate-400 light:text-slate-600">Project Invoice:</span>
                       <span className="text-rose-400 light:text-rose-700 font-bold">{cp.metrics.projectPurchasePrice}</span>
                     </div>
@@ -104,15 +104,15 @@ export function ControlPoints() {
 
                 {cp.metrics.originalAwardValue && (
                   <div className="space-y-1">
-                    <div className="flex justify-between text-[11px]">
+                    <div className="flex justify-between text-xs">
                       <span className="text-slate-400 light:text-slate-600">Original Award:</span>
                       <span className="text-slate-200 light:text-slate-900 font-bold">{cp.metrics.originalAwardValue}</span>
                     </div>
-                    <div className="flex justify-between text-[11px]">
+                    <div className="flex justify-between text-xs">
                       <span className="text-slate-400 light:text-slate-600">Approved Variations:</span>
                       <span className="text-amber-300 light:text-amber-700 font-bold">+₹1.90 Cr</span>
                     </div>
-                    <div className="flex justify-between text-[11px]">
+                    <div className="flex justify-between text-xs">
                       <span className="text-slate-400 light:text-slate-600">Current Total:</span>
                       <span className="text-cyan-300 light:text-cyan-700 font-bold">{cp.metrics.currentApprovedValue}</span>
                     </div>
@@ -121,16 +121,16 @@ export function ControlPoints() {
 
                 {cp.metrics.vendorName && (
                   <div className="space-y-1">
-                    <div className="text-[11px] font-bold text-slate-200 light:text-slate-900 truncate">{cp.metrics.vendorName}</div>
-                    <div className="flex justify-between text-[11px]">
+                    <div className="text-xs font-bold text-slate-200 light:text-slate-900 truncate">{cp.metrics.vendorName}</div>
+                    <div className="flex justify-between text-xs">
                       <span className="text-slate-400 light:text-slate-600">Contracts Evaluated:</span>
                       <span className="text-slate-200 light:text-slate-900 font-bold">{cp.metrics.contractsEvaluated}</span>
                     </div>
-                    <div className="flex justify-between text-[11px]">
+                    <div className="flex justify-between text-xs">
                       <span className="text-slate-400 light:text-slate-600">Avg Discount:</span>
                       <span className="text-amber-300 light:text-amber-700 font-bold">{cp.metrics.avgBidDiscount}</span>
                     </div>
-                    <div className="flex justify-between text-[11px]">
+                    <div className="flex justify-between text-xs">
                       <span className="text-slate-400 light:text-slate-600">Avg Variation Creep:</span>
                       <span className="text-rose-300 light:text-rose-700 font-bold">{cp.metrics.avgVariationCreep}</span>
                     </div>
@@ -140,7 +140,7 @@ export function ControlPoints() {
 
               {/* Signal text */}
               <div className="p-3 rounded-xl bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 text-xs text-slate-300 light:text-slate-800 space-y-1.5 mb-3 shadow-sm">
-                <div className="flex items-center gap-1.5 font-mono text-[10px] font-bold text-amber-400 light:text-amber-700 uppercase">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-amber-400 light:text-amber-700 uppercase">
                   <ShieldAlert className="w-3.5 h-3.5" />
                   <span>Analytical Observation</span>
                 </div>
@@ -149,7 +149,7 @@ export function ControlPoints() {
 
               {/* Action recommendation */}
               <div className="p-3 rounded-xl bg-cyan-950/30 light:bg-cyan-50 border border-cyan-900/40 light:border-cyan-200 text-xs text-cyan-200 light:text-cyan-900 space-y-1 shadow-sm">
-                <div className="font-mono text-[10px] font-bold text-cyan-400 light:text-cyan-700 uppercase">
+                <div className=" text-xs font-bold text-cyan-400 light:text-cyan-700 uppercase">
                   Institutional Action Path
                 </div>
                 <p className="leading-relaxed">{cp.actionText}</p>
@@ -157,7 +157,7 @@ export function ControlPoints() {
             </div>
 
             {/* Disclaimer footer */}
-            <div className="mt-4 pt-2 border-t border-slate-900 light:border-slate-200 text-[10px] text-slate-500 light:text-slate-600 font-mono italic">
+            <div className="mt-4 pt-2 border-t border-slate-900 light:border-slate-200 text-xs text-slate-500 light:text-slate-600 italic">
               {cp.disclaimer}
             </div>
           </div>
