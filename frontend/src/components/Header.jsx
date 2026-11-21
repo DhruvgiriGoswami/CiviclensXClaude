@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Search, ShieldAlert, Award, FileText, Layers, UserCheck, Activity, Zap, Sun, Moon, Type, Eye, Building, Landmark, ChevronRight, HelpCircle, Info } from 'lucide-react';
+import { Search, ShieldAlert, Award, FileText, Layers, UserCheck, Activity, Zap, Eye, Building, Landmark, ChevronRight, HelpCircle, Info, ArrowRight } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
+import ThemeToggle from './ThemeToggle';
 import { geographyApi, searchApi, systemApi } from '../services/api';
 import { CapexBreakdownModal, outlayTotalRange } from './CapexBreakdownModal';
 import { rankSearch } from '../utils/search';
@@ -17,8 +18,6 @@ export function Header({
   selectedUnit
 }) {
   const {
-    theme,
-    toggleTheme,
     fontScale,
     increaseFontSize,
     decreaseFontSize,
@@ -247,12 +246,12 @@ export function Header({
   const hasAnyResults = apiSearchResults.length > 0 || matchedStates.length > 0 || matchedCorps.length > 0 || matchedLeaders.length > 0 || matchedWards.length > 0;
 
   return (
-    <div className="w-full flex-shrink-0 z-30 pt-[env(safe-area-inset-top)] bg-dark-800 light:bg-[#F8FAFC] flex flex-col">
+    <div className="w-full flex-shrink-0 z-30 pt-[env(safe-area-inset-top)] bg-dark-800 light:bg-white flex flex-col">
       {/* ─── Main Header Navigation ─── */}
-      <header className="min-h-14 lg:h-16 bg-dark-800 light:bg-white border-b border-slate-800/80 light:border-slate-200 px-3 sm:px-4 py-2 lg:py-0 flex flex-col lg:flex-row lg:items-center justify-between relative shadow-sm gap-2 lg:gap-0">
+      <header className="min-h-14 lg:h-16 bg-dark-800 light:bg-white border-b border-white/[0.06] light:border-slate-200/80 px-3 sm:px-5 py-2 lg:py-0 flex flex-col lg:flex-row lg:items-center justify-between relative gap-2 lg:gap-0">
         <div className="flex items-center justify-between w-full lg:w-auto relative">
           {/* Logo on Left */}
-          <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-lg border border-crimson-400/40 flex-shrink-0 bg-white flex items-center justify-center p-0.5">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-[10px] overflow-hidden flex-shrink-0 bg-white flex items-center justify-center p-0.5 ring-1 ring-black/5">
             <img
               src="/hand_Fav.jpg"
               alt="CivicLens Logo"
@@ -261,10 +260,10 @@ export function Header({
           </div>
 
           {/* Title "CivicLens India" in the Middle on Mobile, Left-aligned next to Logo on Desktop */}
-          <div className="flex-1 sm:flex-initial text-center sm:text-left sm:ml-4 min-w-0 px-2 sm:px-0">
+          <div className="flex-1 sm:flex-initial text-center sm:text-left sm:ml-3 min-w-0 px-2 sm:px-0">
             <div className="flex items-center justify-center sm:justify-start space-x-1.5 sm:space-x-2">
-              <span className="font-extrabold text-base sm:text-lg tracking-wider text-slate-100 light:text-slate-900 font-sans truncate">
-                CivicLens <span className="text-crimson-300 light:text-crimson-700 text-xs sm:text-sm uppercase px-1 sm:px-1.5 py-0.5 rounded bg-crimson-500/10 border border-crimson-500/30 ml-1 inline-block">India</span>
+              <span className="font-semibold text-base sm:text-[17px] tracking-tight text-slate-100 light:text-slate-900 font-sans truncate">
+                CivicLens <span className="font-normal text-slate-400 light:text-slate-500 ml-0.5">India</span>
               </span>
             </div>
             {!isBackendHealthy && (
@@ -274,20 +273,14 @@ export function Header({
 
           {/* Quick Mobile Theme Toggle Button on Far Right */}
           <div className="flex sm:hidden items-center justify-end flex-shrink-0">
-            <button
-              onClick={toggleTheme}
-              aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-              className="w-11 h-11 inline-flex items-center justify-center rounded-lg bg-slate-800 light:bg-slate-200 text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300"
-            >
-              {theme === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-amber-600" />}
-            </button>
+            <ThemeToggle className="w-11 h-11" />
           </div>
         </div>
 
         {/* Global Search Bar */}
-        <div id="search-bar-step" className="relative w-full lg:flex-1 lg:max-w-md z-30 mx-0 lg:mx-4">
+        <div id="search-bar-step" className="relative w-full lg:flex-1 lg:min-w-[220px] lg:max-w-md z-30 mx-0 lg:mx-5">
           <div className="relative">
-            <Search className="w-4 h-4 text-slate-400 light:text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-400 light:text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
             <input
               type="search"
               aria-label="Search for a place, corporation, ward or leader"
@@ -295,7 +288,7 @@ export function Header({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setIsSearching(true)}
-              className="w-full bg-slate-800/90 light:bg-slate-100 border border-slate-600/60 light:border-slate-300 rounded-lg pl-9 pr-4 min-h-[44px] text-sm text-white light:text-slate-900 placeholder-slate-400 light:placeholder-slate-500 focus:border-slate-400 transition-colors font-sans"
+              className="w-full bg-white/[0.06] light:bg-slate-100 border border-transparent rounded-full pl-10 pr-4 h-10 text-sm text-white light:text-slate-900 placeholder-slate-400 light:placeholder-slate-500 hover:bg-white/[0.09] light:hover:bg-slate-200/70 focus:bg-transparent light:focus:bg-white focus:border-slate-500 light:focus:border-slate-300 focus:outline-none focus-visible:outline-none focus:ring-4 focus:ring-white/[0.06] light:focus:ring-slate-900/[0.06] transition-[background-color,border-color,box-shadow] duration-150 font-sans"
             />
           </div>
 
@@ -609,16 +602,16 @@ export function Header({
         </div>
 
         {/* Action Controls & Top Stats */}
-        <div className="flex flex-wrap items-center justify-start sm:justify-end w-full lg:w-auto gap-2">
+        <div className="flex flex-wrap lg:flex-nowrap items-center justify-start sm:justify-end w-full lg:w-auto gap-1">
           {/* How It Works / Guided Tour Button */}
           {onOpenTour && (
             <button
               onClick={onOpenTour}
-              className="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-crimson-500/15 light:bg-crimson-50 hover:bg-crimson-500/25 border border-crimson-500/40 text-xs font-bold text-crimson-400 light:text-crimson-700 transition-all shadow-md group flex-shrink-0"
+              className="inline-flex items-center gap-1.5 h-10 px-3.5 rounded-full text-[13px] font-medium text-slate-300 light:text-slate-700 hover:text-white light:hover:text-slate-900 hover:bg-white/[0.08] light:hover:bg-slate-900/[0.05] active:scale-[0.97] transition-[background-color,color,transform] duration-150 flex-shrink-0"
               title="How it Works (3-Step Tour)"
             >
-              <HelpCircle className="w-3.5 h-3.5 text-crimson-400 light:text-crimson-600 group-hover:rotate-12 transition-transform flex-shrink-0" />
-              <span className="inline">How it Works</span>
+              <HelpCircle className="w-4 h-4 opacity-70 flex-shrink-0" aria-hidden="true" />
+              <span>How it Works</span>
             </button>
           )}
 
@@ -626,104 +619,55 @@ export function Header({
             <a
               href="/follow-the-rupee"
               onClick={(e) => { e.preventDefault(); onOpenFollowRupee(); }}
-              className="inline-flex items-center gap-1.5 min-h-[44px] px-3 rounded-lg bg-crimson-700 hover:bg-crimson-800 text-white text-xs font-semibold flex-shrink-0"
+              aria-label="Follow the Rupee: Mumbai audit"
+              title="Follow the Rupee: Mumbai audit"
+              className="group inline-flex items-center gap-1.5 h-10 pl-4 pr-3.5 mx-1 rounded-full bg-crimson-600 hover:bg-crimson-700 light:hover:bg-crimson-700 text-white text-[13px] font-semibold shadow-sm active:scale-[0.97] transition-[background-color,transform] duration-150 flex-shrink-0"
             >
               <Landmark className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
-              <span>Follow the Rupee: Mumbai audit</span>
+              <span>Follow the Rupee</span>
+              <ArrowRight className="w-3.5 h-3.5 flex-shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
             </a>
           )}
 
           {/* National Leadership Directory Trigger */}
           <button
             onClick={onOpenNationalLeaders}
-            className="flex items-center space-x-1.5 sm:space-x-2 px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-900 light:bg-slate-100 hover:bg-slate-800 border border-slate-700/70 light:border-slate-300 text-xs font-medium text-slate-200 light:text-slate-800 transition-all shadow-md group flex-shrink-0 ml-auto sm:ml-0"
+            className="inline-flex items-center gap-1.5 h-10 px-3.5 rounded-full text-[13px] font-medium text-slate-300 light:text-slate-700 hover:text-white light:hover:text-slate-900 hover:bg-white/[0.08] light:hover:bg-slate-900/[0.05] active:scale-[0.97] transition-[background-color,color,transform] duration-150 flex-shrink-0 ml-auto sm:ml-0"
           >
-            <UserCheck className="w-3.5 h-3.5 text-crimson-400 group-hover:scale-110 transition-transform flex-shrink-0" />
-            <span>National Directory <span className="hidden xl:inline">(PM / CM / Prez)</span></span>
+            <UserCheck className="w-4 h-4 opacity-70 flex-shrink-0" aria-hidden="true" />
+            <span>National Directory <span className="hidden 2xl:inline">(PM / CM / Prez)</span></span>
           </button>
 
           {/* System Metric Counters */}
-          <div className="hidden lg:flex items-center space-x-4 pl-3 border-l border-slate-800 light:border-slate-200 text-xs">
-            <div className="flex flex-col">
-              <div className="flex items-center gap-1">
-                <span className="text-xs text-slate-400 light:text-slate-600">Annual budget outlay</span>
-                <button
-                  onClick={() => setIsCapexModalOpen(true)}
-                  title="See the budget breakdown"
-                  aria-label="See the budget breakdown"
-                  className="w-11 h-11 -my-3 inline-flex items-center justify-center rounded-lg text-slate-400 hover:text-amber-400 light:text-slate-500 light:hover:text-amber-600 hover:bg-slate-800 light:hover:bg-slate-200 transition-colors cursor-pointer"
-                >
-                  <Info className="w-3 h-3" />
-                </button>
-              </div>
-              <span className="font-bold text-slate-200 light:text-slate-800 text-xs">{outlayTotalRange()}</span>
+          <div className="hidden xl:flex items-center pl-2 ml-2 border-l border-white/[0.08] light:border-slate-200">
+            <button
+              onClick={() => setIsCapexModalOpen(true)}
+              title="See the budget breakdown"
+              aria-label="See the budget breakdown"
+              className="group flex flex-col items-start h-11 justify-center px-3 rounded-xl text-left hover:bg-white/[0.06] light:hover:bg-slate-900/[0.04] active:scale-[0.98] transition-[background-color,transform] duration-150 cursor-pointer"
+            >
+              <span className="flex items-center gap-1 text-[11px] text-slate-400 light:text-slate-500">
+                Annual budget outlay
+                <Info className="w-3 h-3 opacity-70 group-hover:opacity-100" aria-hidden="true" />
+              </span>
+              <span className="font-semibold text-slate-200 light:text-slate-800 text-xs tabular-nums">{outlayTotalRange()}</span>
+            </button>
+          </div>
+
+          {/* Text size and theme */}
+          <div className="hidden sm:flex items-center gap-1 pl-2 ml-1">
+            <div role="group" aria-label="Text size" className="flex lg:hidden xl:flex items-center p-0.5 rounded-full bg-white/[0.06] light:bg-slate-100">
+              <button onClick={decreaseFontSize} title="Decrease Font Size" aria-label="Smaller text"
+                className="w-10 h-8 rounded-full text-xs font-semibold transition-[background-color,color,transform] duration-150 active:scale-[0.94] text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900">A-</button>
+              <button onClick={resetFontSize} title="Reset Font Size (100%)" aria-label="Default text size" aria-pressed={fontScale === 100}
+                className={`w-10 h-8 rounded-full text-xs font-semibold transition-[background-color,color,transform] duration-150 active:scale-[0.94] ${fontScale === 100 ? 'bg-white/[0.12] light:bg-white text-white light:text-slate-900 shadow-sm' : 'text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900'}`}>A</button>
+              <button onClick={increaseFontSize} title="Increase Font Size" aria-label="Larger text"
+                className="w-10 h-8 rounded-full text-xs font-semibold transition-[background-color,color,transform] duration-150 active:scale-[0.94] text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900">A+</button>
             </div>
+            <ThemeToggle />
           </div>
         </div>
       </header>
-
-      {/* ─── ReBIT / RBI Style Top Accessibility & Utility Toolbar ─── */}
-      <div className="order-first hidden sm:flex min-h-7 py-0.5 bg-dark-900 light:bg-[#F1F5F9] text-slate-300 light:text-slate-800 border-b border-slate-800/80 light:border-slate-300 px-3 sm:px-4 items-center justify-between text-xs sm:text-xs select-none flex-wrap gap-1">
-        <div className="flex items-center space-x-2 min-w-0">
-
-        </div>
-
-        {/* Accessibility & Font Controls Toolbar */}
-        <div className="flex items-center space-x-2 flex-shrink-0">
-          {/* Font Controls (A- / A / A+) */}
-          <div className="flex items-center space-x-1 bg-slate-900/90 light:bg-white px-1.5 py-0.5 rounded-lg border border-slate-700/60 light:border-slate-300 text-xs">
-            <span className="text-slate-400 light:text-slate-600 mr-0.5 hidden md:inline-flex items-center gap-0.5">
-              <Type className="w-3 h-3 text-slate-400 light:text-slate-600" />
-              Font:
-            </span>
-            <button
-              onClick={decreaseFontSize}
-              title="Decrease Font Size"
-              aria-label="Smaller text"
-              className="min-w-[44px] min-h-[44px] rounded-lg hover:bg-amber-500/20 text-slate-300 light:text-slate-700 hover:text-amber-400 font-bold transition-colors"
-            >
-              A-
-            </button>
-            <button
-              onClick={resetFontSize}
-              title="Reset Font Size (100%)"
-              aria-label="Default text size"
-              className={`min-w-[44px] min-h-[44px] rounded-lg hover:bg-amber-500/20 font-bold transition-colors ${fontScale === 100 ? 'text-amber-400 light:text-amber-700 bg-amber-500/10' : 'text-slate-300 light:text-slate-700'}`}
-            >
-              A
-            </button>
-            <button
-              onClick={increaseFontSize}
-              title="Increase Font Size"
-              aria-label="Larger text"
-              className="min-w-[44px] min-h-[44px] rounded-lg hover:bg-amber-500/20 text-slate-300 light:text-slate-700 hover:text-amber-400 font-bold transition-colors"
-            >
-              A+
-            </button>
-            <span className="text-xs text-amber-400 light:text-amber-700 font-bold ml-0.5">({fontScale}%)</span>
-          </div>
-
-          {/* Light / Dark Mode Toggle */}
-          <button
-            onClick={toggleTheme}
-            title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-            aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-            className="min-h-[44px] px-2.5 rounded-lg bg-slate-900 light:bg-white text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300 hover:border-amber-400 transition-colors flex items-center gap-1 text-xs"
-          >
-            {theme === 'dark' ? (
-              <>
-                <Sun className="w-3 h-3 text-amber-400" />
-                <span className="hidden md:inline">Light</span>
-              </>
-            ) : (
-              <>
-                <Moon className="w-3 h-3 text-amber-500" />
-                <span className="hidden md:inline">Dark</span>
-              </>
-            )}
-          </button>
-        </div>
-      </div>
 
       {/* CapEx Outlay Breakdown Modal */}
       <CapexBreakdownModal

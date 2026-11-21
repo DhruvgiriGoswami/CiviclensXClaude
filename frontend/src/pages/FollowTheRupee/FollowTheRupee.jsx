@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowLeft, Info, Moon, Search, Sun } from 'lucide-react';
+import { ArrowLeft, Info, Search } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
+import ThemeToggle from '../../components/ThemeToggle';
 import { auditApi, isUsingMock, onSourceChange } from './auditApi';
 import { formatINR } from '../../utils/format';
 import { Stat } from './parts';
@@ -89,7 +90,7 @@ function AskBox({ onOpenTrail }) {
 }
 
 export default function FollowTheRupee({ onBackToMap }) {
-  const { theme, toggleTheme } = useTheme();
+  const { theme } = useTheme();
   const dark = theme === 'dark';
   const [overview, setOverview] = useState(null);
   const [wards, setWards] = useState(null);
@@ -140,9 +141,7 @@ export default function FollowTheRupee({ onBackToMap }) {
           <p className="inline-flex items-center gap-2 rounded-lg border border-slate-700 light:border-slate-300 px-3 py-2 text-sm">
             <Info className="w-4 h-4 shrink-0" aria-hidden="true" />Synthetic data: not BMC records
           </p>
-          <button type="button" onClick={toggleTheme} aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'} className="w-11 h-11 inline-flex items-center justify-center rounded-lg border border-slate-700 light:border-slate-300">
-            {dark ? <Sun className="w-5 h-5" aria-hidden="true" /> : <Moon className="w-5 h-5" aria-hidden="true" />}
-          </button>
+          <ThemeToggle />
         </div>
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 pb-4 grid gap-4 md:grid-cols-2">
           <SearchBox onPick={onPick} />

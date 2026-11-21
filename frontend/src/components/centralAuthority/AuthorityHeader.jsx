@@ -1,9 +1,9 @@
 import React from 'react';
-import { Building2, RefreshCw, ArrowLeft, Sun, Moon } from 'lucide-react';
-import { useTheme } from '../../context/ThemeContext';
+import { Building2, RefreshCw, ArrowLeft } from 'lucide-react';
+import ThemeToggle from '../ThemeToggle';
 
 export function AuthorityHeader({ onRefresh, isRefreshing, onBackToMap }) {
-  const { theme, toggleTheme } = useTheme();
+  
 
   return (
     <header className="bg-dark-800 light:bg-white border-b border-slate-800 light:border-slate-200 px-4 py-3 sm:px-6 flex items-center justify-between gap-4 sticky top-0 z-30 shadow-md transition-colors">
@@ -35,23 +35,7 @@ export function AuthorityHeader({ onRefresh, isRefreshing, onBackToMap }) {
       {/* Right: Theme Toggle & Refresh Data Button */}
       <div className="flex items-center gap-2">
         {/* Theme Toggle Button */}
-        <button
-          onClick={toggleTheme}
-          title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-          className="p-2 rounded-lg bg-slate-800/80 light:bg-slate-100 hover:bg-slate-700 light:hover:bg-slate-200 text-slate-300 light:text-slate-700 border border-slate-700/60 light:border-slate-300 transition-colors cursor-pointer flex items-center gap-1 text-xs"
-        >
-          {theme === 'dark' ? (
-            <>
-              <Sun className="w-4 h-4 text-amber-400" />
-              <span className="hidden md:inline">Light</span>
-            </>
-          ) : (
-            <>
-              <Moon className="w-4 h-4 text-slate-700" />
-              <span className="hidden md:inline">Dark</span>
-            </>
-          )}
-        </button>
+        <ThemeToggle />
 
         {/* Refresh Data Button */}
         <button
