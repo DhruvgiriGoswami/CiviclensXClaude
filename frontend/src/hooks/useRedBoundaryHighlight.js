@@ -1,7 +1,7 @@
 import { useRef, useCallback, useEffect, useState } from 'react';
 import { geographyApi } from '../services/api';
 import { mapDebug } from '../utils/mapDebug';
-import { extractPathsFromGeoJson, getLoadedStateDistrictsData, STATE_CENTERS } from '../utils/mapHelpers';
+import { extractPathsFromGeoJson, getLoadedStateDistrictsData, STATE_CENTERS, fitIndia } from '../utils/mapHelpers';
 
 export function useRedBoundaryHighlight({
   googleMapRef,
@@ -395,12 +395,7 @@ export function useRedBoundaryHighlight({
     const currentReqId = ++highlightRequestIdRef.current;
     clearHighlightShapes();
 
-    executeCameraCommand({
-      type: 'PAN_AND_ZOOM',
-      center: { lat: 22.5937, lng: 78.9629 },
-      zoom: 5,
-      reason: 'NATIONAL_RESET',
-    });
+    fitIndia(map);
 
     const NATIONAL_STATE_CODES = [
       'MH', 'GJ', 'KA', 'DL', 'TN', 'UP', 'MP', 'RJ',

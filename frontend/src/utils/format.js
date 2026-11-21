@@ -21,3 +21,14 @@ export function humanizeEnum(value) {
   const s = String(value).replace(/[_-]+/g, ' ').trim().toLowerCase();
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
+
+// One short label for a geographic unit, whichever path (map click or search) produced it.
+// "PMC Corporation Region" gives "PMC", "Pune District" gives "Pune", "Urban Municipal Ward 28" gives "Ward 28".
+export function shortUnitLabel(name) {
+  return String(name || '')
+    .replace(/\s*\((?:Level \d[^)]*|[A-Z]{2})\)\s*/g, ' ')
+    .replace(/\b(?:Urban Municipal|Municipal|Urban)\s+(?=Ward\b)/i, '')
+    .replace(/\s+(?:Corporation Region|Region|District|Municipal Corporation)$/i, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}

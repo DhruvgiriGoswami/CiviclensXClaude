@@ -1,5 +1,6 @@
-import { useEffect, useRef, useMemo, useCallback } from 'react';
-import { geographyApi } from '../services/api';
+import { useEffect, useRef, useMemo, useCallback, useState } from 'react';
+import { geographyApi, complaintsApi } from '../services/api';
+import { makeBreaks, bucketColor, NO_DATA_LIGHT, NO_DATA_DARK } from '../utils/choropleth';
 import { wardGeometryCache } from '../services/mapGeometryCache';
 import { mapDebug, generateRequestId } from '../utils/mapDebug';
 
@@ -24,6 +25,9 @@ export function useWardPolygons({
 
   useEffect(() => { isPinningModeRef.current = isPinningMode; }, [isPinningMode]);
   useEffect(() => { onPinLocationSelectRef.current = onPinLocationSelect; }, [onPinLocationSelect]);
+  const isDarkRef = useRef(isDark);
+  isDarkRef.current = isDark;
+  const [legend, setLegend] = useState(null);
 
   // Determine active target cityId for ward geometry loading (validated against selectedState)
   const activeCityId = useMemo(() => {
@@ -53,6 +57,7 @@ export function useWardPolygons({
 
   // Helper to clear existing ward polygons safely
   const clearWardPolygons = useCallback(() => {
+    setLegend(null);
     wardPolygonsMapRef.current.forEach(({ polygon }) => {
       if (polygon && window.google?.maps?.event) {
         window.google.maps.event.clearInstanceListeners(polygon);
@@ -62,6 +67,27 @@ export function useWardPolygons({
       }
     });
     wardPolygonsMapRef.current.clear();
+  }, []);
+
+  // Complaint counts per ward colour the polygons. A missing endpoint (404) or no data keeps them neutral.
+  const applyCounts = useCallback((parentId, generation) => {
+    complaintsApi.getCounts(parentId)
+      .then((counts) => {
+        if (generation !== wardRequestGenRef.current) return;
+        const values = [...wardPolygonsMapRef.current.keys()].map((id) => counts?.[id]).filter((n) => n > 0);
+        const breaks = makeBreaks(values);
+        wardPolygonsMapRef.current.forEach((entry, id) => {
+          const n = counts?.[id] || 0;
+          const fillColor = n > 0 ? bucketColor(n, breaks, isDarkRef.current) : (isDarkRef.current ? NO_DATA_DARK : NO_DATA_LIGHT);
+          entry.baseOptions.fillColor = fillColor;
+          entry.count = n;
+          entry.polygon.setOptions({ fillColor });
+        });
+        setLegend({ breaks, wards: wardPolygonsMapRef.current.size, withComplaints: values.length });
+      })
+      .catch(() => {
+        if (generation === wardRequestGenRef.current) setLegend({ breaks: [], wards: wardPolygonsMapRef.current.size, withComplaints: 0, unavailable: true });
+      });
   }, []);
 
   // 1. Ward Geometry Lifecycle Effect
@@ -91,54 +117,12 @@ export function useWardPolygons({
       normalizedList.forEach((wardData) => {
         const { unitId, wardName, corpName, stateCode, paths } = wardData;
 
-        let polyFillColor = isDark ? '#0284C7' : '#2563EB';
-        let polyStrokeColor = isDark ? '#38BDF8' : '#1D4ED8';
-        let polyFillOpacity = 0.20;
-        let polyStrokeOpacity = 0.85;
-        let polyStrokeWeight = 1.8;
-
-        if (unitId.startsWith('IN-KA-BBMP') || corpName) {
-          const corpColors = {
-            'North': { fill: '#2563EB', stroke: '#1D4ED8' },
-            'South': { fill: '#059669', stroke: '#047857' },
-            'East': { fill: '#DC2626', stroke: '#B91C1C' },
-            'West': { fill: '#D97706', stroke: '#B45309' },
-            'Central': { fill: '#7C3AED', stroke: '#6D28D9' }
-          };
-          const cObj = corpColors[corpName] || (unitId.includes('-North-') ? corpColors['North'] : unitId.includes('-South-') ? corpColors['South'] : unitId.includes('-East-') ? corpColors['East'] : unitId.includes('-West-') ? corpColors['West'] : unitId.includes('-Central-') ? corpColors['Central'] : null);
-          if (cObj) {
-            polyFillColor = cObj.fill;
-            polyStrokeColor = cObj.stroke;
-            polyFillOpacity = 0.38;
-            polyStrokeOpacity = 0.90;
-            polyStrokeWeight = 1.8;
-          }
-        }
-
-        if (unitId.startsWith('IN-GJ-BMC-BHAVNAGAR')) {
-          const bhvPalette = [
-            { fill: '#6366F1', stroke: '#4338CA' },
-            { fill: '#2563EB', stroke: '#1D4ED8' },
-            { fill: '#10B981', stroke: '#047857' },
-            { fill: '#F59E0B', stroke: '#B45309' },
-            { fill: '#8B5CF6', stroke: '#6D28D9' },
-            { fill: '#EC4899', stroke: '#BE185D' },
-            { fill: '#14B8A6', stroke: '#0F766E' },
-            { fill: '#EF4444', stroke: '#B91C1C' },
-            { fill: '#F97316', stroke: '#C2410C' },
-            { fill: '#84CC16', stroke: '#4D7C0F' },
-            { fill: '#06B6D4', stroke: '#0891B2' },
-            { fill: '#A855F7', stroke: '#7E22CE' },
-            { fill: '#EAB308', stroke: '#A16207' }
-          ];
-          const wNum = parseInt(unitId.split('-').pop() || '1') - 1;
-          const col = bhvPalette[wNum % bhvPalette.length];
-          polyFillColor = col.fill;
-          polyStrokeColor = col.stroke;
-          polyFillOpacity = 0.40;
-          polyStrokeOpacity = 0.90;
-          polyStrokeWeight = 1.8;
-        }
+        // Neutral until the complaint counts arrive; then one sequential ramp (see applyCounts).
+        const polyFillColor = isDark ? NO_DATA_DARK : NO_DATA_LIGHT;
+        const polyStrokeColor = isDark ? '#0B0D12' : '#FFFFFF';
+        const polyFillOpacity = 0.55;
+        const polyStrokeOpacity = 0.9;
+        const polyStrokeWeight = 1.2;
 
         const polygon = new window.google.maps.Polygon({
           paths,
@@ -152,20 +136,13 @@ export function useWardPolygons({
           map: map,
         });
 
+        // Hover is a state layer: +8% opacity, nothing else changes.
         polygon.addListener('mouseover', () => {
-          polygon.setOptions({
-            fillOpacity: Math.min(0.65, polyFillOpacity + 0.25),
-            strokeWeight: polyStrokeWeight + 1,
-            strokeOpacity: 1.0
-          });
+          polygon.setOptions({ fillOpacity: polyFillOpacity + 0.08 });
         });
 
         polygon.addListener('mouseout', () => {
-          polygon.setOptions({
-            fillOpacity: polyFillOpacity,
-            strokeWeight: polyStrokeWeight,
-            strokeOpacity: polyStrokeOpacity
-          });
+          polygon.setOptions({ fillOpacity: polyFillOpacity });
         });
 
         polygon.addListener('click', (e) => {
@@ -257,6 +234,8 @@ export function useWardPolygons({
         });
       });
 
+      applyCounts(activeCityId, generation);
+
       const renderDuration = performance.now() - renderStart;
       mapDebug({ event: 'WARD_RENDER_END', activeCityId, durationMs: renderDuration.toFixed(2), requestId });
     };
@@ -313,12 +292,13 @@ export function useWardPolygons({
       );
 
       if (isSelectedWard) {
+        // Selection is a strong neutral outline, never a red fill.
         polygon.setOptions({
-          fillColor: '#EF4444',
-          strokeColor: '#DC2626',
-          fillOpacity: 0.45,
+          fillColor: baseOptions.fillColor,
+          strokeColor: isDarkRef.current ? '#F8FAFC' : '#0F172A',
+          fillOpacity: baseOptions.fillOpacity,
           strokeOpacity: 1.0,
-          strokeWeight: 3.0,
+          strokeWeight: 3.5,
           zIndex: 12,
         });
       } else {
@@ -332,5 +312,7 @@ export function useWardPolygons({
         });
       }
     });
-  }, [selectedUnit?.unitId, selectedUnit?.unitName]);
+  }, [selectedUnit?.unitId, selectedUnit?.unitName, legend]);
+
+  return { legend };
 }

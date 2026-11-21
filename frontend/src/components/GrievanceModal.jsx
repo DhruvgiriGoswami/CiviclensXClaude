@@ -380,13 +380,14 @@ export function GrievanceModal({
   ];
 
   return (
-    <div ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="grievance-heading" className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
-      <div className="glass-panel-crimson light:bg-white light:border-slate-300 w-full max-w-lg rounded-3xl border border-slate-700/80 shadow-2xl p-4 sm:p-6 relative max-h-[92dvh] overflow-y-auto no-scrollbar my-auto text-slate-100 light:text-slate-900">
+    <div ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="grievance-heading" className="fixed inset-0 z-50 bg-black/80 flex items-stretch sm:items-center justify-center p-0 sm:p-4 overflow-y-auto">
+      <div className="glass-panel-crimson light:bg-white light:border-slate-300 w-full sm:max-w-lg min-h-[100dvh] sm:min-h-0 rounded-none sm:rounded-2xl border-0 sm:border border-slate-700/80 shadow-2xl p-4 sm:p-6 relative sm:max-h-[92dvh] overflow-y-auto no-scrollbar sm:my-auto text-slate-100 light:text-slate-900">
         
         {/* Close Button */}
         <button
           onClick={handleClose}
-          className="absolute top-4 right-4 w-8 h-8 rounded-xl bg-slate-800 light:bg-slate-200 hover:bg-slate-700 light:hover:bg-slate-300 text-slate-300 light:text-slate-700 flex items-center justify-center transition-colors cursor-pointer"
+          aria-label="Close"
+          className="absolute top-3 right-3 w-11 h-11 rounded-xl bg-slate-800 light:bg-slate-200 hover:bg-slate-700 light:hover:bg-slate-300 text-slate-300 light:text-slate-700 flex items-center justify-center transition-colors cursor-pointer"
           title="Close modal"
         >
           <X className="w-5 h-5" />
@@ -419,12 +420,12 @@ export function GrievanceModal({
           </div>
         ) : (
           <form onSubmit={handleSubmit} noValidate className="space-y-4">
-            <div>
+            <div className="pr-12">
               <h3 id="grievance-heading" className="text-lg font-bold text-white light:text-slate-900 font-sans">
                 {unit ? `Report a problem in ${unit.unitName}` : 'Report a problem'}
               </h3>
               <p className="text-xs text-slate-400 light:text-slate-600 font-sans">
-                Directly report infrastructure hazards, trash, safety concerns, or corruption.
+                Mark the spot, pick a category and describe what is wrong.
               </p>
             </div>
 

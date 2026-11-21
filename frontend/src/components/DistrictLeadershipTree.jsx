@@ -186,8 +186,9 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
               >
                 {/* District Level Header Button */}
                 <div className="w-full p-3 flex items-center justify-between text-left hover:bg-slate-900 light:hover:bg-slate-50 transition-colors">
-                  <div
-                    className="flex items-center space-x-2.5 min-w-0 flex-1 cursor-pointer"
+                  <button
+                    type="button"
+                    className="flex items-center space-x-2.5 min-w-0 flex-1 min-h-[44px] text-left rounded-lg"
                     onClick={(e) => {
                       e.stopPropagation();
                       if (onSelectDistrict) {
@@ -201,7 +202,7 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
                     <span className="font-bold text-white light:text-slate-900 text-xs truncate group-hover:text-crimson-400 transition-colors">
                       {distName}
                     </span>
-                  </div>
+                  </button>
 
                   <div className="flex items-center space-x-1.5 flex-shrink-0">
                     {isVerifiedSource ? (
@@ -216,9 +217,11 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
                     ) : null}
 
                     <button
+                      type="button"
                       onClick={() => toggleNode(distIdKey)}
-                      className="p-1 hover:bg-slate-800 rounded-lg text-slate-400 ml-1 transition-colors"
-                      title="Toggle DC/DM IAS Details"
+                      aria-expanded={isExpanded}
+                      aria-label={`${isExpanded ? 'Hide' : 'Show'} the district officer for ${distName}`}
+                      className="w-11 h-11 inline-flex items-center justify-center hover:bg-slate-800 light:hover:bg-slate-200 rounded-lg text-slate-400 ml-1 transition-colors"
                     >
                       {isExpanded ? (
                         <ChevronDown className="w-4 h-4 text-crimson-500 flex-shrink-0" />

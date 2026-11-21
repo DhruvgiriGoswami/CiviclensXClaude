@@ -3,6 +3,7 @@ import { Search, ShieldAlert, Award, FileText, Layers, UserCheck, Activity, Zap,
 import { useTheme } from '../context/ThemeContext';
 import { geographyApi, searchApi, systemApi } from '../services/api';
 import { CapexBreakdownModal, outlayTotalRange } from './CapexBreakdownModal';
+import { rankSearch } from '../utils/search';
 
 export function Header({
   onOpenNationalLeaders,
@@ -103,7 +104,13 @@ export function Header({
     const timer = setTimeout(() => {
       searchApi.searchFuzzy(queryTerm, 20)
         .then(data => {
-          setApiSearchResults(data?.results || []);
+          // One row per unit, and names that start with the query first ("Pune" before "Punjab").
+          const results = data?.results || [];
+          const keyOf = (r) => r.geo_unit_id || `${r.entity_type}-${r.id}`;
+          const ranked = rankSearch(results, queryTerm, { key: keyOf, label: (r) => r.name || r.geo_unit_name || '', limit: 20 });
+          const seen = new Set(ranked.map(keyOf));
+          const rest = results.filter((r) => !seen.has(keyOf(r)) && seen.add(keyOf(r)));
+          setApiSearchResults([...ranked, ...rest]);
           setSearchOffline(false);
         })
         .catch(() => {
@@ -199,10 +206,7 @@ export function Header({
     return 'OTHER';
   };
 
-  const matchedStates = q === '' ? [] : INDIAN_STATES.filter(st =>
-    st.stateName.toLowerCase().includes(q) ||
-    st.stateId.toLowerCase().includes(q)
-  );
+  const matchedStates = rankSearch(INDIAN_STATES, q, { key: (st) => st.stateId, label: (st) => st.stateName, limit: 40 });
 
   const matchedCorps = q === '' ? [] : municipalCorps.filter(c => {
     const codeLower = (c.code || '').toLowerCase();
@@ -225,7 +229,7 @@ export function Header({
     (u.administrativeSpender?.name || '').toLowerCase().includes(q)
   );
 
-  const matchedWards = q === '' ? [] : (allUnits || []).filter(u => {
+  const matchedWards = q === '' ? [] : [...new Map((allUnits || []).map((u) => [u.unitId, u])).values()].filter(u => {
     const nameLower = (u.unitName || '').toLowerCase();
     const parentLower = (u.parentCityDistrict || '').toLowerCase();
     const idLower = (u.unitId || '').toLowerCase();
@@ -605,7 +609,7 @@ export function Header({
         </div>
 
         {/* Action Controls & Top Stats */}
-        <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-2">
+        <div className="flex flex-wrap items-center justify-start sm:justify-end w-full lg:w-auto gap-2">
           {/* How It Works / Guided Tour Button */}
           {onOpenTour && (
             <button

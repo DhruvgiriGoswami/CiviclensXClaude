@@ -1,7 +1,7 @@
 // Run with `npm test`. Covers the pure helpers used by the map, search and money views.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { formatINR, formatPct, humanizeEnum } from './format.js';
+import { formatINR, formatPct, humanizeEnum, shortUnitLabel } from './format.js';
 import { makeBreaks, bucketIndex, bucketColor, RAMP_LIGHT, NO_DATA_LIGHT } from './choropleth.js';
 import { rankSearch } from './search.js';
 import { partyShortCode, partyDisplayName } from './partyNormalizer.js';
@@ -15,6 +15,14 @@ test('formatINR uses lakh and crore', () => {
   assert.equal(formatINR(-250000), '-₹2.5 lakh');
   assert.equal(formatINR(0), '₹0');
   assert.equal(formatINR(null), 'No data');
+});
+
+test('shortUnitLabel gives one label whichever path made the unit', () => {
+  assert.equal(shortUnitLabel('PMC Corporation Region'), 'PMC');
+  assert.equal(shortUnitLabel('Pune District'), 'Pune');
+  assert.equal(shortUnitLabel('Urban Municipal Ward 28'), 'Ward 28');
+  assert.equal(shortUnitLabel('State (MH) (Level 2 State)'), 'State');
+  assert.equal(shortUnitLabel('Pune'), 'Pune');
 });
 
 test('formatPct and humanizeEnum', () => {

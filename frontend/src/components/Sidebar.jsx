@@ -35,6 +35,26 @@ export function Sidebar({
   const [internalIsCollapsed, setInternalIsCollapsed] = useState(true);
   const isCollapsed = propIsCollapsed !== undefined ? propIsCollapsed : internalIsCollapsed;
   const setIsCollapsed = propSetIsCollapsed || setInternalIsCollapsed;
+
+  // Phone sheet detents: peek (collapsed), half and full. Tap cycles; a drag on the handle moves one step.
+  const [sheetFull, setSheetFull] = useState(false);
+  const detent = isCollapsed ? 'peek' : sheetFull ? 'full' : 'half';
+  const goDetent = (d) => {
+    setIsCollapsed(d === 'peek');
+    setSheetFull(d === 'full');
+  };
+  const dragStartRef = React.useRef(null);
+  const onHandlePointerDown = (e) => { dragStartRef.current = e.clientY; e.currentTarget.setPointerCapture?.(e.pointerId); };
+  const onHandlePointerUp = (e) => {
+    const start = dragStartRef.current;
+    dragStartRef.current = null;
+    const order = ['peek', 'half', 'full'];
+    const i = order.indexOf(detent);
+    const dy = start === null ? 0 : e.clientY - start;
+    if (dy < -40) goDetent(order[Math.min(i + 1, 2)]);
+    else if (dy > 40) goDetent(order[Math.max(i - 1, 0)]);
+    else goDetent(order[(i + 1) % 3]);
+  };
   const [activeTab, setActiveTab] = useState('GRIEVANCES'); // Default to 'GRIEVANCES' (Tickets) as primary tab
   const [wardReps, setWardReps] = useState([]);
 
@@ -524,31 +544,33 @@ export function Sidebar({
       <div className="lg:hidden fixed inset-x-0 bottom-0 z-30 transition-all duration-300 ease-in-out pointer-events-auto">
         <div
           className={`glass-panel border-t border-slate-800 light:border-slate-200 flex flex-col shadow-2xl transition-all duration-300 rounded-t-3xl ${
-            isCollapsed
-              ? 'h-12 bg-slate-900/95 light:bg-white overflow-hidden'
-              : 'h-[75dvh] max-h-[85dvh] bg-slate-950/98 light:bg-white pb-[env(safe-area-inset-bottom)]'
+            detent === 'peek'
+              ? 'h-12 bg-slate-900 light:bg-white overflow-hidden'
+              : `${detent === 'full' ? 'h-[85dvh]' : 'h-[50dvh]'} bg-slate-950 light:bg-white pb-[env(safe-area-inset-bottom)]`
           }`}
         >
           {/* Mobile Handle Bar */}
           <button
             id="governance-panel-step-mobile"
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            type="button"
+            onPointerDown={onHandlePointerDown}
+            onPointerUp={onHandlePointerUp}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onHandlePointerUp({ clientY: null }); } }}
+            aria-label={`Area panel, ${detent === 'peek' ? 'closed' : detent === 'half' ? 'half open' : 'fully open'}. Tap to change.`}
+            style={{ touchAction: 'none' }}
             className="w-full h-12 flex items-center justify-between px-4 py-2 bg-slate-900/90 light:bg-slate-100 border-b border-slate-800/60 light:border-slate-200 rounded-t-3xl cursor-pointer hover:bg-slate-800/80 light:hover:bg-slate-200 transition-colors flex-shrink-0"
           >
-            <div className="flex items-center space-x-2">
-              <span className="w-8 h-1 rounded-full bg-slate-600 light:bg-slate-400 inline-block"></span>
-              <span className="text-xs font-bold text-slate-200 light:text-slate-900 font-sans truncate">
-                {unit ? unit.unitName : 'Civic Spotlight & Governance Panel'}
+            <div className="flex items-center space-x-2 min-w-0">
+              <span className="w-8 h-1 rounded-full bg-slate-600 light:bg-slate-400 inline-block flex-shrink-0"></span>
+              <span className="text-sm font-semibold text-slate-200 light:text-slate-900 font-sans truncate">
+                {unit ? unit.unitName : 'Who is responsible here'}
               </span>
             </div>
-            <div className="flex items-center space-x-1.5 text-xs text-crimson-400 light:text-crimson-700 font-bold">
-              <span>{isCollapsed ? 'Expand Panel' : 'Collapse'}</span>
-              <ChevronRight className={`w-4 h-4 transition-transform duration-300 ${isCollapsed ? '-rotate-90' : 'rotate-90'}`} />
-            </div>
+            <ChevronRight aria-hidden="true" className={`w-4 h-4 flex-shrink-0 text-slate-400 transition-transform ${detent === 'full' ? 'rotate-90' : '-rotate-90'}`} />
           </button>
 
           {/* Drawer Body Content */}
-          {!isCollapsed && (
+          {detent !== 'peek' && (
             <div className="flex-1 overflow-y-auto flex flex-col">
               <div className="flex-1">
                 {renderContent()}
@@ -575,7 +597,7 @@ export function Sidebar({
         <button
           id="governance-panel-step"
           onClick={() => setIsCollapsed(!isCollapsed)}
-          className={`absolute top-4 ${isCollapsed ? 'right-4' : '-left-4'} z-30 w-8 h-10 bg-slate-900/90 light:bg-white hover:bg-slate-800 light:hover:bg-slate-100 text-slate-200 light:text-slate-700 border border-slate-700/80 light:border-slate-300 rounded-l-xl flex items-center justify-center shadow-2xl transition-all duration-300 group hover:border-crimson-500`}
+          className={`absolute top-4 ${isCollapsed ? 'right-4' : '-left-4'} z-30 w-11 h-11 bg-slate-900 light:bg-white hover:bg-slate-800 light:hover:bg-slate-100 text-slate-200 light:text-slate-700 border border-slate-700/80 light:border-slate-300 rounded-l-xl flex items-center justify-center shadow-2xl transition-all duration-300 group hover:border-crimson-500`}
           title={isCollapsed ? "Expand Leadership Panel" : "Collapse Panel to Right"}
           aria-label={isCollapsed ? "Expand Panel" : "Collapse Panel"}
         >

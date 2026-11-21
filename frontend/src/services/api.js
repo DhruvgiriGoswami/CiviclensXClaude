@@ -84,6 +84,9 @@ export const geographyApi = {
 // 2. Complaints API
 // ----------------------------------------------------
 export const complaintsApi = {
+  /** Complaint counts per child unit: { geo_unit_id: count }. 404 until the backend ships it. */
+  getCounts: (parentId, options = {}) => request(`/complaints/counts?parent_geo_unit_id=${encodeURIComponent(parentId)}`, { silent: true, ...options }),
+
   /** List complaints with optional filters (geo_unit_id, category, status, search, sort_by, page, page_size) */
   listComplaints: (params = {}) => {
     // Filter out undefined / null / empty string parameters
@@ -179,9 +182,12 @@ export const authorityApi = {
 // ----------------------------------------------------
 // 7. Governance API
 // ----------------------------------------------------
+let statesLeadershipPromise = null;
+
 export const governanceApi = {
   /** Get CM leadership for all States & UTs */
-  getStatesLeadership: () => request('/governance/states'),
+  // Shared by the spotlight and the directory, and StrictMode runs effects twice: one request, not four.
+  getStatesLeadership: () => (statesLeadershipPromise ||= request('/governance/states').catch((err) => { statesLeadershipPromise = null; throw err; })),
 
   /** Get CM leadership for a specific state (e.g. GJ, MH) */
   getStateLeadership: (stateId) => request(`/governance/states/${encodeURIComponent(stateId)}`),
