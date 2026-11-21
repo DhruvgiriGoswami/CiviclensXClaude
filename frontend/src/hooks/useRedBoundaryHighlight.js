@@ -2,8 +2,9 @@ import { useRef, useCallback, useEffect, useState } from 'react';
 import { geographyApi } from '../services/api';
 import { mapDebug } from '../utils/mapDebug';
 import { boundsOf } from '../utils/cameraMath';
+import { createDistrictLabels } from '../utils/mapLabels';
 import { wardGeometryCache } from '../services/mapGeometryCache';
-import { extractPathsFromGeoJson, getLoadedStateDistrictsData, STATE_CENTERS, fitIndia } from '../utils/mapHelpers';
+import { extractPathsFromGeoJson, getLoadedStateDistrictsData, STATE_CENTERS, fitIndia, buildMapStyles } from '../utils/mapHelpers';
 
 export function useRedBoundaryHighlight({
   googleMapRef,
@@ -321,6 +322,10 @@ export function useRedBoundaryHighlight({
               isSelected: isSelectedDist
             });
           });
+
+          highlightShapesRef.current.push(createDistrictLabels(map, stateDistricts
+            .filter((d) => d.polygons)
+            .map((d) => ({ name: d.districtName || d.name || d.district, paths: d.polygons })), isDark, (on) => buildMapStyles(isDark, on)));
 
           // 2. Camera positioning for DISTRICT vs STATE
           if (unit && unit.unitType === 'DISTRICT') {

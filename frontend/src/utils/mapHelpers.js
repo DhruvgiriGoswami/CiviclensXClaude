@@ -64,12 +64,12 @@ export const fitIndia = (map, executeCameraCommand) => {
   }
 };
 
-export const buildMapStyles = (isDark) => {
-  const bg = isDark ? '#1F1F1F' : '#EEF2F7';
-  const water = isDark ? '#0E1418' : '#B8D4E8';
-  const road = isDark ? '#2E2E2E' : '#D1DBE8';
+export const buildMapStyles = (isDark, provinceLabels = true) => {
+  const bg = isDark ? '#2A2A2A' : '#EEF2F7';
+  const water = isDark ? '#101417' : '#B8D4E8';
+  const road = isDark ? '#383838' : '#D1DBE8';
   const localLabel = isDark ? '#9A9A9A' : '#475569';
-  const labelStroke = isDark ? '#1F1F1F' : '#EEF2F7';
+  const labelStroke = isDark ? '#2A2A2A' : '#EEF2F7';
   return [
     { elementType: 'geometry', stylers: [{ color: bg }] },
     { featureType: 'water', elementType: 'geometry', stylers: [{ color: water }] },
@@ -77,6 +77,8 @@ export const buildMapStyles = (isDark) => {
     { elementType: 'labels', stylers: [{ visibility: 'off' }] },
     { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: localLabel }, { visibility: 'simplified' }] },
     { featureType: 'administrative.locality', elementType: 'labels.text.stroke', stylers: [{ color: labelStroke }, { visibility: 'simplified' }] },
+    { featureType: 'administrative.province', elementType: 'labels.text.fill', stylers: [{ visibility: provinceLabels ? 'on' : 'off' }, { color: isDark ? '#D4D4D4' : '#3C4043' }] },
+    { featureType: 'administrative.province', elementType: 'labels.text.stroke', stylers: [{ visibility: provinceLabels ? 'on' : 'off' }, { color: labelStroke }, { weight: 3 }] },
     { featureType: 'administrative.country', elementType: 'geometry.stroke', stylers: [{ visibility: 'off' }] },
     { featureType: 'poi', stylers: [{ visibility: 'off' }] },
     { featureType: 'poi.business', stylers: [{ visibility: 'off' }] },
