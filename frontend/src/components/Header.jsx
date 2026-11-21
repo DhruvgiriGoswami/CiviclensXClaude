@@ -3,7 +3,8 @@ import { Search, ShieldAlert, Award, FileText, Layers, UserCheck, Activity, Zap,
 import { useTheme } from '../context/ThemeContext';
 import ThemeToggle from './ThemeToggle';
 import { geographyApi, searchApi, systemApi } from '../services/api';
-import { CapexBreakdownModal, outlayTotalRange } from './CapexBreakdownModal';
+import { WardBudgetModal, useWardBudgets, totalBudget } from './WardBudgetModal';
+import { formatINR } from '../utils/format';
 import { rankSearch } from '../utils/search';
 
 export function Header({
@@ -30,6 +31,7 @@ export function Header({
   const [isSearching, setIsSearching] = useState(false);
   const [isBackendHealthy, setIsBackendHealthy] = useState(true);
   const [isCapexModalOpen, setIsCapexModalOpen] = useState(false);
+  const wardBudgets = useWardBudgets();
 
   useEffect(() => {
     let isMounted = true;
@@ -647,10 +649,10 @@ export function Header({
               className="group flex flex-col items-start h-11 justify-center px-3 rounded-xl text-left hover:bg-white/[0.06] light:hover:bg-slate-900/[0.04] active:scale-[0.98] transition-[background-color,transform] duration-150 cursor-pointer"
             >
               <span className="flex items-center gap-1 text-[11px] text-slate-400 light:text-slate-500">
-                Annual budget outlay
+                Mumbai monsoon repair budget, 2025
                 <Info className="w-3 h-3 opacity-70 group-hover:opacity-100" aria-hidden="true" />
               </span>
-              <span className="font-semibold text-slate-200 light:text-slate-800 text-xs tabular-nums">{outlayTotalRange()}</span>
+              <span className="font-semibold text-slate-200 light:text-slate-800 text-xs tabular-nums">{wardBudgets === null ? 'Loading' : wardBudgets.length ? `${formatINR(totalBudget(wardBudgets))} across ${wardBudgets.length} wards` : 'Not available'}</span>
             </button>
           </div>
 
@@ -670,9 +672,10 @@ export function Header({
       </header>
 
       {/* CapEx Outlay Breakdown Modal */}
-      <CapexBreakdownModal
+      <WardBudgetModal
         isOpen={isCapexModalOpen}
         onClose={() => setIsCapexModalOpen(false)}
+        rows={wardBudgets}
       />
     </div>
   );

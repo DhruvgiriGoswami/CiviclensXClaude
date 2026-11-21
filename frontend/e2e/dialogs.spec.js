@@ -57,7 +57,7 @@ test('national directory, reviews and rating dialogs close with Esc', async ({ p
 
 test('budget outlay dialog closes with Esc and returns focus', async ({ page }) => {
   await openHome(page);
-  await escReturnsFocus(page, page.getByRole('button', { name: 'See the budget breakdown' }), 'Annual budget outlay');
+  await escReturnsFocus(page, page.getByRole('button', { name: 'See the budget breakdown' }), 'Mumbai monsoon repair budget, 2025');
 });
 
 test('report a problem dialog closes with Esc and returns focus', async ({ page }) => {
