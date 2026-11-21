@@ -15,6 +15,7 @@ import { useGoogleMapInit } from '../hooks/useGoogleMapInit';
 import { useRedBoundaryHighlight } from '../hooks/useRedBoundaryHighlight';
 import { useWardPolygons } from '../hooks/useWardPolygons';
 import { useMapMarkers } from '../hooks/useMapMarkers';
+import { useAuditComplaintDots } from '../hooks/useAuditComplaintDots';
 
 import { MapControls } from './map/MapControls';
 import { MapBanner } from './map/MapBanner';
@@ -222,6 +223,9 @@ export function MapContainer({
     focusedTicketId,
     onInspectTicket,
   });
+
+  // 7. Mumbai audit complaints (hackathon data) as dots
+  useAuditComplaintDots({ googleMapRef, isMapReady });
 
   // 8. Sync State Chief Minister InfoWindow Content
   useEffect(() => {

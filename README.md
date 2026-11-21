@@ -68,6 +68,8 @@ The file travels like this:
 4. Each ward is shaded by the measure you pick, failed-fix share or amount at risk, in five equal steps from the lowest ward to the highest, on a light-to-dark red scale. Wards with no value stay grey.
 5. On top sit the complaints. 3,777 of the 6,501 rows in `complaints.csv` carry a GPS point (mostly the app reports), and each one is a dot placed with its own `lat` and `lon` through the same projection. The colour is the state of the issue it belongs to: still open, closed with no work, fixed then failed, or fixed and holding. Click a dot to get a card with the complaint, the latest work order, its cost and whether it held, plus a link to the full trail. A checkbox under the map hides the dots. Complaints without GPS aren't placed at a guessed spot; you find them through search.
 
+The same dots appear on the main CivicLens Google map (`useAuditComplaintDots.js`) once you zoom in to city level, for example through Maharashtra, Mumbai City and then BMC. Clicking one there opens the same card in the map's info window.
+
 No tiles, map library or API key are involved. The offline mock carries its own copy of the same shapes, so the map still draws when the backend is down. `data/roads.geojson` is in the dataset, but the page doesn't draw it.
 
 ## Where Claude comes in
