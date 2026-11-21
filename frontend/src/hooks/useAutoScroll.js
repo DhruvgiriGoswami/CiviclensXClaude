@@ -15,6 +15,12 @@ export function usePrefersReducedMotion() {
   return reduced;
 }
 
+// Little scroll room left, or content that doesn't fill the box yet. A hidden box (display:none) has no
+// height and is never "near the end", so an off-screen copy of the feed doesn't fetch every page.
+export function isNearEnd({ scrollHeight, clientHeight, scrollTop }, nearEndPx) {
+  return clientHeight > 0 && scrollHeight - clientHeight - scrollTop < nearEndPx;
+}
+
 /**
  * Drifts a scroll container downward at `speed` px/s while not paused, ticker style.
  * Calls `onNearEnd` whenever less than `nearEndPx` of scroll room is left (also when the content
@@ -37,7 +43,7 @@ export function useAutoScroll(ref, { paused, speed = 25, onNearEnd, nearEndPx = 
       raf = requestAnimationFrame(tick);
       const dt = last === null ? 0 : Math.min(now - last, 100) / 1000; // clamp: a background tab must not jump
       last = now;
-      if (el.scrollHeight - el.clientHeight - el.scrollTop < nearEndPx) onNearEndRef.current?.();
+      if (isNearEnd(el, nearEndPx)) onNearEndRef.current?.();
       if (paused || reduced) return;
       carry += speed * dt;
       const step = Math.floor(carry);

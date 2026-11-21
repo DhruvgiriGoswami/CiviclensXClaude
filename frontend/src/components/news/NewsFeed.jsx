@@ -39,12 +39,15 @@ export function NewsFeed() {
 
   const loadMore = useCallback(async () => {
     if (loadingRef.current || stoppedRef.current) return;
-    loadingRef.current = true;
     let offset = nextOffsetRef.current;
     if (offset === null) {
+      // Loop only when the feed scrolls: a container that can't overflow would otherwise append forever.
+      const el = scrollRef.current;
+      if (!el || el.scrollHeight <= el.clientHeight) return;
       offset = 0;
       cycleRef.current += 1;
     }
+    loadingRef.current = true;
     const cycle = cycleRef.current;
     try {
       const page = await auditApi.socialPosts(PAGE_SIZE, offset);
