@@ -137,7 +137,7 @@ export default function FollowTheRupee({ onBackToMap }) {
           <button type="button" onClick={onBackToMap} className="inline-flex items-center gap-2 min-h-[44px] px-2 -ml-2 rounded-lg text-sm hover:bg-white/5 light:hover:bg-slate-900/5">
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />CivicLens map
           </button>
-          <h1 className="text-xl font-semibold mr-auto">Follow the Rupee <span className={`font-normal text-base ${muted}`}>Mumbai monsoon road repairs, June to September 2025</span></h1>
+          <h1 className="text-xl font-semibold mr-auto">Follow the Rupee <span className={`font-normal text-sm ${muted}`}>Mumbai monsoon road repairs, June to September 2025</span></h1>
           <p className="inline-flex items-center gap-2 rounded-lg border border-slate-700 light:border-slate-300 px-3 py-2 text-sm">
             <Info className="w-4 h-4 shrink-0" aria-hidden="true" />Synthetic data: not BMC records
           </p>
