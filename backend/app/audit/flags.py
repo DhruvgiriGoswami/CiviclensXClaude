@@ -67,8 +67,8 @@ def double_billing(wo: pd.DataFrame) -> list:
     """A job with no linked complaint that repeats an earlier job on the same road with the same method within days."""
     later = wo[wo.links.str.len() == 0]
     pairs = later.merge(wo, on=["road_id", "repair_method"], suffixes=("", "_orig"))
-    gap = (pairs.assigned_at - pairs.assigned_at_orig).dt.total_seconds() / 86400
-    pairs = pairs[(gap > 0) & (gap <= DOUBLE_BILL_DAYS)].assign(gap=gap)
+    pairs["gap"] = (pairs.assigned_at - pairs.assigned_at_orig).dt.total_seconds() / 86400
+    pairs = pairs[(pairs.gap > 0) & (pairs.gap <= DOUBLE_BILL_DAYS)]
     out = []
     for w in pairs.sort_values("gap").drop_duplicates("work_order_id").itertuples():
         same = w.contractor_id == w.contractor_id_orig and w.area_sqm == w.area_sqm_orig

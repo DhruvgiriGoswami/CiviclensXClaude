@@ -19,7 +19,7 @@ CACHE_DIR = Path(__file__).resolve().parents[2] / ".audit_cache"
 WO_RX = re.compile(r"WO25-\d{5}")
 CID_RX = re.compile(r"BMC25-\d{6}", re.I)
 DEVANAGARI = re.compile(r"[ऀ-ॿ]")
-MARATHI_HINTS = ("माझ्या", "माझी", "माझा", "तक्रार", "झालं", "झाले", "आहे", "काय", "नाही", "केव्हा", "कधी", "च्या")
+MARATHI_HINTS = ("माझ्या", "माझी", "माझा", "माझं", "तक्रार", "झालं", "झाले", "आहे", "काय", "नाही", "केव्हा", "कधी", "कुठे")
 HINGLISH_HINTS = ("kya", "hua", "meri", "mera", "kab", "kaha", "nahi", "hai", "kyun", "shikayat", "kuch")
 
 RULES = ("Use only facts in the JSON. Cite the work order id (WO25-...) behind every claim. Never accuse anyone: "
@@ -112,7 +112,8 @@ def ward_summary(s, code: str) -> dict:
 def detect_language(text: str) -> str:
     t = text or ""
     if DEVANAGARI.search(t):
-        return "mr" if any(h in t for h in MARATHI_HINTS) else "hi"
+        words = re.findall(r"[\u0900-\u097F]+", t)
+        return "mr" if any(w.startswith(MARATHI_HINTS) for w in words) else "hi"
     words = set(re.findall(r"[a-z]+", t.lower()))
     return "hi-en" if words & set(HINGLISH_HINTS) else "en"
 
