@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useDialog } from '../hooks/useDialog';
 import {
   X, AlertTriangle, MapPin, Camera, ShieldAlert, AlertCircle,
   Upload, CheckCircle2, Crosshair, Trash2, Image, Navigation,
@@ -52,6 +53,7 @@ export function GrievanceModal({
     };
   }, [previewUrl]);
 
+  const dialogRef = useDialog(isOpen, onClose);
   if (!isOpen) return null;
 
   // Resilient fallback when user opens Report Issue before selecting any unit on map
@@ -355,7 +357,7 @@ export function GrievanceModal({
   ];
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="Report a civic issue" className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
+    <div ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="grievance-heading" className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
       <div className="glass-panel-crimson light:bg-white light:border-slate-300 w-full max-w-lg rounded-3xl border border-slate-700/80 shadow-2xl p-4 sm:p-6 relative max-h-[92dvh] overflow-y-auto no-scrollbar my-auto text-slate-100 light:text-slate-900">
         
         {/* Close Button */}
@@ -395,7 +397,7 @@ export function GrievanceModal({
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <h3 className="text-lg font-bold text-white light:text-slate-900 font-sans">
+              <h3 id="grievance-heading" className="text-lg font-bold text-white light:text-slate-900 font-sans">
                 {unit ? `Raise Civic Issue in ${unit.unitName}` : 'Report Civic Issue & Pin Incident'}
               </h3>
               <p className="text-xs text-slate-400 light:text-slate-600 font-sans">
@@ -541,7 +543,7 @@ export function GrievanceModal({
                     placeholder="e.g. Near HDFC Bank ATM, Service Road, Sector 4..."
                     value={addressText}
                     onChange={(e) => setAddressText(e.target.value)}
-                    className="w-full bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl p-2.5 text-xs text-slate-100 light:text-slate-900 placeholder-slate-500 light:placeholder-slate-400 focus:outline-none focus:border-crimson-500"
+                    className="w-full bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl p-2.5 text-xs text-slate-100 light:text-slate-900 placeholder-slate-500 light:placeholder-slate-400 focus:border-crimson-500"
                   />
                 </div>
 
@@ -607,7 +609,7 @@ export function GrievanceModal({
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    className="w-full bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl p-2.5 text-xs text-slate-100 light:text-slate-900 focus:outline-none focus:border-crimson-500"
+                    className="w-full bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl p-2.5 text-xs text-slate-100 light:text-slate-900 focus:border-crimson-500"
                   >
                     {CATEGORIES.map((cat) => (
                       <option key={cat} value={cat} className="bg-slate-900 light:bg-white text-slate-100 light:text-slate-900">
@@ -807,7 +809,7 @@ export function GrievanceModal({
                     placeholder="Describe exact physical damage, landmark, trash accumulation, or structural failure..."
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="w-full bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl p-2.5 text-xs text-slate-100 light:text-slate-900 placeholder-slate-500 light:placeholder-slate-400 focus:outline-none focus:border-crimson-500 font-sans"
+                    className="w-full bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl p-2.5 text-xs text-slate-100 light:text-slate-900 placeholder-slate-500 light:placeholder-slate-400 focus:border-crimson-500 font-sans"
                   />
                 </div>
 

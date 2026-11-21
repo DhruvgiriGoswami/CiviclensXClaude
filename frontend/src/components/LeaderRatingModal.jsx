@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDialog } from '../hooks/useDialog';
 import { Star, X, CheckCircle, ShieldCheck, ThumbsUp, MessageSquare, AlertCircle } from 'lucide-react';
 import { authorityApi } from '../services/api';
 
@@ -13,6 +14,7 @@ export function LeaderRatingModal({ isOpen, onClose, leader, leaderType, unit, o
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
+  const dialogRef = useDialog(isOpen && !!leader, onClose);
   if (!isOpen || !leader) return null;
 
   const handleResponsivenessChange = (val) => {
@@ -85,7 +87,7 @@ export function LeaderRatingModal({ isOpen, onClose, leader, leaderType, unit, o
   };
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="Rate a leader" className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
+    <div ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="rating-heading" className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
       <div className="glass-panel-crimson w-full max-w-lg rounded-3xl border border-slate-700/80 light:border-slate-300 shadow-2xl p-4 sm:p-6 relative max-h-[90dvh] overflow-y-auto no-scrollbar my-auto">
         
         {/* Close Button */}
@@ -101,7 +103,7 @@ export function LeaderRatingModal({ isOpen, onClose, leader, leaderType, unit, o
             <div className="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 flex items-center justify-center mx-auto">
               <CheckCircle className="w-8 h-8" />
             </div>
-            <h3 className="text-xl font-bold text-white light:text-slate-900 font-sans">Rating recorded</h3>
+            <h3 id="rating-heading" className="text-xl font-bold text-white light:text-slate-900 font-sans">Rating recorded</h3>
             <p className="text-xs text-slate-300 light:text-slate-700">
               Thanks. Your rating now counts toward the score for {unit?.unitName}.
             </p>
@@ -114,7 +116,7 @@ export function LeaderRatingModal({ isOpen, onClose, leader, leaderType, unit, o
               <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-crimson-500/20 text-crimson-400 light:text-crimson-700 border border-crimson-500/40">
                 Your rating
               </span>
-              <h3 className="text-lg font-bold text-white light:text-slate-900 mt-1 font-sans">
+              <h3 id="rating-heading" className="text-lg font-bold text-white light:text-slate-900 mt-1 font-sans">
                 Rate {leader.name}
               </h3>
               <p className="text-xs text-slate-400 light:text-slate-600">{leader.title || leader.designation} • {unit?.unitName}</p>
@@ -193,7 +195,7 @@ export function LeaderRatingModal({ isOpen, onClose, leader, leaderType, unit, o
                 placeholder="e.g. Rahul Sharma (leave blank for Anonymous)"
                 value={citizenName}
                 onChange={(e) => setCitizenName(e.target.value)}
-                className="w-full bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl p-2.5 text-xs text-slate-100 light:text-slate-900 placeholder-slate-500 focus:outline-none focus:border-crimson-500 font-sans"
+                className="w-full bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl p-2.5 text-xs text-slate-100 light:text-slate-900 placeholder-slate-500 focus:border-crimson-500 font-sans"
               />
             </div>
 
@@ -205,7 +207,7 @@ export function LeaderRatingModal({ isOpen, onClose, leader, leaderType, unit, o
                 placeholder="Share specific observations about local roads, drainage work, or officer response time..."
                 value={feedbackText}
                 onChange={(e) => setFeedbackText(e.target.value)}
-                className="w-full bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl p-2.5 text-xs text-slate-100 light:text-slate-900 placeholder-slate-500 focus:outline-none focus:border-crimson-500"
+                className="w-full bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl p-2.5 text-xs text-slate-100 light:text-slate-900 placeholder-slate-500 focus:border-crimson-500"
               />
             </div>
 

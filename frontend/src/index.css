@@ -28,6 +28,12 @@
   }
 }
 
+/* One visible focus ring for keyboard users, on every page. */
+:focus-visible {
+  outline: 2px solid var(--role-select);
+  outline-offset: 2px;
+}
+
 /* Surfaces are solid. Elevation uses only two levels (M3 level 1 and 3). */
 .glass-panel {
   background: #12151E;

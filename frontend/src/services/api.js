@@ -39,10 +39,14 @@ async function request(endpoint, options = {}) {
     if (err.name === 'AbortError') {
       throw err;
     }
+    // fetch throws TypeError("Failed to fetch") when the server is down; say that plainly.
+    const out = err instanceof TypeError
+      ? Object.assign(new Error('We could not reach the server.'), { status: 0, cause: err })
+      : err;
     if (!options.silent) {
-      console.warn(`[CivicLens API] Call failed for ${endpoint}:`, err.message);
+      console.warn(`[CivicLens API] Call failed for ${endpoint}:`, out.message);
     }
-    throw err;
+    throw out;
   }
 }
 

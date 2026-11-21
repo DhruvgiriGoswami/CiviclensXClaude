@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDialog } from '../hooks/useDialog';
 import { Star, X, MessageSquare, ThumbsUp, ShieldCheck, UserCheck, Calendar, AlertCircle, Sparkles } from 'lucide-react';
 import { authorityApi } from '../services/api';
 import { getPersonAvatar, INDIA_FLAG_AVATAR } from '../utils/avatarResolver';
@@ -47,6 +48,7 @@ export function LeaderReviewsModal({ isOpen, onClose, leader, leaderType, onRate
       });
   }, [isOpen, leader?.name, leader?.id]);
 
+  const dialogRef = useDialog(isOpen && !!leader, onClose);
   if (!isOpen || !leader) return null;
 
   const isPolitical = leaderType === 'POLITICAL' || leader.roleType !== 'BUREAUCRAT';
@@ -68,7 +70,7 @@ export function LeaderReviewsModal({ isOpen, onClose, leader, leaderType, onRate
   };
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="Leader reviews" className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
+    <div ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="reviews-heading" className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
       <div className="glass-panel-crimson w-full max-w-2xl max-h-[90dvh] rounded-3xl border border-slate-700/80 light:border-slate-300 shadow-2xl flex flex-col overflow-hidden my-auto">
         
         {/* Modal Header Bar */}
@@ -92,7 +94,7 @@ export function LeaderReviewsModal({ isOpen, onClose, leader, leaderType, onRate
                   {isPolitical ? 'Elected Leader' : 'Administrative Officer'}
                 </span>
               </div>
-              <h3 className="text-lg font-bold text-white light:text-slate-900 font-sans truncate mt-0.5">
+              <h3 id="reviews-heading" className="text-lg font-bold text-white light:text-slate-900 font-sans truncate mt-0.5">
                 {leader.name}
               </h3>
               <p className="text-xs text-slate-400 light:text-slate-600 truncate">

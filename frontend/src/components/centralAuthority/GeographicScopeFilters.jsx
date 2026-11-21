@@ -330,7 +330,7 @@ export function GeographicScopeFilters({
                 value={selectedState || ''}
                 onChange={handleStateSelect}
                 disabled={loadingStates}
-                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-50 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
+                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-50 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
               >
                 <option value="">All India (National View)</option>
                 {states.map(s => (
@@ -355,7 +355,7 @@ export function GeographicScopeFilters({
                 value={selectedDistrict || ''}
                 onChange={handleDistrictSelect}
                 disabled={!selectedState || loadingDistricts}
-                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-40 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
+                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-40 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
               >
                 <option value="">
                   {!selectedState ? 'Select State First' : 'All Districts'}
@@ -382,7 +382,7 @@ export function GeographicScopeFilters({
                 value={selectedCorp || ''}
                 onChange={handleCorpSelect}
                 disabled={!selectedState || loadingCorps}
-                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-40 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
+                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-40 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
               >
                 <option value="">
                   {!selectedState ? 'Select State First' : 'All Local Authorities'}
@@ -409,7 +409,7 @@ export function GeographicScopeFilters({
                 value={selectedWard || ''}
                 onChange={handleWardSelect}
                 disabled={(!selectedCorp && !selectedDistrict) || loadingWards}
-                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-40 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
+                className="w-full bg-[#0B0D12] light:bg-white text-slate-200 light:text-slate-900 border border-slate-700/80 light:border-slate-300 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 disabled:opacity-40 appearance-none font-sans cursor-pointer transition-colors shadow-sm"
               >
                 <option value="">
                   {!selectedCorp && !selectedDistrict ? 'Select Authority / District First' : 'All Wards'}

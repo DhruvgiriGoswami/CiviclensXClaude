@@ -21,7 +21,13 @@ export default function CivicLensIntro({ onComplete }) {
   };
 
   useEffect(() => {
-    if (prefersReducedMotion()) finish(0); // no autoplaying video for people who asked for less motion
+    // No autoplaying video for people who asked for less motion. Call onComplete directly:
+    // a timer here is cleared by StrictMode's effect re-run and the overlay never leaves.
+    if (prefersReducedMotion() && !doneRef.current) {
+      doneRef.current = true;
+      try { localStorage.setItem(INTRO_STORAGE_KEY, "true"); } catch { /* storage blocked */ }
+      onComplete();
+    }
     return () => clearTimeout(timerRef.current);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

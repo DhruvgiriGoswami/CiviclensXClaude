@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDialog } from '../hooks/useDialog';
 import {
   Search, MapPin, Layers, ChevronRight, ChevronLeft, Check, Sparkles, X,
   HelpCircle, Mail, ShieldAlert, AlertTriangle, FileText, CheckCircle2,
@@ -113,6 +114,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
     };
   }, [isOpen, step]);
 
+  const dialogRef = useDialog(isOpen, onClose);
   if (!isOpen) return null;
 
   const handleNext = () => {
@@ -156,7 +158,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
   ];
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="App tour" className="fixed inset-0 z-50 pointer-events-auto flex items-center justify-center p-3 sm:p-4 animate-in fade-in select-none">
+    <div ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="tour-heading" className="fixed inset-0 z-50 pointer-events-auto flex items-center justify-center p-3 sm:p-4 animate-in fade-in select-none">
       {/* Fullscreen Spotlight Overlay with SVG Mask Cutout */}
       {targetRect && step > 0 ? (
         <svg
@@ -220,7 +222,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
                 <span className="text-xs sm:text-xs font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-crimson-500/20 text-crimson-400 light:text-crimson-700 border border-crimson-500/40 inline-block leading-tight">
                   Civic-Tech Platform Overview & Disclaimer
                 </span>
-                <h2 className="text-lg sm:text-2xl font-black text-white light:text-slate-900 font-sans tracking-tight mt-0.5 truncate">
+                <h2 id="tour-heading" className="text-lg sm:text-2xl font-black text-white light:text-slate-900 font-sans tracking-tight mt-0.5 truncate">
                   Welcome to CivicLens
                 </h2>
               </div>
@@ -500,16 +502,10 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
               {/* Progress Step Indicator Dots */}
               <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 light:border-slate-200">
                 <div className="flex items-center space-x-1.5">
-                  {/* Step 0 (Disclaimer) indicator button */}
-                  <button
-                    type="button"
-                    onClick={() => setStep(0)}
-                    title="View CivicLens Disclaimer"
-                    className="w-2.5 h-2.5 rounded-full bg-slate-700 hover:bg-slate-500 transition-colors"
-                  />
                   {[1, 2, 3].map((s) => (
                     <div
                       key={s}
+                      aria-hidden="true"
                       onClick={() => setStep(s)}
                       className={`h-2 rounded-full cursor-pointer transition-all duration-300 ${
                         s === step

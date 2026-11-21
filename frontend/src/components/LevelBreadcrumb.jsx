@@ -83,7 +83,7 @@ export function LevelBreadcrumb({
         {/* LEVEL 1: National Macro */}
         <button
           onClick={onResetToNational}
-          className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 py-1 rounded-lg transition-all flex-shrink-0 ${
+          className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 min-h-[44px] rounded-lg transition-all flex-shrink-0 ${
             isNationalActive
               ? 'bg-crimson-500/20 text-crimson-400 border border-crimson-500/40 font-bold shadow-sm'
               : 'text-slate-400 light:text-slate-600 hover:text-slate-200 light:hover:text-slate-900 hover:bg-slate-800/60'
@@ -99,7 +99,7 @@ export function LevelBreadcrumb({
             <ChevronRight className="w-3.5 h-3.5 text-slate-600 flex-shrink-0" />
             <button
               onClick={() => stateObj && onSelectState && onSelectState(stateObj)}
-              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 py-1 rounded-lg transition-all flex-shrink-0 ${
+              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 min-h-[44px] rounded-lg transition-all flex-shrink-0 ${
                 isStateActive
                   ? 'bg-crimson-500/20 text-crimson-400 border border-crimson-500/40 font-bold shadow-sm'
                   : 'text-slate-400 light:text-slate-600 hover:text-slate-200 light:hover:text-slate-900 hover:bg-slate-800/60'
@@ -117,7 +117,7 @@ export function LevelBreadcrumb({
             <ChevronRight className="w-3.5 h-3.5 text-slate-600 flex-shrink-0" />
             <button
               onClick={() => onSelectDistrict && onSelectDistrict(cleanDistrictName, derivedStateId)}
-              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 py-1 rounded-lg transition-all flex-shrink-0 ${
+              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 min-h-[44px] rounded-lg transition-all flex-shrink-0 ${
                 isDistrictActive
                   ? 'bg-crimson-500/20 text-crimson-400 border border-crimson-500/40 font-bold shadow-sm'
                   : 'text-slate-400 light:text-slate-600 hover:text-slate-200 light:hover:text-slate-900 hover:bg-slate-800/60'
@@ -135,7 +135,7 @@ export function LevelBreadcrumb({
             <ChevronRight className="w-3.5 h-3.5 text-slate-600 flex-shrink-0" />
             <button
               onClick={() => corpObj && onSelectCorporation && onSelectCorporation(corpObj)}
-              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 py-1 rounded-lg transition-all flex-shrink-0 ${
+              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 min-h-[44px] rounded-lg transition-all flex-shrink-0 ${
                 isCorpActive
                   ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40 font-bold shadow-sm'
                   : 'text-slate-400 light:text-slate-600 hover:text-slate-200 light:hover:text-slate-900 hover:bg-slate-800/60'
@@ -153,7 +153,7 @@ export function LevelBreadcrumb({
             <ChevronRight className="w-3.5 h-3.5 text-slate-600 flex-shrink-0" />
             <button
               onClick={() => onSelectWard && onSelectWard(selectedUnit)}
-              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 py-1 rounded-lg transition-all flex-shrink-0 ${
+              className={`flex items-center space-x-1 sm:space-x-1.5 px-2 sm:px-2.5 min-h-[44px] rounded-lg transition-all flex-shrink-0 ${
                 isWardActive
                   ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-bold shadow-sm'
                   : 'text-slate-400 light:text-slate-600 hover:text-slate-200 light:hover:text-slate-900 hover:bg-slate-800/60'

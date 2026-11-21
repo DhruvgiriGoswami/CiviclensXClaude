@@ -135,7 +135,7 @@ export function AuthorityStatsBar({ stats, isLoading, error, onFilterByStatus, a
               <button
                 key={card.title}
                 onClick={() => onFilterByStatus && onFilterByStatus(card.id)}
-                className={`p-2.5 sm:p-3 rounded-xl border ${card.borderColor} ${card.bgColor} text-left transition-all hover:scale-[1.01] focus:outline-none cursor-pointer relative overflow-hidden shadow-sm ${
+                className={`p-2.5 sm:p-3 rounded-xl border ${card.borderColor} ${card.bgColor} text-left transition-all hover:scale-[1.01] cursor-pointer relative overflow-hidden shadow-sm ${
                   isSelected ? 'ring-2 ring-indigo-500 shadow-md scale-[1.02]' : ''
                 }`}
               >

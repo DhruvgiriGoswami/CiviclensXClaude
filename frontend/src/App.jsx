@@ -468,7 +468,7 @@ export function AppContent({ navigateTo }) {
         {/* Floating Pin Mode Banner */}
         {isPinningMode && (
           <div className="absolute top-3 sm:top-4 inset-x-0 z-50 flex justify-center pointer-events-none px-3 lg:pr-[420px]">
-            <div className="pointer-events-auto bg-crimson-600/95 text-white px-3 sm:px-4 py-2 rounded-full shadow-2xl text-xs flex items-center justify-between sm:justify-center gap-2 sm:gap-3 border border-crimson-400 max-w-[94vw] sm:max-w-md">
+            <div className="pointer-events-auto bg-crimson-700 text-white px-3 sm:px-4 py-2 rounded-full shadow-2xl text-xs flex items-center justify-between sm:justify-center gap-2 sm:gap-3 border border-crimson-400 max-w-[94vw] sm:max-w-md">
               <span className="truncate font-bold text-xs sm:text-xs">
                 <span className="sm:hidden">📍 Tap map to pinpoint issue</span>
                 <span className="hidden sm:inline">📍 CLICK MAP TO PINPOINT CIVIC ISSUE</span>
@@ -648,10 +648,7 @@ export function AppContent({ navigateTo }) {
       <AppTour
         isOpen={showTour}
         onClose={() => setShowTour(false)}
-        onExpandPanel={() => {
-          const btn = document.getElementById('governance-panel-step') || document.getElementById('governance-panel-step-mobile');
-          if (btn) btn.click();
-        }}
+        onExpandPanel={() => setIsSidebarCollapsed(false)}
         onNavigate={navigateTo}
       />
 

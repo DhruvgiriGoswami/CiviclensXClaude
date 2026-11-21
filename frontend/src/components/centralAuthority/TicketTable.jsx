@@ -94,7 +94,7 @@ export function TicketTable({
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder="Search by Ticket ID, keyword, address, or location..."
-              className="w-full bg-[#0B0D12] ca-input-select text-slate-200 border border-slate-700/80 rounded-lg pl-9 pr-8 py-1.5 text-xs focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 font-sans transition-colors"
+              className="w-full bg-[#0B0D12] ca-input-select text-slate-200 border border-slate-700/80 rounded-lg pl-9 pr-8 py-1.5 text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 font-sans transition-colors"
             />
             {searchQuery && (
               <button
@@ -112,7 +112,7 @@ export function TicketTable({
             <select
               value={statusFilter}
               onChange={(e) => onStatusChange(e.target.value)}
-              className="bg-[#0B0D12] ca-input-select text-slate-300 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-blue-500 font-sans cursor-pointer transition-colors"
+              className="bg-[#0B0D12] ca-input-select text-slate-300 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 font-sans cursor-pointer transition-colors"
             >
               <option value="">All Statuses</option>
               <option value="OPEN">Open</option>
@@ -125,7 +125,7 @@ export function TicketTable({
             <select
               value={categoryFilter}
               onChange={(e) => onCategoryChange(e.target.value)}
-              className="bg-[#0B0D12] ca-input-select text-slate-300 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-blue-500 font-sans cursor-pointer max-w-[150px] truncate transition-colors"
+              className="bg-[#0B0D12] ca-input-select text-slate-300 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 font-sans cursor-pointer max-w-[150px] truncate transition-colors"
             >
               <option value="">All Categories</option>
               {(categoriesList || []).map((cat) => (
@@ -139,7 +139,7 @@ export function TicketTable({
             <select
               value={sortBy}
               onChange={(e) => onSortChange(e.target.value)}
-              className="bg-[#0B0D12] ca-input-select text-slate-300 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-xs focus:outline-none focus:border-blue-500 font-sans cursor-pointer transition-colors"
+              className="bg-[#0B0D12] ca-input-select text-slate-300 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 font-sans cursor-pointer transition-colors"
             >
               <option value="created_at_desc">Sort: Newest First</option>
               <option value="created_at_asc">Sort: Oldest First</option>
@@ -164,7 +164,7 @@ export function TicketTable({
             <button
               onClick={exportToCSV}
               disabled={!tickets || tickets.length === 0}
-              className="px-3 py-1.5 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 text-xs font-medium border border-blue-500/40 flex items-center gap-1.5 transition-colors disabled:opacity-40 cursor-pointer"
+              className="min-h-[44px] px-3 rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 light:text-blue-700 light:bg-blue-50 text-xs font-medium border border-blue-500/40 flex items-center gap-1.5 transition-colors disabled:opacity-40 cursor-pointer"
               title="Export visible table page to CSV"
             >
               <Download className="w-3.5 h-3.5" />
@@ -334,7 +334,7 @@ export function TicketTable({
               <select
                 value={pageSize}
                 onChange={(e) => onPageSizeChange(Number(e.target.value))}
-                className="bg-[#0B0D12] ca-input-select text-slate-200 border border-slate-700 rounded px-2 py-0.5 text-xs focus:outline-none cursor-pointer"
+                className="bg-[#0B0D12] ca-input-select text-slate-200 border border-slate-700 rounded px-2 py-0.5 text-xs cursor-pointer"
               >
                 <option value={10}>10</option>
                 <option value={20}>20</option>

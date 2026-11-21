@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDialog } from '../../hooks/useDialog';
 import {
   X, MapPin, ArrowUpRight
 } from 'lucide-react';
@@ -7,6 +8,7 @@ import { statusBadgeClass, priorityBadgeClass } from '../../utils/statusStyles';
 import { humanizeEnum } from '../../utils/format';
 
 export function TicketDetailModal({ ticket, onClose }) {
+  const dialogRef = useDialog(!!ticket, onClose);
   if (!ticket) return null;
 
 
@@ -29,7 +31,7 @@ export function TicketDetailModal({ ticket, onClose }) {
   };
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="Complaint details" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 animate-fadeIn">
+    <div ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="admin-ticket-heading" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 animate-fadeIn">
       <div className="bg-[#12161F] light:bg-white border border-slate-700/80 light:border-slate-300 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden font-sans transition-colors">
         {/* Modal Header */}
         <div className="px-6 py-4 border-b border-slate-800 light:border-slate-200 flex items-center justify-between bg-[#0B0D12] light:bg-slate-50">
@@ -37,8 +39,8 @@ export function TicketDetailModal({ ticket, onClose }) {
             <span className=" text-xs font-bold px-2.5 py-1 rounded bg-blue-500/20 light:bg-blue-100 text-blue-400 light:text-blue-800 border border-blue-500/30 light:border-blue-300">
               CL-{ticket.complaint_id}
             </span>
-            <h3 className="font-bold text-slate-100 light:text-slate-900 text-base truncate max-w-md">
-              Complaint Detail Inspection
+            <h3 id="admin-ticket-heading" className="font-bold text-slate-100 light:text-slate-900 text-base truncate max-w-md">
+              Complaint details
             </h3>
           </div>
 

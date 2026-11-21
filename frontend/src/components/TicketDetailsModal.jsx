@@ -1,4 +1,5 @@
 import React from 'react';
+import { useDialog } from '../hooks/useDialog';
 import { X, MapPin, ThumbsUp, Calendar, AlertTriangle, ShieldAlert, Image, CheckCircle2, Navigation } from 'lucide-react';
 import { getMediaUrl } from '../utils/ticketHelpers';
 import { statusBadgeClass, priorityBadgeClass } from '../utils/statusStyles';
@@ -23,6 +24,7 @@ export function TicketDetailsModal({
     setUpvoteCount(ticket.upvotes || 0);
   }, [ticket?.ticketId, ticket?.upvotes, upvotedTicketIds]);
 
+  const dialogRef = useDialog(isOpen && !!ticket, onClose);
   if (!isOpen || !ticket) return null;
 
   const handleUpvoteClick = () => {
@@ -48,7 +50,7 @@ export function TicketDetailsModal({
   const imagePreview = getTicketPhotoPreview();
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="Ticket details" className="fixed inset-0 z-[9990] bg-black/80 flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto select-none">
+    <div ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="ticket-heading" className="fixed inset-0 z-[9990] bg-black/80 flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto select-none">
       <div className="glass-panel-crimson light:bg-white light:border-slate-300 w-full max-w-xl rounded-3xl border border-slate-700/80 shadow-2xl p-5 sm:p-6 relative max-h-[90dvh] overflow-y-auto no-scrollbar my-auto text-slate-100 light:text-slate-900 space-y-4">
         
         {/* Header Bar */}
@@ -63,7 +65,7 @@ export function TicketDetailsModal({
                 {ticket.createdAt || 'Recent'}
               </span>
             </div>
-            <h3 className="text-lg font-extrabold text-white light:text-slate-900 font-sans leading-snug">
+            <h3 id="ticket-heading" className="text-lg font-extrabold text-white light:text-slate-900 font-sans leading-snug">
               {ticket.category}
             </h3>
           </div>

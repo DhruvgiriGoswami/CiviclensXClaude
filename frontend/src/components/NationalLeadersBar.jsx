@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDialog } from '../hooks/useDialog';
 import { X, Award, Shield, UserCheck, ChevronRight, Star, ExternalLink, Activity, Sparkles, Building2, MapPin, MessageSquare, ThumbsUp } from 'lucide-react';
 import { governanceApi, authorityApi } from '../services/api';
 import { getPersonAvatar } from '../utils/avatarResolver';
@@ -161,6 +162,7 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
 
   const effectiveRatings = { ...localRatings, ...ratingsSummary };
 
+  const dialogRef = useDialog(isOpen, onClose);
   if (!isOpen) return null;
 
   const effectiveNationalLeaders = apiNationalLeaders.length > 0 ? apiNationalLeaders.map(toLeaderCard) : DEFAULT_NATIONAL_LEADERS;
@@ -217,7 +219,7 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
   const utCount = effectiveStateCMs.filter(s => s.type === 'UNION_TERRITORY').length;
 
   return (
-    <div role="dialog" aria-modal="true" aria-label="National and state leaders" className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
+    <div ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="leaders-heading" className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
       <div className="glass-panel-crimson w-full max-w-5xl h-[90dvh] max-h-[90dvh] rounded-3xl border border-slate-700/80 shadow-2xl flex flex-col overflow-hidden my-auto">
 
         {/* Modal Top Header */}
@@ -227,7 +229,7 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
               <Award className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-base sm:text-lg font-bold text-white light:text-slate-900 font-sans flex items-center gap-2">
+              <h2 id="leaders-heading" className="text-base sm:text-lg font-bold text-white light:text-slate-900 font-sans flex items-center gap-2">
                 National Constitutional & Executive Leadership Directory
               </h2>
             </div>
