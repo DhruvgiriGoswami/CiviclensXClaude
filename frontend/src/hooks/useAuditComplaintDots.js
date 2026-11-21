@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { auditApi } from '../pages/FollowTheRupee/auditApi';
 import { DOT } from '../pages/FollowTheRupee/ComplaintCard';
 import { formatINR } from '../utils/format';
@@ -23,16 +23,29 @@ function cardHtml(id, state, t, error) {
     <a href="/follow-the-rupee" style="color:#8C2445;text-decoration:underline">Open the Mumbai audit</a></div>`;
 }
 
-// Hackathon complaints with GPS (complaints.csv lat/lon) on the main Google map.
-// All ~3,800 dots go on one canvas: Google's Data layer and Markers make one DOM node per point,
+// Colour for a ticket: hackathon complaints carry their audit state; citizen tickets map their status.
+const ticketState = (t) => t.issueState || (/resolv|closed/i.test(t.status || '') ? 'fixed' : 'open');
+
+// Every ticket on the main Google map as a dot: citizen tickets and the hackathon complaints alike.
+// All dots go on one canvas: Google's Data layer and Markers make one DOM node per point,
 // which froze the page for seconds when the map zoomed into Mumbai.
-export function useAuditComplaintDots({ googleMapRef, isMapReady }) {
+export function useAuditComplaintDots({ googleMapRef, isMapReady, tickets = [], hoveredTicketId = null, focusedTicketId = null, onInspectTicket = null }) {
+  const ticketsRef = useRef(tickets);
+  const hotRef = useRef(null); // the ticket hovered in the sidebar or focused from its details
+  const inspectRef = useRef(onInspectTicket);
+  const drawRef = useRef(() => {});
+  useEffect(() => { inspectRef.current = onInspectTicket; }, [onInspectTicket]);
+
   useEffect(() => {
     const map = googleMapRef.current;
     const g = window.google?.maps;
     if (!map || !g || !isMapReady) return undefined;
     let live = true;
-    let pts = []; // [{ id, state, ll }]
+    let pts = []; // [{ id, state, ll, t }]
+    const sync = () => {
+      pts = ticketsRef.current.filter((t) => t.latitude && t.longitude)
+        .map((t) => ({ id: t.ticketId, state: ticketState(t), ll: new g.LatLng(t.latitude, t.longitude), t }));
+    };
     const info = new g.InfoWindow();
     const canvas = document.createElement('canvas');
     canvas.style.position = 'absolute';
@@ -59,17 +72,30 @@ export function useAuditComplaintDots({ googleMapRef, isMapReady }) {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.lineWidth = 1;
       ctx.strokeStyle = '#FFFFFF';
+      let hot = null;
       for (const p of pts) {
         const d = proj.fromLatLngToDivPixel(p.ll);
         const x = d.x - tl.x, y = d.y - tl.y;
         if (x < -5 || y < -5 || x > W + 5 || y > H + 5) continue;
+        if (p.id === hotRef.current) hot = [x, y, p];
         ctx.beginPath();
         ctx.arc(x, y, 4, 0, 2 * Math.PI);
         ctx.fillStyle = DOT[p.state]?.color || '#94A3B8';
         ctx.fill();
         ctx.stroke();
       }
+      if (hot) { // drawn last so it sits on top of its neighbours
+        const [x, y, p] = hot;
+        ctx.beginPath();
+        ctx.arc(x, y, 8, 0, 2 * Math.PI);
+        ctx.fillStyle = DOT[p.state]?.color || '#94A3B8';
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = '#8C2445';
+        ctx.fill();
+        ctx.stroke();
+      }
     };
+    drawRef.current = () => { sync(); overlay.draw(); };
     overlay.setMap(map);
     const idle = map.addListener('idle', () => overlay.draw());
 
@@ -88,6 +114,7 @@ export function useAuditComplaintDots({ googleMapRef, isMapReady }) {
       }
       if (!best || e.target.closest?.('.gm-style-iw, .gm-control-active, button, a')) return;
       e.stopPropagation();
+      if (best.t.source !== 'audit' && inspectRef.current) { inspectRef.current(best.t); return; }
       info.setPosition(best.ll);
       info.setContent(cardHtml(best.id, best.state));
       info.open({ map });
@@ -98,11 +125,7 @@ export function useAuditComplaintDots({ googleMapRef, isMapReady }) {
     const el = map.getDiv();
     el.addEventListener('click', onClick, true);
 
-    auditApi.complaintPoints().then((p) => {
-      if (!live) return;
-      pts = p.rows.map(([id, lat, lng, , state]) => ({ id, state, ll: new g.LatLng(lat, lng) }));
-      overlay.draw();
-    }).catch(() => {}); // the main map works without the dots
+    sync();
 
     return () => {
       live = false;
@@ -110,6 +133,19 @@ export function useAuditComplaintDots({ googleMapRef, isMapReady }) {
       g.event.removeListener(idle);
       info.close();
       overlay.setMap(null);
+      drawRef.current = () => {};
     };
   }, [googleMapRef, isMapReady]);
+
+  useEffect(() => { ticketsRef.current = tickets; drawRef.current(); }, [tickets]);
+  useEffect(() => { hotRef.current = hoveredTicketId ?? focusedTicketId; drawRef.current(); }, [hoveredTicketId, focusedTicketId]);
+
+  // "Focus on Map" from a ticket's details: fly to its dot.
+  useEffect(() => {
+    const t = focusedTicketId != null && ticketsRef.current.find((x) => String(x.ticketId) === String(focusedTicketId));
+    const map = googleMapRef.current;
+    if (!t || !map || !t.latitude) return;
+    map.panTo({ lat: t.latitude, lng: t.longitude });
+    map.setZoom(17);
+  }, [focusedTicketId, googleMapRef]);
 }

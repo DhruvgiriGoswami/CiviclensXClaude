@@ -215,18 +215,13 @@ export function MapContainer({
     isMapReady,
     pinnedLocation,
     userLocation,
-    selectedUnit,
-    tickets,
     isPinningMode,
     onStartPinning,
     onPinLocationSelect,
-    hoveredTicketId,
-    focusedTicketId,
-    onInspectTicket,
   });
 
-  // 7. Mumbai audit complaints (hackathon data) as dots
-  useAuditComplaintDots({ googleMapRef, isMapReady });
+  // 7. Every ticket (citizen and hackathon) as a dot
+  useAuditComplaintDots({ googleMapRef, isMapReady, tickets, hoveredTicketId, focusedTicketId, onInspectTicket });
 
   // 8. Sync State Chief Minister InfoWindow Content
   useEffect(() => {

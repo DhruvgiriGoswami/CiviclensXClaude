@@ -3,12 +3,14 @@
 import asyncio
 from typing import Optional
 
-from fastapi import APIRouter, HTTPException, Query, Request
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel, Field
 
 from app.audit import budget, claude, views
 from app.audit.load import AuditStore, load_store
+from app.core.database import get_db
+from app.services.geography import smallest_units_for_points
 
 router = APIRouter(prefix="/audit", tags=["Audit"])
 
@@ -99,6 +101,20 @@ def complaint_points(request: Request):
 @router.get("/social-posts")
 def social_posts(request: Request, limit: int = Query(10, ge=1, le=50), offset: int = Query(0, ge=0)):
     return views.social_posts(store(request), limit, offset)
+
+
+_tickets: dict[str, list] = {}  # data_hash -> tickets; the CSV and the boundaries don't change while running
+
+
+@router.get("/complaint-tickets")
+async def complaint_tickets(request: Request, db=Depends(get_db)):
+    """Hackathon complaints as map tickets, each tagged with the smallest geo unit that contains it."""
+    s = store(request)
+    if s.data_hash not in _tickets:
+        rows = views.complaint_tickets(s)
+        units = await smallest_units_for_points(db, [(r["lat"], r["lon"]) for r in rows])
+        _tickets[s.data_hash] = [{**r, "unit_id": u} for r, u in zip(rows, units)]
+    return _tickets[s.data_hash]
 
 
 @router.get("/complaints/{complaint_id}")

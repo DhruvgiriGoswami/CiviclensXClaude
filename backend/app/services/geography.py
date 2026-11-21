@@ -100,6 +100,22 @@ async def resolve_location(db: AsyncSession, latitude: float, longitude: float) 
     ]
 
 
+async def smallest_units_for_points(db: AsyncSession, points: List[tuple]) -> List[Optional[str]]:
+    """Batch get_smallest_containing_unit: one query for many (lat, lon) points, same ordering rule."""
+    if not points:
+        return []
+    rows = await db.execute(text("""
+        SELECT DISTINCT ON (p.i) p.i, g.unit_id
+        FROM unnest(CAST(:lats AS float8[]), CAST(:lons AS float8[])) WITH ORDINALITY AS p(lat, lon, i)
+        JOIN geo_unit_boundaries b ON b.is_current
+         AND ST_Contains(b.geometry, ST_SetSRID(ST_MakePoint(p.lon, p.lat), 4326))
+        JOIN geo_units g ON g.unit_id = b.unit_id
+        ORDER BY p.i, g.level DESC NULLS LAST
+    """), {"lats": [p[0] for p in points], "lons": [p[1] for p in points]})
+    found = {i: u for i, u in rows.all()}
+    return [found.get(i + 1) for i in range(len(points))]
+
+
 async def get_smallest_containing_unit(
     db: AsyncSession, latitude: float, longitude: float
 ) -> Optional[str]:

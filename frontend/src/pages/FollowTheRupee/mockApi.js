@@ -40,6 +40,8 @@ export async function handleMock(path, body) {
   if (route === '/wards.geojson') return data.geojson;
   if (route === '/ask') return ask(body || {});
   if (route === '/complaints') return data.points;
+  // Offline there is no PostGIS to place them in a ward, so they show as dots but in no sidebar list.
+  if (route === '/complaint-tickets') return data.points.rows.map(([complaint_id, lat, lon, ward_code, issue_state]) => ({ complaint_id, lat, lon, ward_code, issue_state, unit_id: null, category: 'Complaint', description: '', status: '', upvotes: 0 }));
   if (route === '/social-posts') return pageSocialPosts(data.social_posts, Number(params.get('limit') || 10), Number(params.get('offset') || 0));
   if (route === '/search') return { results: rankSearch(SEARCH, params.get('q') || '') };
   let m = route.match(/^\/wards\/(.+)\/summary$/);

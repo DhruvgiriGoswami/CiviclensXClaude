@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Camera } from 'lucide-react';
 import { Header } from './components/Header';
 import { LevelBreadcrumb } from './components/LevelBreadcrumb';
@@ -13,7 +13,8 @@ import { AppTour } from './components/AppTour';
 import { ThemeProvider } from './context/ThemeContext';
 
 import { complaintsApi, authorityApi } from './services/api';
-import { getMediaUrl } from './utils/ticketHelpers';
+import { getMediaUrl, auditTicket } from './utils/ticketHelpers';
+import { auditApi } from './pages/FollowTheRupee/auditApi';
 import { CentralAuthorityDashboard } from './components/centralAuthority/CentralAuthorityDashboard';
 
 import CivicLensIntro from "./components/civicLensIntro/CivicLensIntro";
@@ -70,7 +71,7 @@ export function AppContent({ navigateTo }) {
   });
 
   const handleUpvoteTicket = (ticketId) => {
-    if (!ticketId) return;
+    if (!ticketId || String(ticketId).startsWith('BMC25-')) return; // hackathon complaints are read-only
     const cleanId = Number(ticketId) || ticketId;
     if (upvotedTicketIds.includes(cleanId)) return;
 
@@ -121,6 +122,12 @@ export function AppContent({ navigateTo }) {
 
   // All complaints are dynamically loaded from the PostgreSQL database & S3
   const [tickets, setTickets] = useState([]);
+  // Hackathon complaints (complaints.csv) sit next to the citizen tickets so the map and sidebar show both.
+  const [auditTickets, setAuditTickets] = useState([]);
+  useEffect(() => {
+    auditApi.complaintTickets().then((rows) => setAuditTickets(rows.map(auditTicket))).catch(() => {});
+  }, []);
+  const allTickets = useMemo(() => [...tickets, ...auditTickets], [tickets, auditTickets]);
 
   // Initial load: Fetch all live complaints dynamically from database
   useEffect(() => {
@@ -505,7 +512,7 @@ export function AppContent({ navigateTo }) {
           selectedState={selectedState}
           onSelectState={handleSelectState}
           onResetToNational={handleResetToNational}
-          tickets={tickets}
+          tickets={allTickets}
           pinnedLocation={pinnedLocation}
           isPinningMode={isPinningMode}
           onStartPinning={() => {
@@ -559,7 +566,7 @@ export function AppContent({ navigateTo }) {
           onUpvoteTicket={handleUpvoteTicket}
           upvotedTicketIds={upvotedTicketIds}
           onOpenNationalLeaders={() => setIsNationalLeadersOpen(true)}
-          tickets={tickets}
+          tickets={allTickets}
           isCollapsed={isSidebarCollapsed}
           setIsCollapsed={setIsSidebarCollapsed}
           onHoverDistrict={setHoveredDistrict}

@@ -148,6 +148,26 @@ def social_posts(s, limit: int = 10, offset: int = 0) -> dict:
     return {"total": len(g), "next_offset": end if end < len(g) else None, "items": items}
 
 
+def complaint_tickets(s) -> list[dict]:
+    """Every complaint with GPS, shaped like a sidebar ticket. The API adds unit_id from PostGIS."""
+    c = s.complaints[s.complaints.lat.notna() & s.complaints.lon.notna()]
+    state = c.issue_id.map(s.issues.set_index("issue_id").state)
+    return [{
+        "complaint_id": r.complaint_id,
+        "lat": round(float(r.lat), 6),
+        "lon": round(float(r.lon), 6),
+        "ward_code": r.ward_code if isinstance(r.ward_code, str) else None,
+        "issue_state": st if isinstance(st, str) else None,
+        "category": r.category_clean,
+        "description": r.description,
+        "language": r.language,
+        "locality": r.locality_text if isinstance(r.locality_text, str) else None,
+        "status": r.status,
+        "upvotes": int(r.upvotes) if r.upvotes == r.upvotes else 0,
+        "received_at": _iso(r.received_at),
+    } for r, st in zip(c.itertuples(), state)]
+
+
 def complaint_trail(s, complaint_id: str) -> dict | None:
     hit = s.complaints[s.complaints.complaint_id == complaint_id]
     if hit.empty:

@@ -1,21 +1,15 @@
 import { useEffect, useRef } from 'react';
-import { getPinnedLocationInfoWindowContent, getTicketInfoWindowContent } from '../utils/mapInfoWindowTemplates';
+import { getPinnedLocationInfoWindowContent } from '../utils/mapInfoWindowTemplates';
 import { isLocationInIndia } from '../utils/mapHelpers';
-import { getFilteredTickets } from '../utils/ticketHelpers';
 
 export function useMapMarkers({
   googleMapRef,
   isMapReady,
   pinnedLocation,
   userLocation = null,
-  selectedUnit,
-  tickets = [],
   isPinningMode = false,
   onStartPinning = null,
   onPinLocationSelect = null,
-  hoveredTicketId = null,
-  focusedTicketId = null,
-  onInspectTicket = null,
 }) {
   const markersRef = useRef([]);
   const onStartPinningRef = useRef(onStartPinning);
@@ -25,42 +19,6 @@ export function useMapMarkers({
   useEffect(() => { onStartPinningRef.current = onStartPinning; }, [onStartPinning]);
   useEffect(() => { onPinLocationSelectRef.current = onPinLocationSelect; }, [onPinLocationSelect]);
   useEffect(() => { isPinningModeRef.current = isPinningMode; }, [isPinningMode]);
-
-  // Effect to toggle BOUNCE animation when a ticket is hovered in sidebar
-  useEffect(() => {
-    if (!googleMapRef.current || !window.google) return;
-    markersRef.current.forEach((m) => {
-      if (m && m.ticketId) {
-        if (hoveredTicketId && m.ticketId === hoveredTicketId) {
-          if (m.getAnimation() !== window.google.maps.Animation.BOUNCE) {
-            m.setAnimation(window.google.maps.Animation.BOUNCE);
-          }
-        } else if (!focusedTicketId || m.ticketId !== focusedTicketId) {
-          m.setAnimation(null);
-        }
-      }
-    });
-  }, [hoveredTicketId, focusedTicketId]);
-
-  // Effect to make marker jump 3 times when "Focus on Map" is clicked
-  useEffect(() => {
-    if (!googleMapRef.current || !window.google || !focusedTicketId) return;
-    const targetMarker = markersRef.current.find(
-      (m) => m && (m.ticketId === focusedTicketId || String(m.ticketId) === String(focusedTicketId))
-    );
-    if (targetMarker) {
-      const pos = targetMarker.getPosition();
-      if (pos) {
-        googleMapRef.current.panTo(pos);
-        googleMapRef.current.setZoom(17);
-      }
-      targetMarker.setAnimation(window.google.maps.Animation.BOUNCE);
-      const timer = setTimeout(() => {
-        targetMarker.setAnimation(null);
-      }, 2100); // 3 bounce jumps (approx 700ms per bounce in Google Maps)
-      return () => clearTimeout(timer);
-    }
-  }, [focusedTicketId]);
 
   useEffect(() => {
     if (!googleMapRef.current || !window.google || !isMapReady) return;
@@ -171,49 +129,8 @@ export function useMapMarkers({
       });
       markersRef.current.push(pinMarker);
     }
-
-    // 3. Grievance Ticket Markers for Ward / Corporation / District
-    if (selectedUnit?.unitId && tickets && tickets.length > 0) {
-      const unitTickets = getFilteredTickets(tickets, selectedUnit, selectedUnit.unitType);
-      unitTickets.forEach((t) => {
-        if (t.latitude && t.longitude) {
-          const tMarker = new window.google.maps.Marker({
-            position: { lat: t.latitude, lng: t.longitude },
-            map: map,
-            title: t.category || "Civic Grievance",
-            icon: {
-              path: "M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z",
-              fillColor: t.upvotes >= 5 ? "#E63946" : "#F59E0B",
-              fillOpacity: 0.9,
-              strokeWeight: 1.5,
-              strokeColor: "#FFFFFF",
-              scale: 1.5,
-              anchor: new window.google.maps.Point(12, 24),
-            },
-          });
-          tMarker.ticketId = t.ticketId;
-
-          const tWindow = new window.google.maps.InfoWindow({
-            content: getTicketInfoWindowContent(t),
-          });
-
-          tMarker.addListener('click', () => {
-            if (onInspectTicket) {
-              onInspectTicket(t);
-            } else {
-              tWindow.open(map, tMarker);
-            }
-          });
-
-          if (hoveredTicketId && t.ticketId === hoveredTicketId) {
-            tMarker.setAnimation(window.google.maps.Animation.BOUNCE);
-          }
-
-          markersRef.current.push(tMarker);
-        }
-      });
-    }
-  }, [googleMapRef, isMapReady, pinnedLocation, userLocation, selectedUnit, tickets, onInspectTicket]);
+    // Tickets are drawn as dots by useAuditComplaintDots.
+  }, [googleMapRef, isMapReady, pinnedLocation, userLocation]);
 
   return { markersRef };
 }

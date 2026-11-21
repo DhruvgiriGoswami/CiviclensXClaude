@@ -111,6 +111,8 @@ export function getFilteredTickets(tickets = [], unit, currentLevel) {
         if (tUnitId.includes('TMC') || tUnitId.includes('NMMC') || tUnitId.includes('KDMC') || tCity.includes('thane') || tWard.includes('thane')) return true;
       } else if (targetDist === 'kachchh' || targetDist === 'kutch') {
         if (tUnitId.includes('KACHCHH') || tCity.includes('kachchh') || tWard.includes('kachchh') || tCity.includes('kutch') || tWard.includes('kutch')) return true;
+      } else if (targetDist.includes('mumbai')) {
+        if (tUnitId.startsWith('IN-MH-BMC') || tUnitId === 'IN-MH-MUMBAI') return true;
       } else if (targetDist.includes('bengaluru') || targetDist.includes('bangalore')) {
         if (tUnitId.includes('BBMP') || tCity.includes('bengaluru') || tWard.includes('bengaluru')) return true;
       }
@@ -120,4 +122,24 @@ export function getFilteredTickets(tickets = [], unit, currentLevel) {
 
     return false;
   });
+}
+
+// A hackathon complaint from GET /audit/complaint-tickets, shaped like a citizen ticket.
+export function auditTicket(r) {
+  return {
+    ticketId: r.complaint_id,
+    source: 'audit',
+    unitId: r.unit_id || '',
+    category: r.category,
+    description: r.description,
+    latitude: r.lat,
+    longitude: r.lon,
+    status: r.status,
+    issueState: r.issue_state,
+    upvotes: r.upvotes || 0,
+    reporter: 'BMC complaint record',
+    addressText: r.locality || undefined,
+    createdAt: r.received_at ? new Date(r.received_at).toLocaleDateString('en-IN') : '',
+    media: [],
+  };
 }
