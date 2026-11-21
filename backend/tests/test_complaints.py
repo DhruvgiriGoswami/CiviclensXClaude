@@ -88,3 +88,21 @@ async def test_upvote_complaint(client):
         upvote_resp = await client.post(f"/api/v1/complaints/{complaint_id}/upvote")
         assert upvote_resp.status_code == 200
         assert upvote_resp.json()["upvotes"] == initial_upvotes + 1
+
+
+def test_magic_bytes_decide_the_type_not_the_client():
+    from app.services.media import _detect_mime_from_magic_bytes as detect
+    assert detect(b"\xff\xd8\xff\xe0" + b"0" * 8) == "image/jpeg"
+    assert detect(b"\x00\x00\x00\x18ftypheic" + b"0" * 8) == "image/heic"
+    assert detect(b"\x00\x00\x00\x18ftypmif1" + b"0" * 8) == "image/heif"
+    assert detect(b"not an image at all") is None
+    assert detect(b"") is None
+
+
+@pytest.mark.asyncio
+async def test_mumbai_district_ids_include_bmc_complaints(client):
+    """Both Mumbai district ids from the map should list the same complaints as the BMC parent unit."""
+    bmc = (await client.get("/api/v1/complaints", params={"geo_unit_id": "IN-MH-MUMBAI", "page_size": 1})).json()["total"]
+    for dist in ("IN-MH-DIST-MUMBAI_CITY", "IN-MH-DIST-SUB_URBAN_MUMBAI", "IN-MH-DIST-MUMBAI_SUBURBAN"):
+        r = await client.get("/api/v1/complaints", params={"geo_unit_id": dist, "page_size": 1})
+        assert r.json()["total"] == bmc, dist

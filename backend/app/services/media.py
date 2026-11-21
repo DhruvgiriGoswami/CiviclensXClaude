@@ -64,6 +64,13 @@ def _detect_mime_from_magic_bytes(header: bytes) -> Optional[str]:
     # WebP: RIFF .... WEBP
     if len(header) >= 12 and header.startswith(b"RIFF") and header[8:12] == b"WEBP":
         return "image/webp"
+    # HEIC/HEIF (iPhone camera): ISO box "ftyp" at offset 4 followed by the brand
+    if len(header) >= 12 and header[4:8] == b"ftyp":
+        brand = header[8:12]
+        if brand in (b"heic", b"heix", b"hevc", b"hevx", b"heim", b"heis"):
+            return "image/heic"
+        if brand in (b"mif1", b"msf1", b"heif"):
+            return "image/heif"
     return None
 
 
@@ -159,8 +166,8 @@ async def store_media(
     header = file_data[:32]
     detected_mime = _detect_mime_from_magic_bytes(header)
     
-    # Use detected MIME if recognized, otherwise fall back to client MIME if in allowed set
-    effective_mime = detected_mime or mime_type.lower().strip()
+    # Trust only the bytes: the client's Content-Type is attacker-controlled.
+    effective_mime = detected_mime
     if effective_mime not in ALLOWED_MIME_TYPES:
         raise ValueError(f"File type '{mime_type}' (detected: '{detected_mime}') is not permitted.")
 

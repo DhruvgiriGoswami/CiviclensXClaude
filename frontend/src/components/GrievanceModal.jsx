@@ -90,7 +90,7 @@ export function GrievanceModal({
         const geocoder = new window.google.maps.Geocoder();
         geocoder.geocode({ location: { lat, lng } }, (results, status) => {
           if (status === 'OK' && results && results[0]) {
-            setAddressText(results[0].formatted_address);
+            setAddressText((prev) => prev || results[0].formatted_address); // never overwrite what the user typed
             return;
           }
           fallbackNominatim(lat, lng);
@@ -111,7 +111,7 @@ export function GrievanceModal({
       if (res.ok) {
         const data = await res.json();
         if (data.display_name) {
-          setAddressText(data.display_name);
+          setAddressText((prev) => prev || data.display_name);
         }
       }
     } catch (e) {
@@ -129,6 +129,7 @@ export function GrievanceModal({
     setIsLocating(true);
     setLocationError('');
     setPinError('');
+    setAddressText(''); // a fresh GPS fix gets a fresh address; typing during the lookup still wins
 
     navigator.geolocation.getCurrentPosition(
       async (pos) => {

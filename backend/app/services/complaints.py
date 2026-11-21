@@ -84,6 +84,10 @@ async def get_matching_geo_unit_filter(db: AsyncSession, geo_unit_id: str):
 
     # 2. Handle District codes or alternate District IDs (e.g. IN-MH-PUNE vs IN-MH-DIST-PUNE)
     code = geo_unit_id.replace("IN-MH-DIST-", "").replace("IN-MH-", "").replace("IN-DIST-", "").replace("IN-", "")
+    # Mumbai City and Mumbai Suburban districts (IN-MH-DIST-MUMBAI_CITY, -SUB_URBAN_MUMBAI, ...) are both BMC, stored under IN-MH-MUMBAI.
+    # shortcut: either district shows every BMC complaint; split them once BMC wards carry their district.
+    if "MUMBAI" in code.upper() and "-WARD-" not in geo_unit_id:
+        code = "MUMBAI"
     if code and len(code) >= 3:
         res_code = await db.execute(
             select(GeoUnit.unit_id).where(

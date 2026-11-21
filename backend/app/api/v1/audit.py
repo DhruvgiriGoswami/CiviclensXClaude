@@ -5,7 +5,7 @@ from typing import Optional
 
 from fastapi import APIRouter, HTTPException, Query, Request
 from fastapi.responses import PlainTextResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from app.audit import budget, claude, views
 from app.audit.load import AuditStore, load_store
@@ -31,9 +31,9 @@ def _ward(s: AuditStore, code: str) -> str:
 
 
 class AskBody(BaseModel):
-    question: str = ""
-    complaint_id: Optional[str] = None
-    ward_code: Optional[str] = None
+    question: str = Field("", max_length=1000)  # caps what anyone can send to the paid model
+    complaint_id: Optional[str] = Field(None, max_length=40)
+    ward_code: Optional[str] = Field(None, max_length=20)
 
 
 @router.get("/overview")
