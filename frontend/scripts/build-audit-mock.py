@@ -184,17 +184,19 @@ for wd in wards:
     scored.sort(key=lambda x: -x["risk_score"])
     scored = scored[:8]
     remaining = max(budget - s, 0)
+    # Rank follows risk; funding is a separate greedy pass by risk per rupee, as in the contract.
     left = remaining
-    plan = []
-    for i, p in enumerate(scored):
-        bmc = p["pay_from"] == "bmc"
-        funded = (not bmc) or p["est_cost_inr"] <= left
-        if bmc and funded:
+    funded_ids = {p["road_id"] for p in scored if p["pay_from"] != "bmc"}
+    for p in sorted((p for p in scored if p["pay_from"] == "bmc"), key=lambda p: -p["risk_score"] / max(p["est_cost_inr"], 1)):
+        if p["est_cost_inr"] <= left:
             left -= p["est_cost_inr"]
-        plan.append(dict(rank=i + 1, **{k: p[k] for k in ["road_id", "road_name", "issue_ids", "work_type", "method", "method_reopen_rate", "est_cost_inr"]},
-                         funded=funded, **{k: p[k] for k in ["pay_from", "risk_score", "risk_parts", "why"]}))
-    plans[c] = dict(ward_code=c, budget_inr=budget, spent_inr=s, remaining_inr=remaining, plan=plan,
-                    unfunded_count=sum(not p["funded"] for p in plan))
+            funded_ids.add(p["road_id"])
+    plan = [dict(rank=i + 1, **{k: p[k] for k in ["road_id", "road_name", "issue_ids", "work_type", "method", "method_reopen_rate", "est_cost_inr"]},
+                 funded=p["road_id"] in funded_ids, **{k: p[k] for k in ["pay_from", "risk_score", "risk_parts", "why"]})
+            for i, p in enumerate(scored)]
+    plans[c] = dict(ward_code=c, budget_inr=budget, spent_inr=s, remaining_inr=budget - s, plan=plan,
+                    unfunded_count=sum(not p["funded"] for p in plan),
+                    note=("This ward has spent its whole budget. Only roads under warranty go ahead, at the contractor's cost." if budget - s <= 0 else None))
 
 wo_by_c = collections.defaultdict(list)
 for w in wos:

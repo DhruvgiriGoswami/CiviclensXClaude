@@ -188,43 +188,55 @@ function DeliveredTab({ detail }) {
 function NextTab({ plan, dark }) {
   if (!plan) return <p className="text-sm">Loading the plan.</p>;
   const max = Math.max(...plan.plan.map((p) => p.risk_score), 0.01);
-  const cut = plan.plan.findIndex((p) => !p.funded);
+  const bmc = plan.plan.filter((p) => p.pay_from !== 'dlp_contractor');
+  const asked = bmc.reduce((s, p) => s + p.est_cost_inr, 0);
+  const funded = bmc.filter((p) => p.funded).reduce((s, p) => s + p.est_cost_inr, 0);
+  const left = Math.max(plan.remaining_inr, 0);
+  const top = Math.max(asked, left, 1);
   return (
     <div className="space-y-4">
       <p className="text-sm tabular-nums">
-        {formatINR(plan.remaining_inr)} left of {formatINR(plan.budget_inr)}. Roads are ranked by risk from rain, flooding, traffic and accidents.
-        {plan.unfunded_count > 0 && ` ${plan.unfunded_count} of them do not fit in what is left.`}
+        {plan.remaining_inr > 0 ? `${formatINR(plan.remaining_inr)} left` : `Over budget by ${formatINR(-plan.remaining_inr)}`} of {formatINR(plan.budget_inr)}.
+        {' '}The {bmc.length} roads BMC would pay for cost {formatINR(asked)}; {formatINR(funded)} of that fits.
+      </p>
+      {plan.note && <p className="text-sm rounded-lg border border-slate-700 light:border-slate-300 p-3">{plan.note}</p>}
+      <div>
+        <div className="h-4 rounded-sm bg-slate-800 light:bg-slate-100 relative overflow-hidden" role="img"
+          aria-label={`${formatINR(funded)} funded out of ${formatINR(asked)} asked, with ${formatINR(left)} left`}>
+          <div className="absolute inset-y-0 left-0 bg-slate-400 light:bg-slate-500" style={{ width: `${(funded / top) * 100}%` }} />
+          <div className="absolute inset-y-0 w-0.5 bg-crimson-500 light:bg-crimson-700" style={{ left: `min(calc(100% - 2px), ${(left / top) * 100}%)` }} />
+        </div>
+        <div className={`mt-1 flex justify-between gap-3 text-xs ${muted}`}>
+          <span>Funded {formatINR(funded)}</span>
+          <span className="text-crimson-400 light:text-crimson-700">Budget line {formatINR(left)}</span>
+          <span>Asked {formatINR(asked)}</span>
+        </div>
+      </div>
+      <p className={`text-sm max-w-prose ${muted}`}>
+        Roads are ranked by risk from rain, flooding, traffic and accidents. The money goes first to the roads that cut the most risk per rupee, so a high-ranked road can stay unfunded when it costs too much.
       </p>
       <RiskLegend dark={dark} />
       <ol className="space-y-2">
-        {plan.plan.map((p, i) => (
-          <React.Fragment key={`${p.rank}-${p.road_id}`}>
-            {i === cut && (
-              <li className="flex items-center gap-3 py-1 text-xs font-semibold text-crimson-400 light:text-crimson-700" aria-label="Budget runs out here">
-                <span className="flex-1 border-t-2 border-dashed border-current" />
-                {plan.remaining_inr > 0 ? `The remaining ${formatINR(plan.remaining_inr)} runs out here` : 'No budget left, so nothing below is funded'}
-                <span className="flex-1 border-t-2 border-dashed border-current" />
-              </li>
-            )}
-            <li className={`rounded-lg border border-slate-800 light:border-slate-200 p-3 ${p.funded ? '' : 'opacity-80'}`}>
+        {plan.plan.map((p) => {
+          const dlp = p.pay_from === 'dlp_contractor';
+          return (
+            <li key={`${p.rank}-${p.road_id}`} className="rounded-lg border border-slate-800 light:border-slate-200 p-3">
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <span className="text-sm font-semibold tabular-nums w-6">{p.rank}</span>
                 <span className="flex-1 min-w-[10rem] font-medium">{p.road_name} <span className={`font-mono text-[0.8125rem] ${muted}`}>{p.road_id}</span></span>
-                <span className="text-sm font-semibold tabular-nums">
-                  {p.pay_from === 'dlp_contractor' ? 'Contractor pays, ₹0 to BMC' : formatINR(p.est_cost_inr)}
+                <span className="text-sm font-semibold tabular-nums">{dlp ? 'Contractor pays, ₹0 to BMC' : formatINR(p.est_cost_inr)}</span>
+                <span className={`text-xs font-semibold rounded px-2 py-0.5 border ${p.funded ? 'border-slate-500 text-slate-200 light:text-slate-800' : 'border-dashed border-crimson-500 text-crimson-400 light:text-crimson-700'}`}>
+                  {dlp ? 'Under warranty' : p.funded ? 'Funded' : 'Not funded'}
                 </span>
               </div>
               <div className="mt-2 pl-9"><RiskBar parts={p.risk_parts} max={max} dark={dark} /></div>
               <p className="mt-2 pl-9 text-sm">
                 {p.work_type}, fix with {p.method.toLowerCase()} ({formatPct(p.method_reopen_rate)} of these reopen). {p.why}
               </p>
-              <p className={`mt-1 pl-9 text-xs ${muted}`}>
-                {p.funded ? (p.pay_from === 'dlp_contractor' ? 'Under warranty' : 'Funded') : 'Not funded'}
-                {p.issue_ids?.length > 0 && <>, issues <span className="font-mono">{p.issue_ids.join(', ')}</span></>}
-              </p>
+              {p.issue_ids?.length > 0 && <p className={`mt-1 pl-9 text-xs ${muted}`}>Issues <span className="font-mono">{p.issue_ids.join(', ')}</span></p>}
             </li>
-          </React.Fragment>
-        ))}
+          );
+        })}
       </ol>
     </div>
   );
