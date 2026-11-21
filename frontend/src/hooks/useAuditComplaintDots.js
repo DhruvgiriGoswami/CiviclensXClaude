@@ -20,7 +20,7 @@ function cardHtml(id, state, t, error) {
     <p style="margin:0 0 4px">${esc(c.category_clean)} at ${esc(c.locality_text)}, ward ${esc(c.ward_code || 'unknown')}. ${esc(c.received_at?.replace('T', ' '))}, ${esc(c.channel)}. Status: ${esc(c.status)}.</p>
     <p style="margin:0 0 4px;color:#475569">&ldquo;${esc(c.description)}&rdquo;</p>
     <p style="margin:0 0 6px">${w ? `${esc(w.contractor_name)}, ${esc(w.wo_id)}, ${esc(formatINR(w.cost_inr))}. ${w.reopened_within_30d ? 'Failed within 30 days.' : 'Holding so far.'}${w.flags.length ? ` ${w.flags.length} audit flag${w.flags.length > 1 ? 's' : ''}.` : ''}` : 'No work order linked.'}</p>
-    <a href="/follow-the-rupee" style="color:#B91C1C;text-decoration:underline">Open the Mumbai audit</a></div>`;
+    <a href="/follow-the-rupee" style="color:#8C2445;text-decoration:underline">Open the Mumbai audit</a></div>`;
 }
 
 // Hackathon complaints with GPS (complaints.csv lat/lon) on the main Google map.

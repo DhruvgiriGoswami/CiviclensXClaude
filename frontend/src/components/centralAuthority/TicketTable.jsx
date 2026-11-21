@@ -189,7 +189,7 @@ export function TicketTable({
             <p className="text-xs text-slate-400 max-w-md mb-4">{error}</p>
             <button
               onClick={onRetry}
-              className="px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-medium flex items-center gap-2 transition-colors shadow-lg cursor-pointer"
+              className="px-4 py-2 rounded-lg bg-crimson-600 hover:bg-crimson-500 text-white text-xs font-medium flex items-center gap-2 transition-colors shadow-lg cursor-pointer"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span>Try again</span>
