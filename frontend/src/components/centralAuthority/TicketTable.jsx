@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 import { statusBadgeClass, priorityBadgeClass } from '../../utils/statusStyles';
 import { humanizeEnum } from '../../utils/format';
+import { normalizeCategory } from '../../utils/categories';
 
 export function TicketTable({
   tickets,
@@ -184,14 +185,14 @@ export function TicketTable({
             <div className="w-12 h-12 rounded-full bg-rose-500/10 border border-rose-500/30 flex items-center justify-center text-rose-400 mb-3">
               <AlertTriangle className="w-6 h-6" />
             </div>
-            <h4 className="text-sm font-bold text-slate-100 mb-1">Unable to Load CivicLens Tickets</h4>
+            <h4 className="text-sm font-bold text-slate-100 light:text-slate-900 mb-1">We could not load complaints</h4>
             <p className="text-xs text-slate-400 max-w-md mb-4">{error}</p>
             <button
               onClick={onRetry}
               className="px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-medium flex items-center gap-2 transition-colors shadow-lg cursor-pointer"
             >
               <RefreshCw className="w-3.5 h-3.5" />
-              <span>Retry API Connection</span>
+              <span>Try again</span>
             </button>
           </div>
         ) : isLoading ? (
@@ -262,7 +263,7 @@ export function TicketTable({
                   {/* Category */}
                   <td className="py-2.5 px-4 whitespace-nowrap">
                     <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-800 ca-panel-bg text-slate-300 border border-slate-700 max-w-[150px] truncate">
-                      {ticket.category}
+                      {normalizeCategory(ticket.category)}
                     </span>
                   </td>
 
@@ -295,8 +296,8 @@ export function TicketTable({
 
                   {/* Status */}
                   <td className="py-2.5 px-4 whitespace-nowrap">
-                    <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold uppercase border ${formatStatusBadge(ticket.status)}`}>
-                      {ticket.status || 'OPEN'}
+                    <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-bold border ${formatStatusBadge(ticket.status)}`}>
+                      {humanizeEnum(ticket.status || 'OPEN')}
                     </span>
                   </td>
 

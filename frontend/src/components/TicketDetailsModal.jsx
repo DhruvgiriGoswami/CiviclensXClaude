@@ -57,8 +57,8 @@ export function TicketDetailsModal({
         <div className="flex items-start justify-between gap-3 border-b border-slate-800/80 light:border-slate-200 pb-3">
           <div>
             <div className="flex items-center space-x-2 mb-1">
-              <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-crimson-500/20 text-crimson-400 light:text-crimson-700 border border-crimson-500/40">
-                Ticket #{ticket.ticketId}
+              <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-800 light:bg-slate-200 text-crimson-400 light:text-crimson-700 border border-crimson-500/40">
+                Complaint CL-{ticket.ticketId}
               </span>
               <span className="text-xs text-slate-400 light:text-slate-600 font-bold flex items-center gap-1">
                 <Calendar className="w-3 h-3 text-slate-500" />
@@ -107,7 +107,7 @@ export function TicketDetailsModal({
           </div>
           {ticket.addressText && (
             <p className="text-xs text-slate-300 light:text-slate-700 font-sans pl-6">
-              📍 <strong>Address Details:</strong> {ticket.addressText}
+              <strong>Address:</strong> {ticket.addressText}
             </p>
           )}
           {ticket.latitude && ticket.longitude && (
@@ -142,10 +142,10 @@ export function TicketDetailsModal({
               <img
                 src={imagePreview}
                 alt="Civic Issue Photo Proof"
-                className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-48 sm:h-56 object-cover group- transition-transform duration-300"
               />
-              <div className="absolute inset-x-0 bottom-0 p-2.5 bg-gradient-to-t from-slate-950/90 to-transparent text-xs text-slate-200 flex items-center justify-between">
-                <span>📍 Geo-Stamped Photo Evidence</span>
+              <div className="absolute inset-x-0 bottom-0 p-2.5 bg-slate-950/90 text-xs text-slate-200 flex items-center justify-between">
+                <span>Photo</span>
                 <span>CivicLens Verification Seal</span>
               </div>
             </div>
@@ -175,7 +175,7 @@ export function TicketDetailsModal({
             className={`px-4 py-2 rounded-xl border text-xs font-bold transition-all flex items-center gap-2 cursor-pointer ${
               hasUpvoted
                 ? 'bg-crimson-500/20 text-crimson-400 border-crimson-500/40 cursor-default opacity-90'
-                : 'bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white border-crimson-500 shadow-md active:scale-95'
+                : ' bg-crimson-600 hover:bg-crimson-500 text-white border-crimson-500 shadow-md active:scale-95'
             }`}
           >
             <ThumbsUp className={`w-3.5 h-3.5 ${hasUpvoted ? 'text-crimson-400' : 'text-white'}`} />

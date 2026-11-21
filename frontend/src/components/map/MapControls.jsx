@@ -105,14 +105,10 @@ export function MapControls({
           {shouldShowBadge && (
             <div
               onClick={handleLocateClick}
-              className="ml-2 h-11 px-3 rounded-lg bg-gradient-to-r from-red-600 to-rose-600 text-white text-xs font-semibold flex items-center justify-center shadow-xl border border-red-400/40 cursor-pointer whitespace-nowrap hover:scale-105 transition-all duration-300"
+              className="ml-2 h-11 px-3 rounded-lg bg-red-600 text-white text-xs font-semibold flex items-center justify-center shadow-xl border border-red-400/40 cursor-pointer whitespace-nowrap transition-all duration-300"
             >
               <span className="flex items-center gap-1.5">
-                <span className="relative flex h-2 w-2">
-                  <span className=" absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
-                </span>
-                Checkout your Location
+                Show my location
               </span>
             </div>
           )}

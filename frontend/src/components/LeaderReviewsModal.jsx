@@ -139,7 +139,7 @@ export function LeaderReviewsModal({ isOpen, onClose, leader, leaderType, onRate
                     onClose();
                     onRateClick(leader, leaderType);
                   }}
-                  className="px-4 py-2 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-md transition-all flex-shrink-0"
+                  className="px-4 py-2 rounded-xl bg-crimson-600 hover:bg-crimson-500 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-md transition-all flex-shrink-0"
                 >
                   <ThumbsUp className="w-3.5 h-3.5" />
                   <span>Rate This Leader</span>

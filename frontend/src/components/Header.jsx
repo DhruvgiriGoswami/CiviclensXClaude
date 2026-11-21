@@ -259,7 +259,7 @@ export function Header({
           {/* Title "CivicLens India" in the Middle on Mobile, Left-aligned next to Logo on Desktop */}
           <div className="flex-1 sm:flex-initial text-center sm:text-left sm:ml-4 min-w-0 px-2 sm:px-0">
             <div className="flex items-center justify-center sm:justify-start space-x-1.5 sm:space-x-2">
-              <span className="font-extrabold text-base sm:text-lg tracking-wider bg-gradient-to-r from-white via-slate-200 to-crimson-400 light:from-slate-900 light:via-slate-800 light:to-crimson-600 bg-clip-text text-transparent font-sans truncate">
+              <span className="font-extrabold text-base sm:text-lg tracking-wider text-slate-100 light:text-slate-900 font-sans truncate">
                 CivicLens <span className="text-crimson-300 light:text-crimson-700 text-xs sm:text-sm uppercase px-1 sm:px-1.5 py-0.5 rounded bg-crimson-500/10 border border-crimson-500/30 ml-1 inline-block">India</span>
               </span>
             </div>
@@ -632,7 +632,7 @@ export function Header({
           {/* National Leadership Directory Trigger */}
           <button
             onClick={onOpenNationalLeaders}
-            className="flex items-center space-x-1.5 sm:space-x-2 px-2.5 sm:px-3 py-1.5 rounded-xl bg-gradient-to-r from-slate-900 to-slate-800 light:from-slate-100 light:to-slate-200 hover:from-slate-800 hover:to-slate-700 border border-slate-700/70 light:border-slate-300 text-xs font-medium text-slate-200 light:text-slate-800 transition-all shadow-md group flex-shrink-0 ml-auto sm:ml-0"
+            className="flex items-center space-x-1.5 sm:space-x-2 px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-900 light:bg-slate-100 hover:bg-slate-800 border border-slate-700/70 light:border-slate-300 text-xs font-medium text-slate-200 light:text-slate-800 transition-all shadow-md group flex-shrink-0 ml-auto sm:ml-0"
           >
             <UserCheck className="w-3.5 h-3.5 text-crimson-400 group-hover:scale-110 transition-transform flex-shrink-0" />
             <span>National Directory <span className="hidden xl:inline">(PM / CM / Prez)</span></span>
@@ -661,10 +661,7 @@ export function Header({
       {/* ─── ReBIT / RBI Style Top Accessibility & Utility Toolbar ─── */}
       <div className="order-first hidden sm:flex min-h-7 py-0.5 bg-[#06080E] light:bg-[#F1F5F9] text-slate-300 light:text-slate-800 border-b border-slate-800/80 light:border-slate-300 px-3 sm:px-4 items-center justify-between text-xs sm:text-xs select-none flex-wrap gap-1">
         <div className="flex items-center space-x-2 min-w-0">
-          <span className="flex items-center gap-1.5 font-semibold text-xs uppercase text-amber-400 light:text-amber-700 truncate">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 light:bg-amber-600 flex-shrink-0"></span>
-            <span className="truncate">CivicLens - National Civic Transparency & Auditing Framework</span>
-          </span>
+
         </div>
 
         {/* Accessibility & Font Controls Toolbar */}

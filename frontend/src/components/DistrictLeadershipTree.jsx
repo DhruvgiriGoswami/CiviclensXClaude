@@ -213,12 +213,7 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
                       <span className="text-xs px-2 py-0.5 rounded bg-crimson-500/20 text-crimson-400 light:text-crimson-700 border border-crimson-500/30 font-bold">
                         {registeredUnits.length} Registered Unit{registeredUnits.length > 1 ? 's' : ''}
                       </span>
-                    ) : (
-                      <span className="text-xs px-2 py-0.5 rounded bg-slate-800 text-slate-300 light:bg-slate-200 light:text-slate-700 border border-slate-700 font-bold flex items-center gap-1">
-                        <FileCode className="w-2.5 h-2.5" />
-                        District
-                      </span>
-                    )}
+                    ) : null}
 
                     <button
                       onClick={() => toggleNode(distIdKey)}

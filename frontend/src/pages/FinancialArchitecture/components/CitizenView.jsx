@@ -12,7 +12,7 @@ export function CitizenView() {
   return (
     <div className="w-full bg-[#0D1117] light:bg-white border border-cyan-500/30 light:border-slate-300 rounded-2xl p-6 text-slate-100 light:text-slate-900 font-sans shadow-2xl relative overflow-hidden">
       {/* Accent Top Bar indicating 20% Citizen Section */}
-      <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-cyan-400 to-blue-500"></div>
+      <div className="absolute top-0 left-0 right-0 h-1 bg-emerald-500"></div>
 
       {/* Section Header */}
       <div className="mb-6 pb-4 border-b border-slate-800 light:border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2">

@@ -470,8 +470,8 @@ export function AppContent({ navigateTo }) {
           <div className="absolute top-3 sm:top-4 inset-x-0 z-50 flex justify-center pointer-events-none px-3 lg:pr-[420px]">
             <div className="pointer-events-auto bg-crimson-700 text-white px-3 sm:px-4 py-2 rounded-full shadow-2xl text-xs flex items-center justify-between sm:justify-center gap-2 sm:gap-3 border border-crimson-400 max-w-[94vw] sm:max-w-md">
               <span className="truncate font-bold text-xs sm:text-xs">
-                <span className="sm:hidden">📍 Tap map to pinpoint issue</span>
-                <span className="hidden sm:inline">📍 CLICK MAP TO PINPOINT CIVIC ISSUE</span>
+                <span className="sm:hidden">Tap the map to mark the spot</span>
+                <span className="hidden sm:inline">Click the map to mark where the problem is</span>
               </span>
               <div className="flex items-center gap-1.5 flex-shrink-0">
                 <button
@@ -534,14 +534,13 @@ export function AppContent({ navigateTo }) {
           }`}>
             <button
               onClick={() => setIsGrievanceModalOpen(true)}
-              className="flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-gradient-to-r from-crimson-600 via-rose-600 to-crimson-700 hover:from-crimson-500 hover:to-rose-500 text-white text-xs font-bold shadow-2xl border border-white/25 transition-all duration-200 hover:scale-105 active:scale-95 cursor-pointer group"
-              title="Report a civic problem or infrastructure damage"
+              className="flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-crimson-600 hover:bg-crimson-500 text-white text-xs font-bold shadow-2xl border border-white/25 transition-all duration-200 active:scale-95 cursor-pointer group"
+              title="Report a problem"
             >
               <div className="relative flex items-center justify-center">
-                <span className=" absolute inline-flex h-3 w-3 rounded-full bg-rose-400 opacity-75"></span>
                 <Camera className="w-4 h-4 text-white relative z-10 group-hover:rotate-12 transition-transform" />
               </div>
-              <span className="tracking-wide">Report Issue</span>
+              <span>Report a problem</span>
             </button>
           </div>
         )}

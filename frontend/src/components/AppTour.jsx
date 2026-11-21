@@ -365,7 +365,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
             </div>
 
             {/* Your voice matters */}
-            <div className="p-3.5 rounded-2xl bg-gradient-to-r from-crimson-900/30 via-slate-900 to-crimson-900/30 border border-crimson-500/30 space-y-1.5">
+            <div className="p-3.5 rounded-2xl bg-crimson-900/30 border border-crimson-500/30 space-y-1.5">
               <h4 className="text-xs font-bold text-white light:text-slate-900 font-sans">
                 Your voice matters
               </h4>
@@ -419,7 +419,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
               <button
                 type="button"
                 onClick={() => setStep(1)}
-                className="w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-2 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full sm:w-auto px-4 sm:px-5 py-2.5 sm:py-2 rounded-xl bg-crimson-600 hover:bg-crimson-500 text-white text-xs font-bold transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
               >
                 <span>Explore Interactive Guide (Step 1)</span>
                 <ArrowRight className="w-4 h-4" />
@@ -486,7 +486,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
 
               {/* Step Icon & Title */}
               <div className="flex items-start space-x-3.5">
-                <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-crimson-600 to-crimson-700 text-white flex items-center justify-center flex-shrink-0 shadow-lg border border-crimson-400/40">
+                <div className="w-11 h-11 rounded-2xl bg-crimson-600 text-white flex items-center justify-center flex-shrink-0 shadow-lg border border-crimson-400/40">
                   <StepIcon className="w-5 h-5" />
                 </div>
                 <div>
@@ -530,7 +530,7 @@ export function AppTour({ isOpen, onClose, onExpandPanel, onNavigate }) {
 
                   <button
                     onClick={handleNext}
-                    className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5"
+                    className="px-4 py-1.5 rounded-xl bg-crimson-600 hover:bg-crimson-500 text-white text-xs font-bold transition-all shadow-md flex items-center gap-1.5"
                   >
                     <span>{step === 3 ? 'Expand & Start' : 'Next Step'}</span>
                     {step === 3 ? <Check className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}

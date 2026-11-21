@@ -154,12 +154,12 @@ export function Sidebar({
     );
 
     const badgeText = isCorp
-      ? '🏛️ Municipal Corporation'
+      ? 'Municipal Corporation'
       : isUrbanWard
-        ? '🏢 Urban Municipal Ward'
+        ? 'Urban Municipal Ward'
         : isDistrict
-          ? '🏛️ District Region'
-          : '🌳 Rural Gram Panchayat';
+          ? 'District Region'
+          : 'Rural Gram Panchayat';
 
     const badgeStyle = isCorp
       ? 'bg-amber-500/20 text-amber-400 light:text-amber-700 border-amber-500/40'
@@ -175,7 +175,7 @@ export function Sidebar({
         {/* Sidebar Top Header */}
         <div className="p-5 border-b border-slate-800/80 light:border-slate-200 bg-slate-900/90 light:bg-white relative">
           <div className="flex items-center justify-between gap-2 mb-2 min-w-0">
-            <span className={`text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border flex-shrink-0 whitespace-nowrap ${badgeStyle}`}>
+            <span className={`text-xs font-semibold px-2.5 py-0.5 rounded-full border flex-shrink-0 whitespace-nowrap ${badgeStyle}`}>
               {badgeText}
             </span>
             <div className="flex-1 min-w-0 overflow-x-auto no-scrollbar text-right">
@@ -300,7 +300,7 @@ export function Sidebar({
                 {unit?.highlightedLeader && (
                   <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/40 space-y-2 shadow-md">
                     <div className="flex items-center justify-between text-xs font-bold text-amber-400 uppercase tracking-wider">
-                      <span className="flex items-center gap-1">⭐ Selected Representative Profile</span>
+                      <span className="flex items-center gap-1">The person you searched for</span>
                       <span className="px-1.5 py-0.5 rounded bg-amber-500/20 border border-amber-400/40">Search Target</span>
                     </div>
                     <LeaderCard
@@ -319,7 +319,7 @@ export function Sidebar({
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border bg-amber-500/20 text-amber-400 light:text-amber-700 border-amber-500/40 flex items-center gap-1.5">
                         <Vote className="w-3.5 h-3.5" />
-                        🏛 Elections Upcoming
+                        Elections Upcoming
                       </span>
                       <span className="text-xs text-amber-400 light:text-amber-700 font-bold bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/30">
                         In 2–3 Months
@@ -408,9 +408,9 @@ export function Sidebar({
             <div className="space-y-4">
               <button
                 onClick={onRaiseTicket}
-                className="w-full py-2.5 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white text-xs font-sans font-bold uppercase tracking-wider transition-all shadow-lg flex items-center justify-center space-x-2"
+                className="w-full py-2.5 rounded-xl bg-crimson-600 hover:bg-crimson-500 text-white text-xs font-sans font-bold uppercase tracking-wider transition-all shadow-lg flex items-center justify-center space-x-2"
               >
-                <span>Raise Civic Ticket in {unit?.unitName}</span>
+                <span>Report a problem in {unit?.unitName}</span>
               </button>
 
               {/* Ticket Filter Header */}
@@ -554,7 +554,7 @@ export function Sidebar({
                 {renderContent()}
               </div>
               <div className="py-2.5 px-4 border-t border-slate-800/80 light:border-slate-200 bg-slate-900/60 light:bg-slate-50 text-center text-xs text-slate-400 light:text-slate-600 flex-shrink-0">
-                Made with ❤️ by{' '}
+                Made by{' '}
                 <a
                   href="https://www.linkedin.com/in/dhruvgiri-goswami-745b01159/"
                   target="_blank"
@@ -599,7 +599,7 @@ export function Sidebar({
               {renderContent()}
             </div>
             <div className="py-2.5 px-4 border-t border-slate-800/80 light:border-slate-200 bg-slate-900/60 light:bg-slate-50 text-center text-xs text-slate-400 light:text-slate-600 flex-shrink-0">
-              Made with ❤️ by{' '}
+              Made by{' '}
               <a
                 href="https://www.linkedin.com/in/dhruvgiri-goswami-745b01159/"
                 target="_blank"

@@ -167,7 +167,7 @@ export function FollowRupee({ isOpen, onClose }) {
         {/* Header */}
         <div className="p-4 bg-slate-950/90 light:bg-slate-50 border-b border-slate-800 light:border-slate-200 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 text-slate-950 font-extrabold flex items-center justify-center text-lg shadow-lg">
+            <div className="w-9 h-9 rounded-xl bg-cyan-500 text-slate-950 font-extrabold flex items-center justify-center text-lg shadow-lg">
               ₹1
             </div>
             <div>

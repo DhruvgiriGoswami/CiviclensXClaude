@@ -152,7 +152,7 @@ export function TicketDetailModal({ ticket, onClose }) {
                       <img
                         src={mediaUrl}
                         alt={`Attachment ${idx + 1}`}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                        className="w-full h-full object-cover group- transition-transform"
                         onError={(e) => {
                           e.target.style.display = 'none';
                         }}

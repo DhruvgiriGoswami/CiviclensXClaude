@@ -22,7 +22,7 @@ export function GrievanceModal({
   onPinLocationSelect,
 }) {
   const [step, setStep] = useState(1); // 3-step wizard: 1 = Location, 2 = Category, 3 = Evidence & Details
-  const [category, setCategory] = useState('Garbage & Waste Management');
+  const [category, setCategory] = useState('');
   const [addressText, setAddressText] = useState('');
   const [description, setDescription] = useState('');
   const [file, setFile] = useState(null);
@@ -43,6 +43,22 @@ export function GrievanceModal({
 
   const cameraInputRef = useRef(null);
   const galleryInputRef = useRef(null);
+  const [fieldErrors, setFieldErrors] = useState({});
+
+  // Once a spot is pinned, fill the location box with its address (or the coordinates) if it is empty.
+  useEffect(() => {
+    if (!pinnedLocation || typeof pinnedLocation.lat !== 'number') return;
+    const coords = `${pinnedLocation.lat.toFixed(5)}, ${pinnedLocation.lng.toFixed(5)}`;
+    const Geocoder = window.google?.maps?.Geocoder;
+    if (!Geocoder) {
+      setAddressText((prev) => prev || coords);
+      return;
+    }
+    new Geocoder().geocode({ location: pinnedLocation }, (results, status) => {
+      const address = status === 'OK' && results?.[0]?.formatted_address;
+      setAddressText((prev) => prev || address || coords);
+    });
+  }, [pinnedLocation]);
 
   // Clean up preview URL when unmounted or changed
   useEffect(() => {
@@ -226,7 +242,8 @@ export function GrievanceModal({
     setStep(1);
     setSubmitError('');
     setPhotoWarning('');
-    setCategory('Garbage & Waste Management');
+    setCategory('');
+    setFieldErrors({});
     setAddressText('');
     setDescription('');
     if (previewUrl) {
@@ -261,12 +278,18 @@ export function GrievanceModal({
     e.preventDefault();
 
     // Mandatory Pin Validation: Must pin location on map or via GPS
-    if (!pinnedLocation || typeof pinnedLocation.lat !== 'number') {
-      setPinError('Please detect your live GPS location or pinpoint on map before submitting!');
+    // One message per field plus one summary, so people see everything to fix at once.
+    const errors = {};
+    if (!pinnedLocation || typeof pinnedLocation.lat !== 'number') errors.location = 'Mark where the problem is, using your location or the map.';
+    if (!category) errors.category = 'Choose a category.';
+    if (!description.trim()) errors.description = 'Describe the problem in a few words.';
+    setFieldErrors(errors);
+    const count = Object.keys(errors).length;
+    if (count) {
+      setSubmitError(`Fix ${count === 1 ? 'one thing' : `${count} things`} before submitting: ${Object.values(errors).join(' ')}`);
+      if (errors.location) setPinError(errors.location);
       return;
     }
-
-    if (!description.trim()) return;
 
     setPinError('');
     setSubmitError('');
@@ -395,10 +418,10 @@ export function GrievanceModal({
             )}
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} noValidate className="space-y-4">
             <div>
               <h3 id="grievance-heading" className="text-lg font-bold text-white light:text-slate-900 font-sans">
-                {unit ? `Raise Civic Issue in ${unit.unitName}` : 'Report Civic Issue & Pin Incident'}
+                {unit ? `Report a problem in ${unit.unitName}` : 'Report a problem'}
               </h3>
               <p className="text-xs text-slate-400 light:text-slate-600 font-sans">
                 Directly report infrastructure hazards, trash, safety concerns, or corruption.
@@ -478,7 +501,7 @@ export function GrievanceModal({
                     <div className="flex items-center space-x-1.5 text-xs font-bold">
                       <MapPin className={`w-4 h-4 flex-shrink-0 ${pinnedLocation ? 'text-emerald-400 light:text-emerald-600' : 'text-crimson-500'}`} />
                       <span className={pinnedLocation ? 'text-emerald-300 light:text-emerald-800' : 'text-slate-200 light:text-slate-800'}>
-                        {pinnedLocation ? '📍 Spot Geo-Tagged & Pinned' : '⚠️ Location Required to Report'}
+                        {pinnedLocation ? 'Location marked' : 'Mark the location to continue'}
                       </span>
                     </div>
 
@@ -558,7 +581,7 @@ export function GrievanceModal({
                     setPinError('');
                     setStep(2);
                   }}
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center justify-center space-x-2 active:scale-98 cursor-pointer"
+                  className="w-full py-3 rounded-xl bg-crimson-600 hover:bg-crimson-500 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center justify-center space-x-2 active:scale-98 cursor-pointer"
                 >
                   <span>Next: Choose Category</span>
                   <ChevronRight className="w-4 h-4" />
@@ -605,18 +628,23 @@ export function GrievanceModal({
 
                 {/* Category Dropdown */}
                 <div>
-                  <label className="text-xs text-slate-300 light:text-slate-700 font-bold block mb-1">Issue Category:</label>
+                  <label htmlFor="grievance-category" className="text-xs text-slate-300 light:text-slate-700 font-bold block mb-1">Category</label>
                   <select
+                    id="grievance-category"
                     value={category}
-                    onChange={(e) => setCategory(e.target.value)}
+                    aria-invalid={!!fieldErrors.category}
+                    aria-describedby={fieldErrors.category ? 'grievance-category-error' : undefined}
+                    onChange={(e) => { setCategory(e.target.value); setFieldErrors((f) => ({ ...f, category: undefined })); }}
                     className="w-full bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl p-2.5 text-xs text-slate-100 light:text-slate-900 focus:border-crimson-500"
                   >
+                    <option value="" disabled>Choose a category</option>
                     {CATEGORIES.map((cat) => (
                       <option key={cat} value={cat} className="bg-slate-900 light:bg-white text-slate-100 light:text-slate-900">
                         {cat}
                       </option>
                     ))}
                   </select>
+                  {fieldErrors.category && <p id="grievance-category-error" className="mt-1 text-xs text-crimson-400 light:text-crimson-700">{fieldErrors.category}</p>}
                 </div>
 
                 {/* Pinned Location Summary */}
@@ -647,8 +675,11 @@ export function GrievanceModal({
 
                   <button
                     type="button"
-                    onClick={() => setStep(3)}
-                    className="py-2.5 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer"
+                    onClick={() => {
+                      if (!category) { setFieldErrors((f) => ({ ...f, category: 'Choose a category.' })); return; }
+                      setStep(3);
+                    }}
+                    className="py-2.5 rounded-xl bg-crimson-600 hover:bg-crimson-500 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <span>Next: Details</span>
                     <ChevronRight className="w-4 h-4" />
@@ -673,7 +704,7 @@ export function GrievanceModal({
                   {category === 'Garbage & Waste Management' || category === 'Roads & Footpaths' || category === 'Drainage & Sewage' || category === 'Street Lighting' ? (
                     <div className="text-xs text-emerald-400 light:text-emerald-700 bg-emerald-500/10 border border-emerald-500/20 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
                       <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
-                      <span>Recommended: Snap a live picture on the spot for instant verification.</span>
+                      <span>A photo taken on the spot helps the ward office find the problem.</span>
                     </div>
                   ) : (category === 'Report Bribe' || category === 'Women Safety') ? (
                     <div className="text-xs text-amber-400 light:text-amber-800 bg-amber-500/10 border border-amber-500/20 px-3 py-1.5 rounded-xl flex items-center gap-1.5">
@@ -800,18 +831,22 @@ export function GrievanceModal({
 
                 {/* Issue Description */}
                 <div>
-                  <label className="text-xs text-slate-300 light:text-slate-700 font-bold block mb-1">
-                    Detailed Description: <span className="text-crimson-400">*</span>
+                  <label htmlFor="grievance-description" className="text-xs text-slate-300 light:text-slate-700 font-bold block mb-1">
+                    What is the problem?
                   </label>
                   <textarea
+                    id="grievance-description"
                     rows="3"
-                    required
-                    placeholder="Describe exact physical damage, landmark, trash accumulation, or structural failure..."
+                    placeholder="For example: a deep pothole outside the bus stop near the school gate"
                     value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    aria-invalid={!!fieldErrors.description}
+                    aria-describedby={fieldErrors.description ? 'grievance-description-error' : undefined}
+                    onChange={(e) => { setDescription(e.target.value); setFieldErrors((f) => ({ ...f, description: undefined })); }}
                     className="w-full bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-xl p-2.5 text-xs text-slate-100 light:text-slate-900 placeholder-slate-500 light:placeholder-slate-400 focus:border-crimson-500 font-sans"
                   />
                 </div>
+
+                {fieldErrors.description && <p id="grievance-description-error" className="-mt-2 text-xs text-crimson-400 light:text-crimson-700">{fieldErrors.description}</p>}
 
                 {submitError && (
                   <p role="alert" className="text-xs text-crimson-400 light:text-crimson-700 font-sans">{submitError}</p>
@@ -831,14 +866,14 @@ export function GrievanceModal({
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="col-span-2 py-3 rounded-xl bg-gradient-to-r from-crimson-600 to-crimson-700 hover:from-crimson-500 hover:to-crimson-600 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center justify-center space-x-2 active:scale-98 disabled:opacity-60 cursor-pointer"
+                    className="col-span-2 py-3 rounded-xl bg-crimson-600 hover:bg-crimson-500 text-white font-sans font-bold text-xs uppercase tracking-wider transition-all shadow-lg flex items-center justify-center space-x-2 active:scale-98 disabled:opacity-60 cursor-pointer"
                   >
                     {isSubmitting ? (
                       <span>Pinning Ticket...</span>
                     ) : (
                       <>
                         <AlertTriangle className="w-4 h-4" />
-                        <span>Pin Ticket & Broadcast</span>
+                        <span>Submit report</span>
                       </>
                     )}
                   </button>
@@ -891,7 +926,7 @@ export function GrievanceModal({
               <div className="space-y-4 text-center">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/20 text-rose-400 light:text-rose-700 border border-rose-500/30 text-xs font-bold">
                   <ShieldAlert className="w-4 h-4 text-rose-500 flex-shrink-0" />
-                  <span>⚠️ Emergency Notice</span>
+                  <span>Emergency Notice</span>
                 </div>
                 
                 <h3 className="text-xl font-extrabold text-white light:text-slate-900 font-sans tracking-tight">
@@ -907,7 +942,7 @@ export function GrievanceModal({
                     href="tel:112"
                     className="w-full py-3.5 px-5 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-lg transition-all border border-rose-400 active:scale-95"
                   >
-                    📞 Call Emergency (112)
+                    Call Emergency (112)
                   </a>
 
                   <button
@@ -928,7 +963,7 @@ export function GrievanceModal({
               <div className="space-y-4 text-center">
                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-500/20 text-amber-400 light:text-amber-700 border border-amber-500/30 text-xs font-bold">
                   <AlertTriangle className="w-4 h-4 text-amber-500 flex-shrink-0" />
-                  <span>⚠️ Important Disclaimer</span>
+                  <span>Important Disclaimer</span>
                 </div>
 
                 <h3 className="text-xl font-extrabold text-white light:text-slate-900 font-sans tracking-tight">
@@ -944,7 +979,7 @@ export function GrievanceModal({
                     href="tel:1064"
                     className="w-full py-3.5 px-5 rounded-2xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg transition-all border border-amber-300 active:scale-95"
                   >
-                    📞 Call Authority Helpline (1064)
+                    Call Authority Helpline (1064)
                   </a>
 
                   <button

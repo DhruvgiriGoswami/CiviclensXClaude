@@ -19,7 +19,7 @@ export function RiskEngine() {
       </div>
 
       {/* Crucial Concept Card: Anomaly != Proof of Wrongdoing */}
-      <div className="p-4 rounded-xl bg-gradient-to-r from-amber-950/40 via-slate-900 to-slate-900 light:from-amber-50 light:via-slate-50 light:to-slate-100 border border-amber-500/40 light:border-amber-300 text-amber-200 light:text-amber-900 mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-lg">
+      <div className="p-4 rounded-xl bg-amber-950/40 light:bg-amber-50 border border-amber-500/40 light:border-amber-300 text-amber-200 light:text-amber-900 mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-lg">
         <div className="flex items-start gap-3">
           <div className="p-2 rounded-xl bg-amber-500/20 light:bg-amber-100 border border-amber-500/40 light:border-amber-300 text-amber-300 light:text-amber-800 flex-shrink-0 mt-0.5">
             <Scale className="w-5 h-5" />

@@ -5,6 +5,7 @@ import { formatINR, formatPct, humanizeEnum } from './format.js';
 import { makeBreaks, bucketIndex, bucketColor, RAMP_LIGHT, NO_DATA_LIGHT } from './choropleth.js';
 import { rankSearch } from './search.js';
 import { partyShortCode, partyDisplayName } from './partyNormalizer.js';
+import { normalizeCategory, mergeCategoryCounts } from './categories.js';
 
 test('formatINR uses lakh and crore', () => {
   assert.equal(formatINR(84000), '₹84,000');
@@ -49,6 +50,15 @@ test('rankSearch dedupes by id and ranks prefix matches first', () => {
   assert.deepEqual(out.map((x) => x.label), ['Pune', 'Greater Pune Region', 'Kopune']);
   assert.deepEqual(rankSearch(items, 'pun').map((x) => x.id).slice(0, 2), ['PB', 'PN']);
   assert.deepEqual(rankSearch(items, ''), []);
+});
+
+test('category normalisation merges road variants into one label', () => {
+  assert.equal(normalizeCategory('ROAD'), 'Roads and footpaths');
+  assert.equal(normalizeCategory('Road Pavement & Potholes'), 'Roads and footpaths');
+  assert.equal(normalizeCategory('Garbage & Waste Management'), 'Garbage and waste');
+  assert.equal(normalizeCategory('NOISE_POLLUTION'), 'Noise pollution');
+  assert.equal(normalizeCategory(''), 'Other');
+  assert.deepEqual(mergeCategoryCounts([['ROAD', 3], ['ROADS', 2], ['Road Pavement & Potholes', 1], ['GARBAGE', 4]]), [['Roads and footpaths', 6], ['Garbage and waste', 4]]);
 });
 
 test('party short codes come from the full name, not the cut abbreviation', () => {

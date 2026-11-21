@@ -325,7 +325,7 @@ export function CentralAuthorityDashboard({ onBackToMap }) {
 
       {/* Footer Credit */}
       <footer className="w-full py-2.5 px-4 bg-slate-950 light:bg-white border-t border-slate-800/80 light:border-slate-200 text-center text-xs text-slate-400 light:text-slate-600 flex-shrink-0">
-        Made with ❤️ by{' '}
+        Made by{' '}
         <a
           href="https://www.linkedin.com/in/dhruvgiri-goswami-745b01159/"
           target="_blank"

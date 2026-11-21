@@ -53,11 +53,11 @@ export default function FinancialArchitecture({ onBackToMap }) {
             )}
 
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center text-slate-950 font-bold shadow-md">
+              <div className="w-8 h-8 rounded-xl bg-cyan-500 flex items-center justify-center text-slate-950 font-bold shadow-md">
                 <Landmark className="w-4.5 h-4.5 text-slate-950" />
               </div>
               <div className="hidden xs:block">
-                <span className="font-extrabold text-sm tracking-wider bg-gradient-to-r from-white via-slate-200 to-cyan-400 light:from-slate-900 light:to-slate-700 bg-clip-text text-transparent">
+                <span className="font-extrabold text-sm tracking-wider text-slate-100 light:text-slate-900">
                   CivicLens
                 </span>
               </div>
@@ -70,7 +70,7 @@ export default function FinancialArchitecture({ onBackToMap }) {
               Transparent Public Finance Architecture
             </h1>
             <p className="text-xs sm:text-xs text-cyan-400 light:text-cyan-700 font-bold truncate hidden sm:block">
-              Proposed Sovereign Digital Settlement Rail Framework
+              A proposal for tracing public money, shown with sample data
             </p>
           </div>
 
@@ -131,7 +131,7 @@ export default function FinancialArchitecture({ onBackToMap }) {
             {/* Follow 1 Rupee Button */}
             <button
               onClick={() => setIsFollowRupeeOpen(true)}
-              className="flex items-center gap-1 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 text-slate-950 text-xs font-extrabold shadow-md hover:scale-105 transition-all whitespace-nowrap"
+              className="flex items-center gap-1 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-cyan-500 text-slate-950 text-xs font-extrabold shadow-md transition-all whitespace-nowrap"
             >
               <Play className="w-3.5 h-3.5 fill-slate-950" />
               <span>Follow ₹1</span>
@@ -266,7 +266,7 @@ export default function FinancialArchitecture({ onBackToMap }) {
           <div className="pt-6 text-xs text-slate-500 light:text-slate-600 border-t border-slate-900 light:border-slate-200 space-y-2">
             <div>CivicLens Proposed Public Finance Architecture &bull; Conceptual Stakeholder Demonstration Prototype</div>
             <div className="text-xs text-slate-400 light:text-slate-600">
-              Made with ❤️ by{' '}
+              Made by{' '}
               <a
                 href="https://www.linkedin.com/in/dhruvgiri-goswami-745b01159/"
                 target="_blank"

@@ -126,7 +126,7 @@ export function AuthorityStatsBar({ stats, isLoading, error, onFilterByStatus, a
 
       {/* Expanded Stat Cards Grid */}
       {!isCollapsed && (
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-2.5 mt-3 animate-fadeIn">
+        <div className={`grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-3 ${statCards.length === 5 ? 'lg:grid-cols-5' : 'lg:grid-cols-4'}`}>
           {statCards.map((card) => {
             const Icon = card.icon;
             const isSelected = (activeStatus || '') === card.id;

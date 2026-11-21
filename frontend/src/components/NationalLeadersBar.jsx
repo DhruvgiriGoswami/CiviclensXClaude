@@ -480,9 +480,9 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
           )}
         </div>
 
-        {/* Footer Credit */}
-        <div className="mt-4 pt-3 border-t border-slate-800/80 light:border-slate-200 text-center text-xs text-slate-400 light:text-slate-600 flex-shrink-0">
-          Made with ❤️ by{' '}
+        {/* Footer credit lives in the page footer, not in this dialog. */}
+        <div hidden>
+          Made by{' '}
           <a
             href="https://www.linkedin.com/in/dhruvgiri-goswami-745b01159/"
             target="_blank"

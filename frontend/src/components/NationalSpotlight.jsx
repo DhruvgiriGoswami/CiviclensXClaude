@@ -32,10 +32,7 @@ export function NationalSpotlight({ onSelectState, onOpenNationalLeaders }) {
       {/* Top Banner */}
       <div className="glass-panel-crimson light:bg-crimson-50 light:border-crimson-200 p-4 rounded-2xl border border-crimson-500/40 relative overflow-hidden">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-crimson-500/20 light:bg-crimson-100 text-crimson-400 light:text-crimson-700 border border-crimson-500/40">
-            <Sparkles className="w-3 h-3 inline mr-1 animate-spin" style={{ animationDuration: '4s' }} />
-            Pan-India Macro Governance (Level 1)
-          </span>
+          <span />
           <button
             onClick={onOpenNationalLeaders}
             className="text-xs text-crimson-400 light:text-crimson-700 hover:underline flex items-center gap-0.5 font-bold"
@@ -58,7 +55,7 @@ export function NationalSpotlight({ onSelectState, onOpenNationalLeaders }) {
               src={pm.photo}
               alt={pm.name}
               onError={(e) => { e.target.src = '/PartyImages/India.jpg'; }}
-              className="w-16 h-16 rounded-xl object-cover border-2 border-crimson-500/60 shadow-lg group-hover:scale-105 transition-transform"
+              className="w-16 h-16 rounded-xl object-cover border-2 border-crimson-500/60 shadow-lg group- transition-transform"
             />
             <div className="flex-1 min-w-0">
               <span className="text-xs font-bold uppercase px-2 py-0.5 rounded bg-crimson-500/20 light:bg-crimson-100 text-crimson-400 light:text-crimson-800 border border-crimson-500/30">
@@ -82,7 +79,7 @@ export function NationalSpotlight({ onSelectState, onOpenNationalLeaders }) {
               src={prez.photo}
               alt={prez.name}
               onError={(e) => { e.target.src = '/PartyImages/India.jpg'; }}
-              className="w-16 h-16 rounded-xl object-cover border-2 border-slate-700 light:border-slate-300 shadow-lg group-hover:scale-105 transition-transform"
+              className="w-16 h-16 rounded-xl object-cover border-2 border-slate-700 light:border-slate-300 shadow-lg group- transition-transform"
             />
             <div className="flex-1 min-w-0">
               <span className="text-xs font-bold uppercase px-2 py-0.5 rounded bg-slate-800 light:bg-slate-200 text-slate-300 light:text-slate-800 border border-slate-700">

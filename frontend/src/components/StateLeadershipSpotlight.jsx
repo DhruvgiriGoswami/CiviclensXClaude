@@ -36,13 +36,8 @@ export function StateLeadershipSpotlight({ selectedState, onSelectUnit, units, o
     <div className="space-y-4 animate-in fade-in">
       {/* State Top Banner */}
       <div className="glass-panel-crimson light:bg-crimson-50 light:border-crimson-200 p-4 rounded-2xl border border-crimson-500/40 relative">
-        <div className="flex items-center justify-between mb-1">
-          <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-crimson-500/20 text-crimson-400 light:text-crimson-800 border border-crimson-500/40">
-            {stateName} Executive Cabinet
-          </span>
-        </div>
-        <h3 className="text-lg font-bold text-white light:text-slate-900 font-sans">{stateName} Executive Directory</h3>
-        <p className="text-xs text-slate-300 light:text-slate-700">Constitutional Governor, Chief Minister & State Administration</p>
+        <h3 className="text-lg font-bold text-white light:text-slate-900 font-sans">{stateName} leadership</h3>
+        <p className="text-xs text-slate-300 light:text-slate-700">Governor, Chief Minister and state officials</p>
       </div>
 
       {/* Chief Minister & Cabinet Cards */}
@@ -55,7 +50,7 @@ export function StateLeadershipSpotlight({ selectedState, onSelectUnit, units, o
               src={cmPhoto}
               alt={cmName || 'Chief Minister'}
               onError={(e) => { e.target.src = getPersonAvatar({ party: cmParty }, 'POLITICIAN'); }}
-              className="w-16 h-16 rounded-xl object-cover border-2 border-crimson-500/60 shadow-lg group-hover:scale-105 transition-transform"
+              className="w-16 h-16 rounded-xl object-cover border-2 border-crimson-500/60 shadow-lg group- transition-transform"
             />
             <div className="flex-1 min-w-0">
               <span className="text-xs font-bold uppercase px-2 py-0.5 rounded bg-crimson-500/20 light:bg-crimson-100 text-crimson-400 light:text-crimson-800 border border-crimson-500/30">

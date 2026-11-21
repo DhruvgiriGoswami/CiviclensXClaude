@@ -101,7 +101,7 @@ export function NodeInspector({ node, onClose }) {
             <div className="flex flex-wrap gap-1">
               {details.permittedCategories.map((cat, idx) => (
                 <span key={idx} className="px-2 py-0.5 rounded bg-emerald-500/10 light:bg-emerald-50 text-emerald-300 light:text-emerald-800 border border-emerald-500/30 light:border-emerald-300 text-xs font-bold">
-                  ✓ {cat}
+                  {cat}
                 </span>
               ))}
             </div>

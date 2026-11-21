@@ -12,10 +12,10 @@ export function getStateInfoWindowContent(cmEntry) {
   const party = cmEntry.party || 'State Executive';
 
   return `
-    <div style="font-family:Inter,sans-serif;padding:8px 10px;max-width:240px;color:#0F172A;">
-      <div style="font-size:10px;color:#64748B;margin-bottom:2px;">📍 ${esc(stateName)}</div>
+    <div style="padding:8px 10px;max-width:240px;color:#0F172A;">
+      <div style="font-size:12px;color:#64748B;margin-bottom:2px;">${esc(stateName)}</div>
       <div style="font-size:14px;font-weight:700;color:#E63946;">${esc(cmName)}</div>
-      <div style="font-size:11px;color:#475569;margin-top:2px;">
+      <div style="font-size:12px;color:#475569;margin-top:2px;">
         Chief Minister &bull; ${esc(party)}
       </div>
     </div>
@@ -30,19 +30,19 @@ export function getWardInfoWindowContent(matchedUnit, fallbackStateId) {
   const adminName = matchedUnit?.administrativeSpender?.name || 'Not on record';
 
   return `
-    <div style="font-family:Inter,sans-serif;padding:8px 10px;max-width:240px;color:#0F172A;">
-      <div style="font-size:10px;font-weight:700;color:#E63946;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:2px;">
-        🏢 WARD & AREA IDENTIFIED
+    <div style="padding:8px 10px;max-width:240px;color:#0F172A;">
+      <div style="font-size:12px;font-weight:700;color:#E63946;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:2px;">
+        WARD & AREA IDENTIFIED
       </div>
       <div style="font-size:13px;font-weight:700;color:#0F172A;line-height:1.2;">
         ${esc(wardName)}
       </div>
-      <div style="font-size:11px;color:#475569;margin-top:2px;font-weight:600;">
-        📍 ${esc(areaName)}
+      <div style="font-size:12px;color:#475569;margin-top:2px;font-weight:600;">
+        ${esc(areaName)}
       </div>
-      <div style="margin-top:6px;padding-top:6px;border-top:1px solid #E2E8F0;font-size:10px;color:#334155;line-height:1.5;">
-        👤 <strong>MLA:</strong> ${esc(mlaName)} ${mlaParty ? `(${esc(mlaParty)})` : ''}<br/>
-        👔 <strong>Admin:</strong> ${esc(adminName)}
+      <div style="margin-top:6px;padding-top:6px;border-top:1px solid #E2E8F0;font-size:12px;color:#334155;line-height:1.5;">
+        <strong>MLA:</strong> ${esc(mlaName)} ${mlaParty ? `(${esc(mlaParty)})` : ''}<br/>
+        <strong>Admin:</strong> ${esc(adminName)}
       </div>
     </div>
   `;
@@ -50,9 +50,9 @@ export function getWardInfoWindowContent(matchedUnit, fallbackStateId) {
 
 export function getOutsideBoundaryWarningContent(unitName) {
   return `
-    <div style="font-family:Inter,sans-serif;padding:8px 10px;max-width:240px;color:#E63946;">
-      <div style="font-size:11px;font-weight:800;text-transform:uppercase;margin-bottom:2px;">⚠️ Outside Ward Boundary</div>
-      <div style="font-size:11px;color:#334155;line-height:1.3;">
+    <div style="padding:8px 10px;max-width:240px;color:#E63946;">
+      <div style="font-size:12px;font-weight:800;text-transform:uppercase;margin-bottom:2px;">Outside Ward Boundary</div>
+      <div style="font-size:12px;color:#334155;line-height:1.3;">
         Issue pin must be placed inside <strong>${esc(unitName)}</strong>! Please click within the highlighted red boundary.
       </div>
     </div>
@@ -61,9 +61,9 @@ export function getOutsideBoundaryWarningContent(unitName) {
 
 export function getPinnedLocationInfoWindowContent(lat, lng) {
   return `
-    <div style="font-family:Inter,sans-serif;padding:6px 8px;font-size:11px;font-weight:700;color:#E63946;">
-      📍 PINPOINTED CIVIC ISSUE LOCATION<br/>
-      <span style="font-size:10px;color:#475569;font-weight:normal;">
+    <div style="padding:6px 8px;font-size:12px;font-weight:700;color:#E63946;">
+      PINPOINTED CIVIC ISSUE LOCATION<br/>
+      <span style="font-size:12px;color:#475569;font-weight:normal;">
         ${Number(lat).toFixed(5)}°N, ${Number(lng).toFixed(5)}°E
       </span>
     </div>
@@ -72,11 +72,11 @@ export function getPinnedLocationInfoWindowContent(lat, lng) {
 
 export function getTicketInfoWindowContent(ticket) {
   return `
-    <div style="font-family:Inter,sans-serif;padding:6px 8px;max-width:200px;color:#0F172A;">
-      <div style="font-size:10px;font-weight:700;color:#E63946;text-transform:uppercase;">${esc(ticket.category || 'Grievance')}</div>
-      <div style="font-size:11px;margin-top:2px;font-weight:600;">${esc(ticket.description)}</div>
-      <div style="font-size:10px;color:#64748B;margin-top:4px;">
-        👍 ${Number(ticket.upvotes) || 0} Upvotes &bull; ${esc(ticket.status || 'OPEN')}
+    <div style="padding:6px 8px;max-width:200px;color:#0F172A;">
+      <div style="font-size:12px;font-weight:700;color:#E63946;text-transform:uppercase;">${esc(ticket.category || 'Grievance')}</div>
+      <div style="font-size:12px;margin-top:2px;font-weight:600;">${esc(ticket.description)}</div>
+      <div style="font-size:12px;color:#64748B;margin-top:4px;">
+        ${Number(ticket.upvotes) || 0} Upvotes &bull; ${esc(ticket.status || 'OPEN')}
       </div>
     </div>
   `;
