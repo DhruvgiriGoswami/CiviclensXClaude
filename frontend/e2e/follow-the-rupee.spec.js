@@ -108,3 +108,19 @@ test('no horizontal scroll at 390px', async ({ page }) => {
     expect(overflow, `overflow on ${tab}`).toBeLessThanOrEqual(0);
   }
 });
+
+test('complaints with GPS are dots on the map, and a dot opens its card', async ({ page }) => {
+  const dots = page.getByTestId('complaint-dots').locator('circle');
+  await expect(dots).toHaveCount(3777);
+  await dots.first().scrollIntoViewIfNeeded();
+  const box = await dots.first().boundingBox();
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+  const card = page.getByTestId('complaint-card');
+  await expect(card).toContainText(/BMC25-\d{6}/);
+  await expect(page.getByRole('heading', { name: /^Ward / })).toHaveCount(0); // the dot click did not open the ward
+  await card.getByRole('button', { name: 'Follow the full trail' }).click();
+  await expect(page.getByRole('dialog')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await page.getByLabel(/Complaints with GPS/).uncheck();
+  await expect(dots).toHaveCount(0);
+});

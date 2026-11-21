@@ -75,7 +75,7 @@ All are under `/api/v1/audit`. The contract lists the shapes:
 - `overview`, `wards`, `wards.geojson`, `wards/{code}` for the map and the ward panel;
 - `contractors`, `contractors/{id}`, `flags`, `export/flags.csv` for the audit;
 - `next-rupee/{code}` for the plan;
-- `complaints/{id}`, `search`, `ask` for the citizen view;
+- `complaints` (GPS points for the map), `complaints/{id}`, `search`, `ask` for the citizen view;
 - `wards/{code}/summary` for the brief.
 
 Ward codes contain a slash, so the routes use FastAPI's `path` converter and take `F/S` raw.
@@ -85,7 +85,7 @@ Ward codes contain a slash, so the routes use FastAPI's `path` converter and tak
 The page sits at `/follow-the-rupee` and is wired into the existing path-based routing in `src/App.jsx`. It has three parts:
 
 - A search box and an "ask in your language" box across the top.
-- A ward map on the left, drawn as plain SVG from `wards.geojson` (24 polygons, no map key needed). It is shaded by failed-fix share or by amount at risk, and a keyboard-friendly ward list sits beside it.
+- A ward map on the left, drawn as plain SVG from `wards.geojson` (24 polygons, no map key needed). It is shaded by failed-fix share or by amount at risk, and a keyboard-friendly ward list sits beside it. Complaints with GPS are drawn as dots coloured by issue state; clicking one opens a card (`ComplaintCard.jsx`) that loads its trail.
 - A ward panel on the right with four tabs: where the money went, what looks wrong, who delivered, and where the next rupee goes. The "Write a summary with Claude" button calls the brief.
 
 `auditApi.js` is the only code that talks to the backend. If the API can't be reached, it switches to `mockApi.js`, which serves `mockData.json`, and the page shows that it's offline. `scripts/build-audit-mock.py` builds the mock from the CSVs with simplified rules, so its numbers are close to the real audit but don't match it. The mock loads lazily and costs nothing when the API is up.

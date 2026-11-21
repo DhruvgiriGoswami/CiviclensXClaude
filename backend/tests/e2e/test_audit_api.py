@@ -149,6 +149,16 @@ async def test_complaint_trail(api):
     assert {"wo_id", "contractor_name", "cost_inr", "sla_met_actual", "under_dlp", "flags"} <= set(w)
 
 
+async def test_complaint_points_use_csv_gps(api):
+    d = await get(api, "/complaints")
+    assert d["fields"] == ["complaint_id", "lat", "lon", "ward_code", "issue_state"]
+    gps = [r for r in csv.DictReader(open(os.path.join(os.path.dirname(__file__), "../../../data/complaints.csv"), encoding="utf-8")) if r["lat"]]
+    assert len(d["rows"]) == len(gps)
+    first = next(r for r in d["rows"] if r[0] == gps[0]["complaint_id"])
+    assert first[1:3] == [round(float(gps[0]["lat"]), 6), round(float(gps[0]["lon"]), 6)]
+    assert {r[4] for r in d["rows"]} <= {"fixed", "fixed_reopened", "never_fixed", "open"}
+
+
 async def test_search(api):
     for q, typ in [("BMC25-001657", "complaint"), ("WO25-00004", "work_order"), ("Hindmata", "ward"), ("भायखळा", "ward"),
                    ("Linking Road", "road")]:

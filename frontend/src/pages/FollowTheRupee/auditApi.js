@@ -45,6 +45,7 @@ export const auditApi = {
   geojson: () => call('/wards.geojson'),
   ward: (code) => call(`/wards/${code}`),
   nextRupee: (code) => call(`/next-rupee/${code}`),
+  complaintPoints: () => call('/complaints'),
   complaint: (id) => call(`/complaints/${encodeURIComponent(id)}`),
   search: (q) => call(`/search?q=${encodeURIComponent(q)}`),
   ask: (question, extra = {}) => call('/ask', { question, complaint_id: null, ward_code: null, ...extra }),

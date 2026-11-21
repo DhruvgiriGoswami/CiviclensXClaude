@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
+import { ComplaintCard, DOT } from './ComplaintCard';
 import { makeBreaks, bucketIndex, bucketColor, RAMP_LIGHT, RAMP_DARK, NO_DATA_LIGHT, NO_DATA_DARK } from '../../utils/choropleth';
 import { formatINR, formatPct } from '../../utils/format';
 
@@ -34,12 +35,41 @@ function project(geojson) {
     a /= 2;
     return { code: f.properties.ward_code, name: f.properties.ward_name, d, area: Math.abs(a), cx: cx / (6 * a), cy: cy / (6 * a) };
   });
-  return { shapes, H };
+  return { shapes, H, xy };
 }
 
-export function WardMap({ geojson, wards, measure, onMeasure, selected, onSelect, dark }) {
+const HIT = 6; // svg units, about 8px on a desktop map
+
+export function WardMap({ geojson, wards, measure, onMeasure, selected, onSelect, dark, points, onOpenTrail }) {
+
   const [hover, setHover] = useState(null);
-  const { shapes, H } = useMemo(() => (geojson ? project(geojson) : { shapes: [], H: 600 }), [geojson]);
+  const { shapes, H, xy } = useMemo(() => (geojson ? project(geojson) : { shapes: [], H: 600, xy: null }), [geojson]);
+  const [showDots, setShowDots] = useState(true);
+  const [picked, setPicked] = useState(null);
+  const svgRef = useRef(null);
+  const dots = useMemo(() => (xy && points ? points.rows.map(([id, lat, lon, ward, state]) => {
+    const [x, y] = xy([lon, lat]);
+    return { id, x, y, ward, state };
+  }) : []), [xy, points]);
+  const dotLayer = useMemo(() => (showDots ? dots.map((p) => (
+    <circle key={p.id} cx={p.x.toFixed(1)} cy={p.y.toFixed(1)} r="1.7" fill={DOT[p.state]?.color || '#94A3B8'}
+      fillOpacity={selected && p.ward !== selected ? 0.25 : 0.9} stroke={dark ? '#0B0D12' : '#FFFFFF'} strokeWidth="0.4" />
+  )) : null), [dots, showDots, selected, dark]);
+
+  // Clicks near a dot open its card; anywhere else falls through to the ward underneath.
+  const pickDot = (e) => {
+    if (!showDots || !dots.length || !svgRef.current) return;
+    const pt = svgRef.current.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    const { x, y } = pt.matrixTransform(svgRef.current.getScreenCTM().inverse());
+    let best = null, bestD = HIT * HIT;
+    for (const p of dots) {
+      const d = (p.x - x) ** 2 + (p.y - y) ** 2;
+      if (d < bestD) { best = p; bestD = d; }
+    }
+    if (best) { e.stopPropagation(); setPicked(best); }
+  };
+  const pickedDot = picked && dots.find((p) => p.id === picked.id);
   const byCode = useMemo(() => Object.fromEntries((wards || []).map((w) => [w.ward_code, w])), [wards]);
   const breaks = useMemo(() => makeBreaks((wards || []).map((w) => w[measure])), [wards, measure]);
   const m = MEASURES[measure];
@@ -73,7 +103,8 @@ export function WardMap({ geojson, wards, measure, onMeasure, selected, onSelect
           : 'Point at a ward to see its number. Click it, or pick it from the list, to open the details.'}
       </p>
 
-      <svg viewBox={`-4 -4 ${W + 8} ${H + 8}`} className="w-full h-auto max-h-[70vh] mt-2" role="img" aria-label={`Map of Mumbai's 24 wards coloured by ${m.label.toLowerCase()}. Use the ward list below to choose a ward with the keyboard.`}>
+      <div className="relative">
+      <svg ref={svgRef} onClickCapture={pickDot} viewBox={`-4 -4 ${W + 8} ${H + 8}`} className="w-full h-auto max-h-[70vh] mt-2" role="img" aria-label={`Map of Mumbai's 24 wards coloured by ${m.label.toLowerCase()}. Use the ward list below to choose a ward with the keyboard.`}>
         {shapes.map((s) => {
           const v = byCode[s.code]?.[measure];
           return (
@@ -97,6 +128,8 @@ export function WardMap({ geojson, wards, measure, onMeasure, selected, onSelect
           <path key="hover" d={s.d} fill={dark ? '#FFFFFF' : '#0F172A'} fillOpacity="0.1" pointerEvents="none" />
         ))}
         {sel && <path d={sel.d} fill="none" stroke="var(--role-select)" strokeWidth="3.5" strokeLinejoin="round" pointerEvents="none" />}
+        <g pointerEvents="none" data-testid="complaint-dots">{dotLayer}</g>
+        {pickedDot && showDots && <circle cx={pickedDot.x} cy={pickedDot.y} r="4.5" fill="none" stroke={dark ? '#FFFFFF' : '#0F172A'} strokeWidth="1.5" pointerEvents="none" />}
         {shapes.filter((s) => s.area > 900).map((s) => {
           const idx = bucketIndex(byCode[s.code]?.[measure], breaks);
           return (
@@ -106,6 +139,22 @@ export function WardMap({ geojson, wards, measure, onMeasure, selected, onSelect
           );
         })}
       </svg>
+      {picked && showDots && <ComplaintCard point={picked} onClose={() => setPicked(null)} onOpenTrail={onOpenTrail} />}
+      </div>
+
+      {points && (
+        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs">
+          <label className="inline-flex items-center gap-2 min-h-[44px] text-sm font-medium cursor-pointer">
+            <input type="checkbox" checked={showDots} onChange={(e) => setShowDots(e.target.checked)} className="w-4 h-4" />
+            Complaints with GPS ({points.rows.length.toLocaleString('en-IN')})
+          </label>
+          {showDots && Object.entries(DOT).map(([k, v]) => (
+            <span key={k} className="inline-flex items-center gap-1.5">
+              <span className="inline-block w-3 h-3 rounded-full" style={{ background: v.color }} aria-hidden="true" />{v.label}
+            </span>
+          ))}
+        </div>
+      )}
 
       <div className="mt-3" aria-label="Legend">
         <p className="text-xs text-slate-400 light:text-slate-600 mb-1.5">{m.label}, in five equal steps</p>

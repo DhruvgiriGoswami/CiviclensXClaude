@@ -66,6 +66,7 @@ The file travels like this:
 2. The page fetches it alongside the city totals and the ward list.
 3. `WardMap.jsx` turns longitude and latitude into SVG coordinates with a flat projection. It shrinks longitude by the cosine of Mumbai's latitude so the city isn't stretched sideways. Each ward becomes one SVG `path`, and the bigger wards get a label at their centre.
 4. Each ward is shaded by the measure you pick, failed-fix share or amount at risk, in five equal steps from the lowest ward to the highest, on a light-to-dark red scale. Wards with no value stay grey.
+5. On top sit the complaints. 3,777 of the 6,501 rows in `complaints.csv` carry a GPS point (mostly the app reports), and each one is a dot placed with its own `lat` and `lon` through the same projection. The colour is the state of the issue it belongs to: still open, closed with no work, fixed then failed, or fixed and holding. Click a dot to get a card with the complaint, the latest work order, its cost and whether it held, plus a link to the full trail. A checkbox under the map hides the dots. Complaints without GPS aren't placed at a guessed spot; you find them through search.
 
 No tiles, map library or API key are involved. The offline mock carries its own copy of the same shapes, so the map still draws when the backend is down. `data/roads.geojson` is in the dataset, but the page doesn't draw it.
 
@@ -133,6 +134,7 @@ All routes sit under `/api/v1/audit`. The full contract is in [`docs/API_CONTRAC
 | `GET /flags` | Flags, filterable by ward, rule, contractor and severity |
 | `GET /export/flags.csv` | Every flag as CSV |
 | `GET /next-rupee/{code}` | The ranked plan for a ward |
+| `GET /complaints` | Every complaint with GPS, as compact rows for the map |
 | `GET /complaints/{id}` | Complaint to issue to work order to contractor |
 | `GET /search?q=` | Complaint, work order, road or locality lookup |
 | `POST /ask` | Citizen question, answered by Claude |

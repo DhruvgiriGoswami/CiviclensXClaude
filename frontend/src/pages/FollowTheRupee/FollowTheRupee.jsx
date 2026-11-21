@@ -94,6 +94,7 @@ export default function FollowTheRupee({ onBackToMap }) {
   const [overview, setOverview] = useState(null);
   const [wards, setWards] = useState(null);
   const [geojson, setGeojson] = useState(null);
+  const [points, setPoints] = useState(null);
   const [loadError, setLoadError] = useState(null);
   const [measure, setMeasure] = useState('failed_fix_share');
   const [selected, setSelected] = useState(null);
@@ -109,6 +110,7 @@ export default function FollowTheRupee({ onBackToMap }) {
     Promise.all([auditApi.overview(), auditApi.wards(), auditApi.geojson()])
       .then(([o, w, g]) => { setOverview(o); setWards(w); setGeojson(g); })
       .catch((e) => setLoadError(e.message));
+    auditApi.complaintPoints().then(setPoints).catch(() => {}); // the map works without the dots
   }, []);
 
   const selectWard = (code, nextTab) => {
@@ -164,7 +166,7 @@ export default function FollowTheRupee({ onBackToMap }) {
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] items-start [&>*]:min-w-0">
           <div className="lg:sticky lg:top-5">
             {wards && geojson
-              ? <WardMap geojson={geojson} wards={wards} measure={measure} onMeasure={setMeasure} selected={selected} onSelect={(c) => selectWard(c)} dark={dark} />
+              ? <WardMap geojson={geojson} wards={wards} measure={measure} onMeasure={setMeasure} selected={selected} onSelect={(c) => selectWard(c)} dark={dark} points={points} onOpenTrail={setTrailId} />
               : !loadError && <div className="ftr-card p-5 text-sm" aria-busy="true">Loading the ward map.</div>}
           </div>
           <div ref={panelRef} className="scroll-mt-4">

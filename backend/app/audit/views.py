@@ -119,6 +119,15 @@ def flags_csv(s) -> str:
     return buf.getvalue()
 
 
+def complaint_points(s) -> dict:
+    """Every complaint with GPS in the CSV, for the map. Compact rows: the card fetches the full trail on click."""
+    c = s.complaints[s.complaints.lat.notna() & s.complaints.lon.notna()]
+    state = c.issue_id.map(s.issues.set_index("issue_id").state)
+    rows = [[i, round(float(a), 6), round(float(b), 6), w if isinstance(w, str) else None, st]
+            for i, a, b, w, st in zip(c.complaint_id, c.lat, c.lon, c.ward_code, state)]
+    return {"fields": ["complaint_id", "lat", "lon", "ward_code", "issue_state"], "rows": rows}
+
+
 def complaint_trail(s, complaint_id: str) -> dict | None:
     hit = s.complaints[s.complaints.complaint_id == complaint_id]
     if hit.empty:

@@ -103,6 +103,13 @@ CSV with columns `flag_id,rule,severity,wo_id,complaint_ids,ward_code,road_id,co
 }
 ```
 
+### `GET /audit/complaints`
+Every complaint whose CSV row has `lat` and `lon`, for the map. Compact rows, in the order of `fields`:
+```jsonc
+{ "fields": ["complaint_id", "lat", "lon", "ward_code", "issue_state"],
+  "rows": [["BMC25-000005", 19.000536, 72.834779, "F/S", "fixed"]] }   // issue_state: fixed|fixed_reopened|never_fixed|open
+```
+
 ### `GET /audit/complaints/{complaint_id}`
 The citizen trail:
 ```jsonc

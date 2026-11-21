@@ -91,6 +91,11 @@ def next_rupee(code: str, request: Request):
     return budget.plan(s, _ward(s, code))
 
 
+@router.get("/complaints")
+def complaint_points(request: Request):
+    return views.complaint_points(store(request))
+
+
 @router.get("/complaints/{complaint_id}")
 def complaint(complaint_id: str, request: Request):
     return _found(views.complaint_trail(store(request), complaint_id), f"Complaint {complaint_id}")

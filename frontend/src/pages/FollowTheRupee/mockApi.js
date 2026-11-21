@@ -38,6 +38,7 @@ export async function handleMock(path, body) {
   if (route === '/wards') return data.wards;
   if (route === '/wards.geojson') return data.geojson;
   if (route === '/ask') return ask(body || {});
+  if (route === '/complaints') return data.points;
   if (route === '/search') return { results: rankSearch(SEARCH, params.get('q') || '') };
   let m = route.match(/^\/wards\/(.+)\/summary$/);
   if (m) {

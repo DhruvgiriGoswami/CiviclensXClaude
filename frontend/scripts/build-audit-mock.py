@@ -254,6 +254,17 @@ for r in roads.values():
         seen_names.add(r["road_name"])
         search.append(dict(type="road", id=r["road_id"], label=r["road_name"], ward_code=r["ward_code"]))
 
-json.dump(dict(overview=overview, wards=items, geojson=json.load(open(f"{D}/wards.geojson")), details=details, plans=plans,
+def point_state(x):
+    ws_ = wo_by_c.get(x["complaint_id"], [])
+    if ws_:
+        return "fixed_reopened" if any(w["reopened_within_30d"] == "Y" for w in ws_) else "fixed"
+    return "never_fixed" if x["status"] in ("Resolved", "Closed - Duplicate") else "open"
+
+
+points = dict(fields=["complaint_id", "lat", "lon", "ward_code", "issue_state"],
+              rows=[[x["complaint_id"], round(float(x["lat"]), 6), round(float(x["lon"]), 6), x["ward_code"] or None, point_state(x)]
+                    for x in comps if x["lat"] and x["lon"]])
+
+json.dump(dict(points=points, overview=overview, wards=items, geojson=json.load(open(f"{D}/wards.geojson")), details=details, plans=plans,
                trails=trails, search=search), open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
 print(len(flags), "flags,", len(trails), "trails,", "marathi:", [k for k, v in trails.items() if v["complaint"]["language"] == "mr"][:3])
