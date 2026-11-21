@@ -1,0 +1,24 @@
+# Web framework
+fastapi==0.165.0
+starlette==1.10.0  # pinned: fixes PYSEC-2026-161/248/249/1941/1942/2280/2281
+uvicorn[standard]==0.34.0
+python-multipart==0.0.34
+
+# Database
+sqlalchemy[asyncio]==2.0.36
+asyncpg==0.30.0
+psycopg2-binary==2.9.10
+alembic==1.14.1
+geoalchemy2==0.17.1
+
+# Validation & config
+pydantic==2.10.4
+pydantic-settings==2.7.1
+
+# Geospatial
+shapely==2.0.6
+
+# Utilities
+boto3==1.35.99
+Pillow==13.0.0
+

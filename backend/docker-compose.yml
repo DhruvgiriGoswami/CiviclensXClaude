@@ -1,0 +1,46 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    container_name: civiclens_db
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - civiclens_pgdata:/var/lib/postgresql/data
+    shm_size: 256mb
+    deploy:
+      resources:
+        limits:
+          memory: 2g
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: civiclens_backend
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      # Anonymous volumes to prevent host machine overrides from breaking the container
+      - /app/__pycache__
+      - /app/.venv
+      - civiclens_storage:/app/storage
+    depends_on:
+      db:
+        condition: service_healthy
+
+
+volumes:
+  civiclens_pgdata:
+    driver: local
+  civiclens_storage:
+    driver: local

@@ -1,0 +1,8 @@
+{
+  "application": "CivicLens",
+  "component": "frontend",
+  "environment": "SIT",
+  "commit": "local-dev",
+  "commit_short": "local",
+  "build_time": "local"
+}

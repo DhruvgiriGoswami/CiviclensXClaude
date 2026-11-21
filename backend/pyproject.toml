@@ -1,0 +1,16 @@
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    "alembic",
+    "build",
+    "dist"
+]
+
+[tool.ruff.lint]
+select = ["E", "F"]
+# E712: SQLAlchemy filters need `column == True`, so this rule only gives false positives here.
+ignore = ["E501", "E712"]

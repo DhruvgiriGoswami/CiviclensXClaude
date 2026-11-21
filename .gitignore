@@ -1,0 +1,13 @@
+node_modules/
+.venv/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+dist/
+.env
+.env.local
+*.dump
+backend/.audit_cache/
+frontend/test-results/
+frontend/playwright-report/
+.DS_Store

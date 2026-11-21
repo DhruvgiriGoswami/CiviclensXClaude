@@ -1,0 +1,58 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Production build outputs
+dist/
+dist-ssr/
+*.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment & credentials
+.env
+.env.local
+.env.*.local
+key.txt
+.env.development
+.env.production
+
+# Editor / OS files
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ward KML Files
+ward_KML_Data
+State_Districts_KML
+stateDistrictsKmlData.json
+stateDistrictsKmlData.js
+
+#DC/DM details
+DC-DM
+
+#districts JSON files
+districts/
+
+#documents
+docs/
+
+#intro video full waala
+public/intro/civiclens-intro.mp4
+
+
+# HAR files
+debugging_HARs

@@ -1,0 +1,70 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.Python
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.project
+.pydevproject
+.settings/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Docker
+docker-compose.override.yml
+
+# Storage (uploaded media & dynamic assets)
+storage/
+uploads/
+media/
+
+# Test / coverage / cache
+.pytest_cache/
+htmlcov/
+.coverage
+*.cover
+.cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
+
+# OS metadata
+Thumbs.db
+.DS_Store
+Desktop.ini
+
+# KML Raw Data Files
+ward_KML_Data/
+State_Districts_KML
+scripts
+github-deployment-policy.json
+github-oidc-trust.json

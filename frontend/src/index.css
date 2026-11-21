@@ -1,0 +1,237 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #0B0D12;
+    color: #F1F5F9;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  html.light body {
+    background-color: #F8FAFC;
+    color: #0F172A;
+  }
+}
+
+/* Custom Cyber Glassmorphism & Glow Effects */
+.glass-panel {
+  background: rgba(18, 21, 30, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+html.light .glass-panel {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.glass-panel-crimson {
+  background: rgba(30, 15, 20, 0.88);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(230, 57, 70, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(230, 57, 70, 0.15);
+}
+
+html.light .glass-panel-crimson {
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid rgba(230, 57, 70, 0.4);
+  box-shadow: 0 12px 36px 0 rgba(230, 57, 70, 0.12);
+}
+
+.glass-card {
+  background: rgba(27, 32, 46, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.2s ease-in-out;
+}
+
+html.light .glass-card {
+  background: rgba(241, 245, 249, 0.8);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  color: #0F172A;
+}
+
+html.light .glass-card:hover {
+  background: #FFFFFF;
+  border-color: rgba(230, 57, 70, 0.5);
+  box-shadow: 0 4px 12px rgba(230, 57, 70, 0.08);
+}
+
+/* Cyber Grid Pattern Background */
+.bg-cyber-grid {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+html.light .bg-cyber-grid {
+  background-image:
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-color: #F8FAFC;
+}
+
+/* Glow Badges */
+.glow-crimson {
+  box-shadow: 0 0 15px rgba(230, 57, 70, 0.5);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+}
+
+.glow-amber {
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0D12;
+}
+
+html.light ::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #262D3E;
+  border-radius: 4px;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E63946;
+}
+
+/* Horizontal Jumping Effect Animation */
+@keyframes bounce-x {
+  0%, 100% {
+    transform: translateX(0);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateX(8px);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
+}
+
+.animate-bounce-x {
+  animation: bounce-x 1.2s infinite;
+}
+
+/* Safe Area Insets for Mobile Notch, Dynamic Island & Punch Hole Cameras */
+.safe-top {
+  padding-top: max(0.5rem, env(safe-area-inset-top));
+}
+
+.safe-bottom {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+.safe-left {
+  padding-left: max(0.5rem, env(safe-area-inset-left));
+}
+
+.safe-right {
+  padding-right: max(0.5rem, env(safe-area-inset-right));
+}
+
+.safe-mt {
+  margin-top: env(safe-area-inset-top);
+}
+
+.safe-mb {
+  margin-bottom: env(safe-area-inset-bottom);
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Custom Big Map Pin Cursor for Pinning Location Mode */
+.pinning-mode,
+.pinning-mode *,
+.pinning-mode canvas,
+.pinning-mode [role="button"],
+.pinning-mode [tabindex] {
+  cursor: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDMyIDMyIj48ZmlsdGVyIGlkPSJzIiB4PSItMjAlIiB5PSItMjAlIiB3aWR0aD0iMTQwJSIgaGVpZ2h0PSIxNDAlIj48ZmVEcm9wU2hhZG93IGR4PSIwIiBkeT0iMiIgc3RkRGV2aWF0aW9uPSIxLjUiIGZsb29kLWNvbG9yPSIjMDAwMDAwIiBmbG9vZC1vcGFjaXR5PSIwLjYiLz48L2ZpbHRlcj48ZyBmaWx0ZXI9InVybCgjcykiPjxwYXRoIGZpbGw9IiNFNjM5NDYiIHN0cm9rZT0iI0ZGRkZGRiIgc3Ryb2tlLXdpZHRoPSIxLjgiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGQ9Ik0xNiAzQzEwLjQ3NyAzIDYgNy40NzcgNiAxM2MwIDcuNSAxMCAxNyAxMCAxN3MxMC05LjUgMTAtMTdDMjYgNy40NzcgMjEuNTIzIDMgMTYgM3oiLz48Y2lyY2xlIGN4PSIxNiIgY3k9IjEzIiByPSIzLjUiIGZpbGw9IiNGRkZGRiIvPjwvZz48L3N2Zz4=") 20 38, crosshair !important;
+}
+
+/* Central Authority Dashboard Light Mode Overrides */
+html.light .ca-bg-main {
+  background-color: #F8FAFC !important;
+  color: #0F172A !important;
+}
+
+html.light .ca-panel-bg {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+html.light .ca-input-select {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: #CBD5E1 !important;
+}
+
+html.light .ca-table-header {
+  background-color: #F1F5F9 !important;
+  color: #475569 !important;
+  border-color: #E2E8F0 !important;
+}
+
+html.light .ca-table-row {
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+  background-color: #FFFFFF !important;
+}
+
+html.light .ca-table-row:hover {
+  background-color: #F8FAFC !important;
+}
+
+html.light .ca-table-row .text-slate-100,
+html.light .ca-table-row .text-slate-200,
+html.light .ca-table-row .text-slate-300 {
+  color: #0F172A !important;
+}
+
+html.light .ca-table-row .text-slate-400 {
+  color: #475569 !important;
+}
+
+
+
+/* People who ask their OS for less motion get no pulses, bounces or long transitions. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,47 @@
+# Git & OS metadata
+.git
+.gitignore
+.DS_Store
+Thumbs.db
+
+# Python build artifacts and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.egg-info/
+dist/
+build/
+
+# Virtual environments (Huge savings)
+.venv/
+venv/
+env/
+ENV/
+
+# Development IDEs
+.vscode/
+.idea/
+
+# Local databases and logs
+*.db
+*.sqlite
+*.sqlite3
+*.log
+logs/
+
+# Local storage and media (Prevents copying uploaded files)
+storage/
+uploads/
+media/
+
+# Heavy Raw Data Files & Database Dumps (Keep out of the Docker image)
+ward_KML_Data/
+State_Districts_KML/
+scripts/
+Db_Dumps_Backup/
+
+# Docker build notes
+docker-compose.override.yml
+.env
+.env.*

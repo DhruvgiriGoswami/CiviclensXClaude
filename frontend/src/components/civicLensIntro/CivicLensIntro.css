@@ -1,0 +1,120 @@
+.civiclens-intro {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+  
+    background: #000;
+  
+    overflow: hidden;
+  
+    opacity: 1;
+  
+    transition:
+      opacity 0.9s ease,
+      transform 0.9s ease;
+  }
+  
+  .civiclens-intro-video {
+    width: 100%;
+    height: 100%;
+  
+    object-fit: cover;
+  
+    display: block;
+  }
+  
+  /* Skip button */
+  
+  .civiclens-intro-skip {
+    position: absolute;
+  
+    right: 28px;
+    bottom: 24px;
+  
+    z-index: 3;
+  
+    padding: 8px 16px;
+  
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 20px;
+  
+    background: rgba(0, 0, 0, 0.25);
+  
+    color: white;
+  
+    font-size: 13px;
+  
+    cursor: pointer;
+  
+    backdrop-filter: blur(8px);
+  
+    transition:
+      background 0.2s ease,
+      opacity 0.2s ease;
+  }
+  
+  .civiclens-intro-skip:hover {
+    background: rgba(255, 255, 255, 0.15);
+  }
+  
+  /* Fog layer */
+  
+  .civiclens-intro-fog {
+    position: absolute;
+    inset: -20%;
+  
+    z-index: 2;
+  
+    pointer-events: none;
+  
+    opacity: 0;
+  
+    background:
+      radial-gradient(
+        ellipse at center,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(220, 235, 235, 0.75) 35%,
+        rgba(255, 255, 255, 0) 70%
+      );
+  
+    transform: scale(0.8);
+  
+    filter: blur(25px);
+  }
+  
+  /* Ending transition */
+  
+  .civiclens-intro.is-ending {
+    animation: introFadeOut 0.9s ease forwards;
+  }
+  
+  .civiclens-intro.is-ending .civiclens-intro-fog {
+    animation: fogReveal 0.9s ease forwards;
+  }
+  
+  @keyframes fogReveal {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+  
+    45% {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+  
+    100% {
+      opacity: 0;
+      transform: scale(1.5);
+    }
+  }
+  
+  @keyframes introFadeOut {
+    0% {
+      opacity: 1;
+    }
+  
+    100% {
+      opacity: 0;
+    }
+  }
