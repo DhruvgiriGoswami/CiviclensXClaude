@@ -472,7 +472,6 @@ export function Sidebar({
                       ) : (
                         unitTickets.slice(0, shownTickets).map((t) => {
                           const hasUpvoted = upvotedTicketIds.includes(t.ticketId);
-                          const readOnly = t.source === 'audit'; // hackathon record: its upvotes come from the dataset
 
                           return (
                             <div
@@ -514,18 +513,18 @@ export function Sidebar({
                                 <button
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    if (!hasUpvoted && !readOnly && onUpvoteTicket) onUpvoteTicket(t.ticketId);
+                                    if (!hasUpvoted && onUpvoteTicket) onUpvoteTicket(t.ticketId);
                                   }}
-                                  disabled={hasUpvoted || readOnly}
+                                  disabled={hasUpvoted}
                                   className={`px-2.5 py-1 rounded-lg border transition-all flex items-center gap-1.5 font-bold ${
                                     hasUpvoted
                                       ? 'bg-crimson-500/20 text-crimson-400 border-crimson-500/40 cursor-default opacity-90'
                                       : 'bg-slate-900 light:bg-slate-100 hover:bg-crimson-500/20 text-slate-300 light:text-slate-800 hover:text-crimson-500 border border-slate-800 light:border-slate-200'
                                   }`}
-                                  title={readOnly ? "Upvotes recorded in the BMC complaint data" : hasUpvoted ? "You have already upvoted this ticket" : "Upvote ticket"}
+                                  title={hasUpvoted ? "You have already upvoted this ticket" : "Upvote ticket"}
                                 >
                                   <ThumbsUp className={`w-3 h-3 ${hasUpvoted ? 'text-crimson-400 fill-crimson-400' : 'text-crimson-500'}`} />
-                                  <span>{readOnly ? `${t.upvotes} upvotes` : hasUpvoted ? `Upvoted (${t.upvotes})` : `Upvote (${t.upvotes})`}</span>
+                                  <span>{hasUpvoted ? `Upvoted (${t.upvotes})` : `Upvote (${t.upvotes})`}</span>
                                 </button>
 
                                 <button

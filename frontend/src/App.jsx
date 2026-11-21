@@ -71,9 +71,10 @@ export function AppContent({ navigateTo }) {
   });
 
   const handleUpvoteTicket = (ticketId) => {
-    if (!ticketId || String(ticketId).startsWith('BMC25-')) return; // hackathon complaints are read-only
-    const cleanId = Number(ticketId) || ticketId;
-    if (upvotedTicketIds.includes(cleanId)) return;
+    if (!ticketId) return;
+    const isAudit = String(ticketId).startsWith('BMC25-'); // hackathon complaint, stored outside the complaints table
+    const cleanId = isAudit ? ticketId : (Number(ticketId) || ticketId);
+    if (upvotedTicketIds.includes(cleanId)) return; // one upvote per browser
 
     setUpvotedTicketIds(prev => {
       const next = [...prev, cleanId];
@@ -83,38 +84,17 @@ export function AppContent({ navigateTo }) {
       return next;
     });
 
-    setTickets(prev => prev.map(t => {
-      if (t.ticketId === cleanId || t.ticketId === ticketId) {
-        return { ...t, upvotes: (t.upvotes || 0) + 1 };
-      }
-      return t;
-    }));
+    const setCount = (count) => {
+      const apply = (t) => (t && (t.ticketId === cleanId || t.ticketId === ticketId)
+        ? { ...t, upvotes: typeof count === 'number' ? count : (t.upvotes || 0) + 1 } : t);
+      (isAudit ? setAuditTickets : setTickets)(prev => prev.map(apply));
+      setInspectedTicket(apply);
+    };
+    setCount();
 
-    setInspectedTicket(prev => {
-      if (prev && (prev.ticketId === cleanId || prev.ticketId === ticketId)) {
-        return { ...prev, upvotes: (prev.upvotes || 0) + 1 };
-      }
-      return prev;
-    });
-
-    // Persist upvote to backend database
-    complaintsApi.upvoteComplaint(cleanId)
-      .then(res => {
-        if (res && typeof res.upvotes === 'number') {
-          setTickets(prev => prev.map(t => {
-            if (t.ticketId === cleanId || t.ticketId === ticketId) {
-              return { ...t, upvotes: res.upvotes };
-            }
-            return t;
-          }));
-          setInspectedTicket(prev => {
-            if (prev && (prev.ticketId === cleanId || prev.ticketId === ticketId)) {
-              return { ...prev, upvotes: res.upvotes };
-            }
-            return prev;
-          });
-        }
-      })
+    // Persist upvote to the backend, then show the server's count
+    (isAudit ? auditApi.upvote(cleanId) : complaintsApi.upvoteComplaint(cleanId))
+      .then(res => { if (res && typeof res.upvotes === 'number') setCount(res.upvotes); })
       .catch(err => {
         console.warn('Backend upvote persistence warning:', err.message);
       });

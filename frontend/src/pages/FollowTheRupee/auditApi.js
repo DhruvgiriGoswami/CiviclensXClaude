@@ -48,6 +48,7 @@ export const auditApi = {
   complaintPoints: () => call('/complaints'),
   complaintTickets: () => call('/complaint-tickets'),
   socialPosts: (limit = 10, offset = 0) => call(`/social-posts?limit=${limit}&offset=${offset}`),
+  upvote: (id) => call(`/complaints/${encodeURIComponent(id)}/upvote`, {}),
   complaint: (id) => call(`/complaints/${encodeURIComponent(id)}`),
   search: (q) => call(`/search?q=${encodeURIComponent(q)}`),
   ask: (question, extra = {}) => call('/ask', { question, complaint_id: null, ward_code: null, ...extra }),

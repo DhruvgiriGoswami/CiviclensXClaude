@@ -169,13 +169,6 @@ export function TicketDetailsModal({
           )}
 
           {/* Upvote Button */}
-          {ticket.source === 'audit' ? (
-            <span className="px-4 py-2 rounded-xl border border-slate-700 light:border-slate-300 text-xs font-bold text-slate-300 light:text-slate-700 flex items-center gap-2"
-              title="Upvotes recorded in the BMC complaint data">
-              <ThumbsUp className="w-3.5 h-3.5" aria-hidden="true" />
-              {upvoteCount} upvotes
-            </span>
-          ) : (
           <button
             onClick={handleUpvoteClick}
             disabled={hasUpvoted}
@@ -188,7 +181,6 @@ export function TicketDetailsModal({
             <ThumbsUp className={`w-3.5 h-3.5 ${hasUpvoted ? 'text-crimson-400' : 'text-white'}`} />
             <span>{hasUpvoted ? `Upvoted (${upvoteCount})` : `Upvote (${upvoteCount})`}</span>
           </button>
-          )}
         </div>
 
       </div>

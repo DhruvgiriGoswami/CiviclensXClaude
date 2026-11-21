@@ -6,9 +6,11 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from fastapi.responses import PlainTextResponse
 from pydantic import BaseModel, Field
+from sqlalchemy import text
 
 from app.audit import budget, claude, views
 from app.audit.load import AuditStore, load_store
+from app.api.v1.complaints import check_upvote_rate_limit
 from app.core.database import get_db
 from app.services.geography import smallest_units_for_points
 
@@ -114,7 +116,28 @@ async def complaint_tickets(request: Request, db=Depends(get_db)):
         rows = views.complaint_tickets(s)
         units = await smallest_units_for_points(db, [(r["lat"], r["lon"]) for r in rows])
         _tickets[s.data_hash] = [{**r, "unit_id": u} for r, u in zip(rows, units)]
-    return _tickets[s.data_hash]
+    added = dict((await db.execute(text("SELECT complaint_id, upvotes FROM audit_complaint_upvotes"))).all())
+    if not added:
+        return _tickets[s.data_hash]
+    return [{**t, "upvotes": t["upvotes"] + added[t["complaint_id"]]} if t["complaint_id"] in added else t
+            for t in _tickets[s.data_hash]]
+
+
+@router.post("/complaints/{complaint_id}/upvote")
+async def upvote_complaint(complaint_id: str, request: Request, db=Depends(get_db),
+                           _rate_limit=Depends(check_upvote_rate_limit)):
+    """Add one citizen upvote to a hackathon complaint. Returns the dataset count plus stored votes."""
+    c = store(request).complaints
+    hit = c.upvotes[c.complaint_id == complaint_id]
+    if hit.empty:
+        raise HTTPException(status_code=404, detail=f"Complaint {complaint_id} not found")
+    added = (await db.execute(text(
+        "INSERT INTO audit_complaint_upvotes (complaint_id, upvotes) VALUES (:id, 1) "
+        "ON CONFLICT (complaint_id) DO UPDATE SET upvotes = audit_complaint_upvotes.upvotes + 1 "
+        "RETURNING upvotes"), {"id": complaint_id})).scalar_one()
+    await db.commit()
+    base = int(hit.iloc[0]) if hit.iloc[0] == hit.iloc[0] else 0
+    return {"complaint_id": complaint_id, "upvotes": base + added}
 
 
 @router.get("/complaints/{complaint_id}")
