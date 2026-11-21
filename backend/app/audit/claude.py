@@ -86,6 +86,14 @@ def template_brief(f: dict) -> str:
     return "\n".join(lines)
 
 
+def grounded(text: str, data: str) -> bool:
+    """Every cited work order and every Rs amount in the text must appear in the facts JSON."""
+    if any(wo not in data for wo in WO_RX.findall(text)):
+        return False
+    ints = set(re.findall(r"(?<![\d.])\d+(?![\d.])", data))
+    return all(a.replace(",", "") in ints for a in re.findall(r"Rs\.?\s?([\d,]+\d)", text))
+
+
 def ward_summary(s, code: str) -> dict:
     mode = "claude" if os.getenv("ANTHROPIC_API_KEY") else "template"
     path = CACHE_DIR / f"{s.data_hash}_{mode}_{code.replace('/', '_')}.json"
@@ -94,11 +102,15 @@ def ward_summary(s, code: str) -> dict:
     except (OSError, ValueError):
         pass
     facts = ward_facts(s, code)
+    data = json.dumps(facts, default=str)
     text = _call(
         "You write a one-page brief for a Mumbai ward corporator about monsoon road repair money. " + RULES
-        + " Use Markdown with short sections: where the money went, did the fixes last, contractors, things to check, "
-          "where the next rupee should go.",
-        json.dumps(facts, default=str))
+        + " Copy every rupee amount exactly from the JSON; never add, subtract or estimate amounts. "
+          "Use Markdown: one '#' title, then '##' sections (where the money went, did the fixes last, contractors, "
+          "things to check, where the next rupee should go), each with short '-' bullets. No tables.",
+        data)
+    if text and not grounded(text, data):
+        text = None  # a work order or amount not in the data: show the template instead
     out = {"summary_markdown": text or template_brief(facts), "source": "claude" if text else "template"}
     out["wo_ids"] = sorted(set(WO_RX.findall(out["summary_markdown"])))
     if out["source"] == mode:  # don't cache a template that only stands in for a failed Claude call

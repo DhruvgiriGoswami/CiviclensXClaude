@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatPct } from '../../utils/format';
+import { mdBlocks } from './markdown';
 
 export const RULES = {
   overbilling: 'Billed above the rate card',
@@ -101,20 +102,19 @@ function inline(text) {
 }
 
 export function Markdown({ text }) {
-  const blocks = String(text || '').split(/\n{2,}/);
   return (
     <div className="space-y-2 text-sm leading-relaxed">
-      {blocks.map((b, i) => {
-        const lines = b.split('\n').filter(Boolean);
-        if (!lines.length) return null;
-        if (lines.every((l) => /^\s*[-*] /.test(l))) {
-          return <ul key={i} className="list-disc pl-5 space-y-1">{lines.map((l, j) => <li key={j}>{inline(l.replace(/^\s*[-*] /, ''))}</li>)}</ul>;
+      {mdBlocks(text).map((b, i) => {
+        if (b.type === 'h') {
+          return <p key={i} className={`font-semibold ${b.level === 1 ? 'text-base' : 'text-sm pt-2'}`}>{inline(b.text)}</p>;
         }
-        const h = lines[0].match(/^(#{1,4}) (.*)/);
-        if (h && lines.length === 1) {
-          return <p key={i} className={`font-semibold ${h[1].length <= 2 ? 'text-base' : 'text-sm'}`}>{inline(h[2])}</p>;
+        if (b.type === 'ul' || b.type === 'ol') {
+          const items = b.items.map((t, j) => <li key={j}>{inline(t)}</li>);
+          return b.type === 'ul'
+            ? <ul key={i} className="list-disc pl-5 space-y-1">{items}</ul>
+            : <ol key={i} className="list-decimal pl-5 space-y-1">{items}</ol>;
         }
-        return <p key={i}>{inline(lines.join(' '))}</p>;
+        return <p key={i}>{inline(b.text)}</p>;
       })}
     </div>
   );
