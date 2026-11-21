@@ -116,7 +116,7 @@ function FlagsTab({ detail, focusWo, onOpenTrail }) {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <p className={`text-sm max-w-prose ${muted}`}>A flag is a question to ask, not proof of wrongdoing. Each one lists the numbers behind it so you can check.</p>
         <a href={href} download="flags.csv" className="inline-flex items-center gap-2 min-h-[44px] px-3 rounded-lg border border-slate-700 light:border-slate-300 text-sm font-medium hover:bg-white/5 light:hover:bg-slate-900/5">
-          <Download className="w-4 h-4" aria-hidden="true" />Download flags (CSV)
+          <Download className="w-4 h-4" aria-hidden="true" />{isUsingMock() ? "Download this ward's flags (CSV)" : 'Download all flags (CSV)'}
         </a>
       </div>
       {groups.map(([rule, list]) => (
@@ -196,7 +196,9 @@ function NextTab({ plan, dark }) {
   return (
     <div className="space-y-4">
       <p className="text-sm tabular-nums">
-        {plan.remaining_inr > 0 ? `${formatINR(plan.remaining_inr)} left` : `Over budget by ${formatINR(-plan.remaining_inr)}`} of {formatINR(plan.budget_inr)}.
+        {plan.remaining_inr > 0
+          ? `${formatINR(plan.remaining_inr)} left of the ${formatINR(plan.budget_inr)} budget.`
+          : `The ${formatINR(plan.budget_inr)} budget is spent${plan.remaining_inr < 0 ? `, and ${formatINR(-plan.remaining_inr)} more on top` : ''}.`}
         {' '}The {bmc.length} roads BMC would pay for cost {formatINR(asked)}; {formatINR(funded)} of that fits.
       </p>
       {plan.note && <p className="text-sm rounded-lg border border-slate-700 light:border-slate-300 p-3">{plan.note}</p>}
@@ -301,7 +303,7 @@ export function WardPanel({ code, tab, onTab, focusWo, onOpenTrail, dark }) {
         )}
       </div>
 
-      <div role="tablist" aria-label="Ward details" className="mt-4 flex overflow-x-auto no-scrollbar border-b border-slate-800 light:border-slate-200 -mx-1">
+      <div role="tablist" aria-label="Ward details" className="mt-4 grid grid-cols-2 sm:flex border-b border-slate-800 light:border-slate-200 -mx-1">
         {TABS.map(([key, label]) => (
           <button
             key={key}
@@ -314,7 +316,7 @@ export function WardPanel({ code, tab, onTab, focusWo, onOpenTrail, dark }) {
             tabIndex={tab === key ? 0 : -1}
             onClick={() => onTab(key)}
             onKeyDown={onTabKey}
-            className={`shrink-0 min-h-[44px] px-3 mx-1 text-sm font-medium border-b-2 -mb-px ${tab === key ? 'border-crimson-500 light:border-crimson-700 text-slate-100 light:text-slate-900' : 'border-transparent text-slate-400 light:text-slate-600 hover:text-slate-100 light:hover:text-slate-900'}`}
+            className={`shrink-0 min-h-[44px] px-3 mx-1 text-sm font-medium text-left sm:text-center border-b-2 -mb-px ${tab === key ? 'border-crimson-500 light:border-crimson-700 text-slate-100 light:text-slate-900' : 'border-transparent text-slate-400 light:text-slate-600 hover:text-slate-100 light:hover:text-slate-900'}`}
           >
             {label}
           </button>

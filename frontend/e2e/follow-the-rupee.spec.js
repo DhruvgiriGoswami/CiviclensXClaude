@@ -19,7 +19,7 @@ test('clicking a ward fills all four tabs with evidence', async ({ page }) => {
 
   await page.getByRole('tab', { name: 'What looks wrong' }).click();
   await expect(page.getByRole('tabpanel')).toContainText(WO);
-  await expect(page.getByRole('link', { name: /Download flags/ })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Download .*flags/ })).toBeVisible();
   await page.getByRole('tabpanel').locator('summary').first().click();
   await expect(page.getByRole('tabpanel').locator('details[open] dl')).toBeVisible();
 

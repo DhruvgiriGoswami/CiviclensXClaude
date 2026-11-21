@@ -9,7 +9,7 @@ const STATE = { fixed: 'Fixed and holding', fixed_reopened: 'Fixed, then failed 
 const LANG = { en: 'English', 'hi-en': 'Hinglish', mr: 'Marathi', hi: 'Hindi' };
 const muted = 'text-slate-400 light:text-slate-600';
 const when = (s) => (s ? s.replace('T', ' ') : 'Not yet');
-const yes = (b) => (b ? 'yes' : 'no');
+const yes = (b) => (b === null || b === undefined ? 'not known' : b ? 'yes' : 'no');
 
 function Step({ title, children }) {
   return (
@@ -71,7 +71,7 @@ export function TrailDialog({ complaintId, onClose }) {
                 {!trail.work_orders.length && <p>No work order is linked to this complaint.</p>}
                 <ul className="space-y-3">
                   {trail.work_orders.map((w) => {
-                    const mismatch = w.sla_met_reported && !w.sla_met_actual;
+                    const mismatch = w.sla_met_reported && w.sla_met_actual === false;
                     return (
                       <li key={w.wo_id} className="rounded-lg border border-slate-800 light:border-slate-200 p-3 space-y-1">
                         <p className="flex flex-wrap justify-between gap-2"><WoId id={w.wo_id} /><span className="font-semibold tabular-nums">{formatINR(w.cost_inr)}</span></p>
