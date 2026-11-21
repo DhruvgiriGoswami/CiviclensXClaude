@@ -46,6 +46,7 @@ export const auditApi = {
   ward: (code) => call(`/wards/${code}`),
   nextRupee: (code) => call(`/next-rupee/${code}`),
   complaintPoints: () => call('/complaints'),
+  socialPosts: (limit = 10, offset = 0) => call(`/social-posts?limit=${limit}&offset=${offset}`),
   complaint: (id) => call(`/complaints/${encodeURIComponent(id)}`),
   search: (q) => call(`/search?q=${encodeURIComponent(q)}`),
   ask: (question, extra = {}) => call('/ask', { question, complaint_id: null, ward_code: null, ...extra }),
