@@ -143,3 +143,13 @@ export function auditTicket(r) {
     media: [],
   };
 }
+
+// One priority for the sidebar badge and the details modal: lots of upvotes escalate, else the stored priority.
+export function ticketPriority(t) {
+  if (t.upvotes >= 30) return 'CRITICAL';
+  if (t.upvotes >= 15) return 'HIGH';
+  return (t.priority || t.severity || 'MEDIUM').toUpperCase();
+}
+
+// Citizen ids are numbers and get a CL- prefix; hackathon ids (BMC25-...) are shown as is.
+export const displayTicketId = (id) => (/^\d+$/.test(String(id)) ? `CL-${id}` : String(id));

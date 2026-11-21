@@ -1,7 +1,7 @@
 // Run with `npm test`. Hackathon complaints must land in the same area lists as citizen tickets.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { auditTicket, getFilteredTickets } from './ticketHelpers.js';
+import { auditTicket, getFilteredTickets, ticketPriority, displayTicketId } from './ticketHelpers.js';
 
 const row = { complaint_id: 'BMC25-000005', lat: 19.0005, lon: 72.8347, issue_state: 'fixed', category: 'Pothole',
   description: 'paani bhar gaya', status: 'Resolved', upvotes: 35, received_at: '2025-06-01T08:26', unit_id: 'IN-MH-BMC-WARD-203' };
@@ -27,4 +27,17 @@ test('BMC tickets show under the corporation and both Mumbai districts, not othe
 
 test('a complaint outside every boundary has no area', () => {
   assert.equal(auditTicket({ ...row, unit_id: null }).unitId, '');
+});
+
+
+test('priority escalates with upvotes, else uses the stored value', () => {
+  assert.equal(ticketPriority({ upvotes: 31 }), 'CRITICAL');
+  assert.equal(ticketPriority({ upvotes: 15, priority: 'low' }), 'HIGH');
+  assert.equal(ticketPriority({ upvotes: 2, severity: 'low' }), 'LOW');
+  assert.equal(ticketPriority({ upvotes: 0 }), 'MEDIUM');
+});
+
+test('only numeric ids get the CL- prefix', () => {
+  assert.equal(displayTicketId(732), 'CL-732');
+  assert.equal(displayTicketId('BMC25-000025'), 'BMC25-000025');
 });

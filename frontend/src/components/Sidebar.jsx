@@ -10,7 +10,7 @@ import { StateLeadershipSpotlight } from './StateLeadershipSpotlight';
 import { SidebarTabs } from './SidebarTabs';
 import { NewsFeed } from './news/NewsFeed';
 import { geographyApi } from '../services/api';
-import { getFilteredTickets } from '../utils/ticketHelpers';
+import { getFilteredTickets, ticketPriority } from '../utils/ticketHelpers';
 
 const SPOTLIGHT_TABS = [
   { id: 'LEADERSHIP', label: 'Leadership' },
@@ -484,11 +484,11 @@ export function Sidebar({
                               <div className="flex items-center justify-between">
                                 <span className="text-crimson-500 font-extrabold text-xs truncate max-w-[200px] group-hover:text-crimson-400 transition-colors">{t.category}</span>
                                 <div className="flex items-center gap-1.5">
-                                  {t.upvotes >= 30 ? (
+                                  {ticketPriority(t) === 'CRITICAL' ? (
                                     <span className="text-xs font-extrabold px-1.5 py-0.5 rounded bg-crimson-500/20 text-crimson-400 border border-crimson-500/40">
                                       CRITICAL
                                     </span>
-                                  ) : t.upvotes >= 15 ? (
+                                  ) : ticketPriority(t) === 'HIGH' ? (
                                     <span className="text-xs font-extrabold px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-400 border border-amber-500/40">
                                       HIGH
                                     </span>

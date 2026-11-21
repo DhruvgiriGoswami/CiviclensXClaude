@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDialog } from '../hooks/useDialog';
 import { X, MapPin, ThumbsUp, Calendar, AlertTriangle, ShieldAlert, Image, CheckCircle2, Navigation } from 'lucide-react';
-import { getMediaUrl } from '../utils/ticketHelpers';
+import { getMediaUrl, ticketPriority, displayTicketId } from '../utils/ticketHelpers';
 import { statusBadgeClass, priorityBadgeClass } from '../utils/statusStyles';
 import { humanizeEnum } from '../utils/format';
 
@@ -58,7 +58,7 @@ export function TicketDetailsModal({
           <div>
             <div className="flex items-center space-x-2 mb-1">
               <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-slate-800 light:bg-slate-200 text-crimson-400 light:text-crimson-700 border border-crimson-500/40">
-                Complaint CL-{ticket.ticketId}
+                Complaint {displayTicketId(ticket.ticketId)}
               </span>
               <span className="text-xs text-slate-400 light:text-slate-600 font-bold flex items-center gap-1">
                 <Calendar className="w-3 h-3 text-slate-500" />
@@ -83,8 +83,8 @@ export function TicketDetailsModal({
         <div className="flex items-center justify-between gap-2 text-xs bg-slate-950/80 light:bg-slate-100 p-3 rounded-2xl border border-slate-800 light:border-slate-200">
           <div className="flex items-center space-x-2">
             <span className="text-slate-400 light:text-slate-600 font-bold">Priority:</span>
-            <span className={`px-2 py-0.5 rounded-md border font-semibold ${priorityBadgeClass(ticket.priority || ticket.severity)}`}>
-              {humanizeEnum(ticket.priority || ticket.severity || 'MEDIUM')}
+            <span className={`px-2 py-0.5 rounded-md border font-semibold ${priorityBadgeClass(ticketPriority(ticket))}`}>
+              {humanizeEnum(ticketPriority(ticket))}
             </span>
           </div>
 
