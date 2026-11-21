@@ -18,6 +18,7 @@ import { CentralAuthorityDashboard } from './components/centralAuthority/Central
 
 import CivicLensIntro from "./components/civicLensIntro/CivicLensIntro";
 import FinancialArchitecture from "./pages/FinancialArchitecture/FinancialArchitecture";
+import FollowTheRupee from "./pages/FollowTheRupee/FollowTheRupee";
 
 export function AppContent({ navigateTo }) {
   // Intro State
@@ -443,6 +444,7 @@ export function AppContent({ navigateTo }) {
       <Header
         onOpenNationalLeaders={() => setIsNationalLeadersOpen(true)}
         onOpenTour={() => setShowTour(true)}
+        onOpenFollowRupee={() => navigateTo('/follow-the-rupee')}
         onSelectUnit={handleSelectUnit}
         onSelectState={handleSelectState}
         allUnits={units}
@@ -698,9 +700,13 @@ export function App() {
     currentPath.toLowerCase() === '/financial-architecture' ||
     currentPath === '/financial-Architecture';
 
+  const isFollowRupeeRoute = currentPath.toLowerCase() === '/follow-the-rupee';
+
   return (
     <ThemeProvider>
-      {isFinancialArchitectureRoute ? (
+      {isFollowRupeeRoute ? (
+        <FollowTheRupee onBackToMap={() => navigateTo('/')} />
+      ) : isFinancialArchitectureRoute ? (
         <FinancialArchitecture onBackToMap={() => navigateTo('/')} />
       ) : isCentralAuthorityRoute ? (
         <CentralAuthorityDashboard onBackToMap={() => navigateTo('/')} />

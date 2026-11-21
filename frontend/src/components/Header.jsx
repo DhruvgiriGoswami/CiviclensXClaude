@@ -7,6 +7,7 @@ import { CapexBreakdownModal } from './CapexBreakdownModal';
 export function Header({
   onOpenNationalLeaders,
   onOpenTour,
+  onOpenFollowRupee,
   onSelectUnit,
   onSelectState,
   allUnits,
@@ -670,6 +671,17 @@ export function Header({
               <HelpCircle className="w-3.5 h-3.5 text-crimson-400 light:text-crimson-600 group-hover:rotate-12 transition-transform flex-shrink-0" />
               <span className="inline">How it Works</span>
             </button>
+          )}
+
+          {onOpenFollowRupee && (
+            <a
+              href="/follow-the-rupee"
+              onClick={(e) => { e.preventDefault(); onOpenFollowRupee(); }}
+              className="inline-flex items-center gap-1.5 min-h-[44px] px-3 rounded-xl bg-crimson-700 hover:bg-crimson-800 text-white text-xs font-semibold flex-shrink-0"
+            >
+              <Landmark className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
+              <span>Follow the Rupee: Mumbai audit</span>
+            </a>
           )}
 
           {/* National Leadership Directory Trigger */}
