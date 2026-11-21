@@ -10,16 +10,18 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-COPY requirements.txt .
+COPY --from=ghcr.io/astral-sh/uv:0.11.6 /uv /bin/uv
+COPY pyproject.toml uv.lock .python-version ./
 
-# Install dependencies into a local user directory
-RUN pip install --no-cache-dir --user -r requirements.txt
+# Install locked runtime dependencies into /app/.venv, using the image's Python
+ENV UV_PYTHON_DOWNLOADS=never
+RUN uv sync --frozen --no-dev
 
 # Strip unneeded debug symbols from C extensions and clean bytecodes/test files
-RUN find /root/.local -name "*.so" -exec strip --strip-unneeded {} + 2>/dev/null || true \
-    && find /root/.local -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true \
-    && find /root/.local -type d -name "tests" -exec rm -rf {} + 2>/dev/null || true \
-    && find /root/.local -type d -name "test" -exec rm -rf {} + 2>/dev/null || true
+RUN find /app/.venv -name "*.so" -exec strip --strip-unneeded {} + 2>/dev/null || true \
+    && find /app/.venv -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true \
+    && find /app/.venv -type d -name "tests" -exec rm -rf {} + 2>/dev/null || true \
+    && find /app/.venv -type d -name "test" -exec rm -rf {} + 2>/dev/null || true
 
 
 # --- Stage 2: Final Slim Runtime Stage ---
@@ -37,7 +39,7 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y --no-install-reco
 RUN pip install --no-cache-dir --upgrade setuptools
 
 ENV PYTHONUNBUFFERED=1
-ENV PATH=/root/.local/bin:$PATH
+ENV PATH=/app/.venv/bin:$PATH
 
 ARG BUILD_COMMIT=unknown
 ARG BUILD_TIME=unknown
@@ -46,8 +48,8 @@ ENV BUILD_TIME=${BUILD_TIME}
 
 WORKDIR /app
 
-# Copy installed Python packages from builder
-COPY --from=builder /root/.local /root/.local
+# Copy the virtualenv from builder (same path, so its scripts keep working)
+COPY --from=builder /app/.venv /app/.venv
 
 # Copy application source code
 COPY . .
