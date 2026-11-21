@@ -8,32 +8,32 @@ export function FlowModeSelector({ activeMode, onSelectMode }) {
       id: FLOW_MODES.MONEY,
       label: "Money",
       icon: DollarSign,
-      color: "text-emerald-400 border-emerald-500/50 bg-emerald-500/10",
+      color: "text-emerald-300 light:text-emerald-700",
       description: "Government → Municipal Fund → Project → Vendor → Supplier → Worker"
     },
     {
       id: FLOW_MODES.CONTROL,
       label: "Control",
       icon: ShieldCheck,
-      color: "text-cyan-400 border-cyan-500/50 bg-cyan-500/10",
+      color: "text-crimson-300 light:text-crimson-700",
       description: "Allocation → Eligibility → Tender → Award → Milestone → Inspection → Approval"
     },
     {
       id: FLOW_MODES.DATA,
       label: "Data",
       icon: Database,
-      color: "text-indigo-400 border-indigo-500/50 bg-indigo-500/10",
+      color: "text-indigo-300 light:text-indigo-700",
       description: "Funding ID → Project ID → Tender ID → Bid ID → Contract ID → Bill ID → CBDC Hash"
     }
   ];
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 rounded-xl p-2 sm:px-4 sm:py-2.5 shadow-sm">
-      <div className="flex items-center gap-2 text-sm font-semibold text-slate-300 light:text-slate-700">
+    <div className="flex flex-col sm:flex-row items-center gap-3">
+      <div className="flex items-center gap-2 text-sm text-slate-400 light:text-slate-500">
         <span>Show the flow of</span>
       </div>
 
-      <div className="flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
+      <div role="group" aria-label="Flow type" className="flex items-center gap-0.5 p-0.5 rounded-full bg-white/[0.06] light:bg-slate-100 w-full sm:w-auto">
         {modes.map((mode) => {
           const Icon = mode.icon;
           const isActive = activeMode === mode.id;
@@ -42,10 +42,11 @@ export function FlowModeSelector({ activeMode, onSelectMode }) {
             <button
               key={mode.id}
               onClick={() => onSelectMode(mode.id)}
-              className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3 min-h-[44px] rounded-lg border text-sm font-semibold transition-colors ${
+              aria-pressed={isActive}
+              className={`flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-4 h-10 rounded-full text-sm font-medium active:scale-[0.97] transition-[background-color,color,transform] duration-150 ${
                 isActive
-                  ? mode.color
-                  : "bg-slate-950/60 light:bg-slate-50 border-slate-800 light:border-slate-200 text-slate-400 light:text-slate-600 hover:text-slate-200 light:hover:text-slate-900"
+                  ? `bg-white/[0.12] light:bg-white shadow-sm ${mode.color}`
+                  : "text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900"
               }`}
               title={mode.description}
             >

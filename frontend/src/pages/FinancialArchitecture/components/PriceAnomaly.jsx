@@ -11,7 +11,7 @@ export function PriceAnomaly() {
     <div className="w-full bg-dark-900 light:bg-white border border-slate-800 light:border-slate-300 rounded-2xl p-6 text-slate-100 light:text-slate-900 font-sans shadow-xl">
       {/* Section Header */}
       <div className="mb-6 pb-4 border-b border-slate-800 light:border-slate-200">
-        <span className="text-xs uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
+        <span className="text-xs uppercase font-bold text-crimson-400 light:text-crimson-700 tracking-wider">
           PRICE INTELLIGENCE & BENCHMARKING
         </span>
         <h2 className="text-xl font-bold text-slate-100 light:text-slate-900">Material Price Anomaly Intelligence</h2>
@@ -68,7 +68,7 @@ export function PriceAnomaly() {
                       className={`w-full rounded-t-md ${
                         obs.highlighted
                           ? 'bg-rose-500 light:bg-rose-600 shadow-lg ring-2 ring-rose-300'
-                          : 'bg-slate-700 light:bg-slate-300 group-hover:bg-cyan-500 light:group-hover:bg-cyan-600'
+                          : 'bg-slate-700 light:bg-slate-300 group-hover:bg-crimson-500 light:group-hover:bg-crimson-600'
                       }`}
                       style={{ height: `${heightPercent}%` }}
                     ></div>
@@ -98,7 +98,7 @@ export function PriceAnomaly() {
         {/* Right Column: Analytical Factors & Methodology */}
         <div className="bg-slate-950/80 light:bg-slate-50 border border-slate-800 light:border-slate-300 rounded-2xl p-5 flex flex-col justify-between space-y-4 shadow-sm">
           <div>
-            <h3 className="text-xs font-bold uppercase text-cyan-400 light:text-cyan-700 mb-3 tracking-wider flex items-center gap-1.5">
+            <h3 className="text-xs font-bold uppercase text-crimson-400 light:text-crimson-700 mb-3 tracking-wider flex items-center gap-1.5">
               <Sliders className="w-4 h-4" />
               <span>Normalizing Analysis Factors</span>
             </h3>
@@ -106,7 +106,7 @@ export function PriceAnomaly() {
             <ul className="space-y-2 text-xs text-slate-300 light:text-slate-700 font-medium">
               {analysisFactors.map((factor, idx) => (
                 <li key={idx} className="flex items-start gap-2 bg-slate-900/60 light:bg-white p-2 rounded-lg border border-slate-800/80 light:border-slate-200 shadow-sm">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-cyan-400 light:text-cyan-600 flex-shrink-0 mt-0.5" />
+                  <CheckCircle2 className="w-3.5 h-3.5 text-crimson-400 light:text-crimson-600 flex-shrink-0 mt-0.5" />
                   <span className="text-xs leading-snug">{factor}</span>
                 </li>
               ))}

@@ -7,7 +7,7 @@ export function RiskEngine() {
     <div className="w-full bg-dark-900 light:bg-white border border-slate-800 light:border-slate-300 rounded-2xl p-6 text-slate-100 light:text-slate-900 font-sans shadow-xl">
       {/* Section Header */}
       <div className="mb-6 pb-4 border-b border-slate-800 light:border-slate-200">
-        <span className="text-xs uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
+        <span className="text-xs uppercase font-bold text-crimson-400 light:text-crimson-700 tracking-wider">
           STATISTICAL & RULE-BASED AUDIT
         </span>
         <h2 className="text-xl font-bold text-slate-100 light:text-slate-900">
@@ -52,10 +52,10 @@ export function RiskEngine() {
           {RISK_ENGINE_PIPELINE.map((p, idx) => (
             <div
               key={p.step}
-              className="bg-slate-950/80 light:bg-slate-50 border border-slate-800 light:border-slate-300 rounded-xl p-3.5 relative flex flex-col justify-between hover:border-cyan-500/40 light:hover:border-cyan-400 transition-colors shadow-sm"
+              className="bg-slate-950/80 light:bg-slate-50 border border-slate-800 light:border-slate-300 rounded-xl p-3.5 relative flex flex-col justify-between hover:border-crimson-500/40 light:hover:border-crimson-400 transition-colors shadow-sm"
             >
               <div>
-                <div className="flex items-center justify-between text-xs font-bold text-cyan-400 light:text-cyan-700 mb-1">
+                <div className="flex items-center justify-between text-xs font-bold text-crimson-400 light:text-crimson-700 mb-1">
                   <span>STAGE {p.step}</span>
                   {idx < RISK_ENGINE_PIPELINE.length - 1 && (
                     <ArrowRight className="w-3 h-3 text-slate-600 light:text-slate-400 hidden sm:block" />
@@ -90,7 +90,7 @@ export function RiskEngine() {
                   ? 'bg-rose-500/20 light:bg-rose-100 text-rose-300 light:text-rose-800 border-rose-500/40 light:border-rose-300'
                   : sig.level === 'HIGH'
                   ? 'bg-amber-500/20 light:bg-amber-100 text-amber-300 light:text-amber-800 border-amber-500/40 light:border-amber-300'
-                  : 'bg-cyan-500/20 light:bg-cyan-100 text-cyan-300 light:text-cyan-800 border-cyan-500/40 light:border-cyan-300'
+                  : 'bg-crimson-500/20 light:bg-crimson-100 text-crimson-300 light:text-crimson-800 border-crimson-500/40 light:border-crimson-300'
               }`}>
                 {sig.level}
               </span>

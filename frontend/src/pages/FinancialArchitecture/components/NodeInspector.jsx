@@ -11,7 +11,7 @@ export function NodeInspector({ node, onClose }) {
       {/* Inspector Header */}
       <div className="p-4 border-b border-slate-800 light:border-slate-200 flex items-center justify-between bg-slate-950/80 light:bg-slate-50">
         <div>
-          <span className="text-xs uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
+          <span className="text-xs uppercase font-bold text-crimson-400 light:text-crimson-700 tracking-wider">
             Details
           </span>
           <h3 className="text-sm font-bold text-slate-100 light:text-slate-900 uppercase tracking-wide">
@@ -36,7 +36,7 @@ export function NodeInspector({ node, onClose }) {
         <div className="grid grid-cols-2 gap-2 bg-slate-950/60 light:bg-slate-100 p-3 rounded-xl border border-slate-800 light:border-slate-300 shadow-sm">
           <div>
             <div className="text-xs text-slate-500 light:text-slate-600 uppercase">Financial Volume</div>
-            <div className="text-sm font-bold text-cyan-300 light:text-cyan-700">{node.amount}</div>
+            <div className="text-sm font-bold text-crimson-300 light:text-crimson-700">{node.amount}</div>
           </div>
           <div>
             <div className="text-xs text-slate-500 light:text-slate-600 uppercase">Operational Status</div>
@@ -137,8 +137,8 @@ export function NodeInspector({ node, onClose }) {
         )}
 
         {/* CBDC Proof Verification Bar */}
-        <div className="p-3 rounded-xl bg-cyan-950/30 light:bg-cyan-50 border border-cyan-900/40 light:border-cyan-200 text-cyan-200 light:text-cyan-900 space-y-1 text-xs shadow-sm">
-          <div className="flex items-center gap-1 text-cyan-400 light:text-cyan-700 font-bold uppercase">
+        <div className="p-3 rounded-xl bg-crimson-900/30 light:bg-crimson-50 border border-crimson-900/40 light:border-crimson-200 text-crimson-200 light:text-crimson-900 space-y-1 text-xs shadow-sm">
+          <div className="flex items-center gap-1 text-crimson-400 light:text-crimson-700 font-bold uppercase">
             <Cpu className="w-3.5 h-3.5" />
             <span>CBDC Ledger Cryptographic Trace</span>
           </div>

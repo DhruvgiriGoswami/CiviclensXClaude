@@ -22,7 +22,7 @@ export function FinancialLineage() {
     <div className="w-full bg-dark-900 light:bg-white border border-slate-800 light:border-slate-300 rounded-2xl p-6 text-slate-100 light:text-slate-900 font-sans shadow-xl">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-6 pb-4 border-b border-slate-800 light:border-slate-200">
         <div>
-          <span className="text-xs uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
+          <span className="text-xs uppercase font-bold text-crimson-400 light:text-crimson-700 tracking-wider">
             END-TO-END AUDIT TRAIL
           </span>
           <h2 className="text-xl font-bold text-slate-100 light:text-slate-900">Financial Lineage Tree</h2>
@@ -57,8 +57,8 @@ export function FinancialLineage() {
             className="p-3.5 bg-slate-900/90 light:bg-slate-100 flex items-center justify-between cursor-pointer hover:bg-slate-900 light:hover:bg-slate-200 transition-colors"
           >
             <div className="flex items-center gap-2.5">
-              {expandedNodes.fund ? <ChevronDown className="w-4 h-4 text-cyan-400 light:text-cyan-700" /> : <ChevronRight className="w-4 h-4 text-cyan-400 light:text-cyan-700" />}
-              <span className="font-bold text-cyan-300 light:text-cyan-800">{fund.id}</span>
+              {expandedNodes.fund ? <ChevronDown className="w-4 h-4 text-crimson-400 light:text-crimson-700" /> : <ChevronRight className="w-4 h-4 text-crimson-400 light:text-crimson-700" />}
+              <span className="font-bold text-crimson-300 light:text-crimson-800">{fund.id}</span>
               <span className="text-slate-400 light:text-slate-400">|</span>
               <span className="text-slate-200 light:text-slate-900 font-sans font-semibold">{fund.name}</span>
             </div>
@@ -179,14 +179,14 @@ export function FinancialLineage() {
                           {bills.map((bill) => (
                             <div key={bill.billId} className="p-3 rounded-xl bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 space-y-1.5 shadow-sm">
                               <div className="flex items-center justify-between">
-                                <span className="font-bold text-cyan-300 light:text-cyan-800">{bill.billId}</span>
+                                <span className="font-bold text-crimson-300 light:text-crimson-800">{bill.billId}</span>
                                 <span className="text-emerald-400 light:text-emerald-700 font-extrabold">{bill.netPaid}</span>
                               </div>
                               <p className="text-slate-300 light:text-slate-800 font-sans text-xs font-semibold">{bill.milestone}</p>
                               
                               <div className="pt-2 border-t border-slate-800 light:border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs text-slate-400 light:text-slate-600">
                                 <div>Date: <span className="text-slate-200 light:text-slate-900 font-bold">{bill.paymentDate}</span></div>
-                                <div className="flex items-center gap-1 text-cyan-400 light:text-cyan-700 truncate font-bold">
+                                <div className="flex items-center gap-1 text-crimson-400 light:text-crimson-700 truncate font-bold">
                                   <Cpu className="w-3 h-3 flex-shrink-0" />
                                   <span className="truncate">{bill.cbdcTxHash}</span>
                                 </div>
