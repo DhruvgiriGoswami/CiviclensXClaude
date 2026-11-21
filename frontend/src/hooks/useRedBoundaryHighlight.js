@@ -1,6 +1,8 @@
 import { useRef, useCallback, useEffect, useState } from 'react';
 import { geographyApi } from '../services/api';
 import { mapDebug } from '../utils/mapDebug';
+import { boundsOf } from '../utils/cameraMath';
+import { wardGeometryCache } from '../services/mapGeometryCache';
 import { extractPathsFromGeoJson, getLoadedStateDistrictsData, STATE_CENTERS, fitIndia } from '../utils/mapHelpers';
 
 export function useRedBoundaryHighlight({
@@ -323,7 +325,7 @@ export function useRedBoundaryHighlight({
           // 2. Camera positioning for DISTRICT vs STATE
           if (unit && unit.unitType === 'DISTRICT') {
             if (selectedDistPaths.length > 0) {
-              fitMapBoundsToPaths(selectedDistPaths, { padding: { top: 80, right: 120, bottom: 80, left: 120 } });
+              fitMapBoundsToPaths(selectedDistPaths);
             } else if (unit.coordinates && typeof unit.coordinates.lat === 'number') {
               executeCameraCommand({
                 type: 'PAN_AND_ZOOM',
@@ -335,9 +337,8 @@ export function useRedBoundaryHighlight({
               fitMapBoundsToPaths(allDistrictPaths);
             }
           } else if (!unit || currentLevel === 'STATE') {
-            if (!stCenter && allDistrictPaths.length > 0) {
-              fitMapBoundsToPaths(allDistrictPaths);
-            }
+            // The STATE_CENTERS move above is a rough first aim; the real shape centres it.
+            if (allDistrictPaths.length > 0) fitMapBoundsToPaths(allDistrictPaths);
           }
         }
       }).catch(() => {
@@ -370,7 +371,11 @@ export function useRedBoundaryHighlight({
           .catch(() => {});
       }
     } else if (unit && (unit.unitType === 'MUNICIPAL_CORPORATION' || unit.unitType === 'CITY')) {
-      if (unit.coordinates && typeof unit.coordinates.lat === 'number') {
+      // Centre on the wards when they are cached; useWardPolygons fits them after a first fetch.
+      const wardBounds = wardGeometryCache.has(unit.unitId) && boundsOf(wardGeometryCache.get(unit.unitId).map((w) => w.paths));
+      if (wardBounds) {
+        executeCameraCommand({ type: 'FIT_BOUNDS', bounds: wardBounds, reason: 'CORPORATION_WARDS_FIT' });
+      } else if (unit.coordinates && typeof unit.coordinates.lat === 'number') {
         executeCameraCommand({
           type: 'PAN_AND_ZOOM',
           center: unit.coordinates,
@@ -395,7 +400,7 @@ export function useRedBoundaryHighlight({
     const currentReqId = ++highlightRequestIdRef.current;
     clearHighlightShapes();
 
-    fitIndia(map);
+    fitIndia(map, executeCameraCommand);
 
     const NATIONAL_STATE_CODES = [
       'MH', 'GJ', 'KA', 'DL', 'TN', 'UP', 'MP', 'RJ',

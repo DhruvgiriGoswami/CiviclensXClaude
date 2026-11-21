@@ -51,10 +51,17 @@ export function extractPathsFromGeoJson(geometry) {
   return wardGeometryCache.normalizeGeometry(geometry);
 }
 
-// Fit all of India at any width, leaving room for the side panel on desktop.
-export const fitIndia = (map) => {
-  const panel = window.innerWidth >= 1024 ? 420 : 0;
-  map.fitBounds({ north: 35.7, south: 6.5, west: 68.0, east: 97.5 }, { top: 16, bottom: 16, left: 16, right: 16 + panel });
+const INDIA_FIT = { north: 35.7, south: 6.5, west: 68.0, east: 97.5 };
+const INDIA_PAD = { top: 16, bottom: 16, left: 16, right: 16 };
+
+// Fit all of India instantly. The desktop side panel sits beside the map div, not over it, so the padding is even.
+// With executeCameraCommand it flies there instead.
+export const fitIndia = (map, executeCameraCommand) => {
+  if (executeCameraCommand) {
+    executeCameraCommand({ type: 'FIT_BOUNDS', bounds: INDIA_FIT, padding: INDIA_PAD, reason: 'FIT_INDIA' });
+  } else {
+    map.fitBounds(INDIA_FIT, INDIA_PAD);
+  }
 };
 
 export const buildMapStyles = (isDark) => {

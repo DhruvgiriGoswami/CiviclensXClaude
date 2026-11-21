@@ -3,6 +3,7 @@ import { geographyApi, complaintsApi } from '../services/api';
 import { makeBreaks, bucketColor, NO_DATA_LIGHT, NO_DATA_DARK } from '../utils/choropleth';
 import { wardGeometryCache } from '../services/mapGeometryCache';
 import { mapDebug, generateRequestId } from '../utils/mapDebug';
+import { boundsOf } from '../utils/cameraMath';
 
 export function useWardPolygons({
   googleMapRef,
@@ -15,6 +16,7 @@ export function useWardPolygons({
   clickTimerRef,
   isPinningMode = false,
   onPinLocationSelect = null,
+  executeCameraCommand,
 }) {
   const wardRequestGenRef = useRef(0);
   const wardAbortControllerRef = useRef(null);
@@ -27,6 +29,10 @@ export function useWardPolygons({
   useEffect(() => { onPinLocationSelectRef.current = onPinLocationSelect; }, [onPinLocationSelect]);
   const isDarkRef = useRef(isDark);
   isDarkRef.current = isDark;
+  const selectedUnitRef = useRef(selectedUnit);
+  selectedUnitRef.current = selectedUnit;
+  const cameraRef = useRef(executeCameraCommand);
+  cameraRef.current = executeCameraCommand;
   const [legend, setLegend] = useState(null);
 
   // Determine active target cityId for ward geometry loading (validated against selectedState)
@@ -235,6 +241,13 @@ export function useWardPolygons({
       });
 
       applyCounts(activeCityId, generation);
+
+      // A corporation's stored point is often off to one side, so centre on all its wards instead.
+      const sel = selectedUnitRef.current;
+      if (sel?.unitId === activeCityId && (sel.unitType === 'MUNICIPAL_CORPORATION' || sel.unitType === 'CITY')) {
+        const b = boundsOf(normalizedList.map((w) => w.paths));
+        if (b) cameraRef.current?.({ type: 'FIT_BOUNDS', bounds: b, reason: 'CORPORATION_WARDS_FIT' });
+      }
 
       const renderDuration = performance.now() - renderStart;
       mapDebug({ event: 'WARD_RENDER_END', activeCityId, durationMs: renderDuration.toFixed(2), requestId });

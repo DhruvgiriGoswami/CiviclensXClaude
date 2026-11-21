@@ -32,6 +32,7 @@ export function useGoogleMapInit({
           zoom: 5,
           minZoom: 3,
           maxZoom: 16,
+          isFractionalZoomEnabled: true, // lets the camera animate through in-between zooms on this raster map
           disableDefaultUI: true,
           clickableIcons: false,
           gestureHandling: 'greedy',
