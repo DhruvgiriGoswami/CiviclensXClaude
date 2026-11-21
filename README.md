@@ -75,8 +75,8 @@ You need [uv](https://docs.astral.sh/uv/) and Node (tested on Node 24).
 # backend, on http://localhost:8000
 cd backend
 uv sync
-export ANTHROPIC_API_KEY=...   # optional: without it you get the template text
-uv run uvicorn app.main:app --port 8000
+cp .env.example .env.secrets   # add ANTHROPIC_API_KEY; empty gives the template text
+uv run --env-file .env.secrets uvicorn app.main:app --port 8000
 ```
 
 ```bash
@@ -105,6 +105,8 @@ cd frontend && npm run e2e      # Playwright; the @live test runs when the backe
 ```
 
 The backend's end-to-end tests start the real FastAPI app, load the real CSVs and call every `/audit` endpoint. They check the response shapes, that each rule fires on known rows, and that the plan stays within budget.
+
+Architecture, modules and the data flow are in [`ARCHITECTURE.md`](ARCHITECTURE.md).
 
 ## API
 
