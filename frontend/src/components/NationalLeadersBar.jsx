@@ -481,19 +481,6 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
           )}
         </div>
 
-        {/* Footer credit lives in the page footer, not in this dialog. */}
-        <div hidden>
-          Made by{' '}
-          <a
-            href="https://www.linkedin.com/in/dhruvgiri-goswami-745b01159/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-crimson-400 light:text-crimson-600 hover:text-crimson-300 font-bold hover:underline"
-          >
-            Dhruvgiri Goswami
-          </a>
-        </div>
-
       </div>
     </div>
   );

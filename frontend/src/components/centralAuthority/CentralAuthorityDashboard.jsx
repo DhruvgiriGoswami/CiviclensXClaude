@@ -323,19 +323,6 @@ export function CentralAuthorityDashboard({ onBackToMap }) {
         />
       </div>
 
-      {/* Footer Credit */}
-      <footer className="w-full py-2.5 px-4 bg-slate-950 light:bg-white border-t border-slate-800/80 light:border-slate-200 text-center text-xs text-slate-400 light:text-slate-600 flex-shrink-0">
-        Made by{' '}
-        <a
-          href="https://www.linkedin.com/in/dhruvgiri-goswami-745b01159/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-red-400 light:text-red-600 hover:text-red-300 font-bold hover:underline"
-        >
-          Dhruvgiri Goswami
-        </a>
-      </footer>
-
       {/* 6. Ticket Operational Inspection Modal */}
       {inspectedTicket && (
         <TicketDetailModal

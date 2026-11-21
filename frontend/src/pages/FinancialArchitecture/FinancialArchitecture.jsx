@@ -261,17 +261,6 @@ export default function FinancialArchitecture({ onBackToMap }) {
 
           <div className="pt-6 text-xs text-slate-500 light:text-slate-600 border-t border-slate-900 light:border-slate-200 space-y-2">
             <div>CivicLens Proposed Public Finance Architecture &bull; Conceptual Stakeholder Demonstration Prototype</div>
-            <div className="text-xs text-slate-400 light:text-slate-600">
-              Made by{' '}
-              <a
-                href="https://www.linkedin.com/in/dhruvgiri-goswami-745b01159/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-cyan-400 light:text-cyan-600 hover:text-cyan-300 font-bold hover:underline"
-              >
-                Dhruvgiri Goswami
-              </a>
-            </div>
           </div>
         </div>
       </footer>

@@ -428,7 +428,7 @@ export function Sidebar({
             <div className="space-y-4">
               <button
                 onClick={onRaiseTicket}
-                className="w-full py-2.5 rounded-xl bg-crimson-600 hover:bg-crimson-500 text-white text-xs font-sans font-bold uppercase tracking-wider transition-all shadow-lg flex items-center justify-center space-x-2"
+                className="w-full min-h-[44px] px-4 py-2.5 rounded-xl bg-crimson-600 hover:bg-crimson-500 text-white text-sm font-sans font-semibold text-center leading-snug transition-all shadow-lg flex items-center justify-center space-x-2"
               >
                 <span>Report a problem in {unit?.unitName}</span>
               </button>
@@ -575,17 +575,6 @@ export function Sidebar({
               <div className="flex-1">
                 {renderContent()}
               </div>
-              <div className="py-2.5 px-4 border-t border-slate-800/80 light:border-slate-200 bg-slate-900/60 light:bg-slate-50 text-center text-xs text-slate-400 light:text-slate-600 flex-shrink-0">
-                Made by{' '}
-                <a
-                  href="https://www.linkedin.com/in/dhruvgiri-goswami-745b01159/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-crimson-400 light:text-crimson-600 hover:text-crimson-300 font-bold hover:underline"
-                >
-                  Dhruvgiri Goswami
-                </a>
-              </div>
             </div>
           )}
         </div>
@@ -619,17 +608,6 @@ export function Sidebar({
           <div className="flex-1 overflow-hidden flex flex-col">
             <div className="flex-1 overflow-hidden">
               {renderContent()}
-            </div>
-            <div className="py-2.5 px-4 border-t border-slate-800/80 light:border-slate-200 bg-slate-900/60 light:bg-slate-50 text-center text-xs text-slate-400 light:text-slate-600 flex-shrink-0">
-              Made by{' '}
-              <a
-                href="https://www.linkedin.com/in/dhruvgiri-goswami-745b01159/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-crimson-400 light:text-crimson-600 hover:text-crimson-300 font-bold hover:underline"
-              >
-                Dhruvgiri Goswami
-              </a>
             </div>
           </div>
         </aside>
