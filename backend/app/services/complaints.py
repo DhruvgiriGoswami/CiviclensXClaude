@@ -210,6 +210,20 @@ async def get_complaint_stats(
     return stats
 
 
+async def get_counts_by_child(db: AsyncSession, parent_geo_unit_id: str) -> dict:
+    """Complaint counts per child unit of a parent, grouped by resolved_geo_unit_id (for the map choropleth)."""
+    from app.models.geography import GeoUnit
+
+    # shortcut: counts only complaints resolved directly to a child unit, add a descendant roll-up if a level needs it
+    result = await db.execute(
+        select(Complaint.resolved_geo_unit_id, func.count(Complaint.complaint_id))
+        .join(GeoUnit, GeoUnit.unit_id == Complaint.resolved_geo_unit_id)
+        .where(GeoUnit.parent_unit_id == parent_geo_unit_id)
+        .group_by(Complaint.resolved_geo_unit_id)
+    )
+    return {unit_id: count for unit_id, count in result.all()}
+
+
 async def get_categories(db: AsyncSession) -> List[str]:
     """Return distinct categories present in complaints."""
     result = await db.execute(select(Complaint.category).distinct().where(Complaint.category.isnot(None)))

@@ -29,9 +29,21 @@ async def lifespan(app: FastAPI):
     """Application lifecycle: startup DB check and shutdown. Seeding lives in the civiclens-database repo."""
     logger.info("CivicLens backend starting (version=%s)...", settings.APP_VERSION)
     
-    # Startup: verify DB connection (Alembic migrations are applied in start.sh)
-    async with engine.begin() as conn:
-        await conn.execute(text("SELECT 1"))
+    # Follow the Rupee audit data lives in memory, so it loads first and works with the DB down.
+    from app.audit.load import load_store
+    app.state.audit = await asyncio.to_thread(load_store)
+    logger.info("Audit store loaded (%d work orders, %d flags)", len(app.state.audit.wo), len(app.state.audit.flags))
+
+    # Startup: verify DB connection (Alembic migrations are applied in start.sh).
+    # A DB outage no longer stops startup: /health reports it as 503 and the audit routes keep working.
+    try:
+        async with engine.begin() as conn:
+            await conn.execute(text("SELECT 1"))
+    except Exception as e:
+        logger.error("Database unreachable at startup, DB routes will fail until it is back: %s", e)
+        yield
+        await engine.dispose()
+        return
 
     async with async_session_factory() as session:
         try:

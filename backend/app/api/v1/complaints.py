@@ -132,6 +132,15 @@ async def get_complaint_stats(
     return await complaint_service.get_complaint_stats(db, geo_unit_id=geo_unit_id)
 
 
+@router.get("/complaints/counts")
+async def get_complaint_counts(
+    parent_geo_unit_id: str = Query(...),
+    db: AsyncSession = Depends(get_db),
+):
+    """Complaint counts per child geo unit: `{geo_unit_id: count}`."""
+    return await complaint_service.get_counts_by_child(db, parent_geo_unit_id)
+
+
 @router.get("/complaints/categories")
 async def get_complaint_categories(
     db: AsyncSession = Depends(get_db),

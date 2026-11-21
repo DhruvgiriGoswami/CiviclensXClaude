@@ -75,7 +75,7 @@ The ward polygons (FeatureCollection) with `properties.ward_code` and `propertie
 ```
 
 ### `GET /audit/contractors` and `GET /audit/contractors/{id}`
-A list of `Scorecard`, or one `Scorecard` plus `"flags": [Flag]` and `"wards": [{ "ward_code", "jobs", "spend_inr" }]`.
+A list of `Scorecard`, or one `Scorecard` plus `"flags": [Flag]` and `"wards": [{ "ward_code", "jobs", "spend_inr" }]`. In the detail view `flags` is the list, and the `{ total, by_rule }` summary moves to `"flag_summary"`.
 
 ### `GET /audit/flags?ward=&rule=&contractor=&severity=`
 `{ "count": int, "flags": [Flag] }`, sorted by severity, then `amount_at_risk_inr` descending.
@@ -89,7 +89,7 @@ CSV with columns `flag_id,rule,severity,wo_id,complaint_ids,ward_code,road_id,co
   "ward_code": "H/E",
   "budget_inr": 4300000, "spent_inr": 3900000, "remaining_inr": 400000,
   "plan": [{
-    "rank": 1,
+    "rank": 1,                    // by risk_score; funded comes from a greedy pass by risk per rupee
     "road_id": "RD0101", "road_name": "...", "issue_ids": ["ISS-..."], "work_type": "Pothole",
     "method": "Mastic asphalt", "method_reopen_rate": 0.08,
     "est_cost_inr": 84000, "funded": true,
@@ -98,7 +98,8 @@ CSV with columns `flag_id,rule,severity,wo_id,complaint_ids,ward_code,road_id,co
     "risk_parts": { "severity": 0.3, "flood": 0.2, "rain_tide": 0.1, "traffic": 0.12, "accidents": 0.05, "facilities": 0.05 },
     "why": "one plain line"
   }],
-  "unfunded_count": int
+  "unfunded_count": int,
+  "note": "string or null"        // set when remaining_inr <= 0: no BMC money left, only DLP items go ahead
 }
 ```
 
