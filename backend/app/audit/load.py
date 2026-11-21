@@ -34,6 +34,7 @@ class AuditStore:
     data_hash: str
     issues: pd.DataFrame = None
     flags: list = field(default_factory=list)
+    social_posts: pd.DataFrame = None  # one row per unique post text, newest first: see views.social_posts
 
 
 def _csv(d: Path, name: str, dates=()) -> pd.DataFrame:
@@ -76,6 +77,21 @@ def _hash_dir(d: Path) -> str:
     return h.hexdigest()[:16]
 
 
+def _platform(source: str) -> str:
+    return "x" if source.startswith("X") else "instagram" if source.startswith("Instagram") else "whatsapp"
+
+
+def group_social_posts(posts: pd.DataFrame) -> pd.DataFrame:
+    """Collapse forwards of the same text into one row. The earliest post is the original, so it supplies the
+    author, time and engagement; shared_count is how many times the text was posted. has_media is dropped."""
+    first = posts.sort_values(["posted_at", "post_id"]).groupby("text", sort=False)
+    g = first.first().reset_index().assign(shared_count=first.size().values)
+    g["platform"] = g.source.map(_platform)
+    g["engagement_label"] = g.platform.map(lambda p: "forwards" if p == "whatsapp" else "likes")
+    g["unverified"] = g.text.str.contains("(unverified)", case=False, regex=False)
+    return g.drop(columns="has_media").sort_values(["posted_at", "post_id"], ascending=False).reset_index(drop=True)
+
+
 def load_store(data_dir: str | os.PathLike | None = None) -> AuditStore:
     from app.audit import flags, trail  # local import: both modules import this one
     from app.audit.scorecards import with_expected
@@ -107,4 +123,5 @@ def load_store(data_dir: str | os.PathLike | None = None) -> AuditStore:
     )
     trail.build(store)
     store.flags = flags.all_flags(store)
+    store.social_posts = group_social_posts(_csv(d, "social_posts.csv", ["posted_at"]))
     return store
