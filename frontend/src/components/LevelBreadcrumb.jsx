@@ -79,7 +79,7 @@ export function LevelBreadcrumb({
   const isWardActive = (currentLevel === 'WARD' || currentLevel === 'MICRO') && isWardUnit;
 
   return (
-    <div className="bg-[#12151E]/95 light:bg-white/95 border-b border-slate-800 light:border-slate-200 px-3 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between z-20 shadow-md flex-shrink-0">
+    <div className="bg-dark-800/95 light:bg-white/95 border-b border-slate-800 light:border-slate-200 px-3 sm:px-4 py-1.5 sm:py-2 flex items-center justify-between z-20 shadow-md flex-shrink-0">
       <div className="flex items-center space-x-1 sm:space-x-1.5 text-xs overflow-x-auto no-scrollbar py-0.5">
         
         {/* LEVEL 1: National Macro */}

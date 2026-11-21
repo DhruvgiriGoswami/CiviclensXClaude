@@ -6,7 +6,7 @@ export function AuthorityHeader({ onRefresh, isRefreshing, onBackToMap }) {
   const { theme, toggleTheme } = useTheme();
 
   return (
-    <header className="bg-[#12161F] light:bg-white border-b border-slate-800 light:border-slate-200 px-4 py-3 sm:px-6 flex items-center justify-between gap-4 sticky top-0 z-30 shadow-md transition-colors">
+    <header className="bg-dark-800 light:bg-white border-b border-slate-800 light:border-slate-200 px-4 py-3 sm:px-6 flex items-center justify-between gap-4 sticky top-0 z-30 shadow-md transition-colors">
       {/* Left: Back to Citizen Map Button */}
       <div className="flex items-center gap-3">
         <button

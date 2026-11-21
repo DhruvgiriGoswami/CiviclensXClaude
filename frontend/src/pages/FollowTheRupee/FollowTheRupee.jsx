@@ -11,7 +11,7 @@ import './followTheRupee.css';
 
 const TYPE = { complaint: 'Complaint', work_order: 'Work order', road: 'Road', ward: 'Ward' };
 const muted = 'text-slate-400 light:text-slate-600';
-const input = 'w-full min-h-[44px] rounded-lg border border-slate-700 light:border-slate-300 bg-[#0B0D12] light:bg-white px-3 text-sm placeholder:text-slate-500';
+const input = 'w-full min-h-[44px] rounded-lg border border-slate-700 light:border-slate-300 bg-dark-900 light:bg-white px-3 text-sm placeholder:text-slate-500';
 
 function SearchBox({ onPick }) {
   const [q, setQ] = useState('');
@@ -130,8 +130,8 @@ export default function FollowTheRupee({ onBackToMap }) {
   const worst = wards ? [...wards].sort((a, b) => b.amount_at_risk_inr - a.amount_at_risk_inr)[0] : null;
 
   return (
-    <div className="ftr h-screen overflow-y-auto overflow-x-hidden bg-[#0B0D12] light:bg-slate-50 text-slate-100 light:text-slate-900">
-      <header className="border-b border-slate-800 light:border-slate-200 bg-[#12151E] light:bg-white">
+    <div className="ftr h-screen overflow-y-auto overflow-x-hidden bg-dark-900 light:bg-slate-50 text-slate-100 light:text-slate-900">
+      <header className="border-b border-slate-800 light:border-slate-200 bg-dark-800 light:bg-white">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-3 flex flex-wrap items-center gap-3">
           <button type="button" onClick={onBackToMap} className="inline-flex items-center gap-2 min-h-[44px] px-2 -ml-2 rounded-lg text-sm hover:bg-white/5 light:hover:bg-slate-900/5">
             <ArrowLeft className="w-4 h-4" aria-hidden="true" />CivicLens map

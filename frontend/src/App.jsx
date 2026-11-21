@@ -438,7 +438,7 @@ export function AppContent({ navigateTo }) {
 
 
   return (
-    <div className="h-screen h-[100dvh] w-full min-h-[100dvh] flex flex-col bg-[#0B0D12] light:bg-[#F8FAFC] text-slate-100 light:text-slate-900 overflow-hidden font-sans transition-colors">
+    <div className="h-screen h-[100dvh] w-full min-h-[100dvh] flex flex-col bg-dark-900 light:bg-[#F8FAFC] text-slate-100 light:text-slate-900 overflow-hidden font-sans transition-colors">
 
       {/* Top Main Navigation Header */}
       <Header

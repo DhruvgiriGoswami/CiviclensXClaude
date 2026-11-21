@@ -32,9 +32,9 @@ export function TicketDetailModal({ ticket, onClose }) {
 
   return (
     <div ref={dialogRef} tabIndex={-1} role="dialog" aria-modal="true" aria-labelledby="admin-ticket-heading" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 animate-fadeIn">
-      <div className="bg-[#12161F] light:bg-white border border-slate-700/80 light:border-slate-300 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden font-sans transition-colors">
+      <div className="bg-dark-800 light:bg-white border border-slate-700/80 light:border-slate-300 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden font-sans transition-colors">
         {/* Modal Header */}
-        <div className="px-6 py-4 border-b border-slate-800 light:border-slate-200 flex items-center justify-between bg-[#0B0D12] light:bg-slate-50">
+        <div className="px-6 py-4 border-b border-slate-800 light:border-slate-200 flex items-center justify-between bg-dark-900 light:bg-slate-50">
           <div className="flex items-center gap-3">
             <span className=" text-xs font-bold px-2.5 py-1 rounded bg-blue-500/20 light:bg-blue-100 text-blue-400 light:text-blue-800 border border-blue-500/30 light:border-blue-300">
               CL-{ticket.complaint_id}
@@ -55,7 +55,7 @@ export function TicketDetailModal({ ticket, onClose }) {
         {/* Modal Content */}
         <div className="p-6 overflow-y-auto space-y-5 text-xs text-slate-300 light:text-slate-700">
           {/* Status & Priority Badges */}
-          <div className="p-4 rounded-xl bg-[#0B0D12] light:bg-slate-50 border border-slate-800 light:border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="p-4 rounded-xl bg-dark-900 light:bg-slate-50 border border-slate-800 light:border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs uppercase tracking-wider text-slate-400 light:text-slate-600 mb-1.5">
                 Status
@@ -97,7 +97,7 @@ export function TicketDetailModal({ ticket, onClose }) {
             <span className="text-xs uppercase tracking-wider text-slate-400 light:text-slate-600 block">
               Geographic Location & Boundary Assignment
             </span>
-            <div className="p-3.5 rounded-xl bg-[#0B0D12] light:bg-slate-50 border border-slate-800 light:border-slate-200 space-y-2">
+            <div className="p-3.5 rounded-xl bg-dark-900 light:bg-slate-50 border border-slate-800 light:border-slate-200 space-y-2">
               <div className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-blue-400 light:text-blue-600 flex-shrink-0 mt-0.5" />
                 <div>
@@ -170,7 +170,7 @@ export function TicketDetailModal({ ticket, onClose }) {
         </div>
 
         {/* Modal Footer */}
-        <div className="px-6 py-3 border-t border-slate-800 light:border-slate-200 bg-[#0B0D12] light:bg-slate-50 flex justify-end">
+        <div className="px-6 py-3 border-t border-slate-800 light:border-slate-200 bg-dark-900 light:bg-slate-50 flex justify-end">
           <button
             onClick={onClose}
             className="px-4 py-1.5 rounded-lg bg-slate-800 light:bg-slate-200 hover:bg-slate-700 light:hover:bg-slate-300 text-slate-200 light:text-slate-800 text-xs font-medium border border-slate-700 light:border-slate-300 transition-colors cursor-pointer"

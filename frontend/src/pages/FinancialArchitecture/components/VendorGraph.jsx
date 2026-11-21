@@ -70,7 +70,7 @@ export function VendorGraph() {
   const handleTouchEnd = () => setIsDragging(false);
 
   return (
-    <div className="w-full bg-[#0B0E17] light:bg-white border border-slate-800 light:border-slate-300 rounded-2xl p-6 text-slate-100 light:text-slate-900 font-sans shadow-xl">
+    <div className="w-full bg-dark-900 light:bg-white border border-slate-800 light:border-slate-300 rounded-2xl p-6 text-slate-100 light:text-slate-900 font-sans shadow-xl">
       {/* Section Header */}
       <div className="mb-6 pb-4 border-b border-slate-800 light:border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-2">
         <div>

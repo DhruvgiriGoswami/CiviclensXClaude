@@ -112,7 +112,7 @@ export function CapexBreakdownModal({ isOpen, onClose }) {
     <div className="fixed inset-0 z-[9999] bg-black/80 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
       <div ref={ref} role="dialog" aria-modal="true" aria-labelledby="capex-heading" tabIndex={-1}
         
-        className="w-full max-w-3xl max-h-[90vh] bg-[#0E1118] light:bg-white rounded-2xl border border-slate-700/80 light:border-slate-300 shadow-2xl flex flex-col overflow-hidden my-auto animate-in zoom-in-95 duration-200"
+        className="w-full max-w-3xl max-h-[90vh] bg-dark-800 light:bg-white rounded-2xl border border-slate-700/80 light:border-slate-300 shadow-2xl flex flex-col overflow-hidden my-auto animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}

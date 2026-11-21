@@ -230,11 +230,11 @@ export function CentralAuthorityDashboard({ onBackToMap }) {
   };
 
   return (
-    <div className="min-h-screen h-screen flex flex-col bg-[#0B0D12] light:bg-slate-50 text-slate-100 light:text-slate-900 font-sans overflow-hidden transition-colors">
+    <div className="min-h-screen h-screen flex flex-col bg-dark-900 light:bg-slate-50 text-slate-100 light:text-slate-900 font-sans overflow-hidden transition-colors">
       {keyPrompt && (
         <div className="fixed inset-0 z-[9999] bg-black/70 flex items-center justify-center p-4">
           <form ref={keyDialogRef} onSubmit={submitAdminKey} role="dialog" aria-modal="true" aria-labelledby="admin-key-heading" tabIndex={-1}
-            className="w-full max-w-sm rounded-2xl bg-[#12151E] light:bg-white border border-slate-700 light:border-slate-200 p-5 space-y-3">
+            className="w-full max-w-sm rounded-2xl bg-dark-800 light:bg-white border border-slate-700 light:border-slate-200 p-5 space-y-3">
             <h2 id="admin-key-heading" className="text-base font-semibold">Admin key needed</h2>
             <p className="text-sm text-slate-400 light:text-slate-600">Deleting complaint #{keyPrompt.ticketId} needs the admin key. It is kept only until you close this tab.</p>
             <label htmlFor="admin-key" className="block text-sm font-medium">Admin key</label>

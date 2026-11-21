@@ -14,7 +14,7 @@ export function AnalyticsPanel({ stats, defaultOpen = false }) {
   const maxStatusCount = statuses.length > 0 ? Math.max(...statuses.map(s => s[1])) : 1;
 
   return (
-    <div className="bg-[#12161F] light:bg-white border-b border-slate-800 light:border-slate-200 transition-colors">
+    <div className="bg-dark-800 light:bg-white border-b border-slate-800 light:border-slate-200 transition-colors">
       {/* Collapsible Header Toggle */}
       <button
         onClick={() => setIsOpen(prev => !prev)}
@@ -38,7 +38,7 @@ export function AnalyticsPanel({ stats, defaultOpen = false }) {
         <div className="p-4 sm:px-6 pt-1 pb-4 animate-fadeIn">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Breakdown by Category */}
-            <div className="bg-[#0B0D12] light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl p-3.5">
+            <div className="bg-dark-900 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl p-3.5">
               <div className="flex items-center justify-between mb-3 text-slate-400 light:text-slate-600 text-xs">
                 <span className="flex items-center gap-1.5 font-bold text-slate-200 light:text-slate-800">
                   <Tag className="w-3.5 h-3.5 text-amber-400 light:text-amber-600" />
@@ -73,7 +73,7 @@ export function AnalyticsPanel({ stats, defaultOpen = false }) {
             </div>
 
             {/* Breakdown by Status */}
-            <div className="bg-[#0B0D12] light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl p-3.5">
+            <div className="bg-dark-900 light:bg-slate-50 border border-slate-800/80 light:border-slate-200 rounded-xl p-3.5">
               <div className="flex items-center justify-between mb-3 text-slate-400 light:text-slate-600 text-xs">
                 <span className="flex items-center gap-1.5 font-bold text-slate-200 light:text-slate-800">
                   <Layers className="w-3.5 h-3.5 text-emerald-400 light:text-emerald-600" />

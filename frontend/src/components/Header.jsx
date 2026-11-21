@@ -247,9 +247,9 @@ export function Header({
   const hasAnyResults = apiSearchResults.length > 0 || matchedStates.length > 0 || matchedCorps.length > 0 || matchedLeaders.length > 0 || matchedWards.length > 0;
 
   return (
-    <div className="w-full flex-shrink-0 z-30 pt-[env(safe-area-inset-top)] bg-[#0E1118] light:bg-[#F8FAFC] flex flex-col">
+    <div className="w-full flex-shrink-0 z-30 pt-[env(safe-area-inset-top)] bg-dark-800 light:bg-[#F8FAFC] flex flex-col">
       {/* ─── Main Header Navigation ─── */}
-      <header className="min-h-14 lg:h-16 bg-[#0E1118] light:bg-white border-b border-slate-800/80 light:border-slate-200 px-3 sm:px-4 py-2 lg:py-0 flex flex-col lg:flex-row lg:items-center justify-between relative shadow-sm gap-2 lg:gap-0">
+      <header className="min-h-14 lg:h-16 bg-dark-800 light:bg-white border-b border-slate-800/80 light:border-slate-200 px-3 sm:px-4 py-2 lg:py-0 flex flex-col lg:flex-row lg:items-center justify-between relative shadow-sm gap-2 lg:gap-0">
         <div className="flex items-center justify-between w-full lg:w-auto relative">
           {/* Logo on Left */}
           <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-lg border border-crimson-400/40 flex-shrink-0 bg-white flex items-center justify-center p-0.5">
@@ -663,7 +663,7 @@ export function Header({
       </header>
 
       {/* ─── ReBIT / RBI Style Top Accessibility & Utility Toolbar ─── */}
-      <div className="order-first hidden sm:flex min-h-7 py-0.5 bg-[#06080E] light:bg-[#F1F5F9] text-slate-300 light:text-slate-800 border-b border-slate-800/80 light:border-slate-300 px-3 sm:px-4 items-center justify-between text-xs sm:text-xs select-none flex-wrap gap-1">
+      <div className="order-first hidden sm:flex min-h-7 py-0.5 bg-dark-900 light:bg-[#F1F5F9] text-slate-300 light:text-slate-800 border-b border-slate-800/80 light:border-slate-300 px-3 sm:px-4 items-center justify-between text-xs sm:text-xs select-none flex-wrap gap-1">
         <div className="flex items-center space-x-2 min-w-0">
 
         </div>

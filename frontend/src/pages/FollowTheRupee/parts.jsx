@@ -59,7 +59,7 @@ export function DotWhisker({ rate, label }) {
         <line x1={x(0)} x2={x(1)} y1="10" y2="10" className="stroke-slate-700 light:stroke-slate-200" strokeWidth="2" />
         <line x1={x(rate.ci_low)} x2={x(rate.ci_high)} y1="10" y2="10" className="stroke-slate-300 light:stroke-slate-500" strokeWidth="2" strokeLinecap="round" />
         <line x1={x(rate.expected)} x2={x(rate.expected)} y1="3" y2="17" className="stroke-slate-400 light:stroke-slate-600" strokeWidth="2" />
-        <circle cx={x(rate.observed)} cy="10" r="5" className="fill-crimson-500 light:fill-crimson-700 stroke-[#12151E] light:stroke-white" strokeWidth="2" />
+        <circle cx={x(rate.observed)} cy="10" r="5" className="fill-crimson-500 light:fill-crimson-700 stroke-dark-800 light:stroke-white" strokeWidth="2" />
       </svg>
     </div>
   );

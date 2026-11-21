@@ -162,7 +162,7 @@ export function FollowRupee({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4">
-      <div className="bg-[#0B0E17] light:bg-white border border-cyan-500/50 light:border-slate-300 rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden font-sans text-slate-100 light:text-slate-900 transition-colors">
+      <div className="bg-dark-900 light:bg-white border border-cyan-500/50 light:border-slate-300 rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden font-sans text-slate-100 light:text-slate-900 transition-colors">
         
         {/* Header */}
         <div className="p-4 bg-slate-950/90 light:bg-slate-50 border-b border-slate-800 light:border-slate-200 flex items-center justify-between">

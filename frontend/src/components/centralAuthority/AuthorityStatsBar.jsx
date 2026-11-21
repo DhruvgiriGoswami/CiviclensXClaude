@@ -6,7 +6,7 @@ export function AuthorityStatsBar({ stats, isLoading, error, onFilterByStatus, a
 
   if (isLoading) {
     return (
-      <div className="bg-[#0F142A] light:bg-[#EEF2FF] border-b border-indigo-500/30 light:border-indigo-200 p-3 sm:px-6 flex items-center justify-center gap-2 text-indigo-300 light:text-indigo-800 text-xs py-4 transition-colors">
+      <div className="bg-dark-800 light:bg-[#EEF2FF] border-b border-indigo-500/30 light:border-indigo-200 p-3 sm:px-6 flex items-center justify-center gap-2 text-indigo-300 light:text-indigo-800 text-xs py-4 transition-colors">
         <Loader2 className="w-4 h-4 animate-spin text-indigo-400 light:text-indigo-600" />
         <span>Loading ticket summary statistics...</span>
       </div>
@@ -15,7 +15,7 @@ export function AuthorityStatsBar({ stats, isLoading, error, onFilterByStatus, a
 
   if (error) {
     return (
-      <div className="bg-[#0F142A] light:bg-[#EEF2FF] border-b border-indigo-500/30 light:border-indigo-200 p-3 sm:px-6">
+      <div className="bg-dark-800 light:bg-[#EEF2FF] border-b border-indigo-500/30 light:border-indigo-200 p-3 sm:px-6">
         <div className="p-2.5 rounded-lg bg-rose-950/40 light:bg-rose-50 border border-rose-800/60 light:border-rose-200 text-rose-300 light:text-rose-700 text-xs flex items-center gap-2">
           <AlertCircle className="w-4 h-4 text-rose-400 light:text-rose-600 flex-shrink-0" />
           <span>Unable to load live statistics: {error}</span>
@@ -37,7 +37,7 @@ export function AuthorityStatsBar({ stats, isLoading, error, onFilterByStatus, a
       value: total,
       icon: Ticket,
       borderColor: 'border-slate-700 light:border-slate-300',
-      bgColor: 'bg-[#151C33] light:bg-white',
+      bgColor: 'bg-dark-700 light:bg-white',
       textColor: 'text-slate-200 light:text-slate-900',
     },
     {
@@ -82,7 +82,7 @@ export function AuthorityStatsBar({ stats, isLoading, error, onFilterByStatus, a
   }
 
   return (
-    <div className="bg-[#0F142A] light:bg-[#EEF2FF] border-b border-indigo-500/30 light:border-indigo-200 p-3 sm:px-6 transition-colors shadow-sm">
+    <div className="bg-dark-800 light:bg-[#EEF2FF] border-b border-indigo-500/30 light:border-indigo-200 p-3 sm:px-6 transition-colors shadow-sm">
       {/* Collapsible Header */}
       <div
         onClick={() => setIsCollapsed(!isCollapsed)}
