@@ -89,7 +89,7 @@ const DEFAULT_STATES_AND_UTS = [
   { stateId: 'MN', stateName: 'Manipur', cmName: 'Yumnam Khemchand Singh', party: 'BJP', capital: 'Imphal', type: 'STATE', headTitle: 'Chief Minister', photo: '/leader_images/Yumnam_Khemchand_Singh_Manipur.jpg', budget: '₹32,339 Cr (FY 2026-27)' },
   { stateId: 'ML', stateName: 'Meghalaya', cmName: 'Conrad Kongkal Sangma', party: 'NPP', capital: 'Shillong', type: 'STATE', headTitle: 'Chief Minister', photo: '/leader_images/Conrad_Kongkal_Sangma_Meghalaya.jpg', budget: '₹32,023 Cr (FY 2026-27)' },
   { stateId: 'MZ', stateName: 'Mizoram', cmName: 'Lalduhoma', party: 'ZPM', capital: 'Aizawl', type: 'STATE', headTitle: 'Chief Minister', photo: '/leader_images/Lalduhoma_Mizoram.jpg', budget: '₹17,469 Cr (FY 2026-27)' },
-  { stateId: 'NL', stateName: 'Nagaland', cmName: 'Neiphiu Rio', party: 'NDPP', capital: 'Kohima', type: 'STATE', headTitle: 'Chief Minister', photo: '/leader_images/Neiphiu_Rio_Nagaland.jpg', budget: '₹24,699 Cr (FY 2025-26)' },
+  { stateId: 'NL', stateName: 'Nagaland', cmName: 'Neiphiu Rio', party: 'NPF', capital: 'Kohima', type: 'STATE', headTitle: 'Chief Minister', photo: '/leader_images/Neiphiu_Rio_Nagaland.jpg', budget: '₹24,699 Cr (FY 2025-26)' },
   { stateId: 'OD', stateName: 'Odisha', cmName: 'Mohan Charan Majhi', party: 'BJP', capital: 'Bhubaneswar', type: 'STATE', headTitle: 'Chief Minister', photo: '/leader_images/Mohan_Charan_Majhi_Odisha.jpg', budget: '₹3,10,000 Cr (FY 2026-27)' },
   { stateId: 'PB', stateName: 'Punjab', cmName: 'Bhagwant Singh Mann', party: 'AAP', capital: 'Chandigarh', type: 'STATE', headTitle: 'Chief Minister', photo: '/leader_images/Bhagwant_Singh_Mann_Punjab.jpg', budget: '₹2,60,437 Cr (FY 2026-27)' },
   { stateId: 'RJ', stateName: 'Rajasthan', cmName: 'Bhajan Lal Sharma', party: 'BJP', capital: 'Jaipur', type: 'STATE', headTitle: 'Chief Minister', photo: '/leader_images/Bhajan_Lal_Sharma_Rajasthan.jpg', budget: '₹6,10,956 Cr (FY 2026-27)' },
@@ -102,12 +102,12 @@ const DEFAULT_STATES_AND_UTS = [
   { stateId: 'WB', stateName: 'West Bengal', cmName: 'Suvendu Adhikari', party: 'BJP', capital: 'Kolkata', type: 'STATE', headTitle: 'Chief Minister', photo: '/leader_images/Suvendu_Adhikari_West_Bengal.png', budget: '₹4,06,000 Cr (FY 2026-27)' },
 
   // 8 UNION TERRITORIES
-  { stateId: 'AN', stateName: 'Andaman & Nicobar Islands', cmName: 'Adm. D. K. Joshi', party: 'Independent', capital: 'Port Blair', type: 'UNION_TERRITORY', headTitle: 'Lieutenant Governor', budget: 'UT Central Allocation' },
+  { stateId: 'AN', stateName: 'Andaman & Nicobar Islands', cmName: 'Dinesh Sharma', party: 'Independent', capital: 'Port Blair', type: 'UNION_TERRITORY', headTitle: 'Lieutenant Governor', budget: 'UT Central Allocation' },
   { stateId: 'CH', stateName: 'Chandigarh', cmName: 'Gulab Chand Kataria', party: 'Independent', capital: 'Chandigarh', type: 'UNION_TERRITORY', headTitle: 'Administrator', budget: 'UT Central Allocation' },
   { stateId: 'DN', stateName: 'Dadra & Nagar Haveli and Daman & Diu', cmName: 'Praful Patel', party: 'Independent', capital: 'Daman', type: 'UNION_TERRITORY', headTitle: 'Administrator', budget: 'UT Central Allocation' },
   { stateId: 'DL', stateName: 'Delhi (NCT)', cmName: 'Rekha Gupta', party: 'BJP', capital: 'New Delhi', type: 'UNION_TERRITORY', headTitle: 'Chief Minister', photo: '/leader_images/Rekha_Gupta_Delhi.webp', budget: '₹1,00,000 Cr (FY 2025-26)' },
   { stateId: 'JK', stateName: 'Jammu & Kashmir', cmName: 'Omar Abdullah', party: 'JKNC', capital: 'Srinagar / Jammu', type: 'UNION_TERRITORY', headTitle: 'Chief Minister', photo: '/leader_images/Omar_Abdullah_Jammu_and_Kashmir.jpg', budget: '₹1,27,767 Cr (FY 2026-27)' },
-  { stateId: 'LA', stateName: 'Ladakh', cmName: 'Brig. (Dr.) B. D. Mishra', party: 'Independent', capital: 'Leh', type: 'UNION_TERRITORY', headTitle: 'Lieutenant Governor', budget: 'UT Central Allocation' },
+  { stateId: 'LA', stateName: 'Ladakh', cmName: 'Vinai Kumar Saxena', party: 'Independent', capital: 'Leh', type: 'UNION_TERRITORY', headTitle: 'Lieutenant Governor', budget: 'UT Central Allocation' },
   { stateId: 'LD', stateName: 'Lakshadweep', cmName: 'Praful Patel', party: 'Independent', capital: 'Kavaratti', type: 'UNION_TERRITORY', headTitle: 'Administrator', budget: 'UT Central Allocation' },
   { stateId: 'PY', stateName: 'Puducherry', cmName: 'N. Rangaswamy', party: 'AINRC', capital: 'Puducherry', type: 'UNION_TERRITORY', headTitle: 'Chief Minister', photo: '/leader_images/N_Rangaswamy_Puducherry.jpg', budget: '₹11,600 Cr (FY 2025-26)' }
 ];
@@ -173,6 +173,7 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
     let rawStId = (s.state_id || '').replace('IN-', '').toUpperCase();
     let stName = s.state_name || '';
 
+    if (rawStId === 'CT') rawStId = 'CG'; // the API uses ISO CT for Chhattisgarh, this list uses CG
     if (rawStId.includes('NAGPUR') || stName === 'Nagpur District') {
       rawStId = 'MH';
       stName = 'Maharashtra';
