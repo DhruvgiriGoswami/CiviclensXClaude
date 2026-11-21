@@ -179,7 +179,7 @@ export function MapContainer({
   });
 
   // 4. Red Boundary Highlight Hook
-  const { clearHighlightShapes, isBoundaryLoading } = useRedBoundaryHighlight({
+  const { isBoundaryLoading } = useRedBoundaryHighlight({
     googleMapRef,
     isMapReady,
     currentLevel,
@@ -265,8 +265,7 @@ export function MapContainer({
   const handleResetMap = () => {
     if (!googleMapRef.current) return;
     fitIndia(googleMapRef.current, executeCameraCommand);
-    clearHighlightShapes();
-    onResetToNational();
+    onResetToNational(); // the NATIONAL level effect redraws the state hover shapes
     infoWindowRef.current?.close();
   };
 

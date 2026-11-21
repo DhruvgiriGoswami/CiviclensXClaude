@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { ArrowLeft, Landmark, Play, ShieldCheck, Sun, Moon } from 'lucide-react';
-import { useTheme } from '../../context/ThemeContext';
+import React, { useLayoutEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
+import { ArrowLeft, ArrowRight, Landmark, Play } from 'lucide-react';
+import ThemeToggle from '../../components/ThemeToggle';
 import { ArchitectureCanvas } from './components/ArchitectureCanvas';
 import { NodeInspector } from './components/NodeInspector';
 import { FollowRupee } from './components/FollowRupee';
@@ -13,9 +14,19 @@ import { CitizenView } from './components/CitizenView';
 import './styles/financialArchitecture.css';
 
 export default function FinancialArchitecture({ onBackToMap }) {
-  const { theme, toggleTheme } = useTheme();
+  
   const [selectedNode, setSelectedNode] = useState(null);
   const [isFollowRupeeOpen, setIsFollowRupeeOpen] = useState(false);
+  const heroRef = useRef(null);
+
+  // Hero lines rise in one after another. Reduced motion shows them as they are.
+  useLayoutEffect(() => {
+    const mm = gsap.matchMedia();
+    mm.add('(prefers-reduced-motion: no-preference)', () => {
+      gsap.from('.hero-reveal', { y: 24, autoAlpha: 0, duration: 0.8, ease: 'power3.out', stagger: 0.08 });
+    }, heroRef);
+    return () => mm.revert();
+  }, []);
 
   const scrollToSection = (id) => {
     const container = document.querySelector('.financial-arch-page-container');
@@ -29,168 +40,97 @@ export default function FinancialArchitecture({ onBackToMap }) {
   };
 
   return (
-    <div className="financial-arch-page-container custom-scrollbar min-h-screen w-full bg-dark-900 light:bg-[#F8FAFC] text-slate-100 light:text-slate-900 font-sans flex flex-col selection:bg-cyan-500 selection:text-slate-950 transition-colors">
+    <div className="financial-arch-page-container custom-scrollbar min-h-screen w-full bg-dark-900 light:bg-[#F8FAFC] text-slate-100 light:text-slate-900 font-sans flex flex-col selection:bg-crimson-500 selection:text-white">
       
-      {/* ─── A. INSTITUTIONAL HEADER ─── */}
-      <header className="sticky top-0 z-40 bg-dark-900/95 light:bg-white/95 border-b border-slate-800/80 light:border-slate-200 px-3 sm:px-6 py-2.5 shadow-xl">
-      <p role="note" className="bg-amber-100 text-amber-950 text-sm font-medium text-center px-3 py-2">
+      {/* ─── A. HEADER ─── */}
+      <header className="sticky top-0 z-40 bg-dark-800/85 light:bg-white/85 backdrop-blur-xl border-b border-white/[0.06] light:border-slate-200/80">
+        <p role="note" className="bg-amber-100 text-amber-950 text-xs font-medium text-center px-3 py-1.5">
           Illustrative data, not real records. Every body, person, number and ID on this page is made up.
         </p>
 
-        <div className="max-w-7xl mx-auto w-full flex items-center justify-between gap-2 sm:gap-4">
-          
-          {/* Left: Main Map & Logo */}
-          <div className="flex items-center gap-2.5 flex-shrink-0">
+        <div className="max-w-7xl mx-auto w-full h-16 px-3 sm:px-6 flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             {onBackToMap && (
-              <button
-                onClick={onBackToMap}
-                className="px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-900 light:bg-slate-100 hover:bg-slate-800 light:hover:bg-slate-200 border border-slate-800 light:border-slate-300 text-slate-400 light:text-slate-700 hover:text-white light:hover:text-slate-900 transition-colors flex items-center gap-1.5 text-xs font-bold shadow-sm"
-                title="Return to CivicLens Main Map"
-              >
-                <ArrowLeft className="w-4 h-4 text-cyan-400" />
-                <span className="hidden sm:inline">Main Map</span>
+              <button onClick={onBackToMap} className="inline-flex items-center gap-1.5 h-10 px-3.5 rounded-full text-[13px] font-medium text-slate-300 light:text-slate-700 hover:text-white light:hover:text-slate-900 hover:bg-white/[0.08] light:hover:bg-slate-900/[0.05] active:scale-[0.97] transition-[background-color,color,transform] duration-150 pl-2.5" title="Return to CivicLens Main Map">
+                <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+                <span className="hidden sm:inline">Main map</span>
               </button>
             )}
-
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-xl bg-cyan-500 flex items-center justify-center text-slate-950 font-bold shadow-md">
-                <Landmark className="w-4.5 h-4.5 text-slate-950" />
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-[10px] bg-crimson-600 flex items-center justify-center flex-shrink-0">
+                <Landmark className="w-4 h-4 text-white" aria-hidden="true" />
               </div>
-              <div className="hidden xs:block">
-                <span className="font-extrabold text-sm tracking-wider text-slate-100 light:text-slate-900">
-                  CivicLens
-                </span>
-              </div>
+              <span className="text-[15px] font-semibold tracking-tight text-slate-100 light:text-slate-900 truncate">
+                CivicLens <span className="font-normal text-slate-400 light:text-slate-500">Finance</span>
+              </span>
             </div>
           </div>
 
-          {/* Middle: Title */}
-          <div className="text-center min-w-0 px-1 flex-1 max-w-[320px] sm:max-w-md lg:max-w-lg">
-            <h1 className="text-xs sm:text-sm md:text-base font-extrabold tracking-wide text-slate-100 light:text-slate-900 truncate font-sans">
-              Transparent Public Finance Architecture
-            </h1>
-            <p className="text-xs sm:text-xs text-cyan-400 light:text-cyan-700 font-bold truncate hidden sm:block">
-              A proposal for tracing public money, shown with sample data
-            </p>
-          </div>
-
-          {/* Right: Section Buttons (xl:flex), Theme Toggle & Follow ₹1 Button */}
-          <div className="flex items-center gap-2 flex-shrink-0">
-            <nav className="hidden xl:flex items-center space-x-2 text-xs font-bold text-slate-300 light:text-slate-700 border-r border-slate-800 light:border-slate-200 pr-2">
-              <button
-                onClick={() => scrollToSection('architecture-canvas')}
-                className="px-2 py-1 rounded hover:text-cyan-400 light:hover:text-cyan-700 hover:bg-slate-800/50 light:hover:bg-slate-100 transition-colors"
-              >
-                Architecture
-              </button>
-              <button
-                onClick={() => scrollToSection('financial-lineage')}
-                className="px-2 py-1 rounded hover:text-cyan-400 light:hover:text-cyan-700 hover:bg-slate-800/50 light:hover:bg-slate-100 transition-colors"
-              >
-                Lineage
-              </button>
-              <button
-                onClick={() => scrollToSection('control-points')}
-                className="px-2 py-1 rounded hover:text-cyan-400 light:hover:text-cyan-700 hover:bg-slate-800/50 light:hover:bg-slate-100 transition-colors"
-              >
-                Controls
-              </button>
-              <button
-                onClick={() => scrollToSection('risk-engine')}
-                className="px-2 py-1 rounded hover:text-cyan-400 light:hover:text-cyan-700 hover:bg-slate-800/50 light:hover:bg-slate-100 transition-colors"
-              >
-                Risk
-              </button>
-              <button
-                onClick={() => scrollToSection('citizen-view')}
-                className="px-2 py-1 rounded hover:text-cyan-400 light:hover:text-cyan-700 hover:bg-slate-800/50 light:hover:bg-slate-100 transition-colors"
-              >
-                Citizen
-              </button>
+          <div className="flex items-center gap-1 flex-shrink-0">
+            <nav aria-label="Sections" className="hidden xl:flex items-center gap-0.5 mr-1">
+              <button onClick={() => scrollToSection('architecture-canvas')} className="inline-flex items-center gap-1.5 h-10 px-3.5 rounded-full text-[13px] font-medium text-slate-300 light:text-slate-700 hover:text-white light:hover:text-slate-900 hover:bg-white/[0.08] light:hover:bg-slate-900/[0.05] active:scale-[0.97] transition-[background-color,color,transform] duration-150">Architecture</button>
+              <button onClick={() => scrollToSection('financial-lineage')} className="inline-flex items-center gap-1.5 h-10 px-3.5 rounded-full text-[13px] font-medium text-slate-300 light:text-slate-700 hover:text-white light:hover:text-slate-900 hover:bg-white/[0.08] light:hover:bg-slate-900/[0.05] active:scale-[0.97] transition-[background-color,color,transform] duration-150">Lineage</button>
+              <button onClick={() => scrollToSection('control-points')} className="inline-flex items-center gap-1.5 h-10 px-3.5 rounded-full text-[13px] font-medium text-slate-300 light:text-slate-700 hover:text-white light:hover:text-slate-900 hover:bg-white/[0.08] light:hover:bg-slate-900/[0.05] active:scale-[0.97] transition-[background-color,color,transform] duration-150">Controls</button>
+              <button onClick={() => scrollToSection('risk-engine')} className="inline-flex items-center gap-1.5 h-10 px-3.5 rounded-full text-[13px] font-medium text-slate-300 light:text-slate-700 hover:text-white light:hover:text-slate-900 hover:bg-white/[0.08] light:hover:bg-slate-900/[0.05] active:scale-[0.97] transition-[background-color,color,transform] duration-150">Risk</button>
+              <button onClick={() => scrollToSection('citizen-view')} className="inline-flex items-center gap-1.5 h-10 px-3.5 rounded-full text-[13px] font-medium text-slate-300 light:text-slate-700 hover:text-white light:hover:text-slate-900 hover:bg-white/[0.08] light:hover:bg-slate-900/[0.05] active:scale-[0.97] transition-[background-color,color,transform] duration-150">Citizen</button>
             </nav>
-
-            {/* Light / Dark Mode Toggle Button */}
-            <button
-              onClick={toggleTheme}
-              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              className="p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl bg-slate-900 light:bg-slate-100 text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300 hover:border-cyan-400 transition-colors flex items-center gap-1 text-xs shadow-sm"
-            >
-              {theme === 'dark' ? (
-                <>
-                  <Sun className="w-3.5 h-3.5 text-amber-400" />
-                  <span className="hidden sm:inline">Light</span>
-                </>
-              ) : (
-                <>
-                  <Moon className="w-3.5 h-3.5 text-amber-600" />
-                  <span className="hidden sm:inline">Dark</span>
-                </>
-              )}
-            </button>
-
-            {/* Follow 1 Rupee Button */}
+            <ThemeToggle />
             <button
               onClick={() => setIsFollowRupeeOpen(true)}
-              className="flex items-center gap-1 px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-cyan-500 text-slate-950 text-xs font-extrabold shadow-md transition-all whitespace-nowrap"
+              className="group ml-1 inline-flex items-center gap-1.5 h-10 pl-3.5 pr-4 rounded-full bg-crimson-600 hover:bg-crimson-700 text-white text-[13px] font-semibold shadow-sm active:scale-[0.97] transition-[background-color,transform] duration-150 whitespace-nowrap"
             >
-              <Play className="w-3.5 h-3.5 fill-slate-950" />
+              <Play className="w-3.5 h-3.5 fill-white transition-transform duration-200 group-hover:scale-110" aria-hidden="true" />
               <span>Follow ₹1</span>
             </button>
           </div>
-
         </div>
       </header>
 
 
-      {/* ─── B. HERO / PURPOSE ─── */}
-      <section className="px-4 py-8 max-w-7xl mx-auto w-full flex flex-col items-center text-center relative overflow-hidden">
-
-        <h1 className="text-2xl sm:text-4xl md:text-5xl font-extrabold text-slate-100 light:text-slate-900 max-w-4xl leading-tight tracking-tight mb-3">
-          Transparent Public Finance Architecture
-        </h1>
-
-        <p className="text-base sm:text-lg font-medium text-cyan-300 light:text-cyan-700 mb-3">
-          "From government allocation to the final rupee spent."
-        </p>
-
-        <p className="text-xs sm:text-sm text-slate-400 light:text-slate-600 max-w-2xl leading-relaxed mb-6">
-          A proposed framework connecting funding, procurement, project execution, verification and digital payment records into a single traceable financial lineage using an authorised sovereign digital payment rail (Wholesale CBDC).
-        </p>
-
-        {/* Hero CTA buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
+      {/* ─── B. HERO ─── */}
+      <section ref={heroRef} className="relative w-full flex-shrink-0 overflow-hidden">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-x-0 -top-40 h-[480px] bg-[radial-gradient(ellipse_at_center,rgba(184,71,95,0.22),transparent_65%)] light:bg-[radial-gradient(ellipse_at_center,rgba(140,36,69,0.10),transparent_65%)]" />
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-20 md:pt-28 md:pb-28 flex flex-col items-center text-center">
+          <p className="hero-reveal text-sm font-medium text-crimson-300 light:text-crimson-700 mb-5">
+            Transparent Public Finance Architecture
+          </p>
+          <h1 className="hero-reveal max-w-5xl text-[clamp(2.25rem,5vw,4.25rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-slate-100 light:text-slate-900 mb-6">
+            From government allocation to the final rupee spent.
+          </h1>
+          <p className="hero-reveal max-w-2xl text-base sm:text-lg leading-relaxed text-slate-400 light:text-slate-600 mb-9">
+            A proposal for tracing public money, shown with sample data. It connects funding, procurement, project execution, verification and digital payment records into a single traceable financial lineage using an authorised sovereign digital payment rail (Wholesale CBDC).
+          </p>
+          <div className="hero-reveal flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={() => scrollToSection('architecture-canvas')}
+              className="group inline-flex items-center gap-2 h-12 px-6 rounded-full bg-crimson-600 hover:bg-crimson-700 text-white text-sm font-semibold shadow-sm active:scale-[0.97] transition-[background-color,transform] duration-150"
+            >
+              Explore the architecture
+              <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
+            </button>
+            <button
+              onClick={() => setIsFollowRupeeOpen(true)}
+              className="inline-flex items-center gap-2 h-12 px-6 rounded-full border border-white/15 light:border-slate-300 text-slate-100 light:text-slate-900 hover:bg-white/[0.06] light:hover:bg-slate-900/[0.04] text-sm font-semibold active:scale-[0.97] transition-[background-color,transform] duration-150"
+            >
+              <Play className="w-3.5 h-3.5 fill-current" aria-hidden="true" />
+              Follow ₹1
+            </button>
+          </div>
           <button
-            onClick={() => scrollToSection('architecture-canvas')}
-            className="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-bold transition-all shadow-lg"
+            onClick={() => scrollToSection('citizen-view')}
+            className="hero-reveal mt-6 text-sm text-slate-400 light:text-slate-500 hover:text-slate-100 light:hover:text-slate-900 transition-colors"
           >
-            Explore Architecture
+            View citizen perspective ↓
           </button>
-
-          <button
-            onClick={() => setIsFollowRupeeOpen(true)}
-            className="px-5 py-2.5 rounded-xl bg-slate-900 light:bg-white hover:bg-slate-800 light:hover:bg-slate-100 border border-slate-800 light:border-slate-300 text-slate-200 light:text-slate-800 text-xs font-bold transition-all flex items-center gap-2 shadow-sm"
-          >
-            <Play className="w-3.5 h-3.5 text-cyan-400 fill-cyan-400" />
-            <span>Follow ₹1</span>
-          </button>
-        </div>
-
-        <button
-          onClick={() => scrollToSection('citizen-view')}
-          className="text-xs text-slate-500 light:text-slate-600 hover:text-cyan-400 transition-colors"
-        >
-          View citizen perspective ↓
-        </button>
-
-        {/* Subdued Institutional Context Notice */}
-        <div className="mt-6 p-2.5 rounded-xl bg-slate-950/60 light:bg-white border border-slate-800/80 light:border-slate-200 max-w-xl text-xs text-slate-500 light:text-slate-600 leading-normal shadow-sm">
-          DISCLAIMER: Conceptual proposal for institutional stakeholders. CivicLens does not issue currency, operate banking services, or access active RBI settlement infrastructure.
+          <p className="hero-reveal mt-10 max-w-xl text-xs leading-relaxed text-slate-500">
+            Conceptual proposal for institutional stakeholders. CivicLens does not issue currency, operate banking services, or access active RBI settlement infrastructure.
+          </p>
         </div>
       </section>
 
 
       {/* ─── C, D, E. MAIN INTERACTIVE ARCHITECTURE CANVAS & INSPECTOR ─── */}
-      <section id="architecture-canvas" className="w-full flex-1 flex flex-col lg:flex-row min-h-[820px] border-y border-slate-800 light:border-slate-300 relative bg-dark-900 light:bg-slate-50 mb-4 sm:mb-8">
+      <section id="architecture-canvas" className="w-full flex-1 flex flex-col lg:flex-row min-h-[820px] border-y border-white/[0.06] light:border-slate-200 relative bg-dark-900 light:bg-slate-50 mb-4 sm:mb-8">
         <div className="flex-1 flex flex-col">
           <ArchitectureCanvas
             selectedNode={selectedNode}
@@ -243,25 +183,18 @@ export default function FinancialArchitecture({ onBackToMap }) {
       </section>
 
 
-      {/* ─── M. CLOSING PRINCIPLE / SUMMARY ─── */}
-      <footer className="w-full bg-slate-950 light:bg-white border-t border-slate-800/80 light:border-slate-200 py-12 px-4">
-        <div className="max-w-4xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 p-2 rounded-xl bg-cyan-950/40 light:bg-cyan-50 border border-cyan-900/60 light:border-cyan-200 text-cyan-300 light:text-cyan-800 text-xs font-bold uppercase">
-            <ShieldCheck className="w-4 h-4 text-cyan-400 light:text-cyan-600" />
-            <span>THE CORE TRANSPARENCY PRINCIPLE</span>
-          </div>
-
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-100 light:text-slate-900">
-            "Every allocation should have a traceable financial and documentary lineage from source of funds to final recipient."
+      {/* ─── M. CLOSING PRINCIPLE ─── */}
+      <footer className="w-full border-t border-white/[0.06] light:border-slate-200 py-24 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-[clamp(1.5rem,3vw,2.25rem)] font-semibold leading-tight tracking-tight text-slate-100 light:text-slate-900 mb-5">
+            Every allocation should have a traceable financial and documentary lineage from source of funds to final recipient.
           </h2>
-
-          <p className="text-xs sm:text-sm text-slate-400 light:text-slate-600 leading-relaxed font-sans max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-slate-400 light:text-slate-600 leading-relaxed max-w-2xl mx-auto">
             Don't only audit the amount spent. Preserve the complete financial lineage of how, why, and where the money was spent across government allocation, procurement, project execution, independent verification, and sovereign digital payment settlement.
           </p>
-
-          <div className="pt-6 text-xs text-slate-500 light:text-slate-600 border-t border-slate-900 light:border-slate-200 space-y-2">
-            <div>CivicLens Proposed Public Finance Architecture &bull; Conceptual Stakeholder Demonstration Prototype</div>
-          </div>
+          <p className="mt-12 pt-6 border-t border-white/[0.06] light:border-slate-200 text-xs text-slate-500">
+            CivicLens Proposed Public Finance Architecture &bull; Conceptual Stakeholder Demonstration Prototype
+          </p>
         </div>
       </footer>
 

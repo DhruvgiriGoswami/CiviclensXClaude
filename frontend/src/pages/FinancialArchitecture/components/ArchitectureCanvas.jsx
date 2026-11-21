@@ -59,7 +59,7 @@ export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
   // Line colors depending on flow mode
   const getLineColor = () => {
     if (activeMode === FLOW_MODES.MONEY) return "#10B981"; // Emerald
-    if (activeMode === FLOW_MODES.CONTROL) return "#0EA5E9"; // Cyan
+    if (activeMode === FLOW_MODES.CONTROL) return "#B8475F"; // Wine, matches the Control chip
     return "#818CF8"; // Indigo
   };
 
@@ -70,31 +70,33 @@ export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
   };
 
   return (
-    <div className="w-full flex flex-col h-full bg-dark-900 light:bg-[#F8FAFC] text-slate-100 light:text-slate-900 relative overflow-hidden select-none border-b border-slate-800 light:border-slate-300">
+    <div className="w-full flex flex-col h-full bg-dark-900 light:bg-[#F8FAFC] text-slate-100 light:text-slate-900 relative overflow-hidden select-none">
       {/* Flow Mode Switcher Header */}
-      <div className="p-3 bg-slate-900 light:bg-white border-b border-slate-800 light:border-slate-200 z-10 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
+      <div className="px-4 sm:px-6 py-3 bg-dark-800 light:bg-white border-b border-white/[0.06] light:border-slate-200/80 z-10 flex flex-col sm:flex-row items-center justify-between gap-3">
         <FlowModeSelector activeMode={activeMode} onSelectMode={setActiveMode} />
 
         {/* Canvas Controls */}
-        <div className="flex items-center gap-1 bg-slate-900 light:bg-slate-100 border border-slate-800 light:border-slate-300 rounded-lg p-1">
+        <div role="group" aria-label="Canvas zoom" className="flex items-center gap-0.5 p-0.5 rounded-full bg-white/[0.06] light:bg-slate-100">
           <button
             onClick={handleZoomIn}
-            className="p-1.5 rounded hover:bg-slate-800 light:hover:bg-slate-200 text-slate-300 light:text-slate-700 hover:text-cyan-400 font-bold transition-colors"
+            aria-label="Zoom in"
+            className="w-9 h-9 inline-flex items-center justify-center rounded-full text-slate-300 light:text-slate-600 hover:text-white light:hover:text-slate-900 hover:bg-white/[0.08] light:hover:bg-white active:scale-[0.94] transition-[background-color,color,transform] duration-150"
             title="Zoom In"
           >
             <ZoomIn className="w-4 h-4" />
           </button>
           <button
             onClick={handleZoomOut}
-            className="p-1.5 rounded hover:bg-slate-800 light:hover:bg-slate-200 text-slate-300 light:text-slate-700 hover:text-cyan-400 font-bold transition-colors"
+            aria-label="Zoom out"
+            className="w-9 h-9 inline-flex items-center justify-center rounded-full text-slate-300 light:text-slate-600 hover:text-white light:hover:text-slate-900 hover:bg-white/[0.08] light:hover:bg-white active:scale-[0.94] transition-[background-color,color,transform] duration-150"
             title="Zoom Out"
           >
             <ZoomOut className="w-4 h-4" />
           </button>
-          <div className="w-px h-4 bg-slate-800 light:bg-slate-300 my-auto"></div>
+          <div className="w-px h-4 bg-white/10 light:bg-slate-300 mx-0.5"></div>
           <button
             onClick={handleResetView}
-            className="p-1.5 rounded hover:bg-slate-800 light:hover:bg-slate-200 text-slate-300 light:text-slate-700 hover:text-cyan-400 transition-colors flex items-center gap-1 text-xs font-bold"
+            className="h-9 px-3 inline-flex items-center gap-1.5 text-xs font-medium rounded-full text-slate-300 light:text-slate-600 hover:text-white light:hover:text-slate-900 hover:bg-white/[0.08] light:hover:bg-white active:scale-[0.94] transition-[background-color,color,transform] duration-150"
             title="Reset Pan & Zoom"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -137,14 +139,14 @@ export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
                 <polygon points="0 0, 8 3, 0 6" fill="#10B981" />
               </marker>
               <marker
-                id="arrowhead-cyan"
+                id="arrowhead-wine"
                 markerWidth="8"
                 markerHeight="6"
                 refX="7"
                 refY="3"
                 orient="auto"
               >
-                <polygon points="0 0, 8 3, 0 6" fill="#0EA5E9" />
+                <polygon points="0 0, 8 3, 0 6" fill="#B8475F" />
               </marker>
               <marker
                 id="arrowhead-indigo"
@@ -201,7 +203,7 @@ export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
                 activeMode === FLOW_MODES.MONEY
                   ? "url(#arrowhead-emerald)"
                   : activeMode === FLOW_MODES.CONTROL
-                  ? "url(#arrowhead-cyan)"
+                  ? "url(#arrowhead-wine)"
                   : "url(#arrowhead-indigo)";
 
               return (
@@ -234,19 +236,19 @@ export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
                       y="-13"
                       width={badgeWidth}
                       height="26"
-                      rx="6"
-                      fill="#FFFFFF"
+                      rx="13"
+                      className="fill-dark-800 light:fill-white"
                       stroke={getLineColor()}
-                      strokeWidth="1.5"
-                      strokeOpacity="0.9"
+                      strokeWidth="1"
+                      strokeOpacity="0.7"
                     />
                     <text
                       x="0"
                       y="4"
                       textAnchor="middle"
-                      fill="#0F172A"
+                      className="fill-slate-100 light:fill-slate-900"
                       fontSize="12"
-                      fontWeight="600"
+                      fontWeight="500"
                     >
                       {labelText}
                     </text>
@@ -273,8 +275,8 @@ export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
         </div>
 
         {/* Bottom Helper Bar */}
-        <div className="absolute bottom-3 left-3 right-3 max-w-[calc(100%-1.5rem)] sm:max-w-max z-10 bg-slate-950/90 light:bg-white/90 border border-slate-800 light:border-slate-300 rounded-xl px-3 py-1.5 text-xs text-slate-300 light:text-slate-800 flex items-center gap-2 shadow-lg">
-          <Info className="w-3.5 h-3.5 text-cyan-400 flex-shrink-0" />
+        <div className="absolute bottom-4 left-4 right-4 max-w-[calc(100%-2rem)] sm:max-w-max z-10 bg-dark-800/90 light:bg-white/90 backdrop-blur border border-white/[0.08] light:border-slate-200 rounded-full px-4 py-2 text-xs text-slate-300 light:text-slate-700 flex items-center gap-2 shadow-lg">
+          <Info className="w-3.5 h-3.5 text-crimson-400 flex-shrink-0" />
           <span>Click any node to inspect institutional specifications & linked records. Drag canvas to navigate.</span>
         </div>
       </div>

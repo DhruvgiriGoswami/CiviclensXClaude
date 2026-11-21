@@ -162,16 +162,16 @@ export function FollowRupee({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-3 sm:p-4">
-      <div className="bg-dark-900 light:bg-white border border-cyan-500/50 light:border-slate-300 rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden font-sans text-slate-100 light:text-slate-900 transition-colors">
+      <div className="bg-dark-900 light:bg-white border border-crimson-500/50 light:border-slate-300 rounded-2xl w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden font-sans text-slate-100 light:text-slate-900 transition-colors">
         
         {/* Header */}
         <div className="p-4 bg-slate-950/90 light:bg-slate-50 border-b border-slate-800 light:border-slate-200 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-cyan-500 text-slate-950 font-extrabold flex items-center justify-center text-lg shadow-lg">
+            <div className="w-9 h-9 rounded-xl bg-crimson-600 text-white font-extrabold flex items-center justify-center text-lg shadow-lg">
               ₹1
             </div>
             <div>
-              <div className="text-xs uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
+              <div className="text-xs uppercase font-bold text-crimson-400 light:text-crimson-700 tracking-wider">
                 INTERACTIVE DEMONSTRATION
               </div>
               <h2 className="text-base font-bold text-slate-100 light:text-slate-900">
@@ -199,7 +199,7 @@ export function FollowRupee({ isOpen, onClose }) {
                 }}
                 className={`flex-shrink-0 flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold transition-all ${
                   idx === currentStepIndex
-                    ? "bg-cyan-500 text-slate-950 ring-2 ring-cyan-300 shadow-md scale-105"
+                    ? "bg-crimson-600 text-white ring-2 ring-crimson-300 shadow-md scale-105"
                     : idx < currentStepIndex
                     ? "bg-emerald-500/20 light:bg-emerald-100 text-emerald-300 light:text-emerald-800 border border-emerald-500/40 light:border-emerald-300"
                     : "bg-slate-900 light:bg-white border border-slate-800 light:border-slate-300 text-slate-500 light:text-slate-600 hover:text-slate-300"
@@ -219,11 +219,11 @@ export function FollowRupee({ isOpen, onClose }) {
         {/* Main Stage Card Visual */}
         <div className="p-6 flex-1 overflow-y-auto custom-scrollbar space-y-6">
           <div className="bg-slate-950/80 light:bg-slate-50 border border-slate-800 light:border-slate-200 rounded-2xl p-6 relative overflow-hidden shadow-xl">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
+            <div className="absolute top-0 right-0 w-64 h-64 bg-crimson-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
             <div className="flex flex-col md:flex-row items-start justify-between gap-4 mb-4 pb-4 border-b border-slate-800 light:border-slate-200">
               <div>
-                <span className="text-xs font-bold uppercase text-cyan-400 light:text-cyan-700">
+                <span className="text-xs font-bold uppercase text-crimson-400 light:text-crimson-700">
                   STAGE {currentStage.step} OF 11
                 </span>
                 <h3 className="text-xl font-bold text-slate-100 light:text-slate-900">{currentStage.stage}</h3>
@@ -244,7 +244,7 @@ export function FollowRupee({ isOpen, onClose }) {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               <div className="bg-slate-900/80 light:bg-white p-3 rounded-xl border border-slate-800 light:border-slate-200 shadow-sm">
                 <span className="text-xs text-slate-500 light:text-slate-600 uppercase block mb-0.5">Stage ID</span>
-                <span className="text-cyan-300 light:text-cyan-700 font-bold">{currentStage.id}</span>
+                <span className="text-crimson-300 light:text-crimson-700 font-bold">{currentStage.id}</span>
               </div>
 
               <div className="bg-slate-900/80 light:bg-white p-3 rounded-xl border border-slate-800 light:border-slate-200 shadow-sm">
@@ -264,8 +264,8 @@ export function FollowRupee({ isOpen, onClose }) {
             </div>
 
             {/* CBDC Reference Bar */}
-            <div className="mt-4 p-3 rounded-xl bg-cyan-950/30 light:bg-cyan-50 border border-cyan-900/40 light:border-cyan-200 text-xs flex items-center justify-between">
-              <div className="flex items-center gap-2 text-cyan-400 light:text-cyan-700">
+            <div className="mt-4 p-3 rounded-xl bg-crimson-900/30 light:bg-crimson-50 border border-crimson-900/40 light:border-crimson-200 text-xs flex items-center justify-between">
+              <div className="flex items-center gap-2 text-crimson-400 light:text-crimson-700">
                 <Cpu className="w-4 h-4" />
                 <span className="font-bold uppercase text-xs">CBDC Settlement Proof</span>
               </div>
@@ -282,7 +282,7 @@ export function FollowRupee({ isOpen, onClose }) {
               className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                 isPlaying
                   ? "bg-amber-500 text-slate-950 hover:bg-amber-400"
-                  : "bg-cyan-500 text-slate-950 hover:bg-cyan-400 shadow-lg"
+                  : "bg-crimson-600 text-white hover:bg-crimson-500 shadow-lg"
               }`}
             >
               {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
@@ -324,7 +324,7 @@ export function FollowRupee({ isOpen, onClose }) {
                 setCurrentStepIndex((prev) => Math.min(prev + 1, RUPEE_STAGES.length - 1));
                 setIsPlaying(false);
               }}
-              className="px-3 py-1.5 rounded-lg bg-cyan-500/20 light:bg-cyan-100 border border-cyan-500/40 light:border-cyan-300 text-cyan-300 light:text-cyan-800 disabled:opacity-40 flex items-center gap-1 font-bold shadow-sm"
+              className="px-3 py-1.5 rounded-lg bg-crimson-500/20 light:bg-crimson-100 border border-crimson-500/40 light:border-crimson-300 text-crimson-300 light:text-crimson-800 disabled:opacity-40 flex items-center gap-1 font-bold shadow-sm"
             >
               <span>Next</span>
               <ChevronRight className="w-4 h-4" />

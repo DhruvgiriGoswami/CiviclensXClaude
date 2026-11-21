@@ -293,3 +293,21 @@ export function isLocationInIndia(lat, lng) {
 }
 
 
+
+// Hover highlight shared by districts and wards, matching the state hover: a red fill at 40%.
+// `polygons` are the parts of one area, so a multi-part district lights up as one.
+// It restores whatever fill each part had when the pointer arrived.
+export const addHoverHighlight = (polygons) => {
+  let saved = null;
+  const on = () => {
+    if (saved) return;
+    saved = polygons.map((p) => ({ fillColor: p.get('fillColor'), fillOpacity: p.get('fillOpacity') }));
+    polygons.forEach((p) => p.setOptions({ fillColor: '#EF4444', fillOpacity: 0.4 }));
+  };
+  const off = () => {
+    if (!saved) return;
+    polygons.forEach((p, i) => p.setOptions(saved[i]));
+    saved = null;
+  };
+  polygons.forEach((p) => { p.addListener('mouseover', on); p.addListener('mouseout', off); });
+};

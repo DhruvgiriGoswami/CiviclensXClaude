@@ -7,7 +7,7 @@ export function ControlPoints() {
     <div className="w-full bg-dark-900 light:bg-white border border-slate-800 light:border-slate-300 rounded-2xl p-6 text-slate-100 light:text-slate-900 font-sans shadow-xl">
       {/* Section Header */}
       <div className="mb-6 pb-4 border-b border-slate-800 light:border-slate-200">
-        <span className="text-xs uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
+        <span className="text-xs uppercase font-bold text-crimson-400 light:text-crimson-700 tracking-wider">
           INSTITUTIONAL GOVERNANCE
         </span>
         <h2 className="text-xl font-bold text-slate-100 light:text-slate-900">Financial Control Points</h2>
@@ -21,12 +21,12 @@ export function ControlPoints() {
         {CONTROL_POINTS_DEMO.map((cp) => (
           <div
             key={cp.id}
-            className="bg-slate-950/80 light:bg-slate-50 border border-slate-800 light:border-slate-300 rounded-2xl p-5 flex flex-col justify-between hover:border-cyan-500/50 light:hover:border-cyan-400 transition-all duration-200 shadow-lg group relative overflow-hidden"
+            className="bg-slate-950/80 light:bg-slate-50 border border-slate-800 light:border-slate-300 rounded-2xl p-5 flex flex-col justify-between hover:border-crimson-500/50 light:hover:border-crimson-400 transition-all duration-200 shadow-lg group relative overflow-hidden"
           >
             {/* Top Bar */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold text-cyan-400 light:text-cyan-700 uppercase">
+                <span className="text-xs font-bold text-crimson-400 light:text-crimson-700 uppercase">
                   {cp.code}
                 </span>
                 <span className={`text-xs px-2 py-0.5 rounded font-bold border ${
@@ -40,7 +40,7 @@ export function ControlPoints() {
                 </span>
               </div>
 
-              <h3 className="text-base font-bold text-slate-100 light:text-slate-900 group-hover:text-cyan-300 light:group-hover:text-cyan-700 transition-colors">
+              <h3 className="text-base font-bold text-slate-100 light:text-slate-900 group-hover:text-crimson-300 light:group-hover:text-crimson-700 transition-colors">
                 {cp.title}
               </h3>
               <p className="text-xs text-slate-400 light:text-slate-600 mb-4">{cp.subtitle}</p>
@@ -114,7 +114,7 @@ export function ControlPoints() {
                     </div>
                     <div className="flex justify-between text-xs">
                       <span className="text-slate-400 light:text-slate-600">Current Total:</span>
-                      <span className="text-cyan-300 light:text-cyan-700 font-bold">{cp.metrics.currentApprovedValue}</span>
+                      <span className="text-crimson-300 light:text-crimson-700 font-bold">{cp.metrics.currentApprovedValue}</span>
                     </div>
                   </div>
                 )}
@@ -148,8 +148,8 @@ export function ControlPoints() {
               </div>
 
               {/* Action recommendation */}
-              <div className="p-3 rounded-xl bg-cyan-950/30 light:bg-cyan-50 border border-cyan-900/40 light:border-cyan-200 text-xs text-cyan-200 light:text-cyan-900 space-y-1 shadow-sm">
-                <div className=" text-xs font-bold text-cyan-400 light:text-cyan-700 uppercase">
+              <div className="p-3 rounded-xl bg-crimson-900/30 light:bg-crimson-50 border border-crimson-900/40 light:border-crimson-200 text-xs text-crimson-200 light:text-crimson-900 space-y-1 shadow-sm">
+                <div className=" text-xs font-bold text-crimson-400 light:text-crimson-700 uppercase">
                   Institutional Action Path
                 </div>
                 <p className="leading-relaxed">{cp.actionText}</p>

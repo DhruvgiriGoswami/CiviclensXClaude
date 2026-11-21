@@ -10,7 +10,7 @@ export function CitizenView() {
   const activeCategoryObj = citizenBreakdown.categories.find(c => c.id === selectedCategory) || citizenBreakdown.categories[1];
 
   return (
-    <div className="w-full bg-dark-900 light:bg-white border border-cyan-500/30 light:border-slate-300 rounded-2xl p-6 text-slate-100 light:text-slate-900 font-sans shadow-2xl relative overflow-hidden">
+    <div className="w-full bg-dark-900 light:bg-white border border-crimson-500/30 light:border-slate-300 rounded-2xl p-6 text-slate-100 light:text-slate-900 font-sans shadow-2xl relative overflow-hidden">
       {/* Accent Top Bar indicating 20% Citizen Section */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-emerald-500"></div>
 
@@ -39,7 +39,7 @@ export function CitizenView() {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
         <div className="bg-slate-950/80 light:bg-slate-50 p-3 rounded-xl border border-slate-800 light:border-slate-200 shadow-sm">
           <span className="text-xs text-slate-500 light:text-slate-600 uppercase block font-bold">Govt Allocation</span>
-          <span className="text-base font-extrabold text-cyan-300 light:text-cyan-800">{project.estimatedCost}</span>
+          <span className="text-base font-extrabold text-crimson-300 light:text-crimson-800">{project.estimatedCost}</span>
         </div>
         <div className="bg-slate-950/80 light:bg-slate-50 p-3 rounded-xl border border-slate-800 light:border-slate-200 shadow-sm">
           <span className="text-xs text-slate-500 light:text-slate-600 uppercase block font-bold">Contract Awarded</span>
@@ -78,12 +78,12 @@ export function CitizenView() {
                 }}
                 className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between group ${
                   isSelected
-                    ? "bg-cyan-950/50 light:bg-cyan-50 border-cyan-500/60 light:border-cyan-400 text-white light:text-slate-900 shadow-lg ring-1 ring-cyan-400"
+                    ? "bg-crimson-900/50 light:bg-crimson-50 border-crimson-500/60 light:border-crimson-400 text-white light:text-slate-900 shadow-lg ring-1 ring-crimson-400"
                     : "bg-slate-900/60 light:bg-white border-slate-800 light:border-slate-200 text-slate-300 light:text-slate-700 hover:bg-slate-900 light:hover:bg-slate-100"
                 }`}
               >
                 <div>
-                  <div className="text-xs font-bold font-sans text-slate-100 light:text-slate-900 group-hover:text-cyan-300 light:group-hover:text-cyan-700">
+                  <div className="text-xs font-bold font-sans text-slate-100 light:text-slate-900 group-hover:text-crimson-300 light:group-hover:text-crimson-700">
                     {cat.name}
                   </div>
                   <div className="text-xs text-slate-400 light:text-slate-600">{cat.percentage}% of total paid</div>
@@ -91,7 +91,7 @@ export function CitizenView() {
 
                 <div className="flex items-center gap-2">
                   <span className="font-extrabold text-emerald-400 light:text-emerald-700 text-xs">{cat.amount}</span>
-                  <ChevronRight className={`w-4 h-4 text-slate-500 transition-transform ${isSelected ? 'rotate-90 text-cyan-400 light:text-cyan-600' : ''}`} />
+                  <ChevronRight className={`w-4 h-4 text-slate-500 transition-transform ${isSelected ? 'rotate-90 text-crimson-400 light:text-crimson-600' : ''}`} />
                 </div>
               </button>
             );
@@ -101,7 +101,7 @@ export function CitizenView() {
         {/* Middle Column: Selected Category Sub-Items */}
         <div className="bg-slate-950/80 light:bg-slate-50 border border-slate-800 light:border-slate-200 rounded-2xl p-4 flex flex-col justify-between shadow-sm">
           <div>
-            <div className="text-xs font-bold text-cyan-400 light:text-cyan-700 uppercase mb-2">
+            <div className="text-xs font-bold text-crimson-400 light:text-crimson-700 uppercase mb-2">
               ITEMIZED DETAILS — {activeCategoryObj.name} ({activeCategoryObj.amount})
             </div>
 
@@ -115,7 +115,7 @@ export function CitizenView() {
                     onClick={() => setSelectedSubItem(sub.name)}
                     className={`p-3 rounded-xl border cursor-pointer transition-all ${
                       isSubSelected
-                        ? "bg-slate-900 light:bg-white border-cyan-400 light:border-cyan-500 text-white light:text-slate-900 shadow-md ring-1 ring-cyan-400"
+                        ? "bg-slate-900 light:bg-white border-crimson-400 light:border-crimson-500 text-white light:text-slate-900 shadow-md ring-1 ring-crimson-400"
                         : "bg-slate-900/60 light:bg-white border-slate-800/80 light:border-slate-200 text-slate-300 light:text-slate-700 hover:bg-slate-900 light:hover:bg-slate-100"
                     }`}
                   >
@@ -126,7 +126,7 @@ export function CitizenView() {
 
                     {sub.supplier && (
                       <div className="text-xs text-slate-400 light:text-slate-600 mt-1">
-                        Supplier: <span className="text-cyan-300 light:text-cyan-800 font-bold">{sub.supplier}</span>
+                        Supplier: <span className="text-crimson-300 light:text-crimson-800 font-bold">{sub.supplier}</span>
                       </div>
                     )}
 
@@ -162,7 +162,7 @@ export function CitizenView() {
 
               <div className="p-2.5 rounded-xl bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 shadow-sm">
                 <span className="text-slate-500 light:text-slate-600 block text-xs uppercase font-bold">Beneficiary Identity</span>
-                <span className="font-bold text-cyan-300 light:text-cyan-800">JSW Steel Ltd / Authorized Supplier Wallet</span>
+                <span className="font-bold text-crimson-300 light:text-crimson-800">JSW Steel Ltd / Authorized Supplier Wallet</span>
               </div>
 
               <div className="p-2.5 rounded-xl bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 shadow-sm">
@@ -171,8 +171,8 @@ export function CitizenView() {
               </div>
 
               {/* CBDC Reference Bar */}
-              <div className="p-3 rounded-xl bg-cyan-950/40 light:bg-cyan-50 border border-cyan-900/60 light:border-cyan-200 text-xs space-y-1 shadow-sm">
-                <div className="text-cyan-400 light:text-cyan-700 font-bold uppercase flex items-center gap-1">
+              <div className="p-3 rounded-xl bg-crimson-900/40 light:bg-crimson-50 border border-crimson-900/60 light:border-crimson-200 text-xs space-y-1 shadow-sm">
+                <div className="text-crimson-400 light:text-crimson-700 font-bold uppercase flex items-center gap-1">
                   <Cpu className="w-3.5 h-3.5" />
                   <span>Sovereign Settlement Proof</span>
                 </div>

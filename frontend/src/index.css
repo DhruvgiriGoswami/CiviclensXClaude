@@ -265,3 +265,16 @@ html.light .ca-table-row .text-slate-400 {
     scroll-behavior: auto !important;
   }
 }
+
+/* Theme switch: the page swaps in one snapshot (see ThemeContext), so per-element
+   colour transitions are paused while the classes flip, and the default crossfade is off. */
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition: none !important;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
