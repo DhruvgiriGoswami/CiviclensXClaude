@@ -1,7 +1,7 @@
 import React from 'react';
 import { Star, Mail, Phone, MapPin, Award, CheckCircle2, AlertCircle, FileText, UserCheck, ShieldAlert, ArrowUpRight, MessageSquare } from 'lucide-react';
 import { getPersonAvatar, INDIA_FLAG_AVATAR } from '../utils/avatarResolver';
-import { normalizeParty } from '../utils/partyNormalizer';
+import { normalizeParty, partyDisplayName, partyShortCode } from '../utils/partyNormalizer';
 
 export function LeaderCard({ leader, type, onRateClick, onViewReviews, aisScore, ratingsSummary }) {
   if (!leader) return null;
@@ -34,14 +34,13 @@ export function LeaderCard({ leader, type, onRateClick, onViewReviews, aisScore,
 
   return (
     <div className="glass-card rounded-2xl p-4 border border-slate-800 light:border-slate-200 light:bg-white transition-all relative overflow-hidden group shadow-sm">
-      {/* Top Header Badge: Recommender vs Bureaucratic Sign-Off */}
       <div className="flex items-center justify-between mb-3">
         <span className={`text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full border ${
           isPolitical 
             ? 'bg-crimson-500/10 text-crimson-400 light:text-crimson-600 border-crimson-500/30' 
             : 'bg-emerald-500/10 text-emerald-400 light:text-emerald-700 border-emerald-500/30'
         }`}>
-          {isPolitical ? 'Political Candidate' : '⚙ Bureaucratic Sign-Off (Spender)'}
+          {isPolitical ? 'Elected representative' : 'Administrative officer'}
         </span>
 
         {/* Public Trust Star Score */}
@@ -107,7 +106,7 @@ export function LeaderCard({ leader, type, onRateClick, onViewReviews, aisScore,
                 className="w-3.5 h-3.5 object-contain rounded flex-shrink-0"
               />
             )}
-            <p className="text-xs text-slate-400 light:text-slate-500 truncate">{leader.party || leader.reportsTo || leader.officeAddress}</p>
+            <p className="text-xs text-slate-400 light:text-slate-500 truncate" title={isPolitical && leader.party ? partyShortCode(leader.party) : undefined}>{isPolitical && leader.party ? partyDisplayName(leader.party) : (leader.reportsTo || leader.officeAddress)}</p>
           </div>
         </div>
       </div>
@@ -116,7 +115,7 @@ export function LeaderCard({ leader, type, onRateClick, onViewReviews, aisScore,
       <div className="mt-3 bg-slate-900/90 light:bg-slate-50 rounded-xl p-2.5 border border-slate-800/80 light:border-slate-200 text-xs text-slate-300 light:text-slate-800 font-sans space-y-1">
         <div className="text-xs uppercase text-slate-500 light:text-slate-600 font-bold flex items-center gap-1">
           <CheckCircle2 className="w-3 h-3 text-crimson-500" />
-          Jurisdiction & Sign-Off Power:
+          Responsible for
         </div>
         <p className="line-clamp-2 leading-relaxed font-medium">{leader.authority}</p>
       </div>

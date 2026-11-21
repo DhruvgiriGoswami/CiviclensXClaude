@@ -4,6 +4,7 @@ import { governanceApi } from '../services/api';
 import { DistrictLeadershipTree } from './DistrictLeadershipTree';
 import { getPersonAvatar } from '../utils/avatarResolver';
 import { normalizeParty } from '../utils/partyNormalizer';
+import { onRecord, NotOnRecord } from './NotOnRecord';
 
 export function StateLeadershipSpotlight({ selectedState, onSelectUnit, units, onHoverDistrict, onSelectDistrict }) {
   const rawStateId = selectedState?.stateId || 'MH';
@@ -21,13 +22,14 @@ export function StateLeadershipSpotlight({ selectedState, onSelectUnit, units, o
 
   const stateName = apiCM?.state_name || selectedState?.stateName || 'State';
 
-  const cmName = selectedState?.cmName || apiCM?.leader?.name || 'Chief Minister';
-  const cmParty = selectedState?.party || apiCM?.party_name || 'State Executive';
+  const cmName = onRecord(selectedState?.cmName || apiCM?.leader?.name, 'Chief Minister');
+  const cmParty = onRecord(selectedState?.party || apiCM?.party_name) || '';
   const cmPhoto = getPersonAvatar({ name: cmName, party: cmParty, stateId: stateId, photo: selectedState?.photo || apiCM?.leader?.photo_url, isChiefMinister: true }, 'POLITICIAN');
-  const cmEmail = apiCM?.leader?.email || 'Not available';
+  const cmEmail = onRecord(apiCM?.leader?.email);
 
-  const governorName = "Constitutional Governor";
-  const chiefSecretaryName = "Chief Secretary (IAS)";
+  // No source for these yet, so they render as missing rather than as their own labels.
+  const governorName = onRecord(apiCM?.governor?.name, 'Governor');
+  const chiefSecretaryName = onRecord(apiCM?.chief_secretary?.name, 'Chief Secretary (IAS)');
   const deputyCMs = [];
 
   return (
@@ -51,7 +53,7 @@ export function StateLeadershipSpotlight({ selectedState, onSelectUnit, units, o
           <div className="flex items-start space-x-3">
             <img
               src={cmPhoto}
-              alt={cmName}
+              alt={cmName || 'Chief Minister'}
               onError={(e) => { e.target.src = getPersonAvatar({ party: cmParty }, 'POLITICIAN'); }}
               className="w-16 h-16 rounded-xl object-cover border-2 border-crimson-500/60 shadow-lg group-hover:scale-105 transition-transform"
             />
@@ -59,7 +61,7 @@ export function StateLeadershipSpotlight({ selectedState, onSelectUnit, units, o
               <span className="text-xs font-bold uppercase px-2 py-0.5 rounded bg-crimson-500/20 light:bg-crimson-100 text-crimson-400 light:text-crimson-800 border border-crimson-500/30">
                 Chief Minister
               </span>
-              <h4 className="text-sm font-bold text-white light:text-slate-900 mt-1 group-hover:text-crimson-600 transition-colors">{cmName}</h4>
+              <h4 className="text-sm font-bold text-white light:text-slate-900 mt-1">{cmName || <NotOnRecord />}</h4>
               <div className="flex items-center gap-1.5 mt-0.5">
                 <p className="text-xs text-slate-400 light:text-slate-600 truncate">{cmParty}</p>
               </div>
@@ -67,7 +69,7 @@ export function StateLeadershipSpotlight({ selectedState, onSelectUnit, units, o
           </div>
 
           <div className="flex items-center justify-between text-xs pt-2 border-t border-slate-800/80 light:border-slate-200">
-            <span className="text-slate-400 light:text-slate-600 font-medium">Email: <strong className="text-crimson-400 light:text-crimson-700">{cmEmail}</strong></span>
+            <span className="text-slate-400 light:text-slate-600 font-medium">Email: {cmEmail ? <a href={`mailto:${cmEmail}`} className="font-semibold text-slate-200 light:text-slate-900 underline">{cmEmail}</a> : <NotOnRecord />}</span>
           </div>
         </div>
 
@@ -94,11 +96,11 @@ export function StateLeadershipSpotlight({ selectedState, onSelectUnit, units, o
         <div className="grid grid-cols-2 gap-2 text-xs">
           <div className="bg-slate-900/90 light:bg-slate-100 p-2.5 rounded-xl border border-slate-800 light:border-slate-200">
             <span className="text-xs uppercase text-slate-500 light:text-slate-600 block font-bold">Governor</span>
-            <span className="text-slate-200 light:text-slate-900 font-bold block truncate">{governorName}</span>
+            <span className="text-slate-200 light:text-slate-900 font-bold block truncate">{governorName || <NotOnRecord />}</span>
           </div>
           <div className="bg-slate-900/90 light:bg-slate-100 p-2.5 rounded-xl border border-slate-800 light:border-slate-200">
             <span className="text-xs uppercase text-slate-500 light:text-slate-600 block font-bold">Chief Secretary (IAS)</span>
-            <span className="text-emerald-400 light:text-emerald-700 font-bold block truncate">{chiefSecretaryName}</span>
+            <span className="text-slate-200 light:text-slate-900 font-bold block truncate">{chiefSecretaryName || <NotOnRecord />}</span>
           </div>
         </div>
 

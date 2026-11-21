@@ -126,6 +126,8 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
       authoritySummary: l.authority_description || fallback.authoritySummary || l.designation,
       email: l.leader?.email || fallback.email,
       phone: l.leader?.phone || fallback.phone,
+      // Only a date the API gives. We never show an invented one.
+      verifiedAt: l.updated_at || l.as_of || l.leader?.updated_at || null,
     };
   };
 
@@ -318,6 +320,9 @@ export function NationalLeadersBar({ isOpen, onClose, onSelectState, onViewRevie
                       </h3>
                       <p className="text-xs text-slate-300 light:text-slate-700 font-medium">{activeLeader.role}</p>
                       <p className="text-xs text-slate-400 light:text-slate-600 mt-1">{activeLeader.jurisdiction}</p>
+                      {activeLeader.verifiedAt && (
+                        <p className="text-xs text-slate-400 light:text-slate-600 mt-1">Last verified {new Date(activeLeader.verifiedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</p>
+                      )}
                     </div>
                   </div>
 

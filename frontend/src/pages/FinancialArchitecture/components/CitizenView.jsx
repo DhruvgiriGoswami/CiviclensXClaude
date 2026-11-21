@@ -177,7 +177,7 @@ export function CitizenView() {
                   <span>Sovereign Settlement Proof</span>
                 </div>
                 <div className="text-slate-300 light:text-slate-800 font-bold truncate">
-                  TxHash: 0x770a8291c944_cbdc_tx_90442
+                  TxHash: SAMPLE-HASH-770a8291c944_cbdc_tx_90442
                 </div>
                 <div className="text-slate-400 light:text-slate-600 font-medium">
                   Settled via Wholesale CBDC Digital Payment Rail

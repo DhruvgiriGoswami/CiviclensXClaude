@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, ShieldAlert, Award, FileText, Layers, UserCheck, Activity, Zap, Sun, Moon, Type, Eye, Building, Landmark, ChevronRight, HelpCircle, Info } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { geographyApi, searchApi, systemApi } from '../services/api';
-import { CapexBreakdownModal } from './CapexBreakdownModal';
+import { CapexBreakdownModal, outlayTotalRange } from './CapexBreakdownModal';
 
 export function Header({
   onOpenNationalLeaders,
@@ -697,16 +697,17 @@ export function Header({
           <div className="hidden lg:flex items-center space-x-4 pl-3 border-l border-slate-800 light:border-slate-200 text-xs">
             <div className="flex flex-col">
               <div className="flex items-center gap-1">
-                <span className="text-xs uppercase text-slate-500 light:text-slate-400">CapEx Tracked</span>
+                <span className="text-xs text-slate-400 light:text-slate-600">Annual budget outlay</span>
                 <button
                   onClick={() => setIsCapexModalOpen(true)}
-                  title="View Municipal Outlay Breakdown"
-                  className="p-0.5 rounded-full text-slate-400 hover:text-amber-400 light:text-slate-500 light:hover:text-amber-600 hover:bg-slate-800 light:hover:bg-slate-200 transition-colors cursor-pointer"
+                  title="See the budget breakdown"
+                  aria-label="See the budget breakdown"
+                  className="w-11 h-11 -my-3 inline-flex items-center justify-center rounded-full text-slate-400 hover:text-amber-400 light:text-slate-500 light:hover:text-amber-600 hover:bg-slate-800 light:hover:bg-slate-200 transition-colors cursor-pointer"
                 >
                   <Info className="w-3 h-3" />
                 </button>
               </div>
-              <span className=" font-bold text-slate-200 light:text-slate-800 text-xs">₹2,02,782 Crore</span>
+              <span className="font-bold text-slate-200 light:text-slate-800 text-xs">{outlayTotalRange()}</span>
             </div>
           </div>
         </div>

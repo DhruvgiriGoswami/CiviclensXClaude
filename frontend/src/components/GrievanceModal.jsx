@@ -10,6 +10,7 @@ import { getMediaUrl } from '../utils/ticketHelpers';
 
 export function GrievanceModal({
   isOpen,
+  onViewTicket,
   onClose,
   unit,
   allUnits = [],
@@ -28,6 +29,7 @@ export function GrievanceModal({
   const [previewUrl, setPreviewUrl] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [createdTicket, setCreatedTicket] = useState(null);
   const [pinError, setPinError] = useState('');
   const [submitError, setSubmitError] = useState('');
   const [photoWarning, setPhotoWarning] = useState('');
@@ -285,7 +287,6 @@ export function GrievanceModal({
       if (!res?.complaint_id) throw new Error('The server did not return a ticket number.');
 
       let uploadedMediaUrl = null;
-      let uploadFailed = false;
       if (file) {
         try {
           const mediaRes = await complaintsApi.uploadMedia(res.complaint_id, file);
@@ -293,7 +294,6 @@ export function GrievanceModal({
             uploadedMediaUrl = getMediaUrl(mediaRes.storage_url);
           }
         } catch (uploadErr) {
-          uploadFailed = true;
           setPhotoWarning(`Your complaint #${res.complaint_id} was filed, but the photo didn't upload (${uploadErr.message}).`);
         }
       }
@@ -301,7 +301,8 @@ export function GrievanceModal({
       // Only show a photo the server actually stored; the local preview would vanish on reload.
       const photoUrl = uploadedMediaUrl;
       const closest = findClosestStateForCoordinates(lat, lng);
-      onTicketCreated({
+      const priority = res?.priority || ((category === 'Report Bribe' || category === 'Women Safety') ? 'CRITICAL' : 'HIGH');
+      const created = {
         ticketId: res.complaint_id,
         unitId: effectiveUnit.unitId,
         wardName: effectiveUnit.unitName,
@@ -315,19 +316,17 @@ export function GrievanceModal({
         latitude: lat,
         longitude: lng,
         status: res?.status || 'OPEN',
-        severity: (category === 'Report Bribe' || category === 'Women Safety') ? 'CRITICAL' : 'HIGH',
-        upvotes: 1,
+        priority,
+        severity: priority,
+        upvotes: res?.upvotes ?? res?.upvote_count ?? 0,
         createdAt: 'Just now',
         photo: photoUrl,
         mediaUrl: photoUrl,
-      });
-
+      };
+      onTicketCreated(created);
+      setCreatedTicket(created);
+      // No timer: the citizen closes it, so a late click never falls through to the map.
       setIsSuccess(true);
-      setTimeout(() => {
-        setIsSuccess(false);
-        resetForm();
-        onClose();
-      }, uploadFailed ? 5000 : 1200);
     } catch (err) {
       // Don't pretend it worked: nothing was saved, so tell the citizen and let them retry.
       console.error('Failed to create complaint:', err);
@@ -370,13 +369,25 @@ export function GrievanceModal({
 
         {isSuccess ? (
           <div className="py-8 text-center space-y-3">
-            <div className="w-14 h-14 rounded-full bg-crimson-500/20 light:bg-crimson-100 text-crimson-400 light:text-crimson-700 border border-crimson-500/40 light:border-crimson-300 flex items-center justify-center mx-auto">
-              <ShieldAlert className="w-8 h-8" />
+            <div className="w-14 h-14 rounded-full bg-emerald-500/15 light:bg-emerald-100 text-emerald-400 light:text-emerald-700 border border-emerald-500/40 light:border-emerald-300 flex items-center justify-center mx-auto">
+              <CheckCircle2 className="w-8 h-8" aria-hidden="true" />
             </div>
-            <h3 className="text-xl font-bold text-white light:text-slate-900 font-sans">Geo-Tagged Civic Ticket Raised!</h3>
-            <p className="text-xs text-slate-300 light:text-slate-700">
-              Ticket has been pinned to {effectiveUnit.unitName}.
+            <h3 id="grievance-heading" className="text-xl font-bold text-white light:text-slate-900 font-sans">Complaint CL-{createdTicket?.ticketId} filed</h3>
+            <p className="text-sm text-slate-300 light:text-slate-700">
+              It is on the map in {effectiveUnit.unitName}. Keep the number CL-{createdTicket?.ticketId} to follow it up.
             </p>
+            <div className="flex flex-wrap justify-center gap-2 pt-2">
+              {onViewTicket && createdTicket && (
+                <button type="button" onClick={() => { const t = createdTicket; setIsSuccess(false); resetForm(); onClose(); onViewTicket(t); }}
+                  className="min-h-[44px] px-4 rounded-xl bg-crimson-700 hover:bg-crimson-800 text-white text-sm font-semibold">
+                  View complaint
+                </button>
+              )}
+              <button type="button" onClick={() => { setIsSuccess(false); resetForm(); onClose(); }}
+                className="min-h-[44px] px-4 rounded-xl bg-slate-800 light:bg-slate-200 text-slate-200 light:text-slate-800 text-sm font-semibold">
+                Done
+              </button>
+            </div>
             {photoWarning && (
               <p role="alert" className="text-xs text-amber-400 light:text-amber-700 font-sans">{photoWarning}</p>
             )}

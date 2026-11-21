@@ -5,6 +5,7 @@ import {
 } from 'lucide-react';
 
 import { governanceApi } from '../services/api';
+import { onRecord, NotOnRecord } from './NotOnRecord';
 import { getPersonAvatar } from '../utils/avatarResolver';
 import { getLoadedStateDistrictsData } from '../utils/mapHelpers';
 
@@ -157,12 +158,12 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
             // Check if official Collector exists in API map
             const collectorInfo = apiCollectorsMap[canonicalDistrictName(distName, cleanStCode)] || apiCollectorsMap[distName] || null;
 
-            const dcName = collectorInfo?.collectorName || primaryUnit?.administrativeSpender?.name || `District Collector & Magistrate`;
+            const dcName = onRecord(collectorInfo?.collectorName || primaryUnit?.administrativeSpender?.name, 'District Collector & Magistrate');
             const dcTitle = collectorInfo?.title || primaryUnit?.administrativeSpender?.title || `District Collector & District Magistrate (DC/DM)`;
             // Never invent contact details: a made-up number or address sends citizens nowhere.
-            const dcPhone = collectorInfo?.phone || primaryUnit?.administrativeSpender?.phone || 'Not available';
+            const dcPhone = onRecord(collectorInfo?.phone || primaryUnit?.administrativeSpender?.phone);
             const dcFax = collectorInfo?.fax || null;
-            const dcEmail = collectorInfo?.email || primaryUnit?.administrativeSpender?.email || 'Not available';
+            const dcEmail = onRecord(collectorInfo?.email || primaryUnit?.administrativeSpender?.email);
             const dcAuthority = collectorInfo?.authority || primaryUnit?.administrativeSpender?.authority || `Holds District Executive & Financial Sign-Off Authority for ${distName} District.`;
             const isVerifiedSource = collectorInfo?.dataStatus === 'verified_from_current_government_source';
 
@@ -254,15 +255,15 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
                       <div className="glass-card light:bg-white light:border-slate-200 p-3 rounded-xl border border-slate-800/80 space-y-2.5">
                         <div className="flex items-start space-x-3">
                           <img
-                            src={getPersonAvatar({ name: dcName, title: dcTitle, personType: 'BUREAUCRAT' })}
-                            alt={dcName}
+                            src={getPersonAvatar({ name: dcName || '', title: dcTitle, personType: 'BUREAUCRAT' })}
+                            alt={dcName || 'District Collector'}
                             onError={(e) => {
                               e.target.src = '/PartyImages/India.jpg';
                             }}
                             className="w-11 h-11 rounded-lg object-cover border-2 border-emerald-500/40 shadow flex-shrink-0"
                           />
                           <div className="flex-1 min-w-0 space-y-0.5">
-                            <h5 className="font-extrabold text-white light:text-slate-900 text-xs leading-snug">{dcName}</h5>
+                            <h5 className="font-extrabold text-white light:text-slate-900 text-xs leading-snug">{dcName || <NotOnRecord />}</h5>
                             <p className="text-xs text-slate-300 light:text-slate-700 font-medium leading-snug">
                               {dcTitle}
                             </p>
@@ -278,7 +279,7 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
                             <span className="flex items-center gap-1 text-slate-400 light:text-slate-600 flex-shrink-0">
                               <Phone className="w-3 h-3 text-emerald-400" /> Phone:
                             </span>
-                            <strong className="text-white light:text-slate-900 truncate">{dcPhone}</strong>
+                            <strong className="text-white light:text-slate-900 truncate">{dcPhone || <NotOnRecord />}</strong>
                           </div>
 
                           {dcFax && (
@@ -294,7 +295,7 @@ export function DistrictLeadershipTree({ stateId, stateName, units, onSelectUnit
                             <span className="flex items-center gap-1 text-slate-400 light:text-slate-600 flex-shrink-0">
                               <Mail className="w-3 h-3 text-crimson-400" /> Email:
                             </span>
-                            <strong className="text-crimson-400 light:text-crimson-700 truncate break-all">{dcEmail}</strong>
+                            <strong className="text-white light:text-slate-900 truncate break-all">{dcEmail || <NotOnRecord />}</strong>
                           </div>
                         </div>
 

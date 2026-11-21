@@ -422,17 +422,15 @@ export function Sidebar({
                 return (
                   <>
                     <div className="text-xs text-slate-400 light:text-slate-600 flex items-center justify-between px-1">
-                      <span>Displaying Live {levelLabel} Grievances:</span>
-                      <span className="font-bold text-crimson-400">{unitTickets.length} Tickets Found</span>
+                      <span>Complaints in this {levelLabel.toLowerCase()}</span>
+                      <span className="font-bold text-slate-200 light:text-slate-800">{unitTickets.length} {unitTickets.length === 1 ? 'complaint' : 'complaints'}</span>
                     </div>
 
                     <div className="space-y-3 text-xs">
                       {unitTickets.length === 0 ? (
                         <div className="text-center p-6 glass-card rounded-2xl border border-slate-800 light:border-slate-200">
-                          <CheckCircle2 className="w-8 h-8 text-emerald-400 mx-auto mb-2 opacity-80" />
-                          <h5 className="text-xs font-bold text-white light:text-slate-900">No Active {levelLabel} Tickets</h5>
-                          <p className="text-xs text-slate-400 light:text-slate-600 mt-1">
-                            No active civic grievances reported for {unit?.unitName || 'this region'}. All civic systems operational!
+                          <p className="text-sm text-slate-300 light:text-slate-700">
+                            No complaints filed for {unit?.unitName || 'this area'} yet.
                           </p>
                         </div>
                       ) : (

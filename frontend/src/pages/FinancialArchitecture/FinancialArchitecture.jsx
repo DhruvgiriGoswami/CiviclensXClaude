@@ -33,6 +33,10 @@ export default function FinancialArchitecture({ onBackToMap }) {
       
       {/* ─── A. INSTITUTIONAL HEADER ─── */}
       <header className="sticky top-0 z-40 bg-[#090C14]/95 light:bg-white/95 border-b border-slate-800/80 light:border-slate-200 px-3 sm:px-6 py-2.5 shadow-xl">
+      <p role="note" className="bg-amber-100 text-amber-950 text-sm font-medium text-center px-3 py-2">
+          Illustrative data, not real records. Every body, person, number and ID on this page is made up.
+        </p>
+
         <div className="max-w-7xl mx-auto w-full flex items-center justify-between gap-2 sm:gap-4">
           
           {/* Left: Main Map & Logo */}

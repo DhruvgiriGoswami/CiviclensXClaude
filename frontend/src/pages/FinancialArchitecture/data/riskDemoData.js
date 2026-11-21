@@ -95,11 +95,11 @@ export const BITUMEN_PRICE_BENCHMARKS = {
   anomalyPrice: 91,
   percentageDeviation: "+65.4%",
   observations: [
-    { id: 1, label: "TMC Ward 112 Project", price: 52, date: "10 Feb 2026", status: "NORMAL" },
+    { id: 1, label: "SMC Ward 112 Project", price: 52, date: "10 Feb 2026", status: "NORMAL" },
     { id: 2, label: "NMMC Vashi Sector 17", price: 54, date: "15 Feb 2026", status: "NORMAL" },
     { id: 3, label: "PMC Swargate Corridor", price: 53, date: "02 Mar 2026", status: "NORMAL" },
-    { id: 4, label: "BMC Colaba Work", price: 55, date: "10 Mar 2026", status: "NORMAL" },
-    { id: 5, label: "KDMC Kalyan Highway", price: 54, date: "22 Mar 2026", status: "NORMAL" },
+    { id: 4, label: "SMC Colaba Work", price: 55, date: "10 Mar 2026", status: "NORMAL" },
+    { id: 5, label: "SMC-2 Kalyan Highway", price: 54, date: "22 Mar 2026", status: "NORMAL" },
     { id: 6, label: "PRJ-2026-0042 (Current)", price: 91, date: "14 Apr 2026", status: "ANOMALY", highlighted: true },
     { id: 7, label: "PCMC Pimpri Grid", price: 53, date: "01 May 2026", status: "NORMAL" },
     { id: 8, label: "SMC Surat Outer Ring", price: 55, date: "18 May 2026", status: "NORMAL" }

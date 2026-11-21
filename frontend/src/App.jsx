@@ -247,7 +247,7 @@ export function AppContent({ navigateTo }) {
                 ...prev.administrativeSpender,
                 name: nameClean || prev.administrativeSpender?.name,
                 title: mainOff.designation || mainOff.person?.designation || prev.administrativeSpender?.title,
-                authority: `Oversees project execution and holds digital CBDC sign-off for ${prev.unitName}.`
+                authority: `Oversees project execution for ${prev.unitName}.`
               }
             };
           });
@@ -612,6 +612,7 @@ export function AppContent({ navigateTo }) {
         unit={selectedUnit}
         allUnits={units}
         onTicketCreated={handleTicketCreated}
+        onViewTicket={(t) => setInspectedTicket(t)}
         onUpvoteTicket={handleUpvoteTicket}
         pinnedLocation={pinnedLocation}
         onPinLocationSelect={(coords) => setPinnedLocation(coords)}

@@ -1,6 +1,8 @@
 import React from 'react';
 import { X, MapPin, ThumbsUp, Calendar, AlertTriangle, ShieldAlert, Image, CheckCircle2, Navigation } from 'lucide-react';
 import { getMediaUrl } from '../utils/ticketHelpers';
+import { statusBadgeClass, priorityBadgeClass } from '../utils/statusStyles';
+import { humanizeEnum } from '../utils/format';
 
 export function TicketDetailsModal({
   isOpen,
@@ -78,29 +80,16 @@ export function TicketDetailsModal({
         {/* Priority & Status Badges Row */}
         <div className="flex items-center justify-between gap-2 text-xs bg-slate-950/80 light:bg-slate-100 p-3 rounded-2xl border border-slate-800 light:border-slate-200">
           <div className="flex items-center space-x-2">
-            <span className="text-slate-400 light:text-slate-600 font-bold">Severity:</span>
-            {upvoteCount >= 30 ? (
-              <span className="px-2 py-0.5 rounded-md bg-crimson-500/20 text-crimson-400 border border-crimson-500/40 font-extrabold flex items-center gap-1">
-                <ShieldAlert className="w-3 h-3 text-crimson-500" />
-                CRITICAL (30+ Upvotes)
-              </span>
-            ) : upvoteCount >= 15 ? (
-              <span className="px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-400 border border-amber-500/40 font-extrabold flex items-center gap-1">
-                <AlertTriangle className="w-3 h-3 text-amber-500" />
-                HIGH (15+ Upvotes)
-              </span>
-            ) : (
-              <span className="px-2 py-0.5 rounded-md bg-slate-800 light:bg-slate-200 text-slate-300 light:text-slate-700 border border-slate-700 light:border-slate-300 font-semibold">
-                NORMAL
-              </span>
-            )}
+            <span className="text-slate-400 light:text-slate-600 font-bold">Priority:</span>
+            <span className={`px-2 py-0.5 rounded-md border font-semibold ${priorityBadgeClass(ticket.priority || ticket.severity)}`}>
+              {humanizeEnum(ticket.priority || ticket.severity || 'MEDIUM')}
+            </span>
           </div>
 
           <div className="flex items-center space-x-1.5">
             <span className="text-slate-400 light:text-slate-600 font-bold">Status:</span>
-            <span className="px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 font-extrabold flex items-center gap-1">
-              <CheckCircle2 className="w-3 h-3 text-emerald-400" />
-              {ticket.status || 'OPEN'}
+            <span className={`px-2 py-0.5 rounded-md border font-semibold ${statusBadgeClass(ticket.status)}`}>
+              {humanizeEnum(ticket.status || 'OPEN')}
             </span>
           </div>
         </div>

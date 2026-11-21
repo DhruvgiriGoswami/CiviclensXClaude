@@ -18,8 +18,8 @@ export function VendorGraph() {
     dir_sunil: { x: 920, y: 60, label: "Sunil K. Mehta", type: "DIRECTOR", subtitle: "Director (49% Stake)" },
     rel_metal: { x: 100, y: 250, label: "Apex Mining & Aggregates", type: "RELATED COMPANY", subtitle: "Common Director (98% match)" },
     rel_bitumen: { x: 1000, y: 250, label: "Trident Logistics Pvt Ltd", type: "SUPPLIER", subtitle: "Sub-contractor / Transporter" },
-    past_prj1: { x: 140, y: 460, label: "TMC Road Rehab Phase I (2024)", type: "PAST CONTRACT", subtitle: "Awarded ₹14.2 Cr (+22% Var)" },
-    past_prj2: { x: 550, y: 460, label: "KDMC Flyover Approach (2025)", type: "PAST CONTRACT", subtitle: "Awarded ₹28.0 Cr (Delayed 6 mo)" },
+    past_prj1: { x: 140, y: 460, label: "SMC Road Rehab Phase I (2024)", type: "PAST CONTRACT", subtitle: "Awarded ₹14.2 Cr (+22% Var)" },
+    past_prj2: { x: 550, y: 460, label: "SMC-2 Flyover Approach (2025)", type: "PAST CONTRACT", subtitle: "Awarded ₹28.0 Cr (Delayed 6 mo)" },
     tnd_current: { x: 960, y: 460, label: "TND-2026-0142 (Current Ward 150)", type: "TENDER", subtitle: "Lowest Bidder P1 (₹6.20 Cr)" }
   };
 
@@ -80,7 +80,7 @@ export function VendorGraph() {
             Vendor Relationship & Lineage Graph
           </h2>
           <p className="text-xs text-slate-400 light:text-slate-600 mt-0.5">
-            Public record directorships, related-party entities, and historical municipal performance profile.
+            Made-up directorships, related companies and past contracts, to show how the graph would work.
           </p>
         </div>
 
@@ -257,12 +257,12 @@ export function VendorGraph() {
               <div className="font-bold text-cyan-300 light:text-cyan-800 uppercase">{selectedElement.label}</div>
               <div className="text-xs text-cyan-400 light:text-cyan-700 font-bold">{selectedElement.type}</div>
               <p className="text-slate-300 light:text-slate-700 text-xs font-sans pt-1">
-                {selectedElement.subtitle} &bull; Cross-referenced with Ministry of Corporate Affairs (MCA21) public filings.
+                {selectedElement.subtitle} &bull; Sample relationship, not from any real filing.
               </p>
             </div>
           ) : (
             <div className="p-3 rounded-xl bg-slate-900 light:bg-white border border-slate-800 light:border-slate-200 text-xs text-slate-500 light:text-slate-600 text-center shadow-sm">
-              Click any node in the graph workspace to inspect public-record relationship evidence.
+              Click any node in the graph workspace to see the sample relationship.
             </div>
           )}
         </div>

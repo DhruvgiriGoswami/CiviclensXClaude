@@ -106,6 +106,21 @@ export const PARTY_REGISTRY = {
   }
 };
 
+const SHORT_CODES = { SS_UBT: 'SS (UBT)', NCP_SP: 'NCP (SP)' };
+
+// Short code for a party string: "BHARATIYA " gives "BJP". Unknown parties keep their trimmed name.
+export function partyShortCode(partyStr) {
+  const p = normalizeParty(partyStr);
+  if (p.code === 'OTHER') return (partyStr || '').trim() || 'Independent';
+  return SHORT_CODES[p.code] || p.code;
+}
+
+// Full party name for display, never the truncated abbreviation the API sometimes sends.
+export function partyDisplayName(partyStr) {
+  const p = normalizeParty(partyStr);
+  return p.code === 'OTHER' ? (partyStr || '').trim() : p.name;
+}
+
 /**
  * Normalizes any party string input to canonical key and party object
  */

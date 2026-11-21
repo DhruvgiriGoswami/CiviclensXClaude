@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useDialog } from '../hooks/useDialog';
 import { createPortal } from 'react-dom';
 import { X, Building2, ExternalLink, TrendingUp, Landmark, ShieldCheck } from 'lucide-react';
 
@@ -7,7 +8,7 @@ export const TOP_MUNICIPAL_BUDGETS = [
     rank: 1,
     name: 'Brihanmumbai Municipal Corporation (BMC)',
     cityRegion: 'Mumbai, Maharashtra',
-    outlay: '₹74,427 – ₹80,952 Cr',
+    outlay: '₹74,427 to ₹80,952 Cr',
     url: 'https://www.google.com/search?q=Brihanmumbai+Municipal+Corporation+BMC+official+website'
   },
   {
@@ -89,22 +90,28 @@ export const TOP_MUNICIPAL_BUDGETS = [
   }
 ];
 
-export function CapexBreakdownModal({ isOpen, onClose }) {
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose();
-    };
-    if (isOpen) {
-      document.addEventListener('keydown', handleKeyDown);
-    }
-    return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen, onClose]);
+// Sum of the published outlays. When a row is a range, the total is a range too.
+export function outlayTotalRange(rows = TOP_MUNICIPAL_BUDGETS) {
+  let low = 0;
+  let high = 0;
+  rows.forEach((r) => {
+    const nums = (r.outlay.match(/[\d,]+/g) || []).map((n) => Number(n.replace(/,/g, '')));
+    low += Math.min(...nums);
+    high += Math.max(...nums);
+  });
+  const fmt = (n) => `₹${n.toLocaleString('en-IN')} Cr`;
+  return low === high ? fmt(low) : `${fmt(low)} to ${fmt(high)}`;
+}
 
+export function CapexBreakdownModal({ isOpen, onClose }) {
+  const ref = useDialog(isOpen, onClose);
   if (!isOpen) return null;
+  const total = outlayTotalRange();
 
   return createPortal(
-    <div role="dialog" aria-modal="true" aria-label="CapEx breakdown" className="fixed inset-0 z-[9999] bg-black/80 flex items-center justify-center p-3 sm:p-4 animate-in fade-in overflow-y-auto">
-      <div 
+    <div className="fixed inset-0 z-[9999] bg-black/80 flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+      <div ref={ref} role="dialog" aria-modal="true" aria-labelledby="capex-heading" tabIndex={-1}
+        
         className="w-full max-w-3xl max-h-[90vh] bg-[#0E1118] light:bg-white rounded-2xl border border-slate-700/80 light:border-slate-300 shadow-2xl flex flex-col overflow-hidden my-auto animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
@@ -116,22 +123,20 @@ export function CapexBreakdownModal({ isOpen, onClose }) {
             </div>
             <div>
               <div className="flex items-center space-x-2">
-                <h3 className="text-base sm:text-lg font-bold text-white light:text-slate-900 font-sans">
-                  CapEx Tracked Breakdown
+                <h3 id="capex-heading" className="text-base sm:text-lg font-bold text-white light:text-slate-900 font-sans">
+                  Annual budget outlay
                 </h3>
-                <span className="text-xs font-bold px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 light:bg-emerald-100 light:text-emerald-800 border border-emerald-500/40 light:border-emerald-300">
-                  ₹2,02,782 Crore
-                </span>
               </div>
               <p className="text-xs text-slate-400 light:text-slate-600">
-                Top Municipal Corporations by Annual Budget Outlay (India)
+                Total budgets of 12 large municipal corporations. This is the whole budget, not capital spending only.
               </p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-white light:text-slate-500 light:hover:text-slate-900 hover:bg-slate-800 light:hover:bg-slate-200 transition-colors"
+            aria-label="Close"
+            className="w-11 h-11 inline-flex items-center justify-center rounded-lg text-slate-400 hover:text-white light:text-slate-500 light:hover:text-slate-900 hover:bg-slate-800 light:hover:bg-slate-200 transition-colors"
             title="Close"
           >
             <X className="w-5 h-5" />
@@ -142,12 +147,13 @@ export function CapexBreakdownModal({ isOpen, onClose }) {
         <div className="p-4 sm:p-6 overflow-y-auto space-y-4">
           <div className="rounded-xl border border-slate-800 light:border-slate-200 overflow-hidden bg-slate-900/40 light:bg-slate-50/50">
             <table className="w-full text-left text-xs sm:text-sm">
-              <thead className="bg-slate-800/80 light:bg-slate-200/80 text-slate-300 light:text-slate-700 uppercase text-xs border-b border-slate-700/60 light:border-slate-300">
+              <thead className="bg-slate-800/80 light:bg-slate-200/80 text-slate-300 light:text-slate-700 text-xs border-b border-slate-700/60 light:border-slate-300">
                 <tr>
                   <th className="py-2.5 px-3 sm:px-4 w-12 text-center">Rank</th>
                   <th className="py-2.5 px-3 sm:px-4">Municipal Corporation</th>
                   <th className="py-2.5 px-3 sm:px-4 hidden md:table-cell">City / Region</th>
-                  <th className="py-2.5 px-3 sm:px-4 text-right">Latest Budget Outlay</th>
+                  <th className="py-2.5 px-3 sm:px-4 text-right">Latest budget</th>
+                  <th className="py-2.5 px-3 sm:px-4">Source</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-800/60 light:divide-slate-200">
@@ -189,6 +195,9 @@ export function CapexBreakdownModal({ isOpen, onClose }) {
                     <td className="py-2.5 px-3 sm:px-4 text-right font-bold text-amber-400 light:text-amber-700 whitespace-nowrap">
                       {item.outlay}
                     </td>
+                    <td className="py-2.5 px-3 sm:px-4 text-xs">
+                      <a href={item.url} target="_blank" rel="noopener noreferrer" className="underline text-slate-300 light:text-slate-700 inline-flex min-h-[44px] items-center">Find the official budget</a>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -196,9 +205,8 @@ export function CapexBreakdownModal({ isOpen, onClose }) {
           </div>
 
           <div className="p-3 rounded-xl bg-slate-900/60 light:bg-slate-100/70 border border-slate-800 light:border-slate-200 text-xs text-slate-400 light:text-slate-600 flex items-start gap-2">
-            <ShieldCheck className="w-4 h-4 text-emerald-400 light:text-emerald-600 flex-shrink-0 mt-0.5" />
             <span>
-              Outlay figures represent total approved municipal budget allocations across India's premier Tier-1/Tier-2 urban local bodies (ULBs) currently indexed under CivicLens national monitoring.
+              These are the latest published total budgets we found for each body. The budget year is not recorded per row yet, and the links search for the official site rather than a specific document. Check the official budget before quoting a figure.
             </span>
           </div>
         </div>
@@ -206,11 +214,11 @@ export function CapexBreakdownModal({ isOpen, onClose }) {
         {/* Footer */}
         <div className="px-4 sm:px-6 py-3 border-t border-slate-800 light:border-slate-200 bg-slate-900/50 light:bg-slate-50 flex items-center justify-between">
           <span className="text-xs text-slate-500 light:text-slate-400">
-            Total Monitored CapEx: <strong className="text-slate-200 light:text-slate-800">₹2,02,782 Crore</strong>
+            Total: <strong className="text-slate-200 light:text-slate-800">{total}</strong>
           </span>
           <button
             onClick={onClose}
-            className="px-4 py-1.5 rounded-lg bg-slate-800 light:bg-slate-200 hover:bg-slate-700 light:hover:bg-slate-300 text-xs font-semibold text-white light:text-slate-900 transition-colors"
+            className="min-h-[44px] px-4 rounded-lg bg-slate-800 light:bg-slate-200 hover:bg-slate-700 light:hover:bg-slate-300 text-xs font-semibold text-white light:text-slate-900 transition-colors"
           >
             Close
           </button>

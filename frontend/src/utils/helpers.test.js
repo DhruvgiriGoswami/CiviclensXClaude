@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 import { formatINR, formatPct, humanizeEnum } from './format.js';
 import { makeBreaks, bucketIndex, bucketColor, RAMP_LIGHT, NO_DATA_LIGHT } from './choropleth.js';
 import { rankSearch } from './search.js';
+import { partyShortCode, partyDisplayName } from './partyNormalizer.js';
 
 test('formatINR uses lakh and crore', () => {
   assert.equal(formatINR(84000), '₹84,000');
@@ -48,4 +49,13 @@ test('rankSearch dedupes by id and ranks prefix matches first', () => {
   assert.deepEqual(out.map((x) => x.label), ['Pune', 'Greater Pune Region', 'Kopune']);
   assert.deepEqual(rankSearch(items, 'pun').map((x) => x.id).slice(0, 2), ['PB', 'PN']);
   assert.deepEqual(rankSearch(items, ''), []);
+});
+
+test('party short codes come from the full name, not the cut abbreviation', () => {
+  assert.equal(partyShortCode('BHARATIYA '), 'BJP');
+  assert.equal(partyShortCode('Nationalist Congress Party (Sharadchandra Pawar)'), 'NCP (SP)');
+  assert.equal(partyShortCode('Shiv Sena (UBT)'), 'SS (UBT)');
+  assert.equal(partyShortCode('Indian National Congress'), 'INC');
+  assert.equal(partyShortCode('Some Local Front'), 'Some Local Front');
+  assert.equal(partyDisplayName('NATIONALIS'), 'Nationalist Congress Party');
 });

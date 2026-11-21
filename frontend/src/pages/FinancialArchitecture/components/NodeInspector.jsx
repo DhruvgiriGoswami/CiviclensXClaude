@@ -12,7 +12,7 @@ export function NodeInspector({ node, onClose }) {
       <div className="p-4 border-b border-slate-800 light:border-slate-200 flex items-center justify-between bg-slate-950/80 light:bg-slate-50">
         <div>
           <span className="text-xs uppercase font-bold text-cyan-400 light:text-cyan-700 tracking-wider">
-            ARCHITECTURE ENTITY INSPECTOR
+            Details
           </span>
           <h3 className="text-sm font-bold text-slate-100 light:text-slate-900 uppercase tracking-wide">
             {node.title}
@@ -29,6 +29,9 @@ export function NodeInspector({ node, onClose }) {
 
       {/* Inspector Content */}
       <div className="p-4 space-y-4 overflow-y-auto custom-scrollbar flex-1 text-xs">
+        <p role="note" className="rounded-lg bg-amber-100 text-amber-950 text-xs font-medium px-3 py-2">
+          Illustrative data, not real records.
+        </p>
         {/* Core summary metrics */}
         <div className="grid grid-cols-2 gap-2 bg-slate-950/60 light:bg-slate-100 p-3 rounded-xl border border-slate-800 light:border-slate-300 shadow-sm">
           <div>
@@ -140,7 +143,7 @@ export function NodeInspector({ node, onClose }) {
             <span>CBDC Ledger Cryptographic Trace</span>
           </div>
           <div className="text-slate-400 light:text-slate-700 truncate font-bold">
-            Ref: {details.transactionReference || details.cbdcAccount || details.cbdcTxHash || "0x98f4a102c842b109e4401a9"}
+            Ref: {details.transactionReference || details.cbdcAccount || details.cbdcTxHash || "SAMPLE-HASH-98f4a102c842b109e4401a9"}
           </div>
         </div>
       </div>

@@ -4,17 +4,17 @@ export const PROJECT_DEMO = {
   fund: {
     id: "FND-2026-0017",
     name: "Urban Infrastructure Grant — FY26 Phase II",
-    sanctioningBody: "Ministry of Housing & Urban Affairs / Govt of Maharashtra",
+    sanctioningBody: "Sample Urban Affairs Department / Sample State Government",
     sanctionDate: "12 January 2026",
     totalGrant: "₹10.00 Cr",
     headOfAccount: "4217-Capital Outlay on Urban Development",
-    treasuryHash: "0x98f4a102c842b109e4401a9"
+    treasuryHash: "SAMPLE-HASH-98f4a102c842b109e4401a9"
   },
   project: {
     id: "PRJ-2026-0042",
     title: "Ward 150 Arterial Road Rehabilitation & Smart Utility Ducting",
-    location: "Ward 150 (Majiwada & Service Road Corridor, Thane)",
-    implementingAgency: "Thane Municipal Corporation (TMC) — Public Works Dept",
+    location: "Ward 150 (Majiwada & Service Road Corridor, Sample City)",
+    implementingAgency: "Sample Municipal Corporation (SMC) — Public Works Dept",
     estimatedCost: "₹10.00 Cr",
     contractAwardedCost: "₹6.20 Cr",
     currentApprovedCost: "₹8.10 Cr",
@@ -92,7 +92,7 @@ export const PROJECT_DEMO = {
       deductions: "₹0.10 Cr",
       netPaid: "₹2.10 Cr",
       paymentDate: "30 March 2026",
-      cbdcTxHash: "0x8f2a9910c242_cbdc_tx_90101",
+      cbdcTxHash: "SAMPLE-HASH-8f2a9910c242_cbdc_tx_90101",
       verificationStatus: "VERIFIED_MATCH"
     },
     {
@@ -102,7 +102,7 @@ export const PROJECT_DEMO = {
       deductions: "₹0.10 Cr",
       netPaid: "₹2.80 Cr",
       paymentDate: "28 May 2026",
-      cbdcTxHash: "0x3c99b821f001_cbdc_tx_90240",
+      cbdcTxHash: "SAMPLE-HASH-3c99b821f001_cbdc_tx_90240",
       verificationStatus: "VERIFIED_MATCH"
     },
     {
@@ -112,7 +112,7 @@ export const PROJECT_DEMO = {
       deductions: "₹0.10 Cr",
       netPaid: "₹2.70 Cr",
       paymentDate: "15 August 2026",
-      cbdcTxHash: "0x770a8291c944_cbdc_tx_90442",
+      cbdcTxHash: "SAMPLE-HASH-770a8291c944_cbdc_tx_90442",
       verificationStatus: "DISCREPANCY_AUDITED",
       auditNote: "MB thickness claimed 75mm, core-drill testing measured 52mm. Payment held for ₹0.10 Cr pending review."
     }

@@ -3,6 +3,8 @@ import {
   X, MapPin, ArrowUpRight
 } from 'lucide-react';
 import { getMediaUrl } from '../../utils/ticketHelpers';
+import { statusBadgeClass, priorityBadgeClass } from '../../utils/statusStyles';
+import { humanizeEnum } from '../../utils/format';
 
 export function TicketDetailModal({ ticket, onClose }) {
   if (!ticket) return null;
@@ -50,23 +52,23 @@ export function TicketDetailModal({ ticket, onClose }) {
 
         {/* Modal Content */}
         <div className="p-6 overflow-y-auto space-y-5 text-xs text-slate-300 light:text-slate-700">
-          {/* Operational Status & Priority Badges */}
+          {/* Status & Priority Badges */}
           <div className="p-4 rounded-xl bg-[#0B0D12] light:bg-slate-50 border border-slate-800 light:border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs uppercase tracking-wider text-slate-400 light:text-slate-600 mb-1.5">
-                Operational Status
+                Status
               </label>
-              <div className="inline-flex items-center px-3 py-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 font-bold text-xs">
-                {ticket.status || 'OPEN'}
+              <div className={`inline-flex items-center px-3 py-1.5 rounded-lg border font-bold text-xs ${statusBadgeClass(ticket.status)}`}>
+                {humanizeEnum(ticket.status || 'OPEN')}
               </div>
             </div>
 
             <div>
               <label className="block text-xs uppercase tracking-wider text-slate-400 light:text-slate-600 mb-1.5">
-                Priority Severity Level
+                Priority
               </label>
-              <div className="inline-flex items-center px-3 py-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 font-bold text-xs">
-                {ticket.priority || 'MEDIUM'}
+              <div className={`inline-flex items-center px-3 py-1.5 rounded-lg border font-bold text-xs ${priorityBadgeClass(ticket.priority)}`}>
+                {humanizeEnum(ticket.priority || 'MEDIUM')}
               </div>
             </div>
           </div>

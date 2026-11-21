@@ -5,7 +5,7 @@ export const DEMO_SUMMARY = {
   fundId: "FND-2026-0017",
   projectId: "PRJ-2026-0042",
   projectName: "Ward 150 Arterial Road Rehabilitation & Smart Utility Ducting",
-  location: "Ward 150 — Majiwada & Service Corridor, Thane",
+  location: "Ward 150 — Majiwada & Service Corridor, Sample City",
   fundAllocated: "₹10.00 Cr",
   tenderId: "TND-2026-0142",
   tenderEstimate: "₹10.00 Cr",
@@ -30,7 +30,7 @@ export const ARCHITECTURE_NODES = [
     id: "gov_treasury",
     group: "GOVERNMENT",
     groupLabel: "1. GOVERNMENT",
-    title: "Government / Ministry of Finance",
+    title: "Government / Sample Finance Department",
     subtitle: "Public Treasury Allocation",
     code: "GOV-TRSY-01",
     amount: "₹10.00 Cr",
@@ -41,12 +41,12 @@ export const ARCHITECTURE_NODES = [
     description: "Central & State Capital Expenditure Allocation for Municipal Infrastructure",
     details: {
       fundId: "FND-2026-0017",
-      authority: "Department of Expenditure / Ministry of Finance",
+      authority: "Department of Expenditure / Sample Finance Department",
       sanctionOrder: "SO/2026/URBAN-INFRA/9042",
       sanctionDate: "12-Jan-2026",
       sourceOfFunds: "Consolidated Fund of India — Urban Infra Grant",
       permittedUse: ["Capital Expenditure", "Civil Works", "Quality Inspection"],
-      cbdcAccount: "gov_treasury_wh_cbdc_0x71a"
+      cbdcAccount: "gov_treasury_wh_cbdc_SAMPLE-HASH-71a"
     }
   },
   {
@@ -75,9 +75,9 @@ export const ARCHITECTURE_NODES = [
     id: "muni_corp",
     group: "MUNICIPAL",
     groupLabel: "3. MUNICIPAL AUTHORITY",
-    title: "Thane Municipal Corporation",
+    title: "Sample Municipal Corporation",
     subtitle: "Municipal Treasury & Administration",
-    code: "TMC-TREASURY",
+    code: "SMC-TREASURY",
     amount: "₹10.00 Cr",
     type: "municipal",
     x: 1040,
@@ -85,11 +85,11 @@ export const ARCHITECTURE_NODES = [
     status: "RECEIVED",
     description: "Executive Municipal Authority responsible for ward-level infrastructure execution",
     details: {
-      corporationId: "IN-MH-TMC",
+      corporationId: "IN-MH-SMC",
       commissionerSignoff: "IAS Municipal Commissioner",
-      treasuryAccount: "TMC-CBDC-DEPT-INFRA-04",
+      treasuryAccount: "SMC-CBDC-DEPT-INFRA-04",
       allocatedProject: "PRJ-2026-0042",
-      sanctionedByCouncil: "Resolution No. TMC/TC/2026/884",
+      sanctionedByCouncil: "Resolution No. SMC/TC/2026/884",
       linkedDept: "Public Works Department (PWD)"
     }
   },
@@ -202,7 +202,7 @@ export const ARCHITECTURE_NODES = [
     description: "Milestone bill submission, tax deductions (TDS/GST), and digital payment execution",
     details: {
       billId: "BILL-2026-0442",
-      invoiceNo: "APEX/TMC/2026/INV-09",
+      invoiceNo: "APEX/SMC/2026/INV-09",
       grossClaimed: "₹7.80 Cr",
       deductionsTDSGST: "₹0.20 Cr",
       approvedNetPayment: "₹7.60 Cr",
@@ -253,7 +253,7 @@ export const ARCHITECTURE_CONNECTIONS = [
     label: "Allocation",
     moneyLabel: "Wholesale CBDC Credit",
     controlLabel: "Delegation Rule",
-    dataLabel: "CBDC-WHS → TMC-TRSY"
+    dataLabel: "CBDC-WHS → SMC-TRSY"
   },
   {
     id: "c3",
@@ -263,7 +263,7 @@ export const ARCHITECTURE_CONNECTIONS = [
     label: "Project Allocation",
     moneyLabel: "₹10.00 Cr Escrow Lock",
     controlLabel: "Purpose Binding",
-    dataLabel: "TMC-TRSY → PRJ-2026"
+    dataLabel: "SMC-TRSY → PRJ-2026"
   },
   {
     id: "c4",
