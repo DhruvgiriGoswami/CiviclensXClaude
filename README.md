@@ -2,7 +2,7 @@
 
 Mumbai spends crores every monsoon fixing the same roads. This tool takes one season of repair records and answers three questions for each ward: where the money went, whether the fixes held, and where the next rupee should go.
 
-It is built on CivicLens, a civic transparency app, and runs on the synthetic dataset from the Claude Impact Lab Mumbai hackathon (24 wards, 2,499 work orders, 6,501 complaints).
+It is called CivicLens, a civic transparency app, and runs on the synthetic dataset from the Claude Impact Lab Mumbai hackathon (24 wards, 2,499 work orders, 6,501 complaints).
 
 > Synthetic data. These are not BMC records, and every contractor is fictional. Don't use anything here to judge a real person, contractor or department.
 
@@ -55,6 +55,19 @@ The engine lives in `backend/app/audit/`. It loads the CSVs from `data/` into me
 | Ambulance route to a hospital, or school access | 0.10 |
 
 The planner picks the repair method with the lowest reopen rate for that kind of work, using methods with at least 20 jobs. That favours repairs that last over the cheapest patch: hot mix (22.6% reopened) over cold mix (32.2%) for potholes, and a dewatering pump (14%) over drain desilting (26%) for waterlogging. Cost comes from the rate card times the typical area. A road under DLP costs BMC nothing, because the original contractor has to fix it. Items are funded in order of risk per rupee until the remaining budget runs out. If a ward has already overspent, the plan says so, and only DLP repairs go ahead.
+
+## Where the map comes from
+
+The ward map on the page is drawn from `data/wards.geojson`, the 24 ward shapes that ship with the hackathon dataset. They aren't official BMC boundaries. The data dictionary describes them as a Voronoi approximation around each ward's centre: every point on the map belongs to the ward whose centre is nearest. They are still consistent with the data, because a complaint's GPS point falls inside the ward its `ward_code` names. The cleaner uses that to fill in missing ward codes.
+
+The file travels like this:
+
+1. The backend reads `wards.geojson` once at startup along with the CSVs, and serves it unchanged at `GET /api/v1/audit/wards.geojson`.
+2. The page fetches it alongside the city totals and the ward list.
+3. `WardMap.jsx` turns longitude and latitude into SVG coordinates with a flat projection. It shrinks longitude by the cosine of Mumbai's latitude so the city isn't stretched sideways. Each ward becomes one SVG `path`, and the bigger wards get a label at their centre.
+4. Each ward is shaded by the measure you pick, failed-fix share or amount at risk, in five equal steps from the lowest ward to the highest, on a light-to-dark red scale. Wards with no value stay grey.
+
+No tiles, map library or API key are involved. The offline mock carries its own copy of the same shapes, so the map still draws when the backend is down. `data/roads.geojson` is in the dataset, but the page doesn't draw it.
 
 ## Where Claude comes in
 
@@ -126,6 +139,53 @@ All routes sit under `/api/v1/audit`. The full contract is in [`docs/API_CONTRAC
 | `POST /wards/{code}/summary` | Corporator brief, written by Claude |
 
 Ward codes contain a slash (`F/S`). Pass them raw: `/api/v1/audit/wards/F/S`.
+
+## FAQ
+
+**Is this real BMC data?**
+No. The whole dataset is synthetic, and every contractor is fictional, which is why each name ends in "(synthetic)". The page carries a banner saying so.
+
+**Why isn't the map on Google Maps?**
+The ward shapes are approximations, and so are the road coordinates. Laid over real streets, they would cut across real roads and look more exact than they are. A plain drawing makes no claim about real geography. It also means anyone can clone the repo and see the map without a key. The rest of CivicLens, outside this page, still uses Google Maps.
+
+**Does a flag mean someone committed fraud?**
+No. A flag means a bill or record is worth a second look. Each one names the work order, gives the rule it broke and shows the numbers, so a ward officer can check it. Rain, tides and low-lying wards are stated next to the numbers, and the text describes the record without blaming anyone.
+
+**How did you pick the thresholds?**
+From gaps in the data, because the hackathon answer key isn't public. For overbilling, no job sits between 1.30x and 1.35x the rate card, so the cutoff is 1.33x, inside that gap. `backend/app/audit/THRESHOLDS.md` covers every rule, including the three that found nothing.
+
+**Why are there 493 DLP flags? Isn't that too many?**
+Each one is a job where BMC paid for work on a road still under its defect liability period, when the original contractor should have done it for free. About 21% of roads are under DLP, and every contractor has between 16% and 25% of its jobs on them. So this is a payment problem spread across the city, not one contractor.
+
+**Isn't it unfair to compare a contractor in a flood-prone ward with one in a dry ward?**
+That's why the scorecards don't do it. Each contractor is compared with peers who used the same repair method, under the same rain or tide conditions, in the same kind of ward. Scores are rates per job, so a busy contractor isn't punished for doing more work. Below 15 jobs, the scorecard says there isn't enough to judge.
+
+**Why does the plan sometimes pick a more expensive repair?**
+The plan picks the method whose fixes reopened least for that kind of work. Hot mix reopened 22.6% of the time against 32.2% for cold mix, so a pothole gets hot mix even though it costs more. A patch that fails and has to be redone costs more in the end.
+
+**What happens when a ward has already spent its whole budget?**
+The plan says so at the top. Only repairs on DLP roads go ahead, because the original contractor pays for those. Everything else stays on the list as unfunded, in order of risk.
+
+**Can Claude make up numbers?**
+Claude only sees the JSON the audit engine has already computed, and it's told to cite a work order for every claim. A language model can still get a detail wrong. That's why every answer lists the work order ids it used, and the page links to the full trail so you can check.
+
+**Which languages can citizens ask in?**
+English, Hindi, Marathi and Hinglish. The backend works out the language from the question before calling Claude, and the answer comes back in the same one.
+
+**Do I need an API key or a database to try it?**
+Neither. Without `ANTHROPIC_API_KEY`, the brief and the citizen answers use template text built from the same numbers, and the page labels them as templates. The audit reads CSVs, so it needs no database. Only the rest of CivicLens uses PostgreSQL.
+
+**Does every question cost an API call?**
+Citizen answers aren't cached, so each one is a fresh call to Claude. Ward briefs are cached on disk per ward and are only written again when the data changes.
+
+**Why do the numbers change when the backend is off?**
+The page then switches to an offline mock built from the same CSVs with simpler rules. Its numbers are close to the real audit but won't match it. A label on the page tells you which source you're seeing.
+
+**How can I check the results myself?**
+Download every flag from `/api/v1/audit/export/flags.csv`, or run `uv run python -m app.audit.report` in `backend/` for counts per rule and the top items. Each flag's work order id leads back to `data/work_orders.csv`.
+
+**Why does a ward code like `F/S` work in a URL?**
+The routes accept the slash as part of the path, so `/api/v1/audit/wards/F/S` works as written.
 
 ## Known limits
 
