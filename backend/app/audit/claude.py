@@ -32,11 +32,11 @@ def _call(system: str, user: str, max_tokens: int = 4000) -> str | None:
         return None
     try:
         client = anthropic.Anthropic(timeout=90.0)
-        resp = client.beta.messages.create(
+        # Sonnet 5.5 only: no server-side model fallback; a refusal falls back to the template instead.
+        resp = client.messages.create(
             model=MODEL, max_tokens=max_tokens, system=system,
             messages=[{"role": "user", "content": user}],
             output_config={"effort": "medium"},
-            betas=["server-side-fallback-2026-07-01"], fallbacks="default",
         )
     except anthropic.APIError:
         return None  # any API failure falls back to the template
