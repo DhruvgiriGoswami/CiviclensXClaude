@@ -25,13 +25,13 @@ export function AppContent({ navigateTo }) {
   const INTRO_STORAGE_KEY = "civiclens_intro_seen";
 
   const [showIntro, setShowIntro] = useState(() => {
-    // Always show intro while developing/testing
-    if (import.meta.env.DEV) {
-      return true;
+    // First visit only. In development, add ?intro to the URL to replay it.
+    if (import.meta.env.DEV && new URLSearchParams(window.location.search).has('intro')) return true;
+    try {
+      return localStorage.getItem(INTRO_STORAGE_KEY) !== "true";
+    } catch {
+      return false;
     }
-  
-    // Production: show only on first visit
-    return localStorage.getItem(INTRO_STORAGE_KEY) !== "true";
   });
   const [showTour, setShowTour] = useState(false);
   const [units, setUnits] = useState([]);

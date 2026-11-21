@@ -1,63 +1,57 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
+import { INDIA_PATH } from "../map/IndiaMapLoader";
 import "./CivicLensIntro.css";
 
 const INTRO_STORAGE_KEY = "civiclens_intro_seen";
 
-const prefersReducedMotion = () =>
-  typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-
+// A short reveal: the India outline draws in, the wordmark rises, the overlay fades out.
 export default function CivicLensIntro({ onComplete }) {
-  const [isEnding, setIsEnding] = useState(false);
+  const rootRef = useRef(null);
   const doneRef = useRef(false);
-  const timerRef = useRef(null);
+  const completeRef = useRef(onComplete);
+  completeRef.current = onComplete;
 
-  // One exit path for video end, Skip and reduced motion, so onComplete runs exactly once.
-  const finish = (delayMs) => {
+  // One exit path for the end of the timeline, Skip and reduced motion, so onComplete runs once.
+  const finish = () => {
     if (doneRef.current) return;
     doneRef.current = true;
     try { localStorage.setItem(INTRO_STORAGE_KEY, "true"); } catch { /* storage blocked */ }
-    setIsEnding(true);
-    timerRef.current = setTimeout(onComplete, delayMs);
+    completeRef.current?.();
   };
 
   useEffect(() => {
-    // No autoplaying video for people who asked for less motion. Call onComplete directly:
-    // a timer here is cleared by StrictMode's effect re-run and the overlay never leaves.
-    if (prefersReducedMotion() && !doneRef.current) {
-      doneRef.current = true;
-      try { localStorage.setItem(INTRO_STORAGE_KEY, "true"); } catch { /* storage blocked */ }
-      onComplete();
-    }
-    return () => clearTimeout(timerRef.current);
+    const mm = gsap.matchMedia();
+    mm.add(
+      { motion: "(prefers-reduced-motion: no-preference)", reduce: "(prefers-reduced-motion: reduce)" },
+      (ctx) => {
+        if (ctx.conditions.reduce) {
+          finish();
+          return;
+        }
+        const path = rootRef.current.querySelector("path");
+        const len = path.getTotalLength();
+        gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
+        gsap.timeline({ defaults: { ease: "power2.out" }, onComplete: finish })
+          .to(path, { strokeDashoffset: 0, duration: 0.35 })
+          .from(".civiclens-intro-word", { autoAlpha: 0, y: 12, duration: 0.2 }, "-=0.1")
+          .to(rootRef.current, { autoAlpha: 0, duration: 0.2 }, "+=0.1");
+      },
+      rootRef
+    );
+    return () => mm.revert();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div className={`civiclens-intro ${isEnding ? "is-ending" : ""}`}>
-      <video
-        className="civiclens-intro-video"
-        autoPlay
-        muted
-        playsInline
-        preload="auto"
-        onEnded={() => finish(900)}
-      >
-        <source
-          src="/intro/civiclens-intro-trimmed.mp4"
-          type="video/mp4"
-        />
-
-        Your browser does not support video playback.
-      </video>
-
-      <button
-        className="civiclens-intro-skip"
-        onClick={() => finish(500)}
-      >
+    <div ref={rootRef} className="civiclens-intro">
+      <svg className="civiclens-intro-map" viewBox="0 0 900 1000" aria-hidden="true" focusable="false">
+        <path d={INDIA_PATH} />
+      </svg>
+      <p className="civiclens-intro-word">CivicLens</p>
+      <button type="button" className="civiclens-intro-skip" onClick={finish}>
         Skip
       </button>
-
-      <div className="civiclens-intro-fog" />
     </div>
   );
 }
