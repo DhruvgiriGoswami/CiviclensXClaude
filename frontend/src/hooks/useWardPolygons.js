@@ -4,6 +4,7 @@ import { makeBreaks, bucketColor, NO_DATA_LIGHT, NO_DATA_DARK } from '../utils/c
 import { wardGeometryCache } from '../services/mapGeometryCache';
 import { mapDebug, generateRequestId } from '../utils/mapDebug';
 import { boundsOf } from '../utils/cameraMath';
+import { addHoverHighlight } from '../utils/mapHelpers';
 
 export function useWardPolygons({
   googleMapRef,
@@ -142,14 +143,9 @@ export function useWardPolygons({
           map: map,
         });
 
-        // Hover is a state layer: +8% opacity, nothing else changes.
-        polygon.addListener('mouseover', () => {
-          polygon.setOptions({ fillOpacity: polyFillOpacity + 0.08 });
-        });
-
-        polygon.addListener('mouseout', () => {
-          polygon.setOptions({ fillOpacity: polyFillOpacity });
-        });
+        // shortcut: if the complaint colours arrive while a ward is hovered, mouseout restores the
+        // pre-count fill until the next hover; fine because counts land once, right after render.
+        addHoverHighlight([polygon]);
 
         polygon.addListener('click', (e) => {
           if (isPinningModeRef.current) {

@@ -4,7 +4,7 @@ import { mapDebug } from '../utils/mapDebug';
 import { boundsOf } from '../utils/cameraMath';
 import { createDistrictLabels } from '../utils/mapLabels';
 import { wardGeometryCache } from '../services/mapGeometryCache';
-import { extractPathsFromGeoJson, getLoadedStateDistrictsData, STATE_CENTERS, fitIndia, buildMapStyles } from '../utils/mapHelpers';
+import { extractPathsFromGeoJson, getLoadedStateDistrictsData, STATE_CENTERS, fitIndia, buildMapStyles, addHoverHighlight } from '../utils/mapHelpers';
 
 export function useRedBoundaryHighlight({
   googleMapRef,
@@ -262,26 +262,6 @@ export function useRedBoundaryHighlight({
                 map: map,
               });
 
-              polygon.addListener('mouseover', () => {
-                if (!isSelectedDist) {
-                  polygon.setOptions({
-                    fillOpacity: 0.30,
-                    strokeWeight: 2.0,
-                    strokeOpacity: 0.95
-                  });
-                }
-              });
-
-              polygon.addListener('mouseout', () => {
-                if (!isSelectedDist) {
-                  polygon.setOptions({
-                    fillOpacity: 0.15,
-                    strokeWeight: 1.5,
-                    strokeOpacity: 0.80
-                  });
-                }
-              });
-
               polygon.addListener('click', (e) => {
                 if (!e || !e.latLng) return;
                 if (isPinningModeRef.current) {
@@ -314,6 +294,9 @@ export function useRedBoundaryHighlight({
                 selectedDistPaths.push(path);
               }
             });
+
+            // The selected district is already red, so hover leaves it alone.
+            if (!isSelectedDist) addHoverHighlight(distPolys);
 
             districtPolygonsMapRef.current.push({
               name: distCleanName,
