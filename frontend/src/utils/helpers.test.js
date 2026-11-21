@@ -1,7 +1,7 @@
 // Run with `npm test`. Covers the pure helpers used by the map, search and money views.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { formatINR, formatPct, humanizeEnum, shortUnitLabel } from './format.js';
+import { formatINR, formatPct, humanizeEnum, shortUnitLabel, formatPostDate, formatCount } from './format.js';
 import { makeBreaks, bucketIndex, bucketColor, RAMP_LIGHT, NO_DATA_LIGHT } from './choropleth.js';
 import { rankSearch } from './search.js';
 import { partyShortCode, partyDisplayName } from './partyNormalizer.js';
@@ -76,4 +76,18 @@ test('party short codes come from the full name, not the cut abbreviation', () =
   assert.equal(partyShortCode('Indian National Congress'), 'INC');
   assert.equal(partyShortCode('Some Local Front'), 'Some Local Front');
   assert.equal(partyDisplayName('NATIONALIS'), 'Nationalist Congress Party');
+});
+
+test('formatPostDate writes the day, short month and year without a timezone shift', () => {
+  assert.equal(formatPostDate('2025-06-12T14:01'), '12 Jun 2025');
+  assert.equal(formatPostDate('2025-09-01T00:05'), '1 Sep 2025');
+  assert.equal(formatPostDate(null), '');
+  assert.equal(formatPostDate('not a date'), '');
+});
+
+test('formatCount shortens thousands', () => {
+  assert.equal(formatCount(867), '867');
+  assert.equal(formatCount(1200), '1.2K');
+  assert.equal(formatCount(15000), '15K');
+  assert.equal(formatCount(null), '0');
 });

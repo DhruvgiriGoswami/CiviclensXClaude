@@ -194,3 +194,35 @@ async def test_unknown_ids_404(api, method, path):
 async def test_ask_unknown_complaint_404(api):
     r = await api.post(A + "/ask", json={"question": "x", "complaint_id": "BMC25-999999"})
     assert r.status_code == 404
+
+
+POST_KEYS = {"post_id", "posted_at", "source", "platform", "author_handle", "text", "engagement", "engagement_label",
+             "shared_count", "unverified"}
+
+
+async def test_social_posts_shape_and_paging(api):
+    p1 = await get(api, "/social-posts")
+    assert p1["total"] == 509 and p1["next_offset"] == 10 and len(p1["items"]) == 10
+    assert all(set(i) == POST_KEYS for i in p1["items"])  # has_media is never served
+    p2 = await get(api, "/social-posts", offset=10)
+    assert not {i["post_id"] for i in p1["items"]} & {i["post_id"] for i in p2["items"]}
+    last = await get(api, "/social-posts", offset=500)
+    assert len(last["items"]) == 9 and last["next_offset"] is None
+    dates = [i["posted_at"] for i in (await get(api, "/social-posts", limit=50))["items"]]
+    assert dates == sorted(dates, reverse=True)
+    assert (await api.get(A + "/social-posts", params={"limit": 0})).status_code == 422
+
+
+async def test_social_posts_dedup_and_flags(api):
+    items = []
+    for off in range(0, 509, 50):
+        items += (await get(api, "/social-posts", limit=50, offset=off))["items"]
+    assert len(items) == 509 and len({i["text"] for i in items}) == 509
+    assert sum(i["shared_count"] for i in items) == 650
+    fwd = next(i for i in items if i["text"].startswith("Fwd as received"))
+    assert fwd["unverified"] is True and fwd["shared_count"] > 1
+    assert not any(i["unverified"] for i in items if "unverified" not in i["text"].lower())
+    for i in items:
+        assert i["engagement_label"] == ("forwards" if i["platform"] == "whatsapp" else "likes")
+        assert i["platform"] in {"x", "instagram", "whatsapp"}
+        assert re.fullmatch(r"\d{4}-\d\d-\d\dT\d\d:\d\d", i["posted_at"])

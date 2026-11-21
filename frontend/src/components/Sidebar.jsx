@@ -7,8 +7,15 @@ import {
 import { LeaderCard } from './LeaderCard';
 import { NationalSpotlight } from './NationalSpotlight';
 import { StateLeadershipSpotlight } from './StateLeadershipSpotlight';
+import { SidebarTabs } from './SidebarTabs';
+import { NewsFeed } from './news/NewsFeed';
 import { geographyApi } from '../services/api';
 import { getFilteredTickets } from '../utils/ticketHelpers';
+
+const SPOTLIGHT_TABS = [
+  { id: 'LEADERSHIP', label: 'Leadership' },
+  { id: 'NEWS', label: 'News' },
+];
 
 export function Sidebar({
   unit,
@@ -119,29 +126,36 @@ export function Sidebar({
   };
 
   const renderContent = () => {
-    // LEVEL 1: NATIONAL ZOOM OUT VIEW - Show President & PM First!
-    if (currentLevel === 'NATIONAL') {
+    // LEVEL 1 and 2: NATIONAL and STATE views. Leadership spotlight or the News feed.
+    if (currentLevel === 'NATIONAL' || currentLevel === 'STATE') {
+      const tab = activeTab === 'NEWS' ? 'NEWS' : 'LEADERSHIP';
       return (
-        <div className="h-full overflow-y-auto p-5">
-          <NationalSpotlight
-            onSelectState={handleSelectStateWithCollapse}
-            onOpenNationalLeaders={onOpenNationalLeaders}
-          />
-        </div>
-      );
-    }
-
-    // LEVEL 2: STATE ZOOM VIEW - Show Chief Minister, Dy CMs, Governor & State Personnel!
-    if (currentLevel === 'STATE') {
-      return (
-        <div className="h-full overflow-y-auto p-5">
-          <StateLeadershipSpotlight
-            selectedState={selectedState}
-            onSelectUnit={handleSelectUnitWithCollapse}
-            units={allUnits}
-            onHoverDistrict={onHoverDistrict}
-            onSelectDistrict={handleSelectDistrictWithCollapse}
-          />
+        <div className="flex flex-col h-full overflow-hidden">
+          <div className="px-5 pt-5 flex-shrink-0">
+            <SidebarTabs tabs={SPOTLIGHT_TABS} active={tab} onChange={setActiveTab} />
+          </div>
+          {tab === 'NEWS' ? (
+            <div className="flex-1 min-h-0">
+              <NewsFeed />
+            </div>
+          ) : (
+            <div className="flex-1 min-h-0 overflow-y-auto p-5">
+              {currentLevel === 'NATIONAL' ? (
+                <NationalSpotlight
+                  onSelectState={handleSelectStateWithCollapse}
+                  onOpenNationalLeaders={onOpenNationalLeaders}
+                />
+              ) : (
+                <StateLeadershipSpotlight
+                  selectedState={selectedState}
+                  onSelectUnit={handleSelectUnitWithCollapse}
+                  units={allUnits}
+                  onHoverDistrict={onHoverDistrict}
+                  onSelectDistrict={handleSelectDistrictWithCollapse}
+                />
+              )}
+            </div>
+          )}
         </div>
       );
     }
@@ -262,27 +276,26 @@ export function Sidebar({
             const leaderTabLabel = actualLeaderCount > 0 ? `Leaders (${actualLeaderCount})` : 'Leaders';
 
             return (
-              <div className="flex items-center space-x-1 mt-4 bg-slate-950 light:bg-slate-100 p-1 rounded-xl border border-slate-800 light:border-slate-300 text-xs">
-                <button
-                  onClick={() => setActiveTab('GRIEVANCES')}
-                  className={`flex-1 py-1.5 rounded-lg transition-all text-center ${activeTab === 'GRIEVANCES' ? 'bg-crimson-600 text-white font-bold' : 'text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900'
-                    }`}
-                >
-                  Tickets ({unitTickets.length})
-                </button>
-                <button
-                  onClick={() => setActiveTab('LEADERSHIP')}
-                  className={`flex-1 py-1.5 rounded-lg transition-all text-center ${activeTab === 'LEADERSHIP' ? 'bg-crimson-600 text-white font-bold' : 'text-slate-400 light:text-slate-600 hover:text-white light:hover:text-slate-900'
-                    }`}
-                >
-                  {leaderTabLabel}
-                </button>
-              </div>
+              <SidebarTabs
+                className="mt-4"
+                tabs={[
+                  { id: 'GRIEVANCES', label: `Tickets (${unitTickets.length})` },
+                  { id: 'LEADERSHIP', label: leaderTabLabel },
+                  { id: 'NEWS', label: 'News' },
+                ]}
+                active={activeTab}
+                onChange={setActiveTab}
+              />
             );
           })()}
         </div>
 
-        {/* Dynamic Tab Body Content */}
+        {/* Dynamic Tab Body Content. News owns its scroll so it can drift. */}
+        {activeTab === 'NEWS' ? (
+          <div className="flex-1 min-h-0">
+            <NewsFeed />
+          </div>
+        ) : (
         <div className="flex-1 overflow-y-auto p-5 space-y-5">
 
           {/* TAB 1: REGIONAL LEADERSHIP SPOTLIGHT */}
@@ -534,6 +547,7 @@ export function Sidebar({
           )}
 
         </div>
+        )}
       </div>
     );
   };
@@ -571,8 +585,8 @@ export function Sidebar({
 
           {/* Drawer Body Content */}
           {detent !== 'peek' && (
-            <div className="flex-1 overflow-y-auto flex flex-col">
-              <div className="flex-1">
+            <div className="flex-1 min-h-0 overflow-hidden flex flex-col">
+              <div className="flex-1 min-h-0">
                 {renderContent()}
               </div>
             </div>

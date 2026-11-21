@@ -193,7 +193,7 @@ The routes accept the slash as part of the path, so `/api/v1/audit/wards/F/S` wo
 
 ## Known limits
 
-- `social_posts.csv` is not used.
+- `social_posts.csv` feeds only the News tab in the sidebar (`GET /api/v1/audit/social-posts`). The posts are shown as written; they are not linked to complaints or used by the audit.
 - The rain context barely separates jobs: about 85% of them fall in a week with heavy rain or a big tide. The fairness adjustment works, but it moves scores less than it would with more varied weather.
 - Three rules (`area_outlier`, `sla_misreported`, `timeline_impossible`) found nothing in this data. They stay in as guards.
 - Search can't open a work order's own trail, so it opens the ward's flags on that job instead.

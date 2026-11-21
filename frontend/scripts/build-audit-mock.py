@@ -265,6 +265,24 @@ points = dict(fields=["complaint_id", "lat", "lon", "ward_code", "issue_state"],
               rows=[[x["complaint_id"], round(float(x["lat"]), 6), round(float(x["lon"]), 6), x["ward_code"] or None, point_state(x)]
                     for x in comps if x["lat"] and x["lon"]])
 
+
+
+def social_posts():
+    """Same grouping as backend views.social_posts: one item per text, the earliest post is the original, newest first."""
+    groups = collections.OrderedDict()
+    for p in sorted(rd("social_posts.csv"), key=lambda p: (p["posted_at"], p["post_id"])):
+        groups.setdefault(p["text"], []).append(p)
+    items = []
+    for text, ps in groups.items():
+        p = ps[0]
+        platform = "x" if p["source"].startswith("X") else "instagram" if p["source"].startswith("Instagram") else "whatsapp"
+        items.append(dict(post_id=p["post_id"], posted_at=p["posted_at"].replace(" ", "T"), source=p["source"], platform=platform,
+                          author_handle=p["author_handle"].strip() or None, text=text, engagement=int(p["likes_or_forwards"]),
+                          engagement_label="forwards" if platform == "whatsapp" else "likes", shared_count=len(ps),
+                          unverified="(unverified)" in text.lower()))
+    return sorted(items, key=lambda i: (i["posted_at"], i["post_id"]), reverse=True)
+
+
 json.dump(dict(points=points, overview=overview, wards=items, geojson=json.load(open(f"{D}/wards.geojson")), details=details, plans=plans,
-               trails=trails, search=search), open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
+               trails=trails, search=search, social_posts=social_posts()), open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
 print(len(flags), "flags,", len(trails), "trails,", "marathi:", [k for k, v in trails.items() if v["complaint"]["language"] == "mr"][:3])

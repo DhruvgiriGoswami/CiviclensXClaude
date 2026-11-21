@@ -128,6 +128,26 @@ def complaint_points(s) -> dict:
     return {"fields": ["complaint_id", "lat", "lon", "ward_code", "issue_state"], "rows": rows}
 
 
+def social_posts(s, limit: int = 10, offset: int = 0) -> dict:
+    """One page of the deduplicated social feed, newest first."""
+    g = s.social_posts
+    page = g.iloc[offset:offset + limit]
+    items = [{
+        "post_id": r.post_id,
+        "posted_at": _iso(r.posted_at),
+        "source": r.source,
+        "platform": r.platform,
+        "author_handle": r.author_handle.strip() if isinstance(r.author_handle, str) and r.author_handle.strip() else None,
+        "text": r.text,
+        "engagement": int(r.likes_or_forwards),
+        "engagement_label": r.engagement_label,
+        "shared_count": int(r.shared_count),
+        "unverified": bool(r.unverified),
+    } for r in page.itertuples()]
+    end = offset + len(items)
+    return {"total": len(g), "next_offset": end if end < len(g) else None, "items": items}
+
+
 def complaint_trail(s, complaint_id: str) -> dict | None:
     hit = s.complaints[s.complaints.complaint_id == complaint_id]
     if hit.empty:
