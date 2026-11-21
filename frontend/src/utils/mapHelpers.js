@@ -65,11 +65,11 @@ export const fitIndia = (map, executeCameraCommand) => {
 };
 
 export const buildMapStyles = (isDark) => {
-  const bg = isDark ? '#0B0D12' : '#EEF2F7';
-  const water = isDark ? '#07080C' : '#B8D4E8';
-  const road = isDark ? '#1B202E' : '#D1DBE8';
-  const localLabel = isDark ? '#64748B' : '#475569';
-  const labelStroke = isDark ? '#0B0D12' : '#EEF2F7';
+  const bg = isDark ? '#1F1F1F' : '#EEF2F7';
+  const water = isDark ? '#0E1418' : '#B8D4E8';
+  const road = isDark ? '#2E2E2E' : '#D1DBE8';
+  const localLabel = isDark ? '#9A9A9A' : '#475569';
+  const labelStroke = isDark ? '#1F1F1F' : '#EEF2F7';
   return [
     { elementType: 'geometry', stylers: [{ color: bg }] },
     { featureType: 'water', elementType: 'geometry', stylers: [{ color: water }] },

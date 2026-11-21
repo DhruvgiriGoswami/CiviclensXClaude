@@ -11,18 +11,36 @@ export default {
     extend: {
       colors: {
         dark: {
-          900: '#0B0D12',
-          800: '#12151E',
-          700: '#1B202E',
-          600: '#262D3E',
-          500: '#364057'
+          500: 'rgb(var(--dark-500) / <alpha-value>)',
+          600: 'rgb(var(--dark-600) / <alpha-value>)',
+          700: 'rgb(var(--dark-700) / <alpha-value>)',
+          800: 'rgb(var(--dark-800) / <alpha-value>)',
+          900: 'rgb(var(--dark-900) / <alpha-value>)'
         },
         crimson: {
-          500: '#E63946',
-          600: '#D62837',
-          700: '#B81D2B',
-          800: '#8F1622',
-          900: '#5E0E16'
+          50: 'rgb(var(--crimson-50) / <alpha-value>)',
+          100: 'rgb(var(--crimson-100) / <alpha-value>)',
+          200: 'rgb(var(--crimson-200) / <alpha-value>)',
+          300: 'rgb(var(--crimson-300) / <alpha-value>)',
+          400: 'rgb(var(--crimson-400) / <alpha-value>)',
+          500: 'rgb(var(--crimson-500) / <alpha-value>)',
+          600: 'rgb(var(--crimson-600) / <alpha-value>)',
+          700: 'rgb(var(--crimson-700) / <alpha-value>)',
+          800: 'rgb(var(--crimson-800) / <alpha-value>)',
+          900: 'rgb(var(--crimson-900) / <alpha-value>)'
+        },
+        slate: {
+          50: 'rgb(var(--slate-50) / <alpha-value>)',
+          100: 'rgb(var(--slate-100) / <alpha-value>)',
+          200: 'rgb(var(--slate-200) / <alpha-value>)',
+          300: 'rgb(var(--slate-300) / <alpha-value>)',
+          400: 'rgb(var(--slate-400) / <alpha-value>)',
+          500: 'rgb(var(--slate-500) / <alpha-value>)',
+          600: 'rgb(var(--slate-600) / <alpha-value>)',
+          700: 'rgb(var(--slate-700) / <alpha-value>)',
+          800: 'rgb(var(--slate-800) / <alpha-value>)',
+          900: 'rgb(var(--slate-900) / <alpha-value>)',
+          950: 'rgb(var(--slate-950) / <alpha-value>)'
         },
         // Role colours: selection is never red, success is green.
         role: {
