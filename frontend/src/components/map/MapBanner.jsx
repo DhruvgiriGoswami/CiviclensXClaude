@@ -296,7 +296,7 @@ export function MapBanner({
       {/* Top Banner Pill with Collapsible Dropdown Toggle */}
       <div
         onClick={() => hasCorps && setIsCorpsExpanded(!isCorpsExpanded)}
-        className={`pointer-events-auto px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full border border-slate-700/80 light:border-slate-300/90 shadow-2xl bg-slate-950/90 light:bg-white/95 max-w-[94vw] sm:max-w-md md:max-w-lg flex items-center justify-between gap-1.5 sm:gap-2.5 transition-all ${
+        className={`pointer-events-auto px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-lg border border-slate-700/80 light:border-slate-300/90 shadow-2xl bg-slate-950/90 light:bg-white/95 max-w-[94vw] sm:max-w-md md:max-w-lg flex items-center justify-between gap-1.5 sm:gap-2.5 transition-all ${
           hasCorps ? 'cursor-pointer hover:border-red-500/60 light:hover:border-red-500/60 hover:bg-slate-900/95 light:hover:bg-slate-50' : ''
         }`}
         title={hasCorps ? (isCorpsExpanded ? "Click to collapse corporation popups" : "Click to expand corporation popups") : undefined}
@@ -341,7 +341,7 @@ export function MapBanner({
               <button
                 key={corp.corpId}
                 onClick={() => handleCorpClick(corp)}
-                className={`w-full sm:w-80 md:w-96 max-w-md px-4.5 py-3 sm:px-4 sm:py-2.5 md:px-5 md:py-3.5 rounded-2xl border text-slate-100 light:text-slate-900 hover:text-white light:hover:text-slate-900 hover:bg-slate-900 light:hover:bg-slate-100 shadow-2xl transition-all duration-500 group cursor-pointer border-t-red-400/80 light:border-t-red-500 flex items-center justify-between gap-3 sm:gap-3.5 text-left hover:border-red-500 active:scale-[0.98] ${
+                className={`w-full sm:w-80 md:w-96 max-w-md px-4.5 py-3 sm:px-4 sm:py-2.5 md:px-5 md:py-3.5 rounded-lg border text-slate-100 light:text-slate-900 hover:text-white light:hover:text-slate-900 hover:bg-slate-900 light:hover:bg-slate-100 shadow-2xl transition-all duration-500 group cursor-pointer border-t-red-400/80 light:border-t-red-500 flex items-center justify-between gap-3 sm:gap-3.5 text-left hover:border-red-500 active:scale-[0.98] ${
                   isHighlighted
                     ? 'ring-2 ring-red-500 border-red-500 bg-slate-900/95 light:bg-red-50/70 scale-[1.015] sm:scale-100'
                     : 'border-red-500/60 light:border-red-500/40 bg-slate-950/95 light:bg-white/95'

@@ -10,7 +10,7 @@ export function CitizenView() {
   const activeCategoryObj = citizenBreakdown.categories.find(c => c.id === selectedCategory) || citizenBreakdown.categories[1];
 
   return (
-    <div className="w-full bg-[#0D1117] light:bg-white border border-cyan-500/30 light:border-slate-300 rounded-2xl p-6 text-slate-100 light:text-slate-900 font-sans shadow-2xl relative overflow-hidden">
+    <div className="w-full bg-dark-900 light:bg-white border border-cyan-500/30 light:border-slate-300 rounded-2xl p-6 text-slate-100 light:text-slate-900 font-sans shadow-2xl relative overflow-hidden">
       {/* Accent Top Bar indicating 20% Citizen Section */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-emerald-500"></div>
 

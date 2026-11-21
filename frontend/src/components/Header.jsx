@@ -247,9 +247,9 @@ export function Header({
   const hasAnyResults = apiSearchResults.length > 0 || matchedStates.length > 0 || matchedCorps.length > 0 || matchedLeaders.length > 0 || matchedWards.length > 0;
 
   return (
-    <div className="w-full flex-shrink-0 z-30 pt-[env(safe-area-inset-top)] bg-[#0E1118] light:bg-[#F8FAFC] flex flex-col">
+    <div className="w-full flex-shrink-0 z-30 pt-[env(safe-area-inset-top)] bg-dark-800 light:bg-[#F8FAFC] flex flex-col">
       {/* ─── Main Header Navigation ─── */}
-      <header className="min-h-14 lg:h-16 bg-[#0E1118] light:bg-white border-b border-slate-800/80 light:border-slate-200 px-3 sm:px-4 py-2 lg:py-0 flex flex-col lg:flex-row lg:items-center justify-between relative shadow-sm gap-2 lg:gap-0">
+      <header className="min-h-14 lg:h-16 bg-dark-800 light:bg-white border-b border-slate-800/80 light:border-slate-200 px-3 sm:px-4 py-2 lg:py-0 flex flex-col lg:flex-row lg:items-center justify-between relative shadow-sm gap-2 lg:gap-0">
         <div className="flex items-center justify-between w-full lg:w-auto relative">
           {/* Logo on Left */}
           <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl overflow-hidden shadow-lg border border-crimson-400/40 flex-shrink-0 bg-white flex items-center justify-center p-0.5">
@@ -295,7 +295,7 @@ export function Header({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setIsSearching(true)}
-              className="w-full bg-slate-800/90 light:bg-slate-100 border border-slate-600/60 light:border-slate-300 rounded-xl pl-9 pr-4 min-h-[44px] text-sm text-white light:text-slate-900 placeholder-slate-400 light:placeholder-slate-500 focus:border-slate-400 transition-colors font-sans"
+              className="w-full bg-slate-800/90 light:bg-slate-100 border border-slate-600/60 light:border-slate-300 rounded-lg pl-9 pr-4 min-h-[44px] text-sm text-white light:text-slate-900 placeholder-slate-400 light:placeholder-slate-500 focus:border-slate-400 transition-colors font-sans"
             />
           </div>
 
@@ -614,7 +614,7 @@ export function Header({
           {onOpenTour && (
             <button
               onClick={onOpenTour}
-              className="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl bg-crimson-500/15 light:bg-crimson-50 hover:bg-crimson-500/25 border border-crimson-500/40 text-xs font-bold text-crimson-400 light:text-crimson-700 transition-all shadow-md group flex-shrink-0"
+              className="flex items-center space-x-1.5 px-2.5 sm:px-3 py-1.5 rounded-lg bg-crimson-500/15 light:bg-crimson-50 hover:bg-crimson-500/25 border border-crimson-500/40 text-xs font-bold text-crimson-400 light:text-crimson-700 transition-all shadow-md group flex-shrink-0"
               title="How it Works (3-Step Tour)"
             >
               <HelpCircle className="w-3.5 h-3.5 text-crimson-400 light:text-crimson-600 group-hover:rotate-12 transition-transform flex-shrink-0" />
@@ -626,7 +626,7 @@ export function Header({
             <a
               href="/follow-the-rupee"
               onClick={(e) => { e.preventDefault(); onOpenFollowRupee(); }}
-              className="inline-flex items-center gap-1.5 min-h-[44px] px-3 rounded-xl bg-crimson-700 hover:bg-crimson-800 text-white text-xs font-semibold flex-shrink-0"
+              className="inline-flex items-center gap-1.5 min-h-[44px] px-3 rounded-lg bg-crimson-700 hover:bg-crimson-800 text-white text-xs font-semibold flex-shrink-0"
             >
               <Landmark className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
               <span>Follow the Rupee: Mumbai audit</span>
@@ -636,7 +636,7 @@ export function Header({
           {/* National Leadership Directory Trigger */}
           <button
             onClick={onOpenNationalLeaders}
-            className="flex items-center space-x-1.5 sm:space-x-2 px-2.5 sm:px-3 py-1.5 rounded-xl bg-slate-900 light:bg-slate-100 hover:bg-slate-800 border border-slate-700/70 light:border-slate-300 text-xs font-medium text-slate-200 light:text-slate-800 transition-all shadow-md group flex-shrink-0 ml-auto sm:ml-0"
+            className="flex items-center space-x-1.5 sm:space-x-2 px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-900 light:bg-slate-100 hover:bg-slate-800 border border-slate-700/70 light:border-slate-300 text-xs font-medium text-slate-200 light:text-slate-800 transition-all shadow-md group flex-shrink-0 ml-auto sm:ml-0"
           >
             <UserCheck className="w-3.5 h-3.5 text-crimson-400 group-hover:scale-110 transition-transform flex-shrink-0" />
             <span>National Directory <span className="hidden xl:inline">(PM / CM / Prez)</span></span>
@@ -651,7 +651,7 @@ export function Header({
                   onClick={() => setIsCapexModalOpen(true)}
                   title="See the budget breakdown"
                   aria-label="See the budget breakdown"
-                  className="w-11 h-11 -my-3 inline-flex items-center justify-center rounded-full text-slate-400 hover:text-amber-400 light:text-slate-500 light:hover:text-amber-600 hover:bg-slate-800 light:hover:bg-slate-200 transition-colors cursor-pointer"
+                  className="w-11 h-11 -my-3 inline-flex items-center justify-center rounded-lg text-slate-400 hover:text-amber-400 light:text-slate-500 light:hover:text-amber-600 hover:bg-slate-800 light:hover:bg-slate-200 transition-colors cursor-pointer"
                 >
                   <Info className="w-3 h-3" />
                 </button>
@@ -663,7 +663,7 @@ export function Header({
       </header>
 
       {/* ─── ReBIT / RBI Style Top Accessibility & Utility Toolbar ─── */}
-      <div className="order-first hidden sm:flex min-h-7 py-0.5 bg-[#06080E] light:bg-[#F1F5F9] text-slate-300 light:text-slate-800 border-b border-slate-800/80 light:border-slate-300 px-3 sm:px-4 items-center justify-between text-xs sm:text-xs select-none flex-wrap gap-1">
+      <div className="order-first hidden sm:flex min-h-7 py-0.5 bg-dark-900 light:bg-[#F1F5F9] text-slate-300 light:text-slate-800 border-b border-slate-800/80 light:border-slate-300 px-3 sm:px-4 items-center justify-between text-xs sm:text-xs select-none flex-wrap gap-1">
         <div className="flex items-center space-x-2 min-w-0">
 
         </div>
@@ -671,7 +671,7 @@ export function Header({
         {/* Accessibility & Font Controls Toolbar */}
         <div className="flex items-center space-x-2 flex-shrink-0">
           {/* Font Controls (A- / A / A+) */}
-          <div className="flex items-center space-x-1 bg-slate-900/90 light:bg-white px-1.5 py-0.5 rounded border border-slate-700/60 light:border-slate-300 text-xs">
+          <div className="flex items-center space-x-1 bg-slate-900/90 light:bg-white px-1.5 py-0.5 rounded-lg border border-slate-700/60 light:border-slate-300 text-xs">
             <span className="text-slate-400 light:text-slate-600 mr-0.5 hidden md:inline-flex items-center gap-0.5">
               <Type className="w-3 h-3 text-slate-400 light:text-slate-600" />
               Font:
@@ -680,7 +680,7 @@ export function Header({
               onClick={decreaseFontSize}
               title="Decrease Font Size"
               aria-label="Smaller text"
-              className="min-w-[44px] min-h-[44px] rounded hover:bg-amber-500/20 text-slate-300 light:text-slate-700 hover:text-amber-400 font-bold transition-colors"
+              className="min-w-[44px] min-h-[44px] rounded-lg hover:bg-amber-500/20 text-slate-300 light:text-slate-700 hover:text-amber-400 font-bold transition-colors"
             >
               A-
             </button>
@@ -688,7 +688,7 @@ export function Header({
               onClick={resetFontSize}
               title="Reset Font Size (100%)"
               aria-label="Default text size"
-              className={`min-w-[44px] min-h-[44px] rounded hover:bg-amber-500/20 font-bold transition-colors ${fontScale === 100 ? 'text-amber-400 light:text-amber-700 bg-amber-500/10' : 'text-slate-300 light:text-slate-700'}`}
+              className={`min-w-[44px] min-h-[44px] rounded-lg hover:bg-amber-500/20 font-bold transition-colors ${fontScale === 100 ? 'text-amber-400 light:text-amber-700 bg-amber-500/10' : 'text-slate-300 light:text-slate-700'}`}
             >
               A
             </button>
@@ -696,7 +696,7 @@ export function Header({
               onClick={increaseFontSize}
               title="Increase Font Size"
               aria-label="Larger text"
-              className="min-w-[44px] min-h-[44px] rounded hover:bg-amber-500/20 text-slate-300 light:text-slate-700 hover:text-amber-400 font-bold transition-colors"
+              className="min-w-[44px] min-h-[44px] rounded-lg hover:bg-amber-500/20 text-slate-300 light:text-slate-700 hover:text-amber-400 font-bold transition-colors"
             >
               A+
             </button>
@@ -708,7 +708,7 @@ export function Header({
             onClick={toggleTheme}
             title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
             aria-label={theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme'}
-            className="min-h-[44px] px-2.5 rounded bg-slate-900 light:bg-white text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300 hover:border-amber-400 transition-colors flex items-center gap-1 text-xs"
+            className="min-h-[44px] px-2.5 rounded-lg bg-slate-900 light:bg-white text-slate-300 light:text-slate-800 border border-slate-700 light:border-slate-300 hover:border-amber-400 transition-colors flex items-center gap-1 text-xs"
           >
             {theme === 'dark' ? (
               <>

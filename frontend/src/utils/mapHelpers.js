@@ -51,18 +51,25 @@ export function extractPathsFromGeoJson(geometry) {
   return wardGeometryCache.normalizeGeometry(geometry);
 }
 
-// Fit all of India at any width, leaving room for the side panel on desktop.
-export const fitIndia = (map) => {
-  const panel = window.innerWidth >= 1024 ? 420 : 0;
-  map.fitBounds({ north: 35.7, south: 6.5, west: 68.0, east: 97.5 }, { top: 16, bottom: 16, left: 16, right: 16 + panel });
+const INDIA_FIT = { north: 35.7, south: 6.5, west: 68.0, east: 97.5 };
+const INDIA_PAD = { top: 16, bottom: 16, left: 16, right: 16 };
+
+// Fit all of India instantly. The desktop side panel sits beside the map div, not over it, so the padding is even.
+// With executeCameraCommand it flies there instead.
+export const fitIndia = (map, executeCameraCommand) => {
+  if (executeCameraCommand) {
+    executeCameraCommand({ type: 'FIT_BOUNDS', bounds: INDIA_FIT, padding: INDIA_PAD, reason: 'FIT_INDIA' });
+  } else {
+    map.fitBounds(INDIA_FIT, INDIA_PAD);
+  }
 };
 
-export const buildMapStyles = (isDark) => {
-  const bg = isDark ? '#0B0D12' : '#EEF2F7';
-  const water = isDark ? '#07080C' : '#B8D4E8';
-  const road = isDark ? '#1B202E' : '#D1DBE8';
-  const localLabel = isDark ? '#64748B' : '#475569';
-  const labelStroke = isDark ? '#0B0D12' : '#EEF2F7';
+export const buildMapStyles = (isDark, provinceLabels = true) => {
+  const bg = isDark ? '#2A2A2A' : '#EEF2F7';
+  const water = isDark ? '#101417' : '#B8D4E8';
+  const road = isDark ? '#383838' : '#D1DBE8';
+  const localLabel = isDark ? '#9A9A9A' : '#475569';
+  const labelStroke = isDark ? '#2A2A2A' : '#EEF2F7';
   return [
     { elementType: 'geometry', stylers: [{ color: bg }] },
     { featureType: 'water', elementType: 'geometry', stylers: [{ color: water }] },
@@ -70,6 +77,8 @@ export const buildMapStyles = (isDark) => {
     { elementType: 'labels', stylers: [{ visibility: 'off' }] },
     { featureType: 'administrative.locality', elementType: 'labels.text.fill', stylers: [{ color: localLabel }, { visibility: 'simplified' }] },
     { featureType: 'administrative.locality', elementType: 'labels.text.stroke', stylers: [{ color: labelStroke }, { visibility: 'simplified' }] },
+    { featureType: 'administrative.province', elementType: 'labels.text.fill', stylers: [{ visibility: provinceLabels ? 'on' : 'off' }, { color: isDark ? '#D4D4D4' : '#3C4043' }] },
+    { featureType: 'administrative.province', elementType: 'labels.text.stroke', stylers: [{ visibility: provinceLabels ? 'on' : 'off' }, { color: labelStroke }, { weight: 3 }] },
     { featureType: 'administrative.country', elementType: 'geometry.stroke', stylers: [{ visibility: 'off' }] },
     { featureType: 'poi', stylers: [{ visibility: 'off' }] },
     { featureType: 'poi.business', stylers: [{ visibility: 'off' }] },

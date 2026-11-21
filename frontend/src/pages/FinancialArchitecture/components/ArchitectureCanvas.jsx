@@ -70,7 +70,7 @@ export function ArchitectureCanvas({ selectedNode, onSelectNode }) {
   };
 
   return (
-    <div className="w-full flex flex-col h-full bg-[#0B0E17] light:bg-[#F8FAFC] text-slate-100 light:text-slate-900 relative overflow-hidden select-none border-b border-slate-800 light:border-slate-300">
+    <div className="w-full flex flex-col h-full bg-dark-900 light:bg-[#F8FAFC] text-slate-100 light:text-slate-900 relative overflow-hidden select-none border-b border-slate-800 light:border-slate-300">
       {/* Flow Mode Switcher Header */}
       <div className="p-3 bg-slate-900 light:bg-white border-b border-slate-800 light:border-slate-200 z-10 flex flex-col sm:flex-row items-center justify-between gap-3 shadow-sm">
         <FlowModeSelector activeMode={activeMode} onSelectMode={setActiveMode} />

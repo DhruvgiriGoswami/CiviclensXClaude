@@ -108,7 +108,7 @@ export function useMapMarkers({
         `
         : `
           <div style="padding: 12px 14px; color: #0F172A; text-align: center; max-width: 240px;">
-            <div style="font-weight: 800; font-size: 13px; color: #E63946; display: flex; align-items: center; justify-content: center; gap: 6px;">
+            <div style="font-weight: 800; font-size: 13px; color: #8C2445; display: flex; align-items: center; justify-content: center; gap: 6px;">
               CivicLens is Made for India
             </div>
             <div style="font-size: 12px; color: #1E293B; margin-top: 6px; font-weight: 700; line-height: 1.3;">

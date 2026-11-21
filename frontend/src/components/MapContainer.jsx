@@ -206,6 +206,7 @@ export function MapContainer({
     clickTimerRef,
     isPinningMode,
     onPinLocationSelect,
+    executeCameraCommand,
   });
 
   // 6. Custom Ticket & Grievance Map Marker Hook
@@ -263,7 +264,7 @@ export function MapContainer({
 
   const handleResetMap = () => {
     if (!googleMapRef.current) return;
-    fitIndia(googleMapRef.current);
+    fitIndia(googleMapRef.current, executeCameraCommand);
     clearHighlightShapes();
     onResetToNational();
     infoWindowRef.current?.close();

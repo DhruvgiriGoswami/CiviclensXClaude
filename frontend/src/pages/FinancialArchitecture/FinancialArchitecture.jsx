@@ -29,10 +29,10 @@ export default function FinancialArchitecture({ onBackToMap }) {
   };
 
   return (
-    <div className="financial-arch-page-container custom-scrollbar min-h-screen w-full bg-[#0B0E17] light:bg-[#F8FAFC] text-slate-100 light:text-slate-900 font-sans flex flex-col selection:bg-cyan-500 selection:text-slate-950 transition-colors">
+    <div className="financial-arch-page-container custom-scrollbar min-h-screen w-full bg-dark-900 light:bg-[#F8FAFC] text-slate-100 light:text-slate-900 font-sans flex flex-col selection:bg-cyan-500 selection:text-slate-950 transition-colors">
       
       {/* ─── A. INSTITUTIONAL HEADER ─── */}
-      <header className="sticky top-0 z-40 bg-[#090C14]/95 light:bg-white/95 border-b border-slate-800/80 light:border-slate-200 px-3 sm:px-6 py-2.5 shadow-xl">
+      <header className="sticky top-0 z-40 bg-dark-900/95 light:bg-white/95 border-b border-slate-800/80 light:border-slate-200 px-3 sm:px-6 py-2.5 shadow-xl">
       <p role="note" className="bg-amber-100 text-amber-950 text-sm font-medium text-center px-3 py-2">
           Illustrative data, not real records. Every body, person, number and ID on this page is made up.
         </p>
@@ -190,7 +190,7 @@ export default function FinancialArchitecture({ onBackToMap }) {
 
 
       {/* ─── C, D, E. MAIN INTERACTIVE ARCHITECTURE CANVAS & INSPECTOR ─── */}
-      <section id="architecture-canvas" className="w-full flex-1 flex flex-col lg:flex-row min-h-[820px] border-y border-slate-800 light:border-slate-300 relative bg-[#0B0E17] light:bg-slate-50 mb-4 sm:mb-8">
+      <section id="architecture-canvas" className="w-full flex-1 flex flex-col lg:flex-row min-h-[820px] border-y border-slate-800 light:border-slate-300 relative bg-dark-900 light:bg-slate-50 mb-4 sm:mb-8">
         <div className="flex-1 flex flex-col">
           <ArchitectureCanvas
             selectedNode={selectedNode}

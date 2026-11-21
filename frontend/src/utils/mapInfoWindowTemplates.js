@@ -14,7 +14,7 @@ export function getStateInfoWindowContent(cmEntry) {
   return `
     <div style="padding:8px 10px;max-width:240px;color:#0F172A;">
       <div style="font-size:12px;color:#64748B;margin-bottom:2px;">${esc(stateName)}</div>
-      <div style="font-size:14px;font-weight:700;color:#E63946;">${esc(cmName)}</div>
+      <div style="font-size:14px;font-weight:700;color:#8C2445;">${esc(cmName)}</div>
       <div style="font-size:12px;color:#475569;margin-top:2px;">
         Chief Minister &bull; ${esc(party)}
       </div>
@@ -31,7 +31,7 @@ export function getWardInfoWindowContent(matchedUnit, fallbackStateId) {
 
   return `
     <div style="padding:8px 10px;max-width:240px;color:#0F172A;">
-      <div style="font-size:12px;font-weight:700;color:#E63946;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:2px;">
+      <div style="font-size:12px;font-weight:700;color:#8C2445;letter-spacing:0.5px;text-transform:uppercase;margin-bottom:2px;">
         WARD & AREA IDENTIFIED
       </div>
       <div style="font-size:13px;font-weight:700;color:#0F172A;line-height:1.2;">
@@ -50,7 +50,7 @@ export function getWardInfoWindowContent(matchedUnit, fallbackStateId) {
 
 export function getOutsideBoundaryWarningContent(unitName) {
   return `
-    <div style="padding:8px 10px;max-width:240px;color:#E63946;">
+    <div style="padding:8px 10px;max-width:240px;color:#8C2445;">
       <div style="font-size:12px;font-weight:800;text-transform:uppercase;margin-bottom:2px;">Outside Ward Boundary</div>
       <div style="font-size:12px;color:#334155;line-height:1.3;">
         Issue pin must be placed inside <strong>${esc(unitName)}</strong>! Please click within the highlighted red boundary.
@@ -61,7 +61,7 @@ export function getOutsideBoundaryWarningContent(unitName) {
 
 export function getPinnedLocationInfoWindowContent(lat, lng) {
   return `
-    <div style="padding:6px 8px;font-size:12px;font-weight:700;color:#E63946;">
+    <div style="padding:6px 8px;font-size:12px;font-weight:700;color:#8C2445;">
       PINPOINTED CIVIC ISSUE LOCATION<br/>
       <span style="font-size:12px;color:#475569;font-weight:normal;">
         ${Number(lat).toFixed(5)}°N, ${Number(lng).toFixed(5)}°E
@@ -73,7 +73,7 @@ export function getPinnedLocationInfoWindowContent(lat, lng) {
 export function getTicketInfoWindowContent(ticket) {
   return `
     <div style="padding:6px 8px;max-width:200px;color:#0F172A;">
-      <div style="font-size:12px;font-weight:700;color:#E63946;text-transform:uppercase;">${esc(ticket.category || 'Grievance')}</div>
+      <div style="font-size:12px;font-weight:700;color:#8C2445;text-transform:uppercase;">${esc(ticket.category || 'Grievance')}</div>
       <div style="font-size:12px;margin-top:2px;font-weight:600;">${esc(ticket.description)}</div>
       <div style="font-size:12px;color:#64748B;margin-top:4px;">
         ${Number(ticket.upvotes) || 0} Upvotes &bull; ${esc(ticket.status || 'OPEN')}

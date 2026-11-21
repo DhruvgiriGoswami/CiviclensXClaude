@@ -27,7 +27,7 @@ export function ComplaintCard({ point, onClose, onOpenTrail }) {
   const st = DOT[point.state];
 
   return (
-    <article aria-live="polite" data-testid="complaint-card" className="absolute top-2 right-0 w-72 max-w-full rounded-lg border border-slate-700 light:border-slate-300 bg-[#12151E] light:bg-white shadow-lg p-3 text-sm">
+    <article aria-live="polite" data-testid="complaint-card" className="absolute top-2 right-0 w-72 max-w-full rounded-lg border border-slate-700 light:border-slate-300 bg-dark-800 light:bg-white shadow-lg p-3 text-sm">
       <div className="flex items-start justify-between gap-2">
         <div>
           <h3 className="font-semibold"><span className="font-mono">{point.id}</span>{point.ward && <span className={`font-normal ${muted}`}>, ward {point.ward}</span>}</h3>

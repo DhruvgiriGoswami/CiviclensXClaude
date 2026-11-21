@@ -438,7 +438,7 @@ export function AppContent({ navigateTo }) {
 
 
   return (
-    <div className="h-screen h-[100dvh] w-full min-h-[100dvh] flex flex-col bg-[#0B0D12] light:bg-[#F8FAFC] text-slate-100 light:text-slate-900 overflow-hidden font-sans transition-colors">
+    <div className="h-screen h-[100dvh] w-full min-h-[100dvh] flex flex-col bg-dark-900 light:bg-[#F8FAFC] text-slate-100 light:text-slate-900 overflow-hidden font-sans transition-colors">
 
       {/* Top Main Navigation Header */}
       <Header
@@ -468,7 +468,7 @@ export function AppContent({ navigateTo }) {
         {/* Floating Pin Mode Banner */}
         {isPinningMode && (
           <div className="absolute top-3 sm:top-4 inset-x-0 z-50 flex justify-center pointer-events-none px-3 lg:pr-[420px]">
-            <div className="pointer-events-auto bg-crimson-700 text-white px-3 sm:px-4 py-2 rounded-full shadow-2xl text-xs flex items-center justify-between sm:justify-center gap-2 sm:gap-3 border border-crimson-400 max-w-[94vw] sm:max-w-md">
+            <div className="pointer-events-auto bg-crimson-700 text-white px-3 sm:px-4 py-2 rounded-lg shadow-2xl text-xs flex items-center justify-between sm:justify-center gap-2 sm:gap-3 border border-crimson-400 max-w-[94vw] sm:max-w-md">
               <span className="truncate font-bold text-xs sm:text-xs">
                 <span className="sm:hidden">Tap the map to mark the spot</span>
                 <span className="hidden sm:inline">Click the map to mark where the problem is</span>
@@ -479,7 +479,7 @@ export function AppContent({ navigateTo }) {
                     setIsPinningMode(false);
                     setIsGrievanceModalOpen(true);
                   }}
-                  className="px-2.5 sm:px-3 py-1 bg-white text-slate-900 rounded-full font-bold text-xs hover:bg-slate-200 transition-colors shadow flex-shrink-0 cursor-pointer active:scale-95"
+                  className="px-2.5 sm:px-3 py-1 bg-white text-slate-900 rounded-lg font-bold text-xs hover:bg-slate-200 transition-colors shadow flex-shrink-0 cursor-pointer active:scale-95"
                 >
                   Done
                 </button>
@@ -488,7 +488,7 @@ export function AppContent({ navigateTo }) {
                     setIsPinningMode(false);
                     setPinnedLocation(null);
                   }}
-                  className="px-2.5 sm:px-3 py-1 bg-slate-900/90 text-slate-200 border border-white/20 rounded-full font-bold text-xs hover:bg-slate-800 transition-colors shadow flex-shrink-0 cursor-pointer active:scale-95"
+                  className="px-2.5 sm:px-3 py-1 bg-slate-900/90 text-slate-200 border border-white/20 rounded-lg font-bold text-xs hover:bg-slate-800 transition-colors shadow flex-shrink-0 cursor-pointer active:scale-95"
                 >
                   Cancel
                 </button>
@@ -534,7 +534,7 @@ export function AppContent({ navigateTo }) {
           }`}>
             <button
               onClick={() => setIsGrievanceModalOpen(true)}
-              className="flex items-center gap-2 px-3.5 py-2.5 rounded-full bg-crimson-600 hover:bg-crimson-500 text-white text-xs font-bold shadow-2xl border border-white/25 transition-all duration-200 active:scale-95 cursor-pointer group"
+              className="flex items-center gap-2 px-3.5 py-2.5 rounded-lg bg-crimson-600 hover:bg-crimson-500 text-white text-xs font-bold shadow-2xl border border-white/25 transition-all duration-200 active:scale-95 cursor-pointer group"
               title="Report a problem"
             >
               <div className="relative flex items-center justify-center">

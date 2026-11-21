@@ -83,9 +83,9 @@ export function TicketTable({
   const hasActiveFilters = !!(searchQuery || statusFilter || categoryFilter || (sortBy && sortBy !== 'created_at_desc'));
 
   return (
-    <div className="flex-1 min-h-[650px] flex flex-col bg-[#0B0D12] ca-bg-main transition-colors overflow-hidden">
+    <div className="flex-1 min-h-[650px] flex flex-col bg-dark-900 ca-bg-main transition-colors overflow-hidden">
       {/* Table Search & Filter Toolbar */}
-      <div className="bg-[#12161F]/90 ca-panel-bg border-b border-slate-800 p-3 sm:px-6 flex flex-col gap-2.5 transition-colors">
+      <div className="bg-dark-800/90 ca-panel-bg border-b border-slate-800 p-3 sm:px-6 flex flex-col gap-2.5 transition-colors">
         <div className="flex flex-col md:flex-row items-stretch md:items-center justify-between gap-2.5">
           {/* Search Box */}
           <div className="relative flex-1 max-w-md">
@@ -95,7 +95,7 @@ export function TicketTable({
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               placeholder="Search by Ticket ID, keyword, address, or location..."
-              className="w-full bg-[#0B0D12] ca-input-select text-slate-200 border border-slate-700/80 rounded-lg pl-9 pr-8 py-1.5 text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 font-sans transition-colors"
+              className="w-full bg-dark-900 ca-input-select text-slate-200 border border-slate-700/80 rounded-lg pl-9 pr-8 py-1.5 text-xs focus:border-blue-500 focus:ring-1 focus:ring-blue-500/40 font-sans transition-colors"
             />
             {searchQuery && (
               <button
@@ -113,7 +113,7 @@ export function TicketTable({
             <select
               value={statusFilter}
               onChange={(e) => onStatusChange(e.target.value)}
-              className="bg-[#0B0D12] ca-input-select text-slate-300 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 font-sans cursor-pointer transition-colors"
+              className="bg-dark-900 ca-input-select text-slate-300 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 font-sans cursor-pointer transition-colors"
             >
               <option value="">All Statuses</option>
               <option value="OPEN">Open</option>
@@ -126,7 +126,7 @@ export function TicketTable({
             <select
               value={categoryFilter}
               onChange={(e) => onCategoryChange(e.target.value)}
-              className="bg-[#0B0D12] ca-input-select text-slate-300 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 font-sans cursor-pointer max-w-[150px] truncate transition-colors"
+              className="bg-dark-900 ca-input-select text-slate-300 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 font-sans cursor-pointer max-w-[150px] truncate transition-colors"
             >
               <option value="">All Categories</option>
               {(categoriesList || []).map((cat) => (
@@ -140,7 +140,7 @@ export function TicketTable({
             <select
               value={sortBy}
               onChange={(e) => onSortChange(e.target.value)}
-              className="bg-[#0B0D12] ca-input-select text-slate-300 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 font-sans cursor-pointer transition-colors"
+              className="bg-dark-900 ca-input-select text-slate-300 border border-slate-700/80 rounded-lg px-2.5 py-1.5 text-xs focus:border-blue-500 font-sans cursor-pointer transition-colors"
             >
               <option value="created_at_desc">Sort: Newest First</option>
               <option value="created_at_asc">Sort: Oldest First</option>
@@ -189,7 +189,7 @@ export function TicketTable({
             <p className="text-xs text-slate-400 max-w-md mb-4">{error}</p>
             <button
               onClick={onRetry}
-              className="px-4 py-2 rounded-lg bg-rose-600 hover:bg-rose-500 text-white text-xs font-medium flex items-center gap-2 transition-colors shadow-lg cursor-pointer"
+              className="px-4 py-2 rounded-lg bg-crimson-600 hover:bg-crimson-500 text-white text-xs font-medium flex items-center gap-2 transition-colors shadow-lg cursor-pointer"
             >
               <RefreshCw className="w-3.5 h-3.5" />
               <span>Try again</span>
@@ -224,7 +224,7 @@ export function TicketTable({
         ) : (
           /* Data Table */
           <table className="w-full text-left border-collapse font-sans text-xs">
-            <thead className="bg-[#12161F] ca-table-header uppercase text-xs tracking-wider sticky top-0 z-10 border-b border-slate-800">
+            <thead className="bg-dark-800 ca-table-header uppercase text-xs tracking-wider sticky top-0 z-10 border-b border-slate-800">
               <tr>
                 <th className="py-2.5 px-4 w-28">Ticket ID</th>
                 <th className="py-2.5 px-4 min-w-[200px]">Complaint Details</th>
@@ -324,7 +324,7 @@ export function TicketTable({
 
       {/* Pagination Footer */}
       {!error && totalTickets > 0 && (
-        <div className="bg-[#12161F] ca-panel-bg border-t border-slate-800 px-4 py-2.5 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs transition-colors">
+        <div className="bg-dark-800 ca-panel-bg border-t border-slate-800 px-4 py-2.5 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2.5 text-xs transition-colors">
           <div className="flex items-center gap-4 text-slate-400 text-xs">
             <span>
               Showing <strong className="text-slate-200">{startItem}</strong> to <strong className="text-slate-200">{endItem}</strong> of <strong className="text-slate-200">{totalTickets}</strong> complaints
@@ -335,7 +335,7 @@ export function TicketTable({
               <select
                 value={pageSize}
                 onChange={(e) => onPageSizeChange(Number(e.target.value))}
-                className="bg-[#0B0D12] ca-input-select text-slate-200 border border-slate-700 rounded px-2 py-0.5 text-xs cursor-pointer"
+                className="bg-dark-900 ca-input-select text-slate-200 border border-slate-700 rounded px-2 py-0.5 text-xs cursor-pointer"
               >
                 <option value={10}>10</option>
                 <option value={20}>20</option>
@@ -355,7 +355,7 @@ export function TicketTable({
               <ChevronLeft className="w-4 h-4" />
             </button>
 
-            <span className="px-3 py-1 bg-[#0B0D12] ca-input-select text-slate-200 border border-slate-700 rounded-md text-xs">
+            <span className="px-3 py-1 bg-dark-900 ca-input-select text-slate-200 border border-slate-700 rounded-md text-xs">
               Page {currentPage} of {totalPages}
             </span>
 

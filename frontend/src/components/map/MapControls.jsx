@@ -48,25 +48,25 @@ export function MapControls({
     <>
       {/* Zoom In, Zoom Out, Reset Controls: Bottom-36 Right on Mobile (<1024px), Top Left on Desktop (>=1024px) */}
       <div className="absolute bottom-36 right-3 z-20 flex flex-col space-y-2">
-        <div className="p-1.5 rounded-xl border border-slate-700 light:border-slate-300 flex flex-col space-y-1 shadow-2xl bg-slate-900/90 light:bg-white/95">
+        <div className="p-1.5 rounded-lg border border-slate-700 light:border-slate-300 flex flex-col space-y-1 shadow-2xl bg-slate-900/90 light:bg-white/95">
           <button
             onClick={onZoomIn}
             title="Zoom In"
-            className="w-11 h-11 rounded-lg bg-slate-800 light:bg-slate-100 hover:bg-red-600/30 light:hover:bg-red-50 text-slate-300 light:text-slate-800 flex items-center justify-center transition-all border border-slate-700 light:border-slate-300 hover:border-red-500 light:hover:border-red-500"
+            className="w-11 h-11 rounded-lg bg-slate-800 light:bg-slate-100 hover:bg-crimson-600/30 light:hover:bg-crimson-50 text-slate-300 light:text-slate-800 flex items-center justify-center transition-all border border-slate-700 light:border-slate-300 hover:border-crimson-500 light:hover:border-crimson-500"
           >
             <ZoomIn className="w-4 h-4" />
           </button>
           <button
             onClick={onZoomOut}
             title="Zoom Out"
-            className="w-11 h-11 rounded-lg bg-slate-800 light:bg-slate-100 hover:bg-red-600/30 light:hover:bg-red-50 text-slate-300 light:text-slate-800 flex items-center justify-center transition-all border border-slate-700 light:border-slate-300 hover:border-red-500 light:hover:border-red-500"
+            className="w-11 h-11 rounded-lg bg-slate-800 light:bg-slate-100 hover:bg-crimson-600/30 light:hover:bg-crimson-50 text-slate-300 light:text-slate-800 flex items-center justify-center transition-all border border-slate-700 light:border-slate-300 hover:border-crimson-500 light:hover:border-crimson-500"
           >
             <ZoomOut className="w-4 h-4" />
           </button>
           <button
             onClick={onResetMap}
             title="Reset to Pan-India View"
-            className="w-11 h-11 rounded-lg bg-slate-800 light:bg-slate-100 hover:bg-red-600/30 light:hover:bg-red-50 text-slate-300 light:text-slate-800 flex items-center justify-center transition-all border border-slate-700 light:border-slate-300 hover:border-red-500 light:hover:border-red-500"
+            className="w-11 h-11 rounded-lg bg-slate-800 light:bg-slate-100 hover:bg-crimson-600/30 light:hover:bg-crimson-50 text-slate-300 light:text-slate-800 flex items-center justify-center transition-all border border-slate-700 light:border-slate-300 hover:border-crimson-500 light:hover:border-crimson-500"
           >
             <RotateCcw className="w-4 h-4" />
           </button>
@@ -91,7 +91,7 @@ export function MapControls({
             className={`w-11 h-11 rounded-lg flex items-center justify-center transition-all border shadow-2xl ${
               userLocation
                 ? 'bg-emerald-600/40 light:bg-emerald-500/20 text-emerald-300 light:text-emerald-700 border-emerald-500 light:border-emerald-500 hover:bg-emerald-600/60 light:hover:bg-emerald-500/30'
-                : 'bg-slate-900/90 light:bg-white/95 text-slate-300 light:text-slate-800 border-slate-700 light:border-slate-300 hover:bg-red-600/30 light:hover:bg-red-50 hover:border-red-500 light:hover:border-red-500'
+                : 'bg-slate-900/90 light:bg-white/95 text-slate-300 light:text-slate-800 border-slate-700 light:border-slate-300 hover:bg-crimson-600/30 light:hover:bg-crimson-50 hover:border-crimson-500 light:hover:border-crimson-500'
             }`}
           >
             {isLocating ? (
@@ -105,7 +105,7 @@ export function MapControls({
           {shouldShowBadge && (
             <div
               onClick={handleLocateClick}
-              className="ml-2 h-11 px-3 rounded-lg bg-red-600 text-white text-xs font-semibold flex items-center justify-center shadow-xl border border-red-400/40 cursor-pointer whitespace-nowrap transition-all duration-300"
+              className="ml-2 h-11 px-3 rounded-lg bg-crimson-600 text-white text-xs font-semibold flex items-center justify-center shadow-xl border border-crimson-400/40 cursor-pointer whitespace-nowrap transition-all duration-300"
             >
               <span className="flex items-center gap-1.5">
                 Show my location

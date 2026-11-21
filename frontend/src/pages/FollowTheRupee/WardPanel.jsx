@@ -60,7 +60,7 @@ function MoneyTab({ detail }) {
               <div className="flex justify-between gap-3"><span className="truncate">{c.contractor_name}</span><span className="tabular-nums shrink-0">{formatINR(c.spend_inr)}, {c.jobs} jobs</span></div>
               <div className="mt-1 h-3 rounded-sm bg-slate-800 light:bg-slate-100 overflow-hidden flex">
                 <div className="h-full bg-crimson-500 light:bg-crimson-700" style={{ width: `${(c.failed_fix_spend_inr / maxC) * 100}%` }} title={`Failed fixes ${formatINR(c.failed_fix_spend_inr)}`} />
-                <div className="h-full bg-slate-400 light:bg-slate-500 border-l-2 border-[#12151E] light:border-white" style={{ width: `${((c.spend_inr - c.failed_fix_spend_inr) / maxC) * 100}%` }} />
+                <div className="h-full bg-slate-400 light:bg-slate-500 border-l-2 border-dark-800 light:border-white" style={{ width: `${((c.spend_inr - c.failed_fix_spend_inr) / maxC) * 100}%` }} />
               </div>
             </li>
           ))}

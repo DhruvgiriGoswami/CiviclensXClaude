@@ -8,7 +8,7 @@ export function MapLegend({ legend, isDark }) {
   const ramp = isDark ? RAMP_DARK : RAMP_LIGHT;
   const round = (n) => Math.round(n);
   return (
-    <div className="absolute top-4 right-3 sm:right-4 z-20 rounded-2xl border border-slate-700 light:border-slate-200 bg-[#12151E] light:bg-white shadow-lg p-3 text-xs max-w-[220px] space-y-2" aria-label="Map legend">
+    <div className="absolute top-4 right-3 sm:right-4 z-20 rounded-2xl border border-slate-700 light:border-slate-200 bg-dark-800 light:bg-white shadow-lg p-3 text-xs max-w-[220px] space-y-2" aria-label="Map legend">
       <p className="font-semibold text-slate-100 light:text-slate-900">Complaints per ward</p>
       {legend.unavailable ? (
         <p className="text-slate-400 light:text-slate-600">Complaint counts are not available yet, so wards are shown in grey.</p>
