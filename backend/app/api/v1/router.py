@@ -11,6 +11,7 @@ from app.api.v1.bills import router as bills_router
 from app.api.v1.finance import router as finance_router
 from app.api.v1.governance import router as governance_router
 from app.api.v1.search import router as search_router
+from app.api.v1.audit import router as audit_router
 
 api_v1_router = APIRouter(prefix="/api/v1")
 
@@ -23,3 +24,4 @@ api_v1_router.include_router(bills_router)
 api_v1_router.include_router(finance_router)
 api_v1_router.include_router(governance_router)
 api_v1_router.include_router(search_router)
+api_v1_router.include_router(audit_router)
